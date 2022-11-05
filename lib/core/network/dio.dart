@@ -48,11 +48,11 @@ class DioHelper {
   static Future<dynamic> deleteData(
       {String? url,
       Map<String, dynamic>? query,
-      Map<String, dynamic>? token}) async {
+      Map<String, dynamic>? headers}) async {
     return response = await dio!.delete(
       url!,
       queryParameters: query,
-      options: Options(headers: token),
+      options: Options(headers: headers),
     );
   }
 

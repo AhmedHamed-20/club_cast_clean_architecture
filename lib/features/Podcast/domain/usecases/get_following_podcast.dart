@@ -7,21 +7,21 @@ import 'package:equatable/equatable.dart';
 import '../repositories/podcast_repository.dart';
 
 class FollowingPodcastUsecase
-    extends BaseUsecase<List<PodcastEntitie>, MyFollowingPOdcastParams> {
+    extends BaseUsecase<List<PodcastEntitie>, MyFollowingPodcastParams> {
   final BasePodcastRepository basePodcastRepository;
 
   FollowingPodcastUsecase(this.basePodcastRepository);
   @override
   Future<Either<Failure, List<PodcastEntitie>>> call(
-      MyFollowingPOdcastParams params) async {
+      MyFollowingPodcastParams params) async {
     return await basePodcastRepository.getMyFollowingPodcast(params);
   }
 }
 
-class MyFollowingPOdcastParams extends Equatable {
+class MyFollowingPodcastParams extends Equatable {
   final String accessToken;
 
-  const MyFollowingPOdcastParams(this.accessToken);
+  const MyFollowingPodcastParams(this.accessToken);
   @override
   List<Object?> get props => [accessToken];
 }

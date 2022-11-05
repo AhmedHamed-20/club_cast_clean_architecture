@@ -9,8 +9,10 @@ class EndPoints {
   static String updateProfile = "$baseUrl/v1/users/updateMe";
   static String updatePassword = "$baseUrl/v1/users/updateMyPassword";
   static String getAllPodcasts = '$baseUrl/v1/podcasts';
-  static String sendLike = '$baseUrl/v1/podcasts/likes/';
-  static String getPodcastLikesUsers = '$baseUrl/v1/podcasts/likes/';
+  static String sendLike(String podcastId) =>
+      '$baseUrl/v1/podcasts/likes/$podcastId';
+  static String getPodcastLikesUsers(String podcastId) =>
+      '$baseUrl/v1/podcasts/likes/$podcastId';
   static String userById = 'v1/users/';
   static String getuserPodCast = '$baseUrl/v1/podcasts?createdBy=';
   static String searchUser = '$baseUrl/v1/users/search?s=';
@@ -34,4 +36,6 @@ class EndPoints {
   static String getRoom = '$baseUrl/v1/rooms/';
   static String searchAboutRoom = '$baseUrl/v1/rooms/search?s=';
   static String updateAvatar = "$baseUrl/v1/users/updateMyPhoto";
+  static String removeLikeFromPodcastById(String podcastId) =>
+      '$baseUrl/v1/podcasts/likes/$podcastId';
 }
