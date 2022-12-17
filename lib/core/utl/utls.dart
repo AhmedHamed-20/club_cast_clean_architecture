@@ -36,3 +36,9 @@ enum UserDataGetRequestStatus {
   success,
   error,
 }
+
+enum MyPodCastequestStatus {
+  loading,
+  success,
+  error,
+}
