@@ -1,26 +1,15 @@
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_audio_info_entitie.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_user_info_entitie.dart';
-import 'package:equatable/equatable.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_entitie.dart';
 
-class PodcastEntitie extends Equatable {
-  final String podcastId;
-  final String podcastName;
-  final int podcastLikesCount;
-  final String category;
-  final String createdAt;
-  final bool isLiked;
-  final PodcastUserInfoEntitie podcastUserInfo;
-  final PodcastAudioInoEntitie podcastInfo;
-
+class PodcastEntitie extends BasePodcastEntitie {
   const PodcastEntitie(
-      {required this.podcastId,
-      required this.isLiked,
-      required this.podcastName,
-      required this.podcastLikesCount,
-      required this.category,
-      required this.createdAt,
-      required this.podcastUserInfo,
-      required this.podcastInfo});
+      {required super.podcastId,
+      required super.podcastName,
+      required super.podcastLikesCount,
+      required super.category,
+      required super.createdAt,
+      required super.isLiked,
+      required super.podcastUserInfo,
+      required super.podcastInfo});
 
   @override
   List<Object?> get props => [

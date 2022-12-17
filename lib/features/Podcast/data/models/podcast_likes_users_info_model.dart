@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/features/Podcast/data/models/podcast_user_info_model.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_likes_users_entitie.dart';
+
+import '../../domain/entities/podcast_likes_users_entitie.dart';
 
 class PodcastLikesUsersInfoModel extends PodcastLikesUsersInfoEntitie {
   const PodcastLikesUsersInfoModel(

@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'core/routes/app_router.dart';

@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';

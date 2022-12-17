@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_user_info_entitie.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
 
 class PodcastUserInfoModel extends PodcastUserInfoEntitie {
   const PodcastUserInfoModel(super.userName, super.userImage, super.userId);

@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_audio_info_entitie.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_audio_info.dart';
 
 class PodcastAudioInfoModel extends PodcastAudioInoEntitie {
   const PodcastAudioInfoModel(super.podcastDuration, super.podcastUrl);

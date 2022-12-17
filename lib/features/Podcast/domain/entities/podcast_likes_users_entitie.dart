@@ -1,5 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_user_info_entitie.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
 
 class PodcastLikesUsersInfoEntitie extends Equatable {
   final String createdAt;
