@@ -1,6 +1,6 @@
 class EndPoints {
-  static String baseUrl =
-      "https://audiocomms-podcast-platform.herokuapp.com/api";
+  static String baseUrl = "https://audiocomms-podcast-api.onrender.com/api";
+  static String getMe = '$baseUrl/v1/users/me';
   static String login = "$baseUrl/v1/users/login";
   static String signup = "$baseUrl/v1/users/signup";
   static String forgotPassword = "$baseUrl/v1/users/forgotPassword";

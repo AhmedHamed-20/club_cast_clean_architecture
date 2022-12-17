@@ -21,12 +21,18 @@ enum ForgetPasswordRequestStatus {
 
 enum MyFollowingPodcastsRequestStatus {
   loading,
-  loaded,
+  success,
   error,
 }
 
 enum MyFollowingPodcastsUsersLikesRequestStatus {
   loading,
-  loaded,
+  success,
+  error,
+}
+
+enum UserDataGetRequestStatus {
+  loading,
+  success,
   error,
 }

@@ -1,3 +1,8 @@
+import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_remote_data_source_impl.dart';
+import 'package:club_cast_clean_architecture/core/layout/data/repositories/layout_repository_impl.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/repositories/auth_repository.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/repositories/auth_repository.dart';
@@ -29,6 +34,9 @@ class ServiceLocator {
         servicelocator(),
         servicelocator()));
 
+    servicelocator
+        .registerFactory<LayoutBloc>(() => LayoutBloc(servicelocator()));
+
     ///usecase
     servicelocator.registerLazySingleton<SignUpUsecase>(
         () => SignUpUsecase(servicelocator()));
@@ -45,17 +53,23 @@ class ServiceLocator {
         () => LikeAddByIdUsecase(servicelocator()));
     servicelocator.registerLazySingleton<LikeRemoveByPodcastIdUsecase>(
         () => LikeRemoveByPodcastIdUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<ActiveUserDataGetUseCase>(
+        () => ActiveUserDataGetUseCase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
         () => AuthRepositoryImple(servicelocator()));
     servicelocator.registerLazySingleton<BasePodcastRepository>(
         () => PodcastRepositoryImple(servicelocator()));
+    servicelocator.registerLazySingleton<BaseLayoutRepository>(
+        () => LayoutRepositoryImpl(servicelocator()));
 
     ///datasource
     servicelocator.registerLazySingleton<BaseAuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl());
     servicelocator.registerLazySingleton<BasePodcastRemoteDataSource>(
         () => PodcastRemoteDataSourceImpl());
+    servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
+        () => LayoutRemoteDataSourceImpl());
   }
 }

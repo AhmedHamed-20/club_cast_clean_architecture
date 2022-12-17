@@ -41,7 +41,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
             errorMessage: '',
             myFollowingPodcasts: r,
             myFollowingPodcastsRequestStatus:
-                MyFollowingPodcastsRequestStatus.loaded)));
+                MyFollowingPodcastsRequestStatus.success)));
   }
 
   FutureOr<void> _addLikeToPodcast(
@@ -75,7 +75,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
             errorMessage: '',
             podcastLikesUsersEntitie: r,
             myFollowingPodcastsUsersLikesRequestStatus:
-                MyFollowingPodcastsUsersLikesRequestStatus.loaded)));
+                MyFollowingPodcastsUsersLikesRequestStatus.success)));
   }
 
   FutureOr<void> _removePodcastLike(

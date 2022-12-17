@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
 class DioHelper {
@@ -7,7 +8,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "https://audiocomms-podcast-platform.herokuapp.com",
+        baseUrl: EndPoints.baseUrl,
         receiveDataWhenStatusError: true,
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_audio_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_user_info_entitie.dart';
 
 class PodcastUserInfoModel extends PodcastUserInfoEntitie {
