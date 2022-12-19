@@ -15,22 +15,19 @@ class PodcastCreateUseCase extends BaseUsecase<void, PodcastCreateParams> {
 }
 
 class PodcastCreateParams extends Equatable {
-  final String filePath;
   final String accessToken;
   final String podcastName;
   final String category;
   final String publicId;
 
   const PodcastCreateParams(
-      {required this.filePath,
-      required this.accessToken,
+      {required this.accessToken,
       required this.podcastName,
       required this.category,
       required this.publicId});
 
   @override
   List<Object?> get props => [
-        filePath,
         accessToken,
         podcastName,
         category,

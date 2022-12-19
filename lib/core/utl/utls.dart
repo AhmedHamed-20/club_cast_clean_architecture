@@ -37,8 +37,24 @@ enum UserDataGetRequestStatus {
   error,
 }
 
-enum MyPodCastequestStatus {
+enum MyPodCastRequestStatus {
   loading,
   success,
+  error,
+}
+
+enum UpdateUserDataRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
+enum UploadPodcastRequestStatus {
+  idle,
+  loading,
+  signatureGetSuccess,
+  podcastUploadedSuccess,
+  podcastCreatedSucess,
   error,
 }

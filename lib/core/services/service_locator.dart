@@ -15,6 +15,16 @@ import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/ge
 import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:club_cast_clean_architecture/features/Podcast/presentation/bloc/podcast_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/Auth/domain/usecases/login.dart';
@@ -37,6 +47,14 @@ class ServiceLocator {
     servicelocator
         .registerFactory<LayoutBloc>(() => LayoutBloc(servicelocator()));
 
+    servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+        servicelocator(),
+        servicelocator(),
+        servicelocator(),
+        servicelocator(),
+        servicelocator(),
+        servicelocator()));
+
     ///usecase
     servicelocator.registerLazySingleton<SignUpUsecase>(
         () => SignUpUsecase(servicelocator()));
@@ -55,6 +73,18 @@ class ServiceLocator {
         () => LikeRemoveByPodcastIdUsecase(servicelocator()));
     servicelocator.registerLazySingleton<ActiveUserDataGetUseCase>(
         () => ActiveUserDataGetUseCase(servicelocator()));
+    servicelocator.registerLazySingleton<UserDataUpdateUseCase>(
+        () => UserDataUpdateUseCase(servicelocator()));
+    servicelocator.registerLazySingleton<SignatureGenerateUsecase>(
+        () => SignatureGenerateUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<PodcastUploadUsecase>(
+        () => PodcastUploadUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<PodcastCreateUseCase>(
+        () => PodcastCreateUseCase(servicelocator()));
+    servicelocator.registerLazySingleton<MyPodcastsGetUseCase>(
+        () => MyPodcastsGetUseCase(servicelocator()));
+    servicelocator.registerLazySingleton<PasswordUpdateUseCase>(
+        () => PasswordUpdateUseCase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
@@ -63,6 +93,8 @@ class ServiceLocator {
         () => PodcastRepositoryImple(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutRepository>(
         () => LayoutRepositoryImpl(servicelocator()));
+    servicelocator.registerLazySingleton<BaseUserInfoRepository>(
+        () => UserInfoRepositoryImpl(servicelocator()));
 
     ///datasource
     servicelocator.registerLazySingleton<BaseAuthRemoteDataSource>(
@@ -71,5 +103,7 @@ class ServiceLocator {
         () => PodcastRemoteDataSourceImpl());
     servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
         () => LayoutRemoteDataSourceImpl());
+    servicelocator.registerLazySingleton<BaseUserInfoRemoteDataSource>(
+        () => RemoteUserInfoDataSourceImpl());
   }
 }

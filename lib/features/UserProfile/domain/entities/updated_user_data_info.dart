@@ -1,7 +1,7 @@
-import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entite.dart';
 
-class UserDataEntitie extends BaseUserDataEntitie {
-  const UserDataEntitie(
+class UpdatedUserDataInfoEntitie extends BaseUserDataEntitie {
+  const UpdatedUserDataInfoEntitie(
       {required super.userName,
       required super.userPhoto,
       required super.followers,
@@ -15,9 +15,9 @@ class UserDataEntitie extends BaseUserDataEntitie {
   List<Object?> get props => [
         userName,
         userPhoto,
-        uid,
         followers,
         following,
+        uid,
         email,
         createdAt,
         bio,

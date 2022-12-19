@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../repositories/base_user_info_repository.dart';
+import '../../repositories/base_user_info_repository.dart';
 
 class MyPodcastsGetUseCase
     extends BaseUsecase<List<MyPodcastEntite>, MyPodcastGetParams> {

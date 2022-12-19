@@ -4,12 +4,15 @@ import 'package:club_cast_clean_architecture/features/UserProfile/data/models/po
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/get_my_podcasts.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 
 class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   final BaseUserInfoRemoteDataSource baseUserInfoRemoteDataSource;
@@ -73,6 +76,33 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
           message: exception.serverErrorMessageModel.message,
         ),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, UpdatedUserDataInfoEntitie>> updateUserData(
+      UserDataUpdateParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.updateUserData(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updatePassword(
+      PasswordUpdateParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.updatePassword(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
     }
   }
 }
