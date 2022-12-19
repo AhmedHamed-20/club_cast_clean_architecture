@@ -2,10 +2,14 @@ import 'package:club_cast_clean_architecture/core/error/error_message_model.dart
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_events_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/signature_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/update_user_data_model.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -22,6 +26,8 @@ abstract class BaseUserInfoRemoteDataSource {
   Future<void> createPodcast(PodcastCreateParams params);
   Future<UpdatedUserDataInfoModel> updateUserData(UserDataUpdateParams params);
   Future<String> updatePassword(PasswordUpdateParams params);
+  Future<void> createEvent(EventCreateParams params);
+  Future<List<MyEventEntitie>> getMyEvents(MyEventsParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -134,6 +140,46 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
         "passwordConfirm": params.confirmPassword,
       });
       return response?.data['token'];
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<void> createEvent(EventCreateParams params) async {
+    try {
+      await DioHelper.postData(
+        url: EndPoints.createEvent,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+        data: {
+          "name": params.eventName,
+          "description": params.eventDescription,
+          "date": "${params.eventDate}, ${params.eventTime}"
+        },
+      );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<List<MyEventEntitie>> getMyEvents(MyEventsParams params) async {
+    try {
+      final response = await DioHelper.getData(
+        url: EndPoints.getMyEvent,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
+      return (response?.data as List)
+          .map((e) => MyEventsModel.fromJson(e))
+          .toList();
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel:

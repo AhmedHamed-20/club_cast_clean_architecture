@@ -50,6 +50,13 @@ enum UpdateUserDataRequestStatus {
   error,
 }
 
+enum EventCreateRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
 enum UploadPodcastRequestStatus {
   idle,
   loading,

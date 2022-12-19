@@ -18,6 +18,8 @@ import 'package:club_cast_clean_architecture/features/Podcast/presentation/bloc/
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
@@ -48,6 +50,8 @@ class ServiceLocator {
         .registerFactory<LayoutBloc>(() => LayoutBloc(servicelocator()));
 
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+        servicelocator(),
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -85,6 +89,10 @@ class ServiceLocator {
         () => MyPodcastsGetUseCase(servicelocator()));
     servicelocator.registerLazySingleton<PasswordUpdateUseCase>(
         () => PasswordUpdateUseCase(servicelocator()));
+    servicelocator.registerFactory<EventCreateUseCase>(
+        () => EventCreateUseCase(servicelocator()));
+    servicelocator.registerFactory<MyEventsGetUsecase>(
+        () => MyEventsGetUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

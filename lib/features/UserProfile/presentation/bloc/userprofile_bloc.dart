@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -23,6 +26,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.userDataUpdateUseCase,
       this.podcastCreateUseCase,
       this.passwordUpdateUseCase,
+      this.eventCreateUseCase,
+      this.myEventsGetUsecase,
       this.podcastUploadUsecase)
       : super(const UserprofileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
@@ -31,6 +36,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<UploadPodcastEvent>(_uploadPodcastToCloud);
     on<CreatePodcastEvent>(_createPodcastInDataBase);
     on<PasswordUpdateEvent>(_updatePassword);
+    on<EventCreateEvent>(_createEvent);
+    on<MyEventsGetEvent>(_getMyEvents);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -38,6 +45,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final PodcastUploadUsecase podcastUploadUsecase;
   final PodcastCreateUseCase podcastCreateUseCase;
   final PasswordUpdateUseCase passwordUpdateUseCase;
+  final EventCreateUseCase eventCreateUseCase;
+  final MyEventsGetUsecase myEventsGetUsecase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -191,6 +200,42 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
         state.copyWith(
             errorMessage: '',
             updatePasswordRequestStatus: UpdateUserDataRequestStatus.success),
+      ),
+    );
+  }
+
+  FutureOr<void> _createEvent(
+      EventCreateEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        eventCreateRequestStatus: EventCreateRequestStatus.loading));
+    final result = await eventCreateUseCase(EventCreateParams(
+        accessToken: event.accessToken,
+        eventName: event.eventName,
+        eventDescription: event.eventDescription,
+        eventDate: event.eventDate,
+        eventTime: event.eventTime));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            eventCreateRequestStatus: EventCreateRequestStatus.error)),
+        (r) => emit(state.copyWith(
+            errorMessage: '',
+            eventCreateRequestStatus: EventCreateRequestStatus.success)));
+  }
+
+  FutureOr<void> _getMyEvents(
+      MyEventsGetEvent event, Emitter<UserprofileState> emit) async {
+    final result = await myEventsGetUsecase(MyEventsParams(event.accessToken));
+    result.fold(
+      (l) => emit(state.copyWith(
+          errorMessage: l.message,
+          myEventRequestStatus: UserDataGetRequestStatus.error)),
+      (r) => emit(
+        state.copyWith(
+            errorMessage: '',
+            myEvents: r,
+            myEventRequestStatus: UserDataGetRequestStatus.success),
       ),
     );
   }

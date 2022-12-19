@@ -8,9 +8,15 @@ class UserprofileState extends Equatable {
   final UpdateUserDataRequestStatus updateUserDataRequestStatus;
   final UploadPodcastRequestStatus uploadPodcastRequestStatus;
   final UpdateUserDataRequestStatus updatePasswordRequestStatus;
+  final EventCreateRequestStatus eventCreateRequestStatus;
+  final List<MyEventEntitie> myEvents;
+  final UserDataGetRequestStatus myEventRequestStatus;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
+      this.myEventRequestStatus = UserDataGetRequestStatus.loading,
+      this.myEvents = const [],
+      this.eventCreateRequestStatus = EventCreateRequestStatus.idle,
       this.uploadPodcastRequestStatus = UploadPodcastRequestStatus.idle,
       this.updateUserDataRequestStatus = UpdateUserDataRequestStatus.idle,
       this.errorMessage = '',
@@ -18,6 +24,9 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
+    UserDataGetRequestStatus? myEventRequestStatus,
+    List<MyEventEntitie>? myEvents,
+    EventCreateRequestStatus? eventCreateRequestStatus,
     UpdateUserDataRequestStatus? updatePasswordRequestStatus,
     UploadPodcastRequestStatus? uploadPodcastRequestStatus,
     UpdatedUserDataInfoEntitie? updatedUserDataInfoEntitie,
@@ -27,6 +36,10 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      myEventRequestStatus: myEventRequestStatus ?? this.myEventRequestStatus,
+      myEvents: myEvents ?? this.myEvents,
+      eventCreateRequestStatus:
+          eventCreateRequestStatus ?? this.eventCreateRequestStatus,
       updatePasswordRequestStatus:
           updatePasswordRequestStatus ?? this.updatePasswordRequestStatus,
       uploadPodcastRequestStatus:
@@ -45,6 +58,9 @@ class UserprofileState extends Equatable {
   @override
   List<Object?> get props => [
         myPodCastequestStatus,
+        myEventRequestStatus,
+        myEvents,
+        eventCreateRequestStatus,
         updatePasswordRequestStatus,
         myPodcastEntite,
         errorMessage,

@@ -110,3 +110,30 @@ class PasswordUpdateEvent extends UserprofileEvent {
         currentPassword,
       ];
 }
+
+class EventCreateEvent extends UserprofileEvent {
+  final String eventName;
+  final String eventDescription;
+  final String eventDate;
+  final String eventTime;
+  final String accessToken;
+
+  const EventCreateEvent(
+      {required this.eventName,
+      required this.eventDescription,
+      required this.eventDate,
+      required this.eventTime,
+      required this.accessToken});
+
+  @override
+  List<Object?> get props =>
+      [eventDate, eventDescription, eventName, eventTime, accessToken];
+}
+
+class MyEventsGetEvent extends UserprofileEvent {
+  final String accessToken;
+
+  const MyEventsGetEvent(this.accessToken);
+  @override
+  List<Object?> get props => [accessToken];
+}
