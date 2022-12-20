@@ -175,6 +175,10 @@ void navigatePushAndRemove(
   );
 }
 
+class ConstVar {
+  static String accessToken = '';
+}
+
 class AppRoutesNames {
   static const String splashScreen = 'splash_screen';
   static const String loginScreen = '/';

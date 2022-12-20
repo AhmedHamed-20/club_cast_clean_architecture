@@ -1,14 +1,16 @@
 enum LoginRequestStatus {
   idle,
   loading,
-  success,
+  loginSuccess,
+  cachedSuccess,
   error,
 }
 
 enum SignUpRequestStatus {
   idle,
   loading,
-  success,
+  signUpSuccess,
+  cachedSuccess,
   error,
 }
 

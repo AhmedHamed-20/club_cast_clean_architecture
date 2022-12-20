@@ -12,3 +12,12 @@ class ActiveUserDataGetEvent extends LayoutEvent {
   @override
   List<Object?> get props => [accessToken];
 }
+
+class AccessTokenGetFromCacheEvent extends LayoutEvent {
+  final String key;
+
+  const AccessTokenGetFromCacheEvent(this.key);
+
+  @override
+  List<Object?> get props => [key];
+}

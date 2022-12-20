@@ -1,11 +1,15 @@
+import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_local_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_remote_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/repositories/layout_repository_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/repositories/auth_repository.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/repositories/auth_repository.dart';
+import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/cache_access_token.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_up.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
@@ -38,16 +42,16 @@ final servicelocator = GetIt.instance;
 class ServiceLocator {
   void init() {
     ///bloc
-    servicelocator.registerFactory<AuthBloc>(
-        () => AuthBloc(servicelocator(), servicelocator(), servicelocator()));
+    servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
+        servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
         servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator()));
 
-    servicelocator
-        .registerFactory<LayoutBloc>(() => LayoutBloc(servicelocator()));
+    servicelocator.registerFactory<LayoutBloc>(
+        () => LayoutBloc(servicelocator(), servicelocator()));
 
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
         servicelocator(),
@@ -93,24 +97,33 @@ class ServiceLocator {
         () => EventCreateUseCase(servicelocator()));
     servicelocator.registerFactory<MyEventsGetUsecase>(
         () => MyEventsGetUsecase(servicelocator()));
+    servicelocator.registerFactory<AccessTokenCacheUsecase>(
+        () => AccessTokenCacheUsecase(servicelocator()));
+    servicelocator.registerFactory<CachedAccessTokenGetUsecase>(
+        () => CachedAccessTokenGetUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
-        () => AuthRepositoryImple(servicelocator()));
+        () => AuthRepositoryImple(servicelocator(), servicelocator()));
+
     servicelocator.registerLazySingleton<BasePodcastRepository>(
         () => PodcastRepositoryImple(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutRepository>(
-        () => LayoutRepositoryImpl(servicelocator()));
+        () => LayoutRepositoryImpl(servicelocator(), servicelocator()));
     servicelocator.registerLazySingleton<BaseUserInfoRepository>(
         () => UserInfoRepositoryImpl(servicelocator()));
 
     ///datasource
     servicelocator.registerLazySingleton<BaseAuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl());
+    servicelocator.registerLazySingleton<BaseAuthLocalDataSource>(
+        () => AuthLocalDataSourceImpl());
     servicelocator.registerLazySingleton<BasePodcastRemoteDataSource>(
         () => PodcastRemoteDataSourceImpl());
     servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
         () => LayoutRemoteDataSourceImpl());
+    servicelocator.registerLazySingleton<BaseLayoutLocalDataSource>(
+        () => LayoutLocalDataSourceImpl());
     servicelocator.registerLazySingleton<BaseUserInfoRemoteDataSource>(
         () => RemoteUserInfoDataSourceImpl());
   }

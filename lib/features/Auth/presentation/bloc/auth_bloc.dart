@@ -3,24 +3,30 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/cache_access_token.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/login.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_up.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/constants/constants.dart';
+
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(this.forgetPasswordUsecase, this.loginUsecase, this.signUpUsecase)
+  AuthBloc(this.forgetPasswordUsecase, this.loginUsecase, this.signUpUsecase,
+      this.accessTokenCacheUsecase)
       : super(const AuthState()) {
     on<LoginEvent>(_login);
     on<SignupEvent>(_signup);
     on<ForgetPasswordEvent>(_forgetPassword);
+    on<AccessTokenCacheEvent>(_cacheAccessToken);
   }
-  LoginUsecase loginUsecase;
-  SignUpUsecase signUpUsecase;
-  ForgetPasswordUsecase forgetPasswordUsecase;
+  final LoginUsecase loginUsecase;
+  final SignUpUsecase signUpUsecase;
+  final ForgetPasswordUsecase forgetPasswordUsecase;
+  final AccessTokenCacheUsecase accessTokenCacheUsecase;
   FutureOr<void> _login(LoginEvent event, Emitter<AuthState> emit) async {
     final result = await loginUsecase(LoginParams(event.email, event.password));
     result.fold((l) {
@@ -29,9 +35,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorMessage: l.message));
     }, (r) {
       emit(state.copyWith(
-          loginRequestStatus: LoginRequestStatus.success,
+          loginRequestStatus: LoginRequestStatus.loginSuccess,
           loginEntitie: r,
           errorMessage: ''));
+      add(AccessTokenCacheEvent(r.token, true));
     });
   }
 
@@ -47,9 +54,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorMessage: l.message));
     }, (r) {
       emit(state.copyWith(
-          signUpRequestStatus: SignUpRequestStatus.success,
+          signUpRequestStatus: SignUpRequestStatus.signUpSuccess,
           signupEtitie: r,
           errorMessage: ''));
+
+      add(AccessTokenCacheEvent(r.token, false));
     });
   }
 
@@ -68,5 +77,44 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isEmailSent: true,
           errorMessage: ''));
     });
+  }
+
+  FutureOr<void> _cacheAccessToken(
+      AccessTokenCacheEvent event, Emitter<AuthState> emit) async {
+    final result = await accessTokenCacheUsecase(
+        AccessTokenCacheParams(event.accessToken));
+    if (event.isLogin) {
+      result.fold(
+        (l) => emit(
+          state.copyWith(
+            errorMessage: l.message,
+            loginRequestStatus: LoginRequestStatus.error,
+          ),
+        ),
+        (r) => emit(
+          state.copyWith(
+            errorMessage: '',
+            loginRequestStatus: LoginRequestStatus.cachedSuccess,
+          ),
+        ),
+      );
+      ConstVar.accessToken = event.accessToken;
+    } else {
+      result.fold(
+        (l) => emit(
+          state.copyWith(
+            errorMessage: l.message,
+            signUpRequestStatus: SignUpRequestStatus.error,
+          ),
+        ),
+        (r) => emit(
+          state.copyWith(
+            errorMessage: '',
+            signUpRequestStatus: SignUpRequestStatus.cachedSuccess,
+          ),
+        ),
+      );
+      ConstVar.accessToken = event.accessToken;
+    }
   }
 }
