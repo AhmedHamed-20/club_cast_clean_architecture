@@ -5,20 +5,29 @@ class LayoutState extends Equatable {
   final String errorMessage;
   final UserDataGetRequestStatus userDataGetRequestStatus;
   final UserDataGetRequestStatus getAccessTokenRequestStatus;
-
+  final List<MyFollowingEventsEntitie> myFollowingEventsEntitie;
+  final UserDataGetRequestStatus myFollowingEventsRequestStatus;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
+      this.myFollowingEventsEntitie = const [],
+      this.myFollowingEventsRequestStatus = UserDataGetRequestStatus.loading,
       this.getAccessTokenRequestStatus = UserDataGetRequestStatus.loading,
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   LayoutState copyWith({
+    List<MyFollowingEventsEntitie>? myFollowingEventsEntitie,
+    UserDataGetRequestStatus? myFollowingEventsRequestStatus,
     UserDataGetRequestStatus? getAccessTokenRequestStatus,
     UserDataEntitie? userDataEntitie,
     String? errorMessage,
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      myFollowingEventsEntitie:
+          myFollowingEventsEntitie ?? this.myFollowingEventsEntitie,
+      myFollowingEventsRequestStatus:
+          myFollowingEventsRequestStatus ?? this.myFollowingEventsRequestStatus,
       getAccessTokenRequestStatus:
           getAccessTokenRequestStatus ?? this.getAccessTokenRequestStatus,
       userDataEntitie: userDataEntitie ?? this.userDataEntitie,
@@ -33,6 +42,8 @@ class LayoutState extends Equatable {
         userDataGetRequestStatus,
         userDataEntitie,
         errorMessage,
-        getAccessTokenRequestStatus
+        getAccessTokenRequestStatus,
+        myFollowingEventsEntitie,
+        myFollowingEventsRequestStatus
       ];
 }

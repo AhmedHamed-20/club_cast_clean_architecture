@@ -21,3 +21,12 @@ class AccessTokenGetFromCacheEvent extends LayoutEvent {
   @override
   List<Object?> get props => [key];
 }
+
+class MyFollowingEventsGetEvent extends LayoutEvent {
+  final String accessToken;
+
+  const MyFollowingEventsGetEvent(this.accessToken);
+
+  @override
+  List<Object?> get props => [accessToken];
+}

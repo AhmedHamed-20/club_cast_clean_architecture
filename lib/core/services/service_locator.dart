@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/core/layout/data/repositories/layou
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
@@ -51,7 +52,7 @@ class ServiceLocator {
         servicelocator()));
 
     servicelocator.registerFactory<LayoutBloc>(
-        () => LayoutBloc(servicelocator(), servicelocator()));
+        () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
 
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
         servicelocator(),
@@ -101,6 +102,8 @@ class ServiceLocator {
         () => AccessTokenCacheUsecase(servicelocator()));
     servicelocator.registerFactory<CachedAccessTokenGetUsecase>(
         () => CachedAccessTokenGetUsecase(servicelocator()));
+    servicelocator.registerFactory<MyFollowingEventsUsecase>(
+        () => MyFollowingEventsUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
