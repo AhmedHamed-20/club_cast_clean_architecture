@@ -41,7 +41,7 @@ import '../../features/Podcast/data/repositories/podcast_repository.dart';
 final servicelocator = GetIt.instance;
 
 class ServiceLocator {
-  void init() {
+  static void init() {
     ///bloc
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));

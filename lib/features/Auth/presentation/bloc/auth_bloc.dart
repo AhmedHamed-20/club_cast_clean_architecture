@@ -28,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ForgetPasswordUsecase forgetPasswordUsecase;
   final AccessTokenCacheUsecase accessTokenCacheUsecase;
   FutureOr<void> _login(LoginEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(loginRequestStatus: LoginRequestStatus.loading));
     final result = await loginUsecase(LoginParams(event.email, event.password));
     result.fold((l) {
       emit(state.copyWith(
@@ -43,6 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _signup(SignupEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(signUpRequestStatus: SignUpRequestStatus.loading));
     final result = await signUpUsecase(SignUpParams(
         confirmPassword: event.confirmPassword,
         email: event.email,

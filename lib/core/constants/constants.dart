@@ -106,9 +106,9 @@ class AppWidth {
 }
 
 class AppColors {
-  static Color scaffoldBackgroundColorDark = const Color(0xff121212);
-  static Color backgroundColorDark = Colors.grey[850]!;
-  static Color backgroundColorWhite = Colors.white;
+  static Color scaffoldBackgroundColorDark = Colors.grey[900]!;
+  static Color backgroundColorDark = const Color.fromRGBO(49, 49, 52, 1);
+  static Color backgroundColorWhite = const Color(0xffF6F9F4);
 
   static Color white = Colors.white;
   static Color black = Colors.black;
@@ -116,19 +116,22 @@ class AppColors {
   static Color toastWarning = Colors.yellow;
   static Color toastError = Colors.red;
   static Color navBarBackgroundColor = Colors.white;
-  static Color scaffoldBackgroundColor = Colors.grey[100]!;
-  static Color primaryColor = const Color(0xff1ABC00);
+  static Color scaffoldBackgroundColor = const Color(0xffF6F9F4);
+  static Color primaryColorDark = const Color(
+    0xff6A4CFF,
+  );
+  static Color primaryColorLight = const Color(0xff5ADAAC);
   static Color transparentColor = Colors.transparent;
   static Color buttonColor = const Color(0xff1ABC00);
   static Color textColorButton = Colors.white;
-  static Color titleTextColor = Colors.black;
+  static Color titleTextColor = const Color(0xff59675B);
   static Color titleTextColorDark = Colors.white;
 
   static Color subtitleTextColor = const Color(0xff6F6F6F);
   static Color iconColorBlack = Colors.black;
 
   static Color iconColorWhite = Colors.white;
-  static Color iconColorGrey = const Color(0xff6F6F6F);
+  static Color iconColorGrey = const Color(0xff59675B);
   static Color textFieldBorderColorGrey = const Color(0xff6F6F6F);
   static Color dividerColorGrey = const Color(0xff979797);
   static Color textFormFieldFillColor = const Color(0xffF8F8F8);

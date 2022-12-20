@@ -36,12 +36,12 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
   @override
   Future<AuthModel> login(LoginParams params) async {
     try {
-      final respone = await DioHelper.postData(url: EndPoints.login, data: {
+      final response = await DioHelper.postData(url: EndPoints.login, data: {
         'email': params.email,
         'password': params.password,
       });
-
-      return AuthModel.fromJson(respone?.data);
+      print(response?.data);
+      return AuthModel.fromJson(response?.data);
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
