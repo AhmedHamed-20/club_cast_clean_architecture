@@ -187,4 +187,5 @@ class AppRoutesNames {
   static const String loginScreen = '/';
   static const String layoutScreen = '/layout_screen';
   static const String homeScreen = '/layout_screen/home_screen';
+  static const String forgetPasswordScreen = '/login_screen/forget_password';
 }

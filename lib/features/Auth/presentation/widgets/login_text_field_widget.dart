@@ -17,6 +17,7 @@ class LoginTextFieldsWidget extends StatelessWidget {
           context: context,
           controller: TextEditingControllers.loginEmailController,
           labelText: 'Email',
+          labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(
           height: AppHeight.h10,
@@ -25,6 +26,7 @@ class LoginTextFieldsWidget extends StatelessWidget {
           context: context,
           controller: TextEditingControllers.loginPasswordController,
           labelText: 'Password',
+          labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

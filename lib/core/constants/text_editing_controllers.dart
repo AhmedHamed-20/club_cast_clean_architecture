@@ -5,4 +5,6 @@ class TextEditingControllers {
       TextEditingController();
   static final TextEditingController loginPasswordController =
       TextEditingController();
+  static final TextEditingController forgetPasswordController =
+      TextEditingController();
 }

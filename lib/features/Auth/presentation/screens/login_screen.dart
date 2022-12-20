@@ -14,44 +14,45 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => servicelocator<AuthBloc>(),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p12),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: AppHeight.h10,
-                ),
-                Image.asset('assets/images/login.png'),
-                const SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const LoginTextFieldsWidget(),
-                Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: Defaults.defaultTextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forget Password?',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                    ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(AppPadding.p12),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: AppHeight.h10,
+              ),
+              Image.asset('assets/images/login.png'),
+              const SizedBox(
+                height: AppHeight.h10,
+              ),
+              const LoginTextFieldsWidget(),
+              Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: Defaults.defaultTextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      AppRoutesNames.forgetPasswordScreen,
+                    );
+                  },
+                  child: Text(
+                    'Forget Password?',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
                   ),
                 ),
-                const SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const LoginButtonWidget(),
-                const SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const DontHaveAccountWidget()
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: AppHeight.h10,
+              ),
+              const LoginButtonWidget(),
+              const SizedBox(
+                height: AppHeight.h10,
+              ),
+              const DontHaveAccountWidget()
+            ],
           ),
         ),
       ),
