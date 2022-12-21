@@ -1,10 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
-import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../features/Auth/presentation/screens/signup_screen.dart';
 
 class AppRoutes {
   Route? generateRoutes(RouteSettings routeSettings) {
@@ -22,6 +22,9 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => const ForgetPasswordScreen(),
         );
+
+      case AppRoutesNames.signUpScreen:
+        return MaterialPageRoute(builder: (context) => const SignUpScreen());
       default:
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

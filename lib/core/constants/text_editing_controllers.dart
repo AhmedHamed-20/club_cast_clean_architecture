@@ -7,4 +7,12 @@ class TextEditingControllers {
       TextEditingController();
   static final TextEditingController forgetPasswordController =
       TextEditingController();
+  static final TextEditingController signUpNameController =
+      TextEditingController();
+  static final TextEditingController signUpEmailController =
+      TextEditingController();
+  static final TextEditingController signUpPasswordController =
+      TextEditingController();
+  static final TextEditingController signUpPasswordConfirmController =
+      TextEditingController();
 }

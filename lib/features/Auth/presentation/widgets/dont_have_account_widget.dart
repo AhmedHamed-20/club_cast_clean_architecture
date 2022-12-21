@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/defaults.dart';
@@ -17,7 +18,9 @@ class DontHaveAccountWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Defaults.defaultTextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoutesNames.signUpScreen);
+          },
           child: Text(
             'SignUp',
             style: Theme.of(context)

@@ -40,7 +40,6 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
         'email': params.email,
         'password': params.password,
       });
-      print(response?.data);
       return AuthModel.fromJson(response?.data);
     } on DioError catch (error) {
       throw ServerException(
