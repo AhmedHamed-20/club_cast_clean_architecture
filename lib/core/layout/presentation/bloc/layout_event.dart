@@ -30,3 +30,12 @@ class MyFollowingEventsGetEvent extends LayoutEvent {
   @override
   List<Object?> get props => [accessToken];
 }
+
+class BottomNavIndexChangeEvent extends LayoutEvent {
+  final int index;
+
+  const BottomNavIndexChangeEvent(this.index);
+
+  @override
+  List<Object?> get props => [index];
+}

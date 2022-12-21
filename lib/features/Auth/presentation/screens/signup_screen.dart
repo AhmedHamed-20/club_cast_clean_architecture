@@ -1,8 +1,8 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/sign_up_button_widget.dart';
-import '../widgets/sign_up_textfields_widget.dart';
+import '../widgets/sign_up_widgets/sign_up_button_widget.dart';
+import '../widgets/sign_up_widgets/sign_up_textfields_widget.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

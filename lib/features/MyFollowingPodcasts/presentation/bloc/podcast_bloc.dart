@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_likes_users_entitie.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_following_podcast.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/usecases/get_podcast_likes_users.dart';

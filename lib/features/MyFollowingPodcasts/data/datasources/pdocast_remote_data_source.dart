@@ -2,12 +2,12 @@ import 'package:club_cast_clean_architecture/core/error/error_message_model.dart
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/data/models/podcast_likes_users_info_model.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/data/models/podcast_model.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_following_podcast.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_podcast_likes_users.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/remove_like_by_podcast_id.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_likes_users_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_podcast_likes_users.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:dio/dio.dart';
 
 abstract class BasePodcastRemoteDataSource {

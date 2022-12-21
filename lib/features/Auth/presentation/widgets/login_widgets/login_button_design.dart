@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/defaults.dart';
+import '../../../../../core/widgets/defaults.dart';
 
 class LoginButtonDesign extends StatelessWidget {
   const LoginButtonDesign({super.key});

@@ -7,15 +7,18 @@ class LayoutState extends Equatable {
   final UserDataGetRequestStatus getAccessTokenRequestStatus;
   final List<MyFollowingEventsEntitie> myFollowingEventsEntitie;
   final UserDataGetRequestStatus myFollowingEventsRequestStatus;
+  final int currentBottomNavIndex;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
+      this.currentBottomNavIndex = 0,
       this.myFollowingEventsEntitie = const [],
       this.myFollowingEventsRequestStatus = UserDataGetRequestStatus.loading,
       this.getAccessTokenRequestStatus = UserDataGetRequestStatus.loading,
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   LayoutState copyWith({
+    int? currentBottomNavIndex,
     List<MyFollowingEventsEntitie>? myFollowingEventsEntitie,
     UserDataGetRequestStatus? myFollowingEventsRequestStatus,
     UserDataGetRequestStatus? getAccessTokenRequestStatus,
@@ -24,6 +27,8 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      currentBottomNavIndex:
+          currentBottomNavIndex ?? this.currentBottomNavIndex,
       myFollowingEventsEntitie:
           myFollowingEventsEntitie ?? this.myFollowingEventsEntitie,
       myFollowingEventsRequestStatus:
@@ -44,6 +49,7 @@ class LayoutState extends Equatable {
         errorMessage,
         getAccessTokenRequestStatus,
         myFollowingEventsEntitie,
-        myFollowingEventsRequestStatus
+        myFollowingEventsRequestStatus,
+        currentBottomNavIndex,
       ];
 }

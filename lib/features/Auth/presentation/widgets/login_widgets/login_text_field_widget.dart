@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/constants/text_editing_controllers.dart';
-import '../../../../core/widgets/defaults.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/constants/text_editing_controllers.dart';
+import '../../../../../core/widgets/defaults.dart';
 
 class LoginTextFieldsWidget extends StatelessWidget {
   const LoginTextFieldsWidget({

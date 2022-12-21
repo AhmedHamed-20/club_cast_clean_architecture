@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Podcast/data/models/podcast_audio_info_model.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/data/models/podcast_user_info_model.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_audio_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_user_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 
 class PodcastModel extends PodcastEntitie {
   const PodcastModel(

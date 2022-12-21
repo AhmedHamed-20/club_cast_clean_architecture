@@ -43,3 +43,8 @@ class AccessTokenCacheEvent extends AuthEvent {
   @override
   List<Object?> get props => [accessToken];
 }
+
+class AuthRequestStatusResset extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

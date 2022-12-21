@@ -1,5 +1,5 @@
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/entities/podcast_likes_users_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

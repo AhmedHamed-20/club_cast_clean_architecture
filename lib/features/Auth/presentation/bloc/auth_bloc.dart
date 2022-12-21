@@ -22,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignupEvent>(_signup);
     on<ForgetPasswordEvent>(_forgetPassword);
     on<AccessTokenCacheEvent>(_cacheAccessToken);
+    on<AuthRequestStatusResset>(_resetAuthRequestStatus);
   }
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
@@ -118,5 +119,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       ConstVar.accessToken = event.accessToken;
     }
+  }
+
+  FutureOr<void> _resetAuthRequestStatus(
+      AuthRequestStatusResset event, Emitter<AuthState> emit) {
+    emit(
+      state.copyWith(
+        loginRequestStatus: LoginRequestStatus.idle,
+        signUpRequestStatus: SignUpRequestStatus.idle,
+        forgetPasswordRequestStatus: ForgetPasswordRequestStatus.idle,
+      ),
+    );
   }
 }

@@ -14,12 +14,12 @@ import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/cache
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_up.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/repositories/podcast_repository.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_following_podcast.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/get_podcast_likes_users.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/domain/usecases/remove_like_by_podcast_id.dart';
-import 'package:club_cast_clean_architecture/features/Podcast/presentation/bloc/podcast_bloc.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_podcast_likes_users.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
@@ -35,8 +35,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:get_it/get_it.dart';
 
 import '../../features/Auth/domain/usecases/login.dart';
-import '../../features/Podcast/data/datasources/pdocast_remote_data_source.dart';
-import '../../features/Podcast/data/repositories/podcast_repository.dart';
+import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
+import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.dart';
 
 final servicelocator = GetIt.instance;
 

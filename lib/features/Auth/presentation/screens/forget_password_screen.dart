@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/constants/text_editing_control
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/forget_password_button_widget.dart';
+import '../widgets/forget_passwod_widgets/forget_password_button_widget.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});
