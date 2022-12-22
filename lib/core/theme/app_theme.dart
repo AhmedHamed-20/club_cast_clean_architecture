@@ -22,14 +22,18 @@ class AppTheme {
     ),
     backgroundColor: AppColors.backgroundColorDark,
     textTheme: TextTheme(
-      bodyText1: GoogleFonts.rubik(
+      titleMedium: GoogleFonts.rubik(
         color: AppColors.white,
         fontSize: AppFontSize.s18,
       ),
-      bodyText2: GoogleFonts.rubik(
+      titleLarge: GoogleFonts.rubik(
         color: AppColors.white,
         fontSize: AppFontSize.s18,
         fontWeight: FontWeight.bold,
+      ),
+      titleSmall: GoogleFonts.rubik(
+        color: AppColors.titleTextColor,
+        fontSize: AppFontSize.s16,
       ),
     ),
     iconTheme: IconThemeData(
@@ -55,6 +59,10 @@ class AppTheme {
         color: AppColors.titleTextColor,
         fontSize: AppFontSize.s18,
         fontWeight: FontWeight.bold,
+      ),
+      titleSmall: GoogleFonts.rubik(
+        color: AppColors.titleTextColor,
+        fontSize: AppFontSize.s16,
       ),
     ),
     appBarTheme: AppBarTheme(

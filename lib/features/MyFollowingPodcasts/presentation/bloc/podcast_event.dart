@@ -37,3 +37,13 @@ class RemovePodcastLikeEvent extends PodcastEvent {
   @override
   List<Object> get props => [accessToken, podcastId];
 }
+
+class MoreMyFollowingPodcastsGetEvent extends PodcastEvent {
+  final String accessToken;
+  final String page;
+
+  const MoreMyFollowingPodcastsGetEvent(
+      {required this.accessToken, required this.page});
+  @override
+  List<Object?> get props => [page, accessToken];
+}

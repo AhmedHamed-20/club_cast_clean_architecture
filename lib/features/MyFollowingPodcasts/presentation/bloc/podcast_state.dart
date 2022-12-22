@@ -1,30 +1,40 @@
 part of 'podcast_bloc.dart';
 
 class PodcastState extends Equatable {
-  final List<PodcastEntitie> myFollowingPodcasts;
+  final PodcastEntitie? myFollowingPodcasts;
   final List<PodcastLikesUsersInfoEntitie> podcastLikesUsersEntitie;
   final MyFollowingPodcastsRequestStatus myFollowingPodcastsRequestStatus;
   final MyFollowingPodcastsUsersLikesRequestStatus
       myFollowingPodcastsUsersLikesRequestStatus;
   final String errorMessage;
-
+  final MyFollowingPodcastsRequestStatus moreMyFollowingPodcastsRequestStatus;
+  final bool isEndOfData;
   const PodcastState(
-      {this.myFollowingPodcasts = const [],
+      {this.myFollowingPodcasts,
+      this.moreMyFollowingPodcastsRequestStatus =
+          MyFollowingPodcastsRequestStatus.loading,
       this.podcastLikesUsersEntitie = const [],
+      this.isEndOfData = false,
       this.myFollowingPodcastsRequestStatus =
           MyFollowingPodcastsRequestStatus.loading,
       this.myFollowingPodcastsUsersLikesRequestStatus =
           MyFollowingPodcastsUsersLikesRequestStatus.loading,
       this.errorMessage = ''});
   PodcastState copyWith({
-    List<PodcastEntitie>? myFollowingPodcasts,
+    MyFollowingPodcastsRequestStatus? moreMyFollowingPodcastsRequestStatus,
+    PodcastEntitie? myFollowingPodcasts,
     List<PodcastLikesUsersInfoEntitie>? podcastLikesUsersEntitie,
     MyFollowingPodcastsRequestStatus? myFollowingPodcastsRequestStatus,
     MyFollowingPodcastsUsersLikesRequestStatus?
         myFollowingPodcastsUsersLikesRequestStatus,
     String? errorMessage,
+    bool? isEndOfData,
   }) {
     return PodcastState(
+      isEndOfData: isEndOfData ?? this.isEndOfData,
+      moreMyFollowingPodcastsRequestStatus:
+          moreMyFollowingPodcastsRequestStatus ??
+              this.moreMyFollowingPodcastsRequestStatus,
       myFollowingPodcasts: myFollowingPodcasts ?? this.myFollowingPodcasts,
       podcastLikesUsersEntitie:
           podcastLikesUsersEntitie ?? this.podcastLikesUsersEntitie,
@@ -38,8 +48,10 @@ class PodcastState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         errorMessage,
+        isEndOfData,
+        moreMyFollowingPodcastsRequestStatus,
         myFollowingPodcasts,
         podcastLikesUsersEntitie,
         myFollowingPodcastsRequestStatus,

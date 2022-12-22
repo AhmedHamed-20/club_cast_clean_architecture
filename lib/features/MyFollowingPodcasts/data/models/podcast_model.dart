@@ -1,28 +1,15 @@
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_audio_info_model.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_user_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_information_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 
 class PodcastModel extends PodcastEntitie {
   const PodcastModel(
-      {required super.podcastId,
-      required super.isLiked,
-      required super.podcastName,
-      required super.podcastLikesCount,
-      required super.category,
-      required super.createdAt,
-      required super.podcastUserInfo,
-      required super.podcastInfo});
+      {required super.results, required super.podcastInformationEntitie});
 
   factory PodcastModel.fromJson(Map<String, dynamic> json) {
     return PodcastModel(
-      isLiked: json['isLiked'],
-      category: json['category'],
-      createdAt: json['createdAt'],
-      podcastId: json['_id'],
-      podcastLikesCount: json['likes'],
-      podcastName: json['name'],
-      podcastUserInfo: PodcastUserInfoModel.fromJson(json['createdBy']),
-      podcastInfo: PodcastAudioInfoModel.fromJson(json['audio']),
-    );
+        results: json['results'],
+        podcastInformationEntitie: (json['data'] as List)
+            .map((e) => PodcastInformationModel.fromJson(e))
+            .toList());
   }
 }

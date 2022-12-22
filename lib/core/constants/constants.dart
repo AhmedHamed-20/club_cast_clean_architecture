@@ -40,6 +40,9 @@ class AppRadius {
   static const double r18 = 18;
   static const double r20 = 20;
   static const double r22 = 22;
+  static const double r30 = 30;
+  static const double r35 = 35;
+
   static const double r40 = 40;
   static const double r70 = 70;
 }
@@ -163,6 +166,16 @@ void flutterToast({
     backgroundColor: backgroundColor,
     textColor: textColor,
   );
+}
+
+String covertDurationTime(double duration) {
+  var hours = (duration / (60 * 60)).floor();
+  var minutes = ((duration - hours * 60 * 60) / 60).floor();
+  var second = ((duration - hours * 60 * 60 - minutes * 60)).floor();
+  String convertedTime =
+      '${hours.toString()}:${minutes.toString()}:${second.toString()}';
+
+  return convertedTime;
 }
 
 void navigatePushAndRemove(

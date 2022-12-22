@@ -6,6 +6,7 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:dartz/dartz.dart';
@@ -15,7 +16,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
 
   PodcastRepositoryImple(this.basePodcastRemoteDataSource);
   @override
-  Future<Either<Failure, List<PodcastEntitie>>> getMyFollowingPodcast(
+  Future<Either<Failure, PodcastEntitie>> getMyFollowingPodcast(
       MyFollowingPodcastParams params) async {
     try {
       final result =
@@ -66,6 +67,19 @@ class PodcastRepositoryImple extends BasePodcastRepository {
       return Left(ServerFailure(
         message: exception.serverErrorMessageModel.message,
       ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PodcastEntitie>> getMoreMyFollowingPodcast(
+      MoreMyFollowingPodcastParams params) async {
+    try {
+      final result =
+          await basePodcastRemoteDataSource.getMoreMyFollowingPodcasts(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
     }
   }
 }

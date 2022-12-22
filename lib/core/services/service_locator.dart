@@ -17,6 +17,7 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
@@ -46,10 +47,12 @@ class ServiceLocator {
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator()));
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+        ));
 
     servicelocator.registerFactory<LayoutBloc>(
         () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
@@ -104,6 +107,8 @@ class ServiceLocator {
         () => CachedAccessTokenGetUsecase(servicelocator()));
     servicelocator.registerFactory<MyFollowingEventsUsecase>(
         () => MyFollowingEventsUsecase(servicelocator()));
+    servicelocator.registerFactory<MoreMyFollowingPodcastsUsecase>(
+        () => MoreMyFollowingPodcastsUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

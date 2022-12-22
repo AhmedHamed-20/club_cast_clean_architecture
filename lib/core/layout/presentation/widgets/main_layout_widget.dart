@@ -46,20 +46,6 @@ class MainLayoutWidget extends StatelessWidget {
             selectedIndex: state.currentBottomNavIndex,
             onDestinationSelected: (value) {
               layoutBloc.add(BottomNavIndexChangeEvent(value));
-              // switch (value) {
-              //   case 0:
-              //     layoutBloc.add(const BottomNavIndexChangeEvent(0));
-              //     break;
-              //   case 1:
-              //     layoutBloc.add(const BottomNavIndexChangeEvent(1));
-              //     break;
-              //   case 2:
-              //     layoutBloc.add(const BottomNavIndexChangeEvent(2));
-              //     break;
-              //   default:
-              //     layoutBloc.add(const BottomNavIndexChangeEvent(0));
-              //     break;
-              // }
             },
           ),
         ),
