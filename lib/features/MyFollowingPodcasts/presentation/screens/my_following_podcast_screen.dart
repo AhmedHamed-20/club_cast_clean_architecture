@@ -4,7 +4,6 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presen
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/layout/presentation/widgets/podcast_card_widget.dart';
 import '../../../../core/utl/utls.dart';
 import '../widgets/main_my_following_podcasts_widget.dart';
 

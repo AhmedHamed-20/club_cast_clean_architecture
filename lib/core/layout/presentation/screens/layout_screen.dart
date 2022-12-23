@@ -23,7 +23,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var layoutBloc = BlocProvider.of<LayoutBloc>(context);
     return BlocBuilder<LayoutBloc, LayoutState>(builder: (context, state) {
       switch (state.userDataGetRequestStatus) {
         case UserDataGetRequestStatus.loading:

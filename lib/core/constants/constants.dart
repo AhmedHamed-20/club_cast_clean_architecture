@@ -202,4 +202,6 @@ class AppRoutesNames {
   static const String layoutScreen = '/layout_screen';
   static const String homeScreen = '/layout_screen/home_screen';
   static const String forgetPasswordScreen = '/forget_password';
+  static const String podcastUsersLikesScreen =
+      '/layout_screen/my_following_podcast_screen/users_likes_screen';
 }

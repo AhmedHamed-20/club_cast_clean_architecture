@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
@@ -27,7 +26,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     on<GetMyFollowingPodcastsEvent>(_getMyFollowingPodcast);
     on<AddLikeToPodcastEvent>(_addLikeToPodcast);
     on<GetPodcastLikesUsersEvent>(_getPodcastLikesUsers);
-    on<RemovePodcastLikeEvent>(_removePodcastLike);
+    on<RemovePodcastLikeEvent>(_removePodcastLikeAndGetNewData);
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
   }
   final FollowingPodcastUsecase followingPodcastUsecase;
@@ -60,19 +59,27 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
       event.podcastId,
     ));
     result.fold(
-      (l) => emit(state.copyWith(
-        errorMessage: l.message,
-      )),
-      (r) => emit(
+        (l) => emit(state.copyWith(
+              errorMessage: l.message,
+            )), (r) {
+      emit(
         state.copyWith(
           errorMessage: '',
         ),
-      ),
-    );
+      );
+      add(
+        GetMyFollowingPodcastsEvent(
+          accessToken: event.accessToken,
+        ),
+      );
+    });
   }
 
   FutureOr<void> _getPodcastLikesUsers(
       GetPodcastLikesUsersEvent event, Emitter<PodcastState> emit) async {
+    emit(state.copyWith(
+        myFollowingPodcastsUsersLikesRequestStatus:
+            MyFollowingPodcastsUsersLikesRequestStatus.loading));
     final result = await podcastLikesUsersUsecase(
         PodcastLikesUsersparams(event.accessToken, event.podcastId));
     result.fold(
@@ -87,21 +94,26 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
                 MyFollowingPodcastsUsersLikesRequestStatus.success)));
   }
 
-  FutureOr<void> _removePodcastLike(
+  FutureOr<void> _removePodcastLikeAndGetNewData(
       RemovePodcastLikeEvent event, Emitter<PodcastState> emit) async {
     final result = await removeLikeUsecase(LikeRemoveByPodcastIdParams(
         accessToken: event.accessToken, podcastId: event.podcastId));
 
     result.fold(
-      (l) => emit(state.copyWith(
-        errorMessage: l.message,
-      )),
-      (r) => emit(
+        (l) => emit(state.copyWith(
+              errorMessage: l.message,
+            )), (r) {
+      emit(
         state.copyWith(
           errorMessage: '',
         ),
-      ),
-    );
+      );
+      add(
+        GetMyFollowingPodcastsEvent(
+          accessToken: event.accessToken,
+        ),
+      );
+    });
   }
 
   FutureOr<void> _getMoreMyFollowingPodcasts(

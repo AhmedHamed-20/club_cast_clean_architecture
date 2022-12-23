@@ -13,6 +13,9 @@ class PodcastCardWidget extends StatelessWidget {
     required this.onPressedOnLikeButton,
     required this.podcastPhoto,
     required this.podcastUserName,
+    required this.onPressedDownload,
+    required this.onPressedPlay,
+    required this.onPressedOnLikesCount,
   });
   final String podcastName;
   final String podcastPhoto;
@@ -23,6 +26,10 @@ class PodcastCardWidget extends StatelessWidget {
   final VoidCallback onPressedOnCard;
   final VoidCallback onPressedOnUserPhoto;
   final double podcastDurathion;
+  final VoidCallback onPressedDownload;
+  final VoidCallback onPressedPlay;
+  final VoidCallback onPressedOnLikesCount;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -40,6 +47,7 @@ class PodcastCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
                     onTap: onPressedOnUserPhoto,
@@ -51,22 +59,44 @@ class PodcastCardWidget extends StatelessWidget {
                   const SizedBox(
                     width: AppWidth.w20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        podcastName,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      Text(
-                        podcastUserName,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        covertDurationTime(podcastDurathion),
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          podcastName,
+                          style: Theme.of(context).textTheme.titleLarge,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          podcastUserName,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          covertDurationTime(podcastDurathion),
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const SizedBox(
+                          height: AppHeight.h10,
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: onPressedPlay,
+                              icon: const Icon(
+                                Icons.play_circle_outline,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: onPressedDownload,
+                              icon: const Icon(
+                                Icons.downloading_rounded,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -76,12 +106,15 @@ class PodcastCardWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    radius: AppRadius.r16,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      podcastLikes.toString(),
-                      style: Theme.of(context).textTheme.titleSmall,
+                  InkWell(
+                    onTap: onPressedOnLikesCount,
+                    child: CircleAvatar(
+                      radius: AppRadius.r16,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        podcastLikes.toString(),
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                     ),
                   ),
                   IconButton(

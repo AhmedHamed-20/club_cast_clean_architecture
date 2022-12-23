@@ -1,9 +1,8 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/widgets/podcast_card_main_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/layout/presentation/widgets/podcast_card_widget.dart';
 
 int myFollowingPodcastsPage = 2;
 
@@ -52,22 +51,12 @@ class _MainMyFollowingPodcastsWidgetState
         itemBuilder: (context, index) {
           if (index <
               state.myFollowingPodcasts!.podcastInformationEntitie.length) {
-            return PodcastCardWidget(
-              onPressedOnCard: () {},
-              onPressedOnUserPhoto: () {},
-              onPressedOnLikeButton: () {},
-              isLiked: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].isLiked,
-              podcastDurathion: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].podcastInfo.podcastDuration,
-              podcastLikes: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].podcastLikesCount,
-              podcastName: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].podcastName,
-              podcastPhoto: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].podcastUserInfo.userImage,
-              podcastUserName: state.myFollowingPodcasts!
-                  .podcastInformationEntitie[index].podcastUserInfo.userName,
+            return Padding(
+              padding: const EdgeInsets.all(AppPadding.p12),
+              child: PodcastCardMainWdget(
+                index: index,
+                myFollowingPodcasts: state.myFollowingPodcasts!,
+              ),
             );
           } else {
             return state.isEndOfData
