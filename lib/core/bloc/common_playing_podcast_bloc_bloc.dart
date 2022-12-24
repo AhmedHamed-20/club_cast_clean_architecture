@@ -18,6 +18,7 @@ class CommonPlayingPodcastBlocBloc
     on<PodcastPlayPaused>(_playPaused);
     on<PodcastPausePlaying>(_pausePlayingPodcast);
     on<PodcastStopPlaying>(_stopPlayingPodcast);
+    on<CurrentPositionChangeValueEvent>(_changeCurrentPositionValue);
   }
   late AssetsAudioPlayer myAssetAudioPlayer;
 
@@ -62,8 +63,14 @@ class CommonPlayingPodcastBlocBloc
     if (myAssetAudioPlayer.isPlaying.value) {
       currentPlayingPodcastsId = event.podcastId;
       currentPausePodcastsId = '';
+
       emit(state.copyWith(isPlaying: true));
     }
+    myAssetAudioPlayer.currentPosition.listen(
+      (event) {
+        add(CurrentPositionChangeValueEvent(event.inSeconds));
+      },
+    );
   }
 
   FutureOr<void> _playPaused(PodcastPlayPaused event,
@@ -94,5 +101,11 @@ class CommonPlayingPodcastBlocBloc
       currentPausePodcastsId = '';
       emit(state.copyWith(isPlaying: false));
     }
+  }
+
+  FutureOr<void> _changeCurrentPositionValue(
+      CurrentPositionChangeValueEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) {
+    emit(state.copyWith(currentPosition: event.currentPosition));
   }
 }

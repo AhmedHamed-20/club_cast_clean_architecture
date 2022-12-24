@@ -47,3 +47,12 @@ class PodcastStopPlaying extends CommonPlayingPodcastBlocEvent {
   @override
   List<Object?> get props => [podcastId];
 }
+
+class CurrentPositionChangeValueEvent extends CommonPlayingPodcastBlocEvent {
+  final int currentPosition;
+
+  const CurrentPositionChangeValueEvent(this.currentPosition);
+
+  @override
+  List<Object?> get props => [currentPosition];
+}

@@ -40,7 +40,8 @@ class _MainMyFollowingPodcastsWidgetState
 
   @override
   void dispose() async {
-    //   await BlocProvider.of<PodcastBloc>(context).myAssetAudioPlayer.dispose();
+    myFollowingPodcastsPage = 2;
+    isEndOfData = false;
     super.dispose();
   }
 

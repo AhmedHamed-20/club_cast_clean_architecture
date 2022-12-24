@@ -94,8 +94,13 @@ class PodcastCardMainWdget extends StatelessWidget {
             }
           },
           isLiked: myFollowingPodcasts.podcastInformationEntitie[index].isLiked,
-          podcastDurathion: myFollowingPodcasts
-              .podcastInformationEntitie[index].podcastInfo.podcastDuration,
+          podcastDurathion: podcastBloc.getCurrentPlayingPosition(
+            currentPosition: state.currentPosition,
+            podcastId:
+                myFollowingPodcasts.podcastInformationEntitie[index].podcastId,
+            podcastDuration: myFollowingPodcasts
+                .podcastInformationEntitie[index].podcastInfo.podcastDuration,
+          ),
           podcastLikes: myFollowingPodcasts
               .podcastInformationEntitie[index].podcastLikesCount,
           podcastName:

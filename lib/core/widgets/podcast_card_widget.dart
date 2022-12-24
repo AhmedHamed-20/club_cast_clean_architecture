@@ -87,7 +87,7 @@ class PodcastCardWidget extends StatelessWidget {
                               onPressed: onPressedPlay,
                               icon: Icon(
                                 currentPlayingPodcastsId == podcastId
-                                    ? Icons.pause
+                                    ? Icons.pause_circle_outline
                                     : Icons.play_circle_outline,
                               ),
                             ),

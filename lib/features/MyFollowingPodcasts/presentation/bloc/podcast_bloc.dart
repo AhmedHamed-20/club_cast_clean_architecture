@@ -9,6 +9,7 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../domain/usecases/get_podcast_likes_users.dart';
 import '../../domain/usecases/remove_like_by_podcast_id.dart';
 
@@ -162,5 +163,18 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
         ));
       }
     });
+  }
+
+  double getCurrentPlayingPosition(
+      {required int currentPosition,
+      required String podcastId,
+      required double podcastDuration}) {
+    if (currentPosition != 0 &&
+        (currentPlayingPodcastsId == podcastId ||
+            currentPausePodcastsId == podcastId)) {
+      return currentPosition.toDouble();
+    } else {
+      return podcastDuration;
+    }
   }
 }
