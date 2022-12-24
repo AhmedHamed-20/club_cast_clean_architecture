@@ -39,6 +39,12 @@ class _MainMyFollowingPodcastsWidgetState
   }
 
   @override
+  void dispose() async {
+    //   await BlocProvider.of<PodcastBloc>(context).myAssetAudioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<PodcastBloc, PodcastState>(
       listener: (constext, state) {

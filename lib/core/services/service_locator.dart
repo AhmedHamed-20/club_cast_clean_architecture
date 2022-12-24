@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_local_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_remote_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/repositories/layout_repository_impl.dart';
@@ -56,7 +57,8 @@ class ServiceLocator {
 
     servicelocator.registerFactory<LayoutBloc>(
         () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
-
+    servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
+        () => CommonPlayingPodcastBlocBloc());
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
         servicelocator(),
         servicelocator(),

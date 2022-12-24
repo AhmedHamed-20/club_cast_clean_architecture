@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -205,3 +206,7 @@ class AppRoutesNames {
   static const String podcastUsersLikesScreen =
       '/layout_screen/my_following_podcast_screen/users_likes_screen';
 }
+
+late AssetsAudioPlayer assetsAudioPlayer;
+String currentPlayingPodcastsId = '';
+String currentPausePodcastsId = '';

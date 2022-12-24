@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'core/network/dio.dart';
 import 'core/routes/app_router.dart';
 
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => servicelocator<AuthBloc>()),
         BlocProvider(create: (context) => servicelocator<LayoutBloc>()),
+        BlocProvider(
+            create: (context) =>
+                servicelocator<CommonPlayingPodcastBlocBloc>()),
       ],
       child: MaterialApp(
         title: 'Club Cast',

@@ -15,11 +15,13 @@ class PodcastCardWidget extends StatelessWidget {
     required this.podcastUserName,
     required this.onPressedDownload,
     required this.onPressedPlay,
+    required this.podcastId,
     required this.onPressedOnLikesCount,
   });
   final String podcastName;
   final String podcastPhoto;
   final String podcastUserName;
+  final String podcastId;
   final int podcastLikes;
   final bool isLiked;
   final VoidCallback onPressedOnLikeButton;
@@ -83,8 +85,10 @@ class PodcastCardWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: onPressedPlay,
-                              icon: const Icon(
-                                Icons.play_circle_outline,
+                              icon: Icon(
+                                currentPlayingPodcastsId == podcastId
+                                    ? Icons.pause
+                                    : Icons.play_circle_outline,
                               ),
                             ),
                             IconButton(

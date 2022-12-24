@@ -6,6 +6,15 @@ enum LoginRequestStatus {
   error,
 }
 
+enum PlayPodcastRequestStatus {
+  idle,
+  loading,
+  playing,
+  paused,
+  stoped,
+  error,
+}
+
 enum SignUpRequestStatus {
   idle,
   loading,
