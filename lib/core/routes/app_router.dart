@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
+import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/likes_users_screens.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/screens/signup_screen.dart';
+import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../constants/params.dart';
 
 class AppRoutes {
@@ -35,6 +37,13 @@ class AppRoutes {
           return BlocProvider.value(
               value: arguments.podcastBloc,
               child: LikesUsersScreen(podcastId: arguments.podcastId));
+        });
+      case AppRoutesNames.podcastInfoScreen:
+        BasePodcastEntitie arguments = args as BasePodcastEntitie;
+        return MaterialPageRoute(builder: (context) {
+          return PodcastInformationScreen(
+            podcastInformationEntitie: arguments,
+          );
         });
       default:
         return MaterialPageRoute(builder: (context) {

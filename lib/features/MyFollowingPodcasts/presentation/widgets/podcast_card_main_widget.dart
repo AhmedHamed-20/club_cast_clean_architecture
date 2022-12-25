@@ -27,7 +27,11 @@ class PodcastCardMainWdget extends StatelessWidget {
         return PodcastCardWidget(
           podcastId:
               myFollowingPodcasts.podcastInformationEntitie[index].podcastId,
-          onPressedOnCard: () {},
+          onPressedOnCard: () {
+            Navigator.of(context).pushNamed(AppRoutesNames.podcastInfoScreen,
+                arguments:
+                    myFollowingPodcasts.podcastInformationEntitie[index]);
+          },
           onPressedOnLikesCount: () {
             if (myFollowingPodcasts
                     .podcastInformationEntitie[index].podcastLikesCount !=
