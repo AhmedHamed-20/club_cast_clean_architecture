@@ -37,7 +37,10 @@ class SignUpButtonWidget extends StatelessWidget {
           textColor: AppColors.white,
         );
         authBloc.add(AuthRequestStatusResset());
-        Navigator.of(context).pushNamed(AppRoutesNames.layoutScreen);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AppRoutesNames.layoutScreen,
+          (route) => false,
+        );
       } else if (state.signUpRequestStatus == SignUpRequestStatus.error) {
         flutterToast(
           msg: state.errorMessage,

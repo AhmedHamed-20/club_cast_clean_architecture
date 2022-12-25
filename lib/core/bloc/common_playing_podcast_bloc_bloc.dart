@@ -22,6 +22,9 @@ class CommonPlayingPodcastBlocBloc
     on<PodcastPausePlaying>(_pausePlayingPodcast);
     on<PodcastStopPlaying>(_stopPlayingPodcast);
     on<CurrentPositionChangeValueEvent>(_changeCurrentPositionValue);
+    on<PodcastBackGroundColorGenerateEvent>(_generateBackgroundColor);
+    on<SeekToEvent>(_seekTo);
+    on<SeekByEvent>(_seekByEvent);
   }
   late AssetsAudioPlayer myAssetAudioPlayer;
 
@@ -49,7 +52,15 @@ class CommonPlayingPodcastBlocBloc
       ),
       showNotification: true,
       notificationSettings: NotificationSettings(
-        nextEnabled: false,
+        nextEnabled: true,
+        customNextIcon: AndroidResDrawable(name: 'ic_next_custom'),
+        customPreviousIcon: AndroidResDrawable(name: 'ic_prev_custom'),
+        customNextAction: (player) {
+          add(const SeekByEvent(10));
+        },
+        customPrevAction: (player) {
+          add(const SeekByEvent(-10));
+        },
         customPlayPauseAction: (player) {
           if (player.isPlaying.value) {
             add(PodcastPausePlaying(event.podcastId));
@@ -112,11 +123,74 @@ class CommonPlayingPodcastBlocBloc
     emit(state.copyWith(currentPosition: event.currentPosition));
   }
 
-  Future<List<PaletteColor>> generateColor({required String image}) async {
+  FutureOr<void> _generateBackgroundColor(
+      PodcastBackGroundColorGenerateEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) async {
+    emit(state.copyWith(
+        podcastInfoScreenColorsGenerateRequestStatus:
+            PodcastInfoScreenColorsGenerateRequestStatus.loading,
+        backGroundColors: const []));
     final paletteGenerator = await PaletteGenerator.fromImageProvider(
-      NetworkImage(image),
+      NetworkImage(event.image),
       maximumColorCount: 20,
     );
-    return paletteGenerator.paletteColors;
+    if (paletteGenerator.colors.isNotEmpty) {
+      paletteGenerator.paletteColors;
+      emit(state.copyWith(
+          podcastInfoScreenColorsGenerateRequestStatus:
+              PodcastInfoScreenColorsGenerateRequestStatus.generated,
+          backGroundColors: paletteGenerator.paletteColors));
+    } else {
+      emit(state.copyWith(
+          podcastInfoScreenColorsGenerateRequestStatus:
+              PodcastInfoScreenColorsGenerateRequestStatus.error,
+          backGroundColors: const []));
+    }
+  }
+
+  void onPressedOnPlay(
+      {required String podcastId,
+      required String podcastUrl,
+      required String podcastName,
+      required String podcastPhoto,
+      required String podcastUserName}) {
+    if (currentPlayingPodcastsId == podcastId) {
+      add(PodcastPausePlaying(podcastId));
+    } else if (currentPausePodcastsId == podcastId) {
+      add(PodcastPlayPaused(podcastId));
+    } else {
+      add(
+        PodcastPlayEvent(
+          podcastUrl: podcastUrl,
+          podcastId: podcastId,
+          podcastName: podcastName,
+          podcastPhoto: podcastPhoto,
+          podcastUserName: podcastUserName,
+        ),
+      );
+    }
+  }
+
+  double getCurrentPlayingPosition(
+      {required int currentPosition,
+      required String podcastId,
+      required double podcastDuration}) {
+    if (currentPosition != 0 &&
+        (currentPlayingPodcastsId == podcastId ||
+            currentPausePodcastsId == podcastId)) {
+      return currentPosition.toDouble();
+    } else {
+      return podcastDuration;
+    }
+  }
+
+  FutureOr<void> _seekTo(
+      SeekToEvent event, Emitter<CommonPlayingPodcastBlocState> emit) async {
+    await myAssetAudioPlayer.seek(Duration(seconds: event.value));
+  }
+
+  FutureOr<void> _seekByEvent(
+      SeekByEvent event, Emitter<CommonPlayingPodcastBlocState> emit) async {
+    await myAssetAudioPlayer.seekBy(Duration(seconds: event.value));
   }
 }

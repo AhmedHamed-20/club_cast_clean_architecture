@@ -23,11 +23,11 @@ class AppTheme {
     backgroundColor: AppColors.backgroundColorDark,
     textTheme: TextTheme(
       titleMedium: GoogleFonts.rubik(
-        color: AppColors.white,
+        color: AppColors.titleTextColor,
         fontSize: AppFontSize.s18,
       ),
       titleLarge: GoogleFonts.rubik(
-        color: AppColors.white,
+        color: AppColors.titleTextColor,
         fontSize: AppFontSize.s18,
         fontWeight: FontWeight.bold,
       ),

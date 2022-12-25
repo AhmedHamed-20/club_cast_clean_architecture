@@ -56,3 +56,31 @@ class CurrentPositionChangeValueEvent extends CommonPlayingPodcastBlocEvent {
   @override
   List<Object?> get props => [currentPosition];
 }
+
+class PodcastBackGroundColorGenerateEvent
+    extends CommonPlayingPodcastBlocEvent {
+  final String image;
+
+  const PodcastBackGroundColorGenerateEvent(this.image);
+
+  @override
+  List<Object?> get props => [image];
+}
+
+class SeekToEvent extends CommonPlayingPodcastBlocEvent {
+  final int value;
+
+  const SeekToEvent(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}
+
+class SeekByEvent extends CommonPlayingPodcastBlocEvent {
+  final int value;
+
+  const SeekByEvent(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}

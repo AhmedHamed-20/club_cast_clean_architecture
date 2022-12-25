@@ -20,7 +20,10 @@ class LoginButtonWidget extends StatelessWidget {
           textColor: AppColors.white,
         );
         authBloc.add(AuthRequestStatusResset());
-        Navigator.of(context).pushNamed(AppRoutesNames.layoutScreen);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AppRoutesNames.layoutScreen,
+          (route) => false,
+        );
       } else if (state.loginRequestStatus == LoginRequestStatus.error) {
         flutterToast(
           msg: state.errorMessage,

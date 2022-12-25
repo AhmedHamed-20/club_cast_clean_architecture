@@ -6,19 +6,32 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final String errorMessage;
   final bool isPlaying;
   final int currentPosition;
+  final List<PaletteColor> backGroundColors;
+  final PodcastInfoScreenColorsGenerateRequestStatus
+      podcastInfoScreenColorsGenerateRequestStatus;
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
       this.currentPosition = 0,
+      this.backGroundColors = const [],
+      this.podcastInfoScreenColorsGenerateRequestStatus =
+          PodcastInfoScreenColorsGenerateRequestStatus.loading,
       this.isPlaying = false});
 
   CommonPlayingPodcastBlocState copyWith({
+    List<PaletteColor>? backGroundColors,
+    PodcastInfoScreenColorsGenerateRequestStatus?
+        podcastInfoScreenColorsGenerateRequestStatus,
     int? currentPosition,
     PlayPodcastRequestStatus? playPodcastRequestStatus,
     String? errorMessage,
     bool? isPlaying,
   }) {
     return CommonPlayingPodcastBlocState(
+      backGroundColors: backGroundColors ?? this.backGroundColors,
+      podcastInfoScreenColorsGenerateRequestStatus:
+          podcastInfoScreenColorsGenerateRequestStatus ??
+              this.podcastInfoScreenColorsGenerateRequestStatus,
       currentPosition: currentPosition ?? this.currentPosition,
       playPodcastRequestStatus:
           playPodcastRequestStatus ?? this.playPodcastRequestStatus,
@@ -28,6 +41,12 @@ class CommonPlayingPodcastBlocState extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [currentPosition, errorMessage, playPodcastRequestStatus, isPlaying];
+  List<Object> get props => [
+        currentPosition,
+        errorMessage,
+        backGroundColors,
+        playPodcastRequestStatus,
+        isPlaying,
+        podcastInfoScreenColorsGenerateRequestStatus
+      ];
 }

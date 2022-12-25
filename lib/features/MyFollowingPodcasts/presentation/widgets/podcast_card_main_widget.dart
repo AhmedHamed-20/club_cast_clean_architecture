@@ -46,36 +46,17 @@ class PodcastCardMainWdget extends StatelessWidget {
           },
           onPressedDownload: () {},
           onPressedPlay: () {
-            if (currentPlayingPodcastsId ==
-                myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastId) {
-              commanPlayPodcast.add(PodcastPausePlaying(myFollowingPodcasts
-                  .podcastInformationEntitie[index].podcastId));
-            } else if (currentPausePodcastsId ==
-                myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastId) {
-              commanPlayPodcast.add(PodcastPlayPaused(myFollowingPodcasts
-                  .podcastInformationEntitie[index].podcastId));
-            } else {
-              commanPlayPodcast.add(
-                PodcastPlayEvent(
-                  podcastUrl: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                  podcastId: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastId,
-                  podcastName: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastName,
-                  podcastPhoto: myFollowingPodcasts
-                      .podcastInformationEntitie[index]
-                      .podcastUserInfo
-                      .userImage,
-                  podcastUserName: myFollowingPodcasts
-                      .podcastInformationEntitie[index]
-                      .podcastUserInfo
-                      .userName,
-                ),
-              );
-            }
+            commanPlayPodcast.onPressedOnPlay(
+                podcastId: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastId,
+                podcastUrl: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastInfo.podcastUrl,
+                podcastName: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastName,
+                podcastPhoto: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastUserInfo.userImage,
+                podcastUserName: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastUserInfo.userName);
           },
           onPressedOnUserPhoto: () {},
           onPressedOnLikeButton: () {
@@ -98,7 +79,7 @@ class PodcastCardMainWdget extends StatelessWidget {
             }
           },
           isLiked: myFollowingPodcasts.podcastInformationEntitie[index].isLiked,
-          podcastDurathion: podcastBloc.getCurrentPlayingPosition(
+          podcastDurathion: commanPlayPodcast.getCurrentPlayingPosition(
             currentPosition: state.currentPosition,
             podcastId:
                 myFollowingPodcasts.podcastInformationEntitie[index].podcastId,

@@ -6,6 +6,12 @@ enum LoginRequestStatus {
   error,
 }
 
+enum PodcastInfoScreenColorsGenerateRequestStatus {
+  loading,
+  generated,
+  error,
+}
+
 enum PlayPodcastRequestStatus {
   idle,
   loading,
