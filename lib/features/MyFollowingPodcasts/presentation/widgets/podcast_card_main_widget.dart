@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
@@ -44,7 +46,20 @@ class PodcastCardMainWdget extends StatelessWidget {
                           .podcastInformationEntitie[index].podcastId));
             }
           },
-          onPressedDownload: () {},
+          onPressedDownload: () {
+            downloadProgress = StreamController();
+            podcastBloc.add(PodcastDownloadEvent(
+                podcastUrl: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastInfo.podcastUrl,
+                savedPath: podcastBloc
+                    .getSavedPath(
+                        podcastName: myFollowingPodcasts
+                            .podcastInformationEntitie[index].podcastName)
+                    .path,
+                podcastId: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastId,
+                downloadProgress: downloadProgress));
+          },
           onPressedPlay: () {
             commanPlayPodcast.onPressedOnPlay(
                 podcastId: myFollowingPodcasts

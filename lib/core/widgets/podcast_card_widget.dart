@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PodcastCardWidget extends StatelessWidget {
   const PodcastCardWidget({
@@ -91,12 +93,17 @@ class PodcastCardWidget extends StatelessWidget {
                                     : Icons.play_circle_outline,
                               ),
                             ),
-                            IconButton(
-                              onPressed: onPressedDownload,
-                              icon: const Icon(
-                                Icons.downloading_rounded,
-                              ),
-                            ),
+                            podcastId == currentDownloadingPodcastId
+                                ? StreamBuilder<double>(
+                                    stream: downloadProgress.stream,
+                                    builder: (context, snapshot) =>
+                                        CircularProgressIndicator(
+                                          value: snapshot.data,
+                                        ))
+                                : IconButton(
+                                    onPressed: onPressedDownload,
+                                    icon:
+                                        const Icon(Icons.downloading_outlined)),
                           ],
                         )
                       ],

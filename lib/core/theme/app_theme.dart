@@ -23,16 +23,16 @@ class AppTheme {
     backgroundColor: AppColors.backgroundColorDark,
     textTheme: TextTheme(
       titleMedium: GoogleFonts.rubik(
-        color: AppColors.titleTextColor,
+        color: AppColors.titleTextColorDark,
         fontSize: AppFontSize.s18,
       ),
       titleLarge: GoogleFonts.rubik(
-        color: AppColors.titleTextColor,
+        color: AppColors.titleTextColorDark,
         fontSize: AppFontSize.s18,
         fontWeight: FontWeight.bold,
       ),
       titleSmall: GoogleFonts.rubik(
-        color: AppColors.titleTextColor,
+        color: AppColors.titleTextColorDark,
         fontSize: AppFontSize.s16,
       ),
     ),

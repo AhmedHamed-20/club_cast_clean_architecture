@@ -10,13 +10,14 @@ class PodcastState extends Equatable {
   final MyFollowingPodcastsRequestStatus moreMyFollowingPodcastsRequestStatus;
   final bool isEndOfData;
   final bool isPlaying;
-
+  final PodcastDownloadRequestStatus podcastDownloadRequestStatus;
   const PodcastState(
       {this.myFollowingPodcasts,
       this.moreMyFollowingPodcastsRequestStatus =
           MyFollowingPodcastsRequestStatus.loading,
       this.podcastLikesUsersEntitie = const [],
       this.isPlaying = false,
+      this.podcastDownloadRequestStatus = PodcastDownloadRequestStatus.idle,
       this.isEndOfData = false,
       this.myFollowingPodcastsRequestStatus =
           MyFollowingPodcastsRequestStatus.loading,
@@ -25,6 +26,7 @@ class PodcastState extends Equatable {
       this.errorMessage = ''});
   PodcastState copyWith({
     bool? isPlaying,
+    PodcastDownloadRequestStatus? podcastDownloadRequestStatus,
     MyFollowingPodcastsRequestStatus? moreMyFollowingPodcastsRequestStatus,
     PodcastEntitie? myFollowingPodcasts,
     List<PodcastLikesUsersInfoEntitie>? podcastLikesUsersEntitie,
@@ -35,6 +37,8 @@ class PodcastState extends Equatable {
     bool? isEndOfData,
   }) {
     return PodcastState(
+      podcastDownloadRequestStatus:
+          podcastDownloadRequestStatus ?? this.podcastDownloadRequestStatus,
       isPlaying: isPlaying ?? this.isPlaying,
       isEndOfData: isEndOfData ?? this.isEndOfData,
       moreMyFollowingPodcastsRequestStatus:
@@ -58,6 +62,7 @@ class PodcastState extends Equatable {
         isPlaying,
         isEndOfData,
         moreMyFollowingPodcastsRequestStatus,
+        podcastDownloadRequestStatus,
         myFollowingPodcasts,
         podcastLikesUsersEntitie,
         myFollowingPodcastsRequestStatus,

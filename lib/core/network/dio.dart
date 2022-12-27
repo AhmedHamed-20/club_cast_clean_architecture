@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
@@ -68,6 +69,19 @@ class DioHelper {
       url!,
       queryParameters: query,
       options: Options(headers: headers),
+    );
+  }
+
+  static Future<Response<dynamic>> downloadData(
+      {required String url,
+      required String savedPath,
+      CancelToken? cancelToken,
+      void Function(int, int)? onReceive}) async {
+    return response = await dio!.download(
+      url,
+      savedPath,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceive,
     );
   }
 }

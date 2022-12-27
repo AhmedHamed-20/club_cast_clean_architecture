@@ -12,6 +12,13 @@ enum PodcastInfoScreenColorsGenerateRequestStatus {
   error,
 }
 
+enum PodcastDownloadRequestStatus {
+  idle,
+  loading,
+  downloaded,
+  error,
+}
+
 enum PlayPodcastRequestStatus {
   idle,
   loading,

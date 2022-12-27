@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../domain/usecases/get_podcast_likes_users.dart';
 import '../../domain/usecases/remove_like_by_podcast_id.dart';
@@ -21,6 +26,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
       this.followingPodcastUsecase,
       this.podcastLikesUsersUsecase,
       this.removeLikeUsecase,
+      this.podcastDownloadUsecase,
       this.moreMyFollowingPodcastsUsecase)
       : super(const PodcastState()) {
     on<GetMyFollowingPodcastsEvent>(_getMyFollowingPodcast);
@@ -28,6 +34,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     on<GetPodcastLikesUsersEvent>(_getPodcastLikesUsers);
     on<RemovePodcastLikeEvent>(_removePodcastLikeAndGetNewData);
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
+    on<PodcastDownloadEvent>(_downloadPodcast);
   }
   final FollowingPodcastUsecase followingPodcastUsecase;
   final MoreMyFollowingPodcastsUsecase moreMyFollowingPodcastsUsecase;
@@ -35,6 +42,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
   final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
   final LikeAddByIdUsecase addLikeUsecase;
   final LikeRemoveByPodcastIdUsecase removeLikeUsecase;
+  final PodcastDownloadUsecase podcastDownloadUsecase;
   FutureOr<void> _getMyFollowingPodcast(
       GetMyFollowingPodcastsEvent event, Emitter<PodcastState> emit) async {
     final result = await followingPodcastUsecase(
@@ -162,5 +170,79 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
         ));
       }
     });
+  }
+
+  Future<int> getAndroidVersion() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.version.sdkInt;
+  }
+
+  Future<bool> checkPermissions() async {
+    bool isPermissionGranted = false;
+    if (await getAndroidVersion() > 29) {
+      if (await Permission.storage.isGranted &&
+          await Permission.accessMediaLocation.isGranted &&
+          await Permission.manageExternalStorage.isGranted) {
+        isPermissionGranted = true;
+      } else {
+        await Permission.storage.request();
+        await Permission.accessMediaLocation.request();
+        await Permission.manageExternalStorage.request();
+      }
+    } else {
+      if (await Permission.storage.isGranted &&
+          await Permission.accessMediaLocation.isGranted) {
+        isPermissionGranted = true;
+      } else {
+        await Permission.storage.request();
+        await Permission.accessMediaLocation.request();
+      }
+    }
+    return isPermissionGranted;
+  }
+
+  FutureOr<void> _downloadPodcast(
+      PodcastDownloadEvent event, Emitter<PodcastState> emit) async {
+    if (await checkPermissions()) {
+      emit(state.copyWith(
+          podcastDownloadRequestStatus: PodcastDownloadRequestStatus.loading));
+      currentDownloadingPodcastId = event.podcastId;
+      final result = await podcastDownloadUsecase(PodcastDownloadParams(
+          podcastUrl: event.podcastUrl,
+          savedPath: event.savedPath,
+          receivedData: event.downloadProgress));
+      result.fold((l) {
+        emit(state.copyWith(
+            errorMessage: l.message,
+            podcastDownloadRequestStatus: PodcastDownloadRequestStatus.error));
+        currentDownloadingPodcastId = '';
+        downloadProgress.close();
+      }, (r) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            podcastDownloadRequestStatus:
+                PodcastDownloadRequestStatus.downloaded,
+          ),
+        );
+        currentDownloadingPodcastId = '';
+        downloadProgress.close();
+      });
+    } else {
+      flutterToast(
+          msg: 'Please Accept All Permissions',
+          backgroundColor: AppColors.toastError,
+          textColor: AppColors.white);
+    }
+  }
+
+  File getSavedPath({required String podcastName}) {
+    final directory = Directory('/storage/emulated/0/Youtube Downloader');
+    final removeOrSymbole = podcastName.replaceAll('|', '');
+    final fileName = removeOrSymbole.replaceAll('/', '');
+    final file = File('${directory.path}/($fileName).mp3');
+    return file;
   }
 }

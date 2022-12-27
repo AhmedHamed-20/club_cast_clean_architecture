@@ -19,7 +19,6 @@ class MainPodcastInfoWidget extends StatelessWidget {
     var commonPodcastPlayBloc =
         BlocProvider.of<CommonPlayingPodcastBlocBloc>(context);
     return Scaffold(
-      //  backgroundColor: backGroundColor.withOpacity(0.5),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -45,13 +44,14 @@ class MainPodcastInfoWidget extends StatelessWidget {
                         color: backGroundColor,
                         blurRadius: 50,
                         spreadRadius: 1,
-                        offset: const Offset(60, 40),
+                        offset: const Offset(70, 50),
                       ),
                       BoxShadow(
-                        color: Theme.of(context).backgroundColor,
+                        color:
+                            Theme.of(context).backgroundColor.withOpacity(0.6),
                         blurRadius: 50,
                         spreadRadius: 30,
-                        offset: const Offset(60, 40),
+                        offset: const Offset(70, 50),
                       ),
                     ],
                   ),

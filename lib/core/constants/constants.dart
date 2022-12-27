@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -211,3 +213,5 @@ class AppRoutesNames {
 late AssetsAudioPlayer assetsAudioPlayer;
 String currentPlayingPodcastsId = '';
 String currentPausePodcastsId = '';
+String currentDownloadingPodcastId = '';
+late StreamController<double> downloadProgress;
