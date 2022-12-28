@@ -33,6 +33,8 @@ class MyPodcastsWidget extends StatelessWidget {
                         CommonPlayingPodcastBlocState>(
                       builder: (context, commonPlayPodcastBlocState) =>
                           PodcastCardWidget(
+                              isMyProfile: true,
+                              onPressedOnRemove: () {},
                               isLiked: state.myPodcastEntite[index].isLiked,
                               podcastDurathion: commonPlayPodcastBloc
                                   .getCurrentPlayingPosition(

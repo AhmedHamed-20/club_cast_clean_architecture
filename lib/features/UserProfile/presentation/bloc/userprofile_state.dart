@@ -11,6 +11,10 @@ class UserprofileState extends Equatable {
   final EventCreateRequestStatus eventCreateRequestStatus;
   final List<MyEventEntitie> myEvents;
   final UserDataGetRequestStatus myEventRequestStatus;
+  final UserDataGetRequestStatus getMyFollowersRequestStatus;
+  final OtherUsersDataEntitie? followersData;
+  final OtherUsersDataEntitie? followingData;
+  final UserDataGetRequestStatus getMyFollowingRequestStatus;
   final BackGroundColorGenerateRequestStatus
       backGroundColorGenerateRequestStatus;
   final List<PaletteColor> backGroundColors;
@@ -18,6 +22,10 @@ class UserprofileState extends Equatable {
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.backGroundColors = const [],
+      this.followersData,
+      this.followingData,
+      this.getMyFollowersRequestStatus = UserDataGetRequestStatus.loading,
+      this.getMyFollowingRequestStatus = UserDataGetRequestStatus.loading,
       this.backGroundColorGenerateRequestStatus =
           BackGroundColorGenerateRequestStatus.loading,
       this.myEventRequestStatus = UserDataGetRequestStatus.loading,
@@ -30,6 +38,10 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
+    OtherUsersDataEntitie? followersData,
+    OtherUsersDataEntitie? followingData,
+    UserDataGetRequestStatus? getMyFollowersRequestStatus,
+    UserDataGetRequestStatus? getMyFollowingRequestStatus,
     List<PaletteColor>? backGroundColors,
     BackGroundColorGenerateRequestStatus? backGroundColorGenerateRequestStatus,
     UserDataGetRequestStatus? myEventRequestStatus,
@@ -44,6 +56,12 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      followersData: followersData ?? this.followersData,
+      followingData: followingData ?? this.followingData,
+      getMyFollowersRequestStatus:
+          getMyFollowersRequestStatus ?? this.getMyFollowersRequestStatus,
+      getMyFollowingRequestStatus:
+          getMyFollowingRequestStatus ?? this.getMyFollowingRequestStatus,
       backGroundColors: backGroundColors ?? this.backGroundColors,
       backGroundColorGenerateRequestStatus:
           backGroundColorGenerateRequestStatus ??
@@ -72,6 +90,10 @@ class UserprofileState extends Equatable {
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,
+        followersData,
+        followingData,
+        getMyFollowersRequestStatus,
+        getMyFollowingRequestStatus,
         backGroundColors,
         backGroundColorGenerateRequestStatus,
         eventCreateRequestStatus,

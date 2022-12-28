@@ -2,22 +2,24 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class PodcastCardWidget extends StatelessWidget {
-  const PodcastCardWidget({
-    super.key,
-    required this.isLiked,
-    required this.podcastDurathion,
-    required this.podcastLikes,
-    required this.podcastName,
-    required this.onPressedOnCard,
-    required this.onPressedOnUserPhoto,
-    required this.onPressedOnLikeButton,
-    required this.podcastPhoto,
-    required this.podcastUserName,
-    required this.onPressedDownload,
-    required this.onPressedPlay,
-    required this.podcastId,
-    required this.onPressedOnLikesCount,
-  });
+  const PodcastCardWidget(
+      {super.key,
+      required this.isLiked,
+      required this.podcastDurathion,
+      required this.podcastLikes,
+      required this.podcastName,
+      required this.onPressedOnCard,
+      required this.onPressedOnUserPhoto,
+      required this.onPressedOnLikeButton,
+      required this.podcastPhoto,
+      required this.podcastUserName,
+      required this.onPressedDownload,
+      required this.onPressedPlay,
+      required this.podcastId,
+      required this.onPressedOnLikesCount,
+      this.isMyProfile,
+      this.onPressedOnRemove});
+  final VoidCallback? onPressedOnRemove;
   final String podcastName;
   final String podcastPhoto;
   final String podcastUserName;
@@ -31,7 +33,7 @@ class PodcastCardWidget extends StatelessWidget {
   final VoidCallback onPressedDownload;
   final VoidCallback onPressedPlay;
   final VoidCallback onPressedOnLikesCount;
-
+  final bool? isMyProfile;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -107,6 +109,12 @@ class PodcastCardWidget extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (isMyProfile != null && isMyProfile == true)
+                    const Spacer(),
+                  if (isMyProfile != null && isMyProfile == true)
+                    IconButton(
+                        onPressed: onPressedOnRemove,
+                        icon: const Icon(Icons.clear))
                 ],
               ),
               const SizedBox(

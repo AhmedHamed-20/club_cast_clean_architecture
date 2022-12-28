@@ -1,11 +1,13 @@
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
@@ -38,4 +40,8 @@ abstract class BaseUserInfoRepository {
       LikeAddMyPodcastsParams params);
 
   Future<Either<Failure, void>> removeLike(LikeRemoveMyPodcastsParams params);
+  Future<Either<Failure, OtherUsersDataEntitie>> getFollowers(
+      FollowersFollowingParams params);
+  Future<Either<Failure, OtherUsersDataEntitie>> getFollowing(
+      FollowersFollowingParams params);
 }

@@ -11,20 +11,20 @@ class FollowersFollowingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LayoutBloc, LayoutState>(
       builder: (context, state) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Column(
-            children: [
-              Text(
-                state.userDataEntitie!.followers.toString(),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Text(
-                'Podcasts',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ],
-          ),
+          // Column(
+          //   children: [
+          //     Text(
+          //       state.userDataEntitie!.followers.toString(),
+          //       style: Theme.of(context).textTheme.titleMedium,
+          //     ),
+          //     Text(
+          //       'Podcasts',
+          //       style: Theme.of(context).textTheme.titleLarge,
+          //     ),
+          //   ],
+          // ),
           Column(
             children: [
               Text(

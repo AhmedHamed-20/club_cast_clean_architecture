@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_events_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_podcast_model.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/data/models/other_users_basic_info_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/signature_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/update_user_data_model.dart';
@@ -15,6 +16,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dio/dio.dart';
@@ -32,6 +34,8 @@ abstract class BaseUserInfoRemoteDataSource {
   Future<List<MyEventEntitie>> getMyEvents(MyEventsParams params);
   Future<void> addLike(LikeAddMyPodcastsParams params);
   Future<void> removeLike(LikeRemoveMyPodcastsParams params);
+  Future<OtherUsersDataModel> getFollowers(FollowersFollowingParams params);
+  Future<OtherUsersDataModel> getFollowing(FollowersFollowingParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -181,7 +185,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
-      return (response?.data as List)
+      return (response?.data['data'] as List)
           .map((e) => MyEventsModel.fromJson(e))
           .toList();
     } on DioError catch (e) {
@@ -216,6 +220,42 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<OtherUsersDataModel> getFollowers(
+      FollowersFollowingParams params) async {
+    try {
+      final response = await DioHelper.getData(
+        url: EndPoints.myFollowers,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
+      return OtherUsersDataModel.fromJson(response?.data);
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<OtherUsersDataModel> getFollowing(
+      FollowersFollowingParams params) async {
+    try {
+      final response = await DioHelper.getData(
+        url: EndPoints.myFollowing,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
+      return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel:

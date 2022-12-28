@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 import 'followers_following_widget.dart';
+import 'my_events_widget.dart';
 import 'my_podcasts_widget.dart';
 
 class MainUserProfileWidget extends StatelessWidget {
@@ -92,7 +93,7 @@ class MainUserProfileWidget extends StatelessWidget {
               ];
             },
             body: const TabBarView(
-              children: [MyPodcastsWidget(), Text('d')],
+              children: [MyPodcastsWidget(), MyEventsWidget()],
             ),
           )),
     );

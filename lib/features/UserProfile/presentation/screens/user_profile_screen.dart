@@ -24,12 +24,13 @@ class UserProfileScreen extends StatelessWidget {
           MyPodcastsGetEvent(
             ConstVar.accessToken,
           ),
-        ),
+        )
+        ..add(MyEventsGetEvent(ConstVar.accessToken)),
       child: BlocBuilder<UserprofileBloc, UserprofileState>(
           builder: (context, state) {
         switch (state.backGroundColorGenerateRequestStatus) {
           case BackGroundColorGenerateRequestStatus.loading:
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           case BackGroundColorGenerateRequestStatus.generated:
             return MainUserProfileWidget(userDataEntitie: userDataEntitie);
           case BackGroundColorGenerateRequestStatus.error:

@@ -168,3 +168,21 @@ class LikeRemoveMyPodcastEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken, podcastId];
 }
+
+class MyFollowersGetEvent extends UserprofileEvent {
+  final String accessToken;
+
+  const MyFollowersGetEvent(this.accessToken);
+
+  @override
+  List<Object?> get props => [accessToken];
+}
+
+class MyFollowingGetEvent extends UserprofileEvent {
+  final String accessToken;
+
+  const MyFollowingGetEvent(this.accessToken);
+
+  @override
+  List<Object?> get props => [accessToken];
+}

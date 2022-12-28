@@ -36,6 +36,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
@@ -66,6 +68,8 @@ class ServiceLocator {
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
         () => CommonPlayingPodcastBlocBloc(servicelocator()));
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+        servicelocator(),
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -125,6 +129,11 @@ class ServiceLocator {
         () => LikeAddMyPodcastsUsecast(servicelocator()));
     servicelocator.registerFactory<LikeRemoveMyPodcastsUsecast>(
         () => LikeRemoveMyPodcastsUsecast(servicelocator()));
+
+    servicelocator.registerFactory<MyFollowingGetUseCase>(
+        () => MyFollowingGetUseCase(servicelocator()));
+    servicelocator.registerFactory<MyFollowersGetUseCase>(
+        () => MyFollowersGetUseCase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
@@ -10,6 +11,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:equatable/equatable.dart';
@@ -27,6 +30,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   UserprofileBloc(
       this.myPodcastsGetUseCase,
       this.signatureGenerateUsecase,
+      this.myFollowersGetUseCase,
+      this.myFollowingGetUseCase,
       this.userDataUpdateUseCase,
       this.podcastCreateUseCase,
       this.passwordUpdateUseCase,
@@ -47,6 +52,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<BackGroundColorGenerateEvent>(_generateBackGroundImageColor);
     on<LikeAddMyPodcastEvent>(_addLike);
     on<LikeRemoveMyPodcastEvent>(_removeLike);
+    on<MyFollowersGetEvent>(_getMyFollwers);
+    on<MyFollowingGetEvent>(_getMyFollowing);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -58,6 +65,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final MyEventsGetUsecase myEventsGetUsecase;
   final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
   final LikeRemoveMyPodcastsUsecast likeRemoveByPodcastIdUsecase;
+  final MyFollowersGetUseCase myFollowersGetUseCase;
+  final MyFollowingGetUseCase myFollowingGetUseCase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -293,5 +302,37 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
       add(MyPodcastsGetEvent(event.accessToken));
     });
+  }
+
+  FutureOr<void> _getMyFollwers(
+      MyFollowersGetEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        getMyFollowersRequestStatus: UserDataGetRequestStatus.loading));
+    final result = await myFollowersGetUseCase(
+        FollowersFollowingParams(event.accessToken));
+    result.fold(
+        (l) => emit(state.copyWith(
+            getMyFollowersRequestStatus: UserDataGetRequestStatus.error,
+            errorMessage: l.message)),
+        (r) => emit(state.copyWith(
+            followersData: r,
+            getMyFollowersRequestStatus: UserDataGetRequestStatus.success,
+            errorMessage: '')));
+  }
+
+  FutureOr<void> _getMyFollowing(
+      MyFollowingGetEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        getMyFollowingRequestStatus: UserDataGetRequestStatus.loading));
+    final result = await myFollowingGetUseCase(
+        FollowersFollowingParams(event.accessToken));
+    result.fold(
+        (l) => emit(state.copyWith(
+            getMyFollowingRequestStatus: UserDataGetRequestStatus.error,
+            errorMessage: l.message)),
+        (r) => emit(state.copyWith(
+            followingData: r,
+            getMyFollowingRequestStatus: UserDataGetRequestStatus.success,
+            errorMessage: '')));
   }
 }
