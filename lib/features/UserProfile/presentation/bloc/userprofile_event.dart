@@ -137,3 +137,34 @@ class MyEventsGetEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken];
 }
+
+class BackGroundColorGenerateEvent extends UserprofileEvent {
+  final String imageUrl;
+
+  const BackGroundColorGenerateEvent(this.imageUrl);
+
+  @override
+  List<Object?> get props => [imageUrl];
+}
+
+class LikeAddMyPodcastEvent extends UserprofileEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const LikeAddMyPodcastEvent(
+      {required this.accessToken, required this.podcastId});
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}
+
+class LikeRemoveMyPodcastEvent extends UserprofileEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const LikeRemoveMyPodcastEvent(
+      {required this.accessToken, required this.podcastId});
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}

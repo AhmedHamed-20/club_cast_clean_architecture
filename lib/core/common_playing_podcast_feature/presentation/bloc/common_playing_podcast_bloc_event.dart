@@ -84,3 +84,13 @@ class SeekByEvent extends CommonPlayingPodcastBlocEvent {
   @override
   List<Object?> get props => [value];
 }
+
+class PodcastLikesUsersGetEvent extends CommonPlayingPodcastBlocEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const PodcastLikesUsersGetEvent(this.accessToken, this.podcastId);
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}

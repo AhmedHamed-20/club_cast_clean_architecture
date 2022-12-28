@@ -2,20 +2,22 @@ import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../constants/constants.dart';
-import '../utl/utls.dart';
+import '../../../constants/constants.dart';
+import '../../../utl/utls.dart';
+import '../../domain/entities/podcast_likes_users_entitie.dart';
 
 part 'common_playing_podcast_bloc_event.dart';
 part 'common_playing_podcast_bloc_state.dart';
 
 class CommonPlayingPodcastBlocBloc
     extends Bloc<CommonPlayingPodcastBlocEvent, CommonPlayingPodcastBlocState> {
-  CommonPlayingPodcastBlocBloc()
+  CommonPlayingPodcastBlocBloc(this.podcastLikesUsersUsecase)
       : super(const CommonPlayingPodcastBlocState()) {
     on<PodcastPlayEvent>(_playPodcast);
     on<PodcastPlayPaused>(_playPaused);
@@ -25,9 +27,10 @@ class CommonPlayingPodcastBlocBloc
     on<PodcastBackGroundColorGenerateEvent>(_generateBackgroundColor);
     on<SeekToEvent>(_seekTo);
     on<SeekByEvent>(_seekByEvent);
+    on<PodcastLikesUsersGetEvent>(_getPodcastLikesUser);
   }
   late AssetsAudioPlayer myAssetAudioPlayer;
-
+  final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
   FutureOr<void> _playPodcast(PodcastPlayEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     try {
@@ -128,7 +131,7 @@ class CommonPlayingPodcastBlocBloc
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     emit(state.copyWith(
         podcastInfoScreenColorsGenerateRequestStatus:
-            PodcastInfoScreenColorsGenerateRequestStatus.loading,
+            BackGroundColorGenerateRequestStatus.loading,
         backGroundColors: const []));
     final paletteGenerator = await PaletteGenerator.fromImageProvider(
       NetworkImage(event.image),
@@ -138,12 +141,12 @@ class CommonPlayingPodcastBlocBloc
       paletteGenerator.paletteColors;
       emit(state.copyWith(
           podcastInfoScreenColorsGenerateRequestStatus:
-              PodcastInfoScreenColorsGenerateRequestStatus.generated,
+              BackGroundColorGenerateRequestStatus.generated,
           backGroundColors: paletteGenerator.paletteColors));
     } else {
       emit(state.copyWith(
           podcastInfoScreenColorsGenerateRequestStatus:
-              PodcastInfoScreenColorsGenerateRequestStatus.error,
+              BackGroundColorGenerateRequestStatus.error,
           backGroundColors: const []));
     }
   }
@@ -192,5 +195,24 @@ class CommonPlayingPodcastBlocBloc
   FutureOr<void> _seekByEvent(
       SeekByEvent event, Emitter<CommonPlayingPodcastBlocState> emit) async {
     await myAssetAudioPlayer.seekBy(Duration(seconds: event.value));
+  }
+
+  FutureOr<void> _getPodcastLikesUser(PodcastLikesUsersGetEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) async {
+    emit(state.copyWith(
+        podcastsUsersLikesRequestStatus:
+            PodcastsUsersLikesRequestStatus.loading));
+    final result = await podcastLikesUsersUsecase(
+        PodcastLikesUsersparams(event.accessToken, event.podcastId));
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            podcastsUsersLikesRequestStatus:
+                PodcastsUsersLikesRequestStatus.error)),
+        (r) => emit(state.copyWith(
+            podcastLikesUsersEntitie: r,
+            errorMessage: '',
+            podcastsUsersLikesRequestStatus:
+                PodcastsUsersLikesRequestStatus.success)));
   }
 }

@@ -9,6 +9,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -125,6 +127,30 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       MyEventsParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyEvents(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addLikeToPodcast(
+      LikeAddMyPodcastsParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.addLike(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeLike(
+      LikeRemoveMyPodcastsParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.removeLike(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

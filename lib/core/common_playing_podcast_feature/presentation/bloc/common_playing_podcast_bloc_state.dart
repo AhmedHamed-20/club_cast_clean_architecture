@@ -7,27 +7,38 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final bool isPlaying;
   final int currentPosition;
   final List<PaletteColor> backGroundColors;
-  final PodcastInfoScreenColorsGenerateRequestStatus
+  final List<PodcastLikesUsersInfoEntitie> podcastLikesUsersEntitie;
+  final PodcastsUsersLikesRequestStatus podcastsUsersLikesRequestStatus;
+  final BackGroundColorGenerateRequestStatus
       podcastInfoScreenColorsGenerateRequestStatus;
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
+      this.podcastLikesUsersEntitie = const [],
+      this.podcastsUsersLikesRequestStatus =
+          PodcastsUsersLikesRequestStatus.loading,
       this.currentPosition = 0,
       this.backGroundColors = const [],
       this.podcastInfoScreenColorsGenerateRequestStatus =
-          PodcastInfoScreenColorsGenerateRequestStatus.loading,
+          BackGroundColorGenerateRequestStatus.loading,
       this.isPlaying = false});
 
   CommonPlayingPodcastBlocState copyWith({
     List<PaletteColor>? backGroundColors,
-    PodcastInfoScreenColorsGenerateRequestStatus?
+    BackGroundColorGenerateRequestStatus?
         podcastInfoScreenColorsGenerateRequestStatus,
     int? currentPosition,
+    List<PodcastLikesUsersInfoEntitie>? podcastLikesUsersEntitie,
+    PodcastsUsersLikesRequestStatus? podcastsUsersLikesRequestStatus,
     PlayPodcastRequestStatus? playPodcastRequestStatus,
     String? errorMessage,
     bool? isPlaying,
   }) {
     return CommonPlayingPodcastBlocState(
+      podcastLikesUsersEntitie:
+          podcastLikesUsersEntitie ?? this.podcastLikesUsersEntitie,
+      podcastsUsersLikesRequestStatus: podcastsUsersLikesRequestStatus ??
+          this.podcastsUsersLikesRequestStatus,
       backGroundColors: backGroundColors ?? this.backGroundColors,
       podcastInfoScreenColorsGenerateRequestStatus:
           podcastInfoScreenColorsGenerateRequestStatus ??
@@ -47,6 +58,8 @@ class CommonPlayingPodcastBlocState extends Equatable {
         backGroundColors,
         playPodcastRequestStatus,
         isPlaying,
-        podcastInfoScreenColorsGenerateRequestStatus
+        podcastInfoScreenColorsGenerateRequestStatus,
+        podcastLikesUsersEntitie,
+        podcastsUsersLikesRequestStatus,
       ];
 }

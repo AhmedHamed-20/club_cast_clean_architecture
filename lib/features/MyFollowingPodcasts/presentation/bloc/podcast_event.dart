@@ -20,15 +20,6 @@ class AddLikeToPodcastEvent extends PodcastEvent {
   List<Object> get props => [accessToken, podcastId];
 }
 
-class GetPodcastLikesUsersEvent extends PodcastEvent {
-  final String accessToken;
-  final String podcastId;
-  const GetPodcastLikesUsersEvent(
-      {required this.accessToken, required this.podcastId});
-  @override
-  List<Object> get props => [accessToken, podcastId];
-}
-
 class RemovePodcastLikeEvent extends PodcastEvent {
   final String accessToken;
   final String podcastId;

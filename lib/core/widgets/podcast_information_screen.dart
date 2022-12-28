@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/widgets/main_podcast_info_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +19,10 @@ class _PodcastInformationScreenState extends State<PodcastInformationScreen> {
   @override
   void initState() {
     BlocProvider.of<CommonPlayingPodcastBlocBloc>(context).add(
-        PodcastBackGroundColorGenerateEvent(
-            widget.podcastInformationEntitie.podcastUserInfo.userImage));
+      PodcastBackGroundColorGenerateEvent(
+        widget.podcastInformationEntitie.podcastUserInfo.userImage,
+      ),
+    );
     super.initState();
   }
 
@@ -29,17 +31,17 @@ class _PodcastInformationScreenState extends State<PodcastInformationScreen> {
     return BlocBuilder<CommonPlayingPodcastBlocBloc,
         CommonPlayingPodcastBlocState>(builder: (context, state) {
       switch (state.podcastInfoScreenColorsGenerateRequestStatus) {
-        case PodcastInfoScreenColorsGenerateRequestStatus.loading:
+        case BackGroundColorGenerateRequestStatus.loading:
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        case PodcastInfoScreenColorsGenerateRequestStatus.generated:
+        case BackGroundColorGenerateRequestStatus.generated:
           return MainPodcastInfoWidget(
               podcastInformationEntitie: widget.podcastInformationEntitie,
               backGroundColor: state.backGroundColors.first.color);
-        case PodcastInfoScreenColorsGenerateRequestStatus.error:
+        case BackGroundColorGenerateRequestStatus.error:
           return MainPodcastInfoWidget(
               podcastInformationEntitie: widget.podcastInformationEntitie,
               backGroundColor: Theme.of(context).backgroundColor);

@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
@@ -14,7 +13,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../domain/usecases/get_podcast_likes_users.dart';
 import '../../domain/usecases/remove_like_by_podcast_id.dart';
 
 part 'podcast_event.dart';
@@ -24,14 +22,12 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
   PodcastBloc(
       this.addLikeUsecase,
       this.followingPodcastUsecase,
-      this.podcastLikesUsersUsecase,
       this.removeLikeUsecase,
       this.podcastDownloadUsecase,
       this.moreMyFollowingPodcastsUsecase)
       : super(const PodcastState()) {
     on<GetMyFollowingPodcastsEvent>(_getMyFollowingPodcast);
     on<AddLikeToPodcastEvent>(_addLikeToPodcast);
-    on<GetPodcastLikesUsersEvent>(_getPodcastLikesUsers);
     on<RemovePodcastLikeEvent>(_removePodcastLikeAndGetNewData);
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
     on<PodcastDownloadEvent>(_downloadPodcast);
@@ -39,7 +35,6 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
   final FollowingPodcastUsecase followingPodcastUsecase;
   final MoreMyFollowingPodcastsUsecase moreMyFollowingPodcastsUsecase;
 
-  final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
   final LikeAddByIdUsecase addLikeUsecase;
   final LikeRemoveByPodcastIdUsecase removeLikeUsecase;
   final PodcastDownloadUsecase podcastDownloadUsecase;
@@ -81,25 +76,6 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
         ),
       );
     });
-  }
-
-  FutureOr<void> _getPodcastLikesUsers(
-      GetPodcastLikesUsersEvent event, Emitter<PodcastState> emit) async {
-    emit(state.copyWith(
-        myFollowingPodcastsUsersLikesRequestStatus:
-            MyFollowingPodcastsUsersLikesRequestStatus.loading));
-    final result = await podcastLikesUsersUsecase(
-        PodcastLikesUsersparams(event.accessToken, event.podcastId));
-    result.fold(
-        (l) => emit(state.copyWith(
-            errorMessage: l.message,
-            myFollowingPodcastsUsersLikesRequestStatus:
-                MyFollowingPodcastsUsersLikesRequestStatus.error)),
-        (r) => emit(state.copyWith(
-            errorMessage: '',
-            podcastLikesUsersEntitie: r,
-            myFollowingPodcastsUsersLikesRequestStatus:
-                MyFollowingPodcastsUsersLikesRequestStatus.success)));
   }
 
   FutureOr<void> _removePodcastLikeAndGetNewData(
@@ -230,7 +206,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
         currentDownloadingPodcastId = '';
         downloadProgress.close();
       });
-    } else {
+    } else if (await checkPermissions() == false) {
       flutterToast(
           msg: 'Please Accept All Permissions',
           backgroundColor: AppColors.toastError,

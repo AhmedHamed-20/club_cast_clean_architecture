@@ -1,20 +1,19 @@
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/entities/podcast_likes_users_entitie.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/repository/base_commo_podcast_repository.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_likes_users_entitie.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/usecase/usecase.dart';
-import '../repositories/podcast_repository.dart';
+import '../../../usecase/usecase.dart';
 
 class PodcastLikesUsersUsecase extends BaseUsecase<
     List<PodcastLikesUsersInfoEntitie>, PodcastLikesUsersparams> {
-  final BasePodcastRepository basePodcastRepository;
-
-  PodcastLikesUsersUsecase(this.basePodcastRepository);
+  final BaseCommonPodcastRepository baseCommonPodcastRepository;
+  PodcastLikesUsersUsecase(this.baseCommonPodcastRepository);
   @override
   Future<Either<Failure, List<PodcastLikesUsersInfoEntitie>>> call(
       PodcastLikesUsersparams params) async {
-    return await basePodcastRepository.getPodcastLikesUsers(params);
+    return await baseCommonPodcastRepository.getPodcastLikesUsers(params);
   }
 }
 

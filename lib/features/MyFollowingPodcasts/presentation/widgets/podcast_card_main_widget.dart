@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
@@ -41,24 +41,25 @@ class PodcastCardMainWdget extends StatelessWidget {
               Navigator.pushNamed(
                   context, AppRoutesNames.podcastUsersLikesScreen,
                   arguments: LikesUsersScreenParams(
-                      podcastBloc: podcastBloc,
                       podcastId: myFollowingPodcasts
                           .podcastInformationEntitie[index].podcastId));
             }
           },
           onPressedDownload: () {
-            downloadProgress = StreamController();
-            podcastBloc.add(PodcastDownloadEvent(
-                podcastUrl: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                savedPath: podcastBloc
-                    .getSavedPath(
-                        podcastName: myFollowingPodcasts
-                            .podcastInformationEntitie[index].podcastName)
-                    .path,
-                podcastId: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastId,
-                downloadProgress: downloadProgress));
+            if (currentDownloadingPodcastId == '') {
+              downloadProgress = StreamController();
+              podcastBloc.add(PodcastDownloadEvent(
+                  podcastUrl: myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastInfo.podcastUrl,
+                  savedPath: podcastBloc
+                      .getSavedPath(
+                          podcastName: myFollowingPodcasts
+                              .podcastInformationEntitie[index].podcastName)
+                      .path,
+                  podcastId: myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastId,
+                  downloadProgress: downloadProgress));
+            }
           },
           onPressedPlay: () {
             commanPlayPodcast.onPressedOnPlay(

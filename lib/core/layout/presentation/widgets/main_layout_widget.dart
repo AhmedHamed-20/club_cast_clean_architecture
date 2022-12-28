@@ -20,9 +20,16 @@ class MainLayoutWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                state.userDataEntitie!.userPhoto,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                    AppRoutesNames.userProfileScreen,
+                    arguments: state.userDataEntitie);
+              },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  state.userDataEntitie!.userPhoto,
+                ),
               ),
             )
           ],

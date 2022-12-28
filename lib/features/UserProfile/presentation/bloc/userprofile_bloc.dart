@@ -6,15 +6,19 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/utl/utls.dart';
 import '../../domain/usecases/podcasts/get_my_podcasts.dart';
+import '../../domain/usecases/podcasts/remove_like.dart';
 
 part 'userprofile_event.dart';
 part 'userprofile_state.dart';
@@ -28,6 +32,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.passwordUpdateUseCase,
       this.eventCreateUseCase,
       this.myEventsGetUsecase,
+      this.likeAddMyPodcastsUsecast,
+      this.likeRemoveByPodcastIdUsecase,
       this.podcastUploadUsecase)
       : super(const UserprofileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
@@ -38,6 +44,9 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<PasswordUpdateEvent>(_updatePassword);
     on<EventCreateEvent>(_createEvent);
     on<MyEventsGetEvent>(_getMyEvents);
+    on<BackGroundColorGenerateEvent>(_generateBackGroundImageColor);
+    on<LikeAddMyPodcastEvent>(_addLike);
+    on<LikeRemoveMyPodcastEvent>(_removeLike);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -47,6 +56,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final PasswordUpdateUseCase passwordUpdateUseCase;
   final EventCreateUseCase eventCreateUseCase;
   final MyEventsGetUsecase myEventsGetUsecase;
+  final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
+  final LikeRemoveMyPodcastsUsecast likeRemoveByPodcastIdUsecase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -238,5 +249,49 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
             myEventRequestStatus: UserDataGetRequestStatus.success),
       ),
     );
+  }
+
+  FutureOr<void> _generateBackGroundImageColor(
+      BackGroundColorGenerateEvent event,
+      Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        backGroundColorGenerateRequestStatus:
+            BackGroundColorGenerateRequestStatus.loading,
+        backGroundColors: const []));
+    final paletteGenerator = await PaletteGenerator.fromImageProvider(
+      NetworkImage(event.imageUrl),
+      maximumColorCount: 20,
+    );
+    if (paletteGenerator.colors.isNotEmpty) {
+      paletteGenerator.paletteColors;
+      emit(state.copyWith(
+          backGroundColorGenerateRequestStatus:
+              BackGroundColorGenerateRequestStatus.generated,
+          backGroundColors: paletteGenerator.paletteColors));
+    } else {
+      emit(state.copyWith(
+          backGroundColorGenerateRequestStatus:
+              BackGroundColorGenerateRequestStatus.error,
+          backGroundColors: const []));
+    }
+  }
+
+  FutureOr<void> _addLike(
+      LikeAddMyPodcastEvent event, Emitter<UserprofileState> emit) async {
+    final result = await likeAddMyPodcastsUsecast(LikeAddMyPodcastsParams(
+        accessToken: event.accessToken, podcastId: event.podcastId));
+    result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
+      add(MyPodcastsGetEvent(event.accessToken));
+    });
+  }
+
+  FutureOr<void> _removeLike(
+      LikeRemoveMyPodcastEvent event, Emitter<UserprofileState> emit) async {
+    final result = await likeRemoveByPodcastIdUsecase(
+        LikeRemoveMyPodcastsParams(
+            accessToken: event.accessToken, podcastId: event.podcastId));
+    result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
+      add(MyPodcastsGetEvent(event.accessToken));
+    });
   }
 }

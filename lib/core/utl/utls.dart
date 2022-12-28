@@ -6,7 +6,7 @@ enum LoginRequestStatus {
   error,
 }
 
-enum PodcastInfoScreenColorsGenerateRequestStatus {
+enum BackGroundColorGenerateRequestStatus {
   loading,
   generated,
   error,
@@ -49,7 +49,7 @@ enum MyFollowingPodcastsRequestStatus {
   error,
 }
 
-enum MyFollowingPodcastsUsersLikesRequestStatus {
+enum PodcastsUsersLikesRequestStatus {
   loading,
   success,
   error,

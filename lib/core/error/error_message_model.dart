@@ -8,7 +8,7 @@ class ServerErrorMessageModel extends Equatable {
 
   factory ServerErrorMessageModel.fromJson(Map<String, dynamic> json) {
     return ServerErrorMessageModel(
-        message: json['message'], type: json['statusCode']);
+        message: json['message'], type: json['statusCode'] ?? 0);
   }
   @override
   List<Object?> get props => [message, type];

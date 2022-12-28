@@ -11,9 +11,15 @@ class UserprofileState extends Equatable {
   final EventCreateRequestStatus eventCreateRequestStatus;
   final List<MyEventEntitie> myEvents;
   final UserDataGetRequestStatus myEventRequestStatus;
+  final BackGroundColorGenerateRequestStatus
+      backGroundColorGenerateRequestStatus;
+  final List<PaletteColor> backGroundColors;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
+      this.backGroundColors = const [],
+      this.backGroundColorGenerateRequestStatus =
+          BackGroundColorGenerateRequestStatus.loading,
       this.myEventRequestStatus = UserDataGetRequestStatus.loading,
       this.myEvents = const [],
       this.eventCreateRequestStatus = EventCreateRequestStatus.idle,
@@ -24,6 +30,8 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
+    List<PaletteColor>? backGroundColors,
+    BackGroundColorGenerateRequestStatus? backGroundColorGenerateRequestStatus,
     UserDataGetRequestStatus? myEventRequestStatus,
     List<MyEventEntitie>? myEvents,
     EventCreateRequestStatus? eventCreateRequestStatus,
@@ -36,6 +44,10 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      backGroundColors: backGroundColors ?? this.backGroundColors,
+      backGroundColorGenerateRequestStatus:
+          backGroundColorGenerateRequestStatus ??
+              this.backGroundColorGenerateRequestStatus,
       myEventRequestStatus: myEventRequestStatus ?? this.myEventRequestStatus,
       myEvents: myEvents ?? this.myEvents,
       eventCreateRequestStatus:
@@ -60,6 +72,8 @@ class UserprofileState extends Equatable {
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,
+        backGroundColors,
+        backGroundColorGenerateRequestStatus,
         eventCreateRequestStatus,
         updatePasswordRequestStatus,
         myPodcastEntite,

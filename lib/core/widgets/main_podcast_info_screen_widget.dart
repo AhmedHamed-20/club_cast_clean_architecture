@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/core/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

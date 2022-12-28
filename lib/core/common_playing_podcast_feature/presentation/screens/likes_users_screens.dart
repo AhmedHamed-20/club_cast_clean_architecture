@@ -1,10 +1,10 @@
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utl/utls.dart';
 import '../widgets/likes_users_screen_main_widget.dart';
+import '../../../utl/utls.dart';
 
 class LikesUsersScreen extends StatefulWidget {
   const LikesUsersScreen({super.key, required this.podcastId});
@@ -17,10 +17,10 @@ class _LikesUsersScreenState extends State<LikesUsersScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<PodcastBloc>(context).add(
-      GetPodcastLikesUsersEvent(
-        accessToken: ConstVar.accessToken,
-        podcastId: widget.podcastId,
+    BlocProvider.of<CommonPlayingPodcastBlocBloc>(context).add(
+      PodcastLikesUsersGetEvent(
+        ConstVar.accessToken,
+        widget.podcastId,
       ),
     );
   }
@@ -36,16 +36,17 @@ class _LikesUsersScreenState extends State<LikesUsersScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: BlocBuilder<PodcastBloc, PodcastState>(
+      body: BlocBuilder<CommonPlayingPodcastBlocBloc,
+          CommonPlayingPodcastBlocState>(
         builder: (context, state) {
-          switch (state.myFollowingPodcastsUsersLikesRequestStatus) {
-            case MyFollowingPodcastsUsersLikesRequestStatus.loading:
+          switch (state.podcastsUsersLikesRequestStatus) {
+            case PodcastsUsersLikesRequestStatus.loading:
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            case MyFollowingPodcastsUsersLikesRequestStatus.success:
+            case PodcastsUsersLikesRequestStatus.success:
               return const LikesUsersScreenMainWidget();
-            case MyFollowingPodcastsUsersLikesRequestStatus.error:
+            case PodcastsUsersLikesRequestStatus.error:
               return Center(
                 child: Text(state.errorMessage),
               );

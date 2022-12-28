@@ -1,8 +1,8 @@
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/users_card_widget.dart';
+import '../../../widgets/users_card_widget.dart';
 
 class LikesUsersScreenMainWidget extends StatelessWidget {
   const LikesUsersScreenMainWidget({
@@ -11,7 +11,8 @@ class LikesUsersScreenMainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PodcastBloc, PodcastState>(
+    return BlocBuilder<CommonPlayingPodcastBlocBloc,
+        CommonPlayingPodcastBlocState>(
       builder: (context, state) => ListView.builder(
           itemCount: state.podcastLikesUsersEntitie.length,
           itemBuilder: (context, index) {
