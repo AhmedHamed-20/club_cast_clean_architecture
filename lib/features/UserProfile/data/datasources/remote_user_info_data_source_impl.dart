@@ -14,6 +14,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
@@ -41,6 +42,8 @@ abstract class BaseUserInfoRemoteDataSource {
       MoreFollowersFollowingGetParams params);
   Future<OtherUsersDataModel> getMoreFollowing(
       MoreFollowersFollowingGetParams params);
+
+  Future<void> removePodcast(PodcastRemoveParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -297,6 +300,22 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
         'page': params.page
       });
       return OtherUsersDataModel.fromJson(response?.data);
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<void> removePodcast(PodcastRemoveParams params) async {
+    try {
+      await DioHelper.deleteData(
+        url: EndPoints.removePodCastById + params.podcastId,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel:

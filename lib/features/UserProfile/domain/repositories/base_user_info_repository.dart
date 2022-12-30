@@ -6,6 +6,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
@@ -50,4 +51,6 @@ abstract class BaseUserInfoRepository {
       MoreFollowersFollowingGetParams params);
   Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowers(
       MoreFollowersFollowingGetParams params);
+
+  Future<Either<Failure, void>> removePodcast(PodcastRemoveParams params);
 }

@@ -204,3 +204,14 @@ class MyFollowersGetMoreEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken, page];
 }
+
+class PodcastRemoveEvent extends UserprofileEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const PodcastRemoveEvent(
+      {required this.accessToken, required this.podcastId});
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}

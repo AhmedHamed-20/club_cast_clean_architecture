@@ -12,6 +12,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -204,6 +205,18 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
     try {
       final result =
           await baseUserInfoRemoteDataSource.getMoreFollowing(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removePodcast(
+      PodcastRemoveParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.removePodcast(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

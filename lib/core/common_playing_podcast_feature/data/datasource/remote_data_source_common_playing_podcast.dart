@@ -6,9 +6,13 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
+import '../../domain/usecases/download_podcast.dart';
+
 abstract class BaseCommonPlayingPodcastDataSource {
   Future<List<PodcastLikesUsersInfoModel>> getPodcastLikesUsers(
       PodcastLikesUsersparams params);
+
+  Future<void> downloadPodcast(PodcastDownloadParams params);
 }
 
 class RemoteCommonPlayingPodcastDataSource
@@ -25,6 +29,24 @@ class RemoteCommonPlayingPodcastDataSource
       return (response?.data['data'] as List)
           .map((e) => PodcastLikesUsersInfoModel.fromJson(e))
           .toList();
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<void> downloadPodcast(PodcastDownloadParams params) async {
+    try {
+      await DioHelper.downloadData(
+        url: params.podcastUrl,
+        savedPath: params.savedPath,
+        onReceive: (recieved, total) {
+          var progress = recieved / total;
+          params.receivedData.add(progress);
+        },
+      );
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel:

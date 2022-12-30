@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/constants.dart';
 import '../../../utl/utls.dart';
@@ -17,7 +21,8 @@ part 'common_playing_podcast_bloc_state.dart';
 
 class CommonPlayingPodcastBlocBloc
     extends Bloc<CommonPlayingPodcastBlocEvent, CommonPlayingPodcastBlocState> {
-  CommonPlayingPodcastBlocBloc(this.podcastLikesUsersUsecase)
+  CommonPlayingPodcastBlocBloc(
+      this.podcastLikesUsersUsecase, this.podcastDownloadUsecase)
       : super(const CommonPlayingPodcastBlocState()) {
     on<PodcastPlayEvent>(_playPodcast);
     on<PodcastPlayPaused>(_playPaused);
@@ -28,9 +33,11 @@ class CommonPlayingPodcastBlocBloc
     on<SeekToEvent>(_seekTo);
     on<SeekByEvent>(_seekByEvent);
     on<PodcastLikesUsersGetEvent>(_getPodcastLikesUser);
+    on<PodcastDownloadEvent>(_downloadPodcast);
   }
   late AssetsAudioPlayer myAssetAudioPlayer;
   final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
+  final PodcastDownloadUsecase podcastDownloadUsecase;
   FutureOr<void> _playPodcast(PodcastPlayEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     try {
@@ -214,5 +221,79 @@ class CommonPlayingPodcastBlocBloc
             errorMessage: '',
             podcastsUsersLikesRequestStatus:
                 PodcastsUsersLikesRequestStatus.success)));
+  }
+
+  FutureOr<void> _downloadPodcast(PodcastDownloadEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) async {
+    if (await checkPermissions()) {
+      emit(state.copyWith(
+          podcastDownloadRequestStatus: PodcastDownloadRequestStatus.loading));
+      currentDownloadingPodcastId = event.podcastId;
+      final result = await podcastDownloadUsecase(PodcastDownloadParams(
+          podcastUrl: event.podcastUrl,
+          savedPath: event.savedPath,
+          receivedData: event.downloadProgress));
+      result.fold((l) {
+        emit(state.copyWith(
+            errorMessage: l.message,
+            podcastDownloadRequestStatus: PodcastDownloadRequestStatus.error));
+        currentDownloadingPodcastId = '';
+        downloadProgress.close();
+      }, (r) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            podcastDownloadRequestStatus:
+                PodcastDownloadRequestStatus.downloaded,
+          ),
+        );
+        currentDownloadingPodcastId = '';
+        downloadProgress.close();
+      });
+    } else if (await checkPermissions() == false) {
+      flutterToast(
+          msg: 'Please Accept All Permissions',
+          backgroundColor: AppColors.toastError,
+          textColor: AppColors.white);
+    }
+  }
+
+  Future<int> getAndroidVersion() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.version.sdkInt;
+  }
+
+  Future<bool> checkPermissions() async {
+    bool isPermissionGranted = false;
+    if (await getAndroidVersion() > 29) {
+      if (await Permission.storage.isGranted &&
+          await Permission.accessMediaLocation.isGranted &&
+          await Permission.manageExternalStorage.isGranted) {
+        isPermissionGranted = true;
+      } else {
+        await Permission.storage.request();
+        await Permission.accessMediaLocation.request();
+        await Permission.manageExternalStorage.request();
+      }
+    } else {
+      if (await Permission.storage.isGranted &&
+          await Permission.accessMediaLocation.isGranted) {
+        isPermissionGranted = true;
+      } else {
+        await Permission.storage.request();
+        await Permission.accessMediaLocation.request();
+      }
+    }
+    return isPermissionGranted;
+  }
+
+  File getSavedPath({required String podcastName}) {
+    final directory = Directory('/storage/emulated/0/Youtube Downloader');
+    final removeOrSymbole = podcastName.replaceAll('|', '');
+    final fileName = removeOrSymbole.replaceAll('/', '');
+    final file = File('${directory.path}/($fileName).mp3');
+    return file;
   }
 }

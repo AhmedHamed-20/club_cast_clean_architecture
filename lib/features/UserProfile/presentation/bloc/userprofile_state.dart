@@ -20,10 +20,12 @@ class UserprofileState extends Equatable {
   final List<PaletteColor> backGroundColors;
   final bool isEndOfFollowersData;
   final bool isEndOfFollowingData;
+  final MyPodCastRemoveRequestStatus myPodCastRemoveRequestStatus;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.backGroundColors = const [],
+      this.myPodCastRemoveRequestStatus = MyPodCastRemoveRequestStatus.idle,
       this.followersData,
       this.followingData,
       this.isEndOfFollowersData = false,
@@ -42,6 +44,7 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
+    MyPodCastRemoveRequestStatus? myPodCastRemoveRequestStatus,
     OtherUsersDataEntitie? followersData,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
@@ -62,6 +65,8 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      myPodCastRemoveRequestStatus:
+          myPodCastRemoveRequestStatus ?? this.myPodCastRemoveRequestStatus,
       isEndOfFollowersData: isEndOfFollowersData ?? this.isEndOfFollowersData,
       isEndOfFollowingData: isEndOfFollowingData ?? this.isEndOfFollowingData,
       followersData: followersData ?? this.followersData,
@@ -95,6 +100,7 @@ class UserprofileState extends Equatable {
 
   @override
   List<Object?> get props => [
+        myPodCastRemoveRequestStatus,
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,

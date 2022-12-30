@@ -38,19 +38,3 @@ class MoreMyFollowingPodcastsGetEvent extends PodcastEvent {
   @override
   List<Object?> get props => [page, accessToken];
 }
-
-class PodcastDownloadEvent extends PodcastEvent {
-  final String podcastUrl;
-  final String savedPath;
-  final StreamController downloadProgress;
-  final String podcastId;
-  const PodcastDownloadEvent(
-      {required this.podcastUrl,
-      required this.savedPath,
-      required this.podcastId,
-      required this.downloadProgress});
-
-  @override
-  List<Object?> get props =>
-      [podcastId, podcastUrl, savedPath, downloadProgress];
-}

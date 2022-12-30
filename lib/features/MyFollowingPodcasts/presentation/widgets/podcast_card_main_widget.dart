@@ -48,10 +48,10 @@ class PodcastCardMainWdget extends StatelessWidget {
           onPressedDownload: () {
             if (currentDownloadingPodcastId == '') {
               downloadProgress = StreamController();
-              podcastBloc.add(PodcastDownloadEvent(
+              commanPlayPodcast.add(PodcastDownloadEvent(
                   podcastUrl: myFollowingPodcasts
                       .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                  savedPath: podcastBloc
+                  savedPath: commanPlayPodcast
                       .getSavedPath(
                           podcastName: myFollowingPodcasts
                               .podcastInformationEntitie[index].podcastName)

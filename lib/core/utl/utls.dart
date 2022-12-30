@@ -67,6 +67,13 @@ enum MyPodCastRequestStatus {
   error,
 }
 
+enum MyPodCastRemoveRequestStatus {
+  idle,
+  loading,
+  removed,
+  error,
+}
+
 enum UpdateUserDataRequestStatus {
   idle,
   loading,

@@ -4,7 +4,6 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
@@ -17,8 +16,6 @@ abstract class BasePodcastRemoteDataSource {
 
   Future<void> addLikeToPodcasts(LikeAddParams params);
   Future<void> removeLikeFromPodcasts(LikeRemoveByPodcastIdParams params);
-
-  Future<void> downloadPodcast(PodcastDownloadParams params);
 }
 
 class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
@@ -92,24 +89,6 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
       throw ServerException(
           serverErrorMessageModel:
               ServerErrorMessageModel.fromJson(error.response?.data));
-    }
-  }
-
-  @override
-  Future<void> downloadPodcast(PodcastDownloadParams params) async {
-    try {
-      await DioHelper.downloadData(
-        url: params.podcastUrl,
-        savedPath: params.savedPath,
-        onReceive: (recieved, total) {
-          var progress = recieved / total;
-          params.receivedData.add(progress);
-        },
-      );
-    } on DioError catch (e) {
-      throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
     }
   }
 }

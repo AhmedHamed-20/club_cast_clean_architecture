@@ -19,7 +19,7 @@ import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/download_podcast.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
@@ -33,6 +33,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -62,14 +63,14 @@ class ServiceLocator {
           servicelocator(),
           servicelocator(),
           servicelocator(),
-          servicelocator(),
         ));
 
     servicelocator.registerFactory<LayoutBloc>(
         () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
-        () => CommonPlayingPodcastBlocBloc(servicelocator()));
+        () => CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator()));
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -142,6 +143,8 @@ class ServiceLocator {
         () => MoreFollowersGetUsecase(servicelocator()));
     servicelocator.registerFactory<MoreFollowingGetUsecase>(
         () => MoreFollowingGetUsecase(servicelocator()));
+    servicelocator.registerFactory<PodcastRemoveUsecase>(
+        () => PodcastRemoveUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

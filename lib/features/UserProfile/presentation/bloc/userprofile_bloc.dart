@@ -8,6 +8,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -43,6 +44,7 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.likeRemoveByPodcastIdUsecase,
       this.moreFollowersGetUsecase,
       this.moreFollowingGetUsecase,
+      this.podcastRemoveUsecase,
       this.podcastUploadUsecase)
       : super(const UserprofileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
@@ -60,6 +62,7 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<MyFollowingGetEvent>(_getMyFollowing);
     on<MyFollowersGetMoreEvent>(_getMoreFollowers);
     on<MyFollowingGetMoreEvent>(_getMoreFollowing);
+    on<PodcastRemoveEvent>(_removePodcast);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -75,6 +78,7 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final MyFollowingGetUseCase myFollowingGetUseCase;
   final MoreFollowersGetUsecase moreFollowersGetUsecase;
   final MoreFollowingGetUsecase moreFollowingGetUsecase;
+  final PodcastRemoveUsecase podcastRemoveUsecase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -417,6 +421,24 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
           isEndOfFollowingData: true,
         ));
       }
+    });
+  }
+
+  FutureOr<void> _removePodcast(
+      PodcastRemoveEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.loading));
+    final result = await podcastRemoveUsecase(PodcastRemoveParams(
+        accessToken: event.accessToken, podcastId: event.podcastId));
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.error)),
+        (r) {
+      emit(state.copyWith(
+          errorMessage: '',
+          myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.removed));
+      add(MyPodcastsGetEvent(event.accessToken));
     });
   }
 }

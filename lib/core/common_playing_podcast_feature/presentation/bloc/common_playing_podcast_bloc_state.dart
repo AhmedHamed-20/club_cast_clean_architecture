@@ -11,12 +11,15 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final PodcastsUsersLikesRequestStatus podcastsUsersLikesRequestStatus;
   final BackGroundColorGenerateRequestStatus
       podcastInfoScreenColorsGenerateRequestStatus;
+  final PodcastDownloadRequestStatus podcastDownloadRequestStatus;
+
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
       this.podcastLikesUsersEntitie = const [],
       this.podcastsUsersLikesRequestStatus =
           PodcastsUsersLikesRequestStatus.loading,
+      this.podcastDownloadRequestStatus = PodcastDownloadRequestStatus.idle,
       this.currentPosition = 0,
       this.backGroundColors = const [],
       this.podcastInfoScreenColorsGenerateRequestStatus =
@@ -24,6 +27,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
       this.isPlaying = false});
 
   CommonPlayingPodcastBlocState copyWith({
+    PodcastDownloadRequestStatus? podcastDownloadRequestStatus,
     List<PaletteColor>? backGroundColors,
     BackGroundColorGenerateRequestStatus?
         podcastInfoScreenColorsGenerateRequestStatus,
@@ -35,6 +39,8 @@ class CommonPlayingPodcastBlocState extends Equatable {
     bool? isPlaying,
   }) {
     return CommonPlayingPodcastBlocState(
+      podcastDownloadRequestStatus:
+          podcastDownloadRequestStatus ?? this.podcastDownloadRequestStatus,
       podcastLikesUsersEntitie:
           podcastLikesUsersEntitie ?? this.podcastLikesUsersEntitie,
       podcastsUsersLikesRequestStatus: podcastsUsersLikesRequestStatus ??
@@ -56,6 +62,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
         currentPosition,
         errorMessage,
         backGroundColors,
+        podcastDownloadRequestStatus,
         playPodcastRequestStatus,
         isPlaying,
         podcastInfoScreenColorsGenerateRequestStatus,

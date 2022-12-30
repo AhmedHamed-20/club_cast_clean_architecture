@@ -94,3 +94,19 @@ class PodcastLikesUsersGetEvent extends CommonPlayingPodcastBlocEvent {
   @override
   List<Object?> get props => [accessToken, podcastId];
 }
+
+class PodcastDownloadEvent extends CommonPlayingPodcastBlocEvent {
+  final String podcastUrl;
+  final String savedPath;
+  final StreamController downloadProgress;
+  final String podcastId;
+  const PodcastDownloadEvent(
+      {required this.podcastUrl,
+      required this.savedPath,
+      required this.podcastId,
+      required this.downloadProgress});
+
+  @override
+  List<Object?> get props =>
+      [podcastId, podcastUrl, savedPath, downloadProgress];
+}

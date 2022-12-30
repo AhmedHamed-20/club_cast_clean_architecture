@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/remove_podcast_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +16,8 @@ class MyPodcastsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final commanPlayPodcast =
+        BlocProvider.of<CommonPlayingPodcastBlocBloc>(context);
     return BlocBuilder<UserprofileBloc, UserprofileState>(
       builder: (context, state) {
         final userProfileBloc = BlocProvider.of<UserprofileBloc>(context);
@@ -34,7 +37,22 @@ class MyPodcastsWidget extends StatelessWidget {
                       builder: (context, commonPlayPodcastBlocState) =>
                           PodcastCardWidget(
                               isMyProfile: true,
-                              onPressedOnRemove: () {},
+                              onPressedOnRemove: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return BlocProvider.value(
+                                        value: userProfileBloc,
+                                        child: RemovePodcastAlertDialogWidget(
+                                          podcastId: state
+                                              .myPodcastEntite[index].podcastId,
+                                          podcastName: state
+                                              .myPodcastEntite[index]
+                                              .podcastName,
+                                        ),
+                                      );
+                                    });
+                              },
                               isLiked: state.myPodcastEntite[index].isLiked,
                               podcastDurathion: commonPlayPodcastBloc
                                   .getCurrentPlayingPosition(
@@ -77,6 +95,21 @@ class MyPodcastsWidget extends StatelessWidget {
                               onPressedDownload: () {
                                 if (currentDownloadingPodcastId == '') {
                                   downloadProgress = StreamController();
+                                  if (currentDownloadingPodcastId == '') {
+                                    downloadProgress = StreamController();
+                                    commanPlayPodcast.add(PodcastDownloadEvent(
+                                        podcastUrl: state.myPodcastEntite[index]
+                                            .podcastInfo.podcastUrl,
+                                        savedPath: commanPlayPodcast
+                                            .getSavedPath(
+                                                podcastName: state
+                                                    .myPodcastEntite[index]
+                                                    .podcastName)
+                                            .path,
+                                        podcastId: state
+                                            .myPodcastEntite[index].podcastId,
+                                        downloadProgress: downloadProgress));
+                                  }
                                 }
                               },
                               onPressedPlay: () {
