@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/layout/presentation/screens/la
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/edit_profile_basic_info_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/followers_following_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +63,16 @@ class AppRoutes {
                   child: FollowersFollowingScreen(
                       myProfileFollowersFollowingScreenParams: argument),
                 ));
+      case AppRoutesNames.updateBasicUserDataInoScreen:
+        UpdateUserProfileBasicDataScreenParams arguments =
+            args as UpdateUserProfileBasicDataScreenParams;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: arguments.userprofileBloc,
+                  child: EditUserProfileBasicDataScreen(
+                      userDataEntitie: arguments.userDataEntitie),
+                ));
+
       default:
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

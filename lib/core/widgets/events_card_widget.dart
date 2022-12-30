@@ -19,6 +19,7 @@ class EventsCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Theme.of(context).backgroundColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.r22)),
       child: Padding(

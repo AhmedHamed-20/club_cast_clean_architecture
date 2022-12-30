@@ -211,6 +211,8 @@ class AppRoutesNames {
   static const String userProfileScreen = '/layout_screen/user_profile_screen';
   static const String myProfileFollowersFollowingScreen =
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen';
+  static const String updateBasicUserDataInoScreen =
+      '/layout_screen/user_profile_screen/myProfile_followers_following_screen/update_basic_user_data_info_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

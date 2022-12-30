@@ -67,7 +67,11 @@ class MyPodcastsWidget extends StatelessWidget {
                                   .myPodcastEntite[index].podcastLikesCount,
                               podcastName:
                                   state.myPodcastEntite[index].podcastName,
-                              onPressedOnCard: () {},
+                              onPressedOnCard: () {
+                                Navigator.of(context).pushNamed(
+                                    AppRoutesNames.podcastInfoScreen,
+                                    arguments: state.myPodcastEntite[index]);
+                              },
                               onPressedOnUserPhoto: () {},
                               onPressedOnLikeButton: () {
                                 if (state.myPodcastEntite[index].isLiked) {

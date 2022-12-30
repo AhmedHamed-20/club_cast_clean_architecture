@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -24,4 +25,15 @@ class MyProfileFollowersFollowingScreenParams extends Equatable {
 
   @override
   List<Object?> get props => [accessToken, isFollowers, userprofileBloc];
+}
+
+class UpdateUserProfileBasicDataScreenParams extends Equatable {
+  final UserDataEntitie userDataEntitie;
+  final UserprofileBloc userprofileBloc;
+
+  const UpdateUserProfileBasicDataScreenParams(
+      this.userDataEntitie, this.userprofileBloc);
+
+  @override
+  List<Object?> get props => [userDataEntitie, userprofileBloc];
 }

@@ -15,4 +15,21 @@ class TextEditingControllers {
       TextEditingController();
   static final TextEditingController signUpPasswordConfirmController =
       TextEditingController();
+
+  static final TextEditingController updateMyDataNameController =
+      TextEditingController();
+
+  static final TextEditingController updateMyDataEmailController =
+      TextEditingController();
+
+  static final TextEditingController updateMyDataBioController =
+      TextEditingController();
+
+  static final TextEditingController updateMyDataPasswordController =
+      TextEditingController();
+
+  static final TextEditingController updateMyDataPasswordConfirmController =
+      TextEditingController();
+  static final TextEditingController updateMyDataNewPasswordController =
+      TextEditingController();
 }

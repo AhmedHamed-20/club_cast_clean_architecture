@@ -1,7 +1,10 @@
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/photo_name_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
 import 'followers_following_widget.dart';
@@ -14,6 +17,7 @@ class MainUserProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userprofileBloc = BlocProvider.of<UserprofileBloc>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -54,7 +58,13 @@ class MainUserProfileWidget extends StatelessWidget {
                           height: AppHeight.h10,
                         ),
                         Defaults.defaultButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                                AppRoutesNames.updateBasicUserDataInoScreen,
+                                arguments:
+                                    UpdateUserProfileBasicDataScreenParams(
+                                        userDataEntitie, userprofileBloc));
+                          },
                           context: context,
                           text: 'Edit Profile',
                         ),
