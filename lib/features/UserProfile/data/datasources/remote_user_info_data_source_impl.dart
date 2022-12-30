@@ -17,6 +17,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dio/dio.dart';
@@ -36,6 +37,10 @@ abstract class BaseUserInfoRemoteDataSource {
   Future<void> removeLike(LikeRemoveMyPodcastsParams params);
   Future<OtherUsersDataModel> getFollowers(FollowersFollowingParams params);
   Future<OtherUsersDataModel> getFollowing(FollowersFollowingParams params);
+  Future<OtherUsersDataModel> getMoreFollowers(
+      MoreFollowersFollowingGetParams params);
+  Future<OtherUsersDataModel> getMoreFollowing(
+      MoreFollowersFollowingGetParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -255,6 +260,42 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
+      return OtherUsersDataModel.fromJson(response?.data);
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<OtherUsersDataModel> getMoreFollowers(
+      MoreFollowersFollowingGetParams params) async {
+    try {
+      final response =
+          await DioHelper.getData(url: EndPoints.myFollowers, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      }, query: {
+        'page': params.page
+      });
+      return OtherUsersDataModel.fromJson(response?.data);
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<OtherUsersDataModel> getMoreFollowing(
+      MoreFollowersFollowingGetParams params) async {
+    try {
+      final response =
+          await DioHelper.getData(url: EndPoints.myFollowing, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      }, query: {
+        'page': params.page
+      });
       return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(

@@ -12,6 +12,6 @@ class OtherUsersDataModel extends OtherUsersDataEntitie {
         followerFollowigDataEntite: (json['data'] as List)
             .map((e) => FollowerFollowingUserDataModel.fromJson(e))
             .toList(),
-        result: json['result']);
+        result: json['results']);
   }
 }

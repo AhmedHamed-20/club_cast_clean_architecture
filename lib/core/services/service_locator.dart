@@ -46,6 +46,8 @@ import 'package:get_it/get_it.dart';
 import '../../features/Auth/domain/usecases/login.dart';
 import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
 import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.dart';
+import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
+import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 
 final servicelocator = GetIt.instance;
@@ -68,6 +70,8 @@ class ServiceLocator {
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
         () => CommonPlayingPodcastBlocBloc(servicelocator()));
     servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+        servicelocator(),
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -134,6 +138,10 @@ class ServiceLocator {
         () => MyFollowingGetUseCase(servicelocator()));
     servicelocator.registerFactory<MyFollowersGetUseCase>(
         () => MyFollowersGetUseCase(servicelocator()));
+    servicelocator.registerFactory<MoreFollowersGetUsecase>(
+        () => MoreFollowersGetUsecase(servicelocator()));
+    servicelocator.registerFactory<MoreFollowingGetUsecase>(
+        () => MoreFollowingGetUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

@@ -8,6 +8,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
@@ -44,4 +45,9 @@ abstract class BaseUserInfoRepository {
       FollowersFollowingParams params);
   Future<Either<Failure, OtherUsersDataEntitie>> getFollowing(
       FollowersFollowingParams params);
+
+  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowing(
+      MoreFollowersFollowingGetParams params);
+  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowers(
+      MoreFollowersFollowingGetParams params);
 }

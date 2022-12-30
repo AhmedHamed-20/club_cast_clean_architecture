@@ -13,6 +13,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_following.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:equatable/equatable.dart';
@@ -39,6 +41,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.myEventsGetUsecase,
       this.likeAddMyPodcastsUsecast,
       this.likeRemoveByPodcastIdUsecase,
+      this.moreFollowersGetUsecase,
+      this.moreFollowingGetUsecase,
       this.podcastUploadUsecase)
       : super(const UserprofileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
@@ -54,6 +58,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<LikeRemoveMyPodcastEvent>(_removeLike);
     on<MyFollowersGetEvent>(_getMyFollwers);
     on<MyFollowingGetEvent>(_getMyFollowing);
+    on<MyFollowersGetMoreEvent>(_getMoreFollowers);
+    on<MyFollowingGetMoreEvent>(_getMoreFollowing);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -67,6 +73,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final LikeRemoveMyPodcastsUsecast likeRemoveByPodcastIdUsecase;
   final MyFollowersGetUseCase myFollowersGetUseCase;
   final MyFollowingGetUseCase myFollowingGetUseCase;
+  final MoreFollowersGetUsecase moreFollowersGetUsecase;
+  final MoreFollowingGetUsecase moreFollowingGetUsecase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -334,5 +342,81 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
             followingData: r,
             getMyFollowingRequestStatus: UserDataGetRequestStatus.success,
             errorMessage: '')));
+  }
+
+  FutureOr<void> _getMoreFollowers(
+      MyFollowersGetMoreEvent event, Emitter<UserprofileState> emit) async {
+    final result = await moreFollowersGetUsecase(
+        MoreFollowersFollowingGetParams(
+            accessToken: event.accessToken, page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message, isEndOfFollowersData: true)), (r) {
+      if (r.result == 0) {
+        emit(state.copyWith(
+          isEndOfFollowersData: true,
+        ));
+      } else if (r.result == 10) {
+        OtherUsersDataEntitie followersEntitie;
+        followersEntitie = state.followersData!;
+
+        followersEntitie.followerFollowigDataEntite
+            .addAll(r.followerFollowigDataEntite);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          followersData: followersEntitie,
+          isEndOfFollowersData: false,
+        ));
+      } else {
+        OtherUsersDataEntitie followersEntitie = state.followersData!;
+        followersEntitie.followerFollowigDataEntite
+            .addAll(r.followerFollowigDataEntite);
+        emit(state.copyWith(
+          errorMessage: '',
+          followersData: followersEntitie,
+          isEndOfFollowersData: true,
+        ));
+      }
+    });
+  }
+
+  FutureOr<void> _getMoreFollowing(
+      MyFollowingGetMoreEvent event, Emitter<UserprofileState> emit) async {
+    final result = await moreFollowingGetUsecase(
+        MoreFollowersFollowingGetParams(
+            accessToken: event.accessToken, page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message, isEndOfFollowingData: true)), (r) {
+      if (r.result == 0) {
+        emit(state.copyWith(
+          isEndOfFollowingData: true,
+        ));
+      } else if (r.result == 10) {
+        OtherUsersDataEntitie followingData;
+        followingData = state.followingData!;
+
+        followingData.followerFollowigDataEntite
+            .addAll(r.followerFollowigDataEntite);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          followingData: followingData,
+          isEndOfFollowingData: false,
+        ));
+      } else {
+        OtherUsersDataEntitie followingData = state.followingData!;
+        followingData.followerFollowigDataEntite
+            .addAll(r.followerFollowigDataEntite);
+        emit(state.copyWith(
+          errorMessage: '',
+          followingData: followingData,
+          isEndOfFollowingData: true,
+        ));
+      }
+    });
   }
 }

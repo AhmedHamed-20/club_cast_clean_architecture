@@ -16,6 +16,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
@@ -177,6 +178,32 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       FollowersFollowingParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getFollowing(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowers(
+      MoreFollowersFollowingGetParams params) async {
+    try {
+      final result =
+          await baseUserInfoRemoteDataSource.getMoreFollowers(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowing(
+      MoreFollowersFollowingGetParams params) async {
+    try {
+      final result =
+          await baseUserInfoRemoteDataSource.getMoreFollowing(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

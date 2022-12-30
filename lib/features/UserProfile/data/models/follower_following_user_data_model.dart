@@ -8,11 +8,18 @@ class FollowerFollowingUserDataModel extends FollowerFollowigDataEntite {
       required super.isFollowed});
 
   factory FollowerFollowingUserDataModel.fromJson(Map<String, dynamic> json) {
-    return FollowerFollowingUserDataModel(
-        userName: json['follower']['name'] ?? json['following']['name'],
-        userPhoto: json['follower']['photo'] ?? json['following']['photo'],
-        userId: json['follower']['_id'] ?? json['following']['_id'],
-        isFollowed:
-            json['follower']['isFollowed'] ?? json['following']['isFollowed']);
+    if (json['follower'] != null) {
+      return FollowerFollowingUserDataModel(
+          userName: json['follower']['name'],
+          userPhoto: json['follower']['photo'],
+          userId: json['follower']['_id'],
+          isFollowed: json['follower']['isFollowed']);
+    } else {
+      return FollowerFollowingUserDataModel(
+          userName: json['following']['name'],
+          userPhoto: json['following']['photo'],
+          userId: json['following']['_id'],
+          isFollowed: json['following']['isFollowed']);
+    }
   }
 }

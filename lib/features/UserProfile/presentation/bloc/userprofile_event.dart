@@ -186,3 +186,21 @@ class MyFollowingGetEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken];
 }
+
+class MyFollowingGetMoreEvent extends UserprofileEvent {
+  final String accessToken;
+  final String page;
+  const MyFollowingGetMoreEvent(this.accessToken, this.page);
+
+  @override
+  List<Object?> get props => [accessToken, page];
+}
+
+class MyFollowersGetMoreEvent extends UserprofileEvent {
+  final String accessToken;
+  final String page;
+  const MyFollowersGetMoreEvent(this.accessToken, this.page);
+
+  @override
+  List<Object?> get props => [accessToken, page];
+}

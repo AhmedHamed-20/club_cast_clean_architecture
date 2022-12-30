@@ -209,6 +209,8 @@ class AppRoutesNames {
       '/layout_screen/my_following_podcast_screen/users_likes_screen';
   static const String podcastInfoScreen = '/podcast_info_screen';
   static const String userProfileScreen = '/layout_screen/user_profile_screen';
+  static const String myProfileFollowersFollowingScreen =
+      '/layout_screen/user_profile_screen/myProfile_followers_following_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

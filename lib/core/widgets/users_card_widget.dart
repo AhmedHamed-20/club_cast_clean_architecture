@@ -7,10 +7,10 @@ class UserCardWidget extends StatelessWidget {
       {super.key,
       required this.userName,
       required this.userPhoto,
-      required this.createdAt});
+      this.createdAt});
   final String userName;
   final String userPhoto;
-  final String createdAt;
+  final String? createdAt;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -22,12 +22,14 @@ class UserCardWidget extends StatelessWidget {
         userName,
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      subtitle: Text(
-        DateTimeFormat.format(
-          DateTime.parse(createdAt).toLocal(),
-          format: 'D, M j, H:i',
-        ),
-      ),
+      subtitle: createdAt != null
+          ? Text(
+              DateTimeFormat.format(
+                DateTime.parse(createdAt!).toLocal(),
+                format: 'D, M j, H:i',
+              ),
+            )
+          : const SizedBox.shrink(),
     );
   }
 }

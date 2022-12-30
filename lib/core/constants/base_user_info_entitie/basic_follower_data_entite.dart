@@ -4,7 +4,7 @@ abstract class BaseFollowerFollowingDataEntite extends Equatable {
   final String userName;
   final String userPhoto;
   final String userId;
-  final String isFollowed;
+  final bool isFollowed;
 
   const BaseFollowerFollowingDataEntite(
       {required this.userName,

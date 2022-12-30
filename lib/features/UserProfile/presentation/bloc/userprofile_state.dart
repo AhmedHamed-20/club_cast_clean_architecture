@@ -18,12 +18,16 @@ class UserprofileState extends Equatable {
   final BackGroundColorGenerateRequestStatus
       backGroundColorGenerateRequestStatus;
   final List<PaletteColor> backGroundColors;
+  final bool isEndOfFollowersData;
+  final bool isEndOfFollowingData;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.backGroundColors = const [],
       this.followersData,
       this.followingData,
+      this.isEndOfFollowersData = false,
+      this.isEndOfFollowingData = false,
       this.getMyFollowersRequestStatus = UserDataGetRequestStatus.loading,
       this.getMyFollowingRequestStatus = UserDataGetRequestStatus.loading,
       this.backGroundColorGenerateRequestStatus =
@@ -39,6 +43,8 @@ class UserprofileState extends Equatable {
 
   UserprofileState copyWith({
     OtherUsersDataEntitie? followersData,
+    bool? isEndOfFollowersData,
+    bool? isEndOfFollowingData,
     OtherUsersDataEntitie? followingData,
     UserDataGetRequestStatus? getMyFollowersRequestStatus,
     UserDataGetRequestStatus? getMyFollowingRequestStatus,
@@ -56,6 +62,8 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      isEndOfFollowersData: isEndOfFollowersData ?? this.isEndOfFollowersData,
+      isEndOfFollowingData: isEndOfFollowingData ?? this.isEndOfFollowingData,
       followersData: followersData ?? this.followersData,
       followingData: followingData ?? this.followingData,
       getMyFollowersRequestStatus:
@@ -92,6 +100,8 @@ class UserprofileState extends Equatable {
         myEvents,
         followersData,
         followingData,
+        isEndOfFollowersData,
+        isEndOfFollowingData,
         getMyFollowersRequestStatus,
         getMyFollowingRequestStatus,
         backGroundColors,
