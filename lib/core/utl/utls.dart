@@ -67,10 +67,17 @@ enum MyPodCastRequestStatus {
   error,
 }
 
-enum MyPodCastRemoveRequestStatus {
+enum MyDataRemoveRequestStatus {
   idle,
   loading,
   removed,
+  error,
+}
+
+enum MyDataUpdateRequestStatus {
+  idle,
+  loading,
+  updated,
   error,
 }
 

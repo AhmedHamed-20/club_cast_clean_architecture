@@ -11,6 +11,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/data/models/up
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
@@ -44,6 +46,10 @@ abstract class BaseUserInfoRemoteDataSource {
       MoreFollowersFollowingGetParams params);
 
   Future<void> removePodcast(PodcastRemoveParams params);
+
+  Future<void> removeEvent(EventRemoveUsecaseParams params);
+
+  Future<void> updateEvent(EventUpdateUsecaseParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -316,6 +322,42 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<void> removeEvent(EventRemoveUsecaseParams params) async {
+    try {
+      await DioHelper.deleteData(
+        url: EndPoints.deleteEvent + params.eventID,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel:
+              ServerErrorMessageModel.fromJson(e.response?.data));
+    }
+  }
+
+  @override
+  Future<void> updateEvent(EventUpdateUsecaseParams params) async {
+    try {
+      await DioHelper.patchData(
+          url: EndPoints.updateEventData + params.eventID,
+          headers: {
+            'Authorization': 'Bearer ${params.accessToken}',
+          },
+          data: {
+            "title": params.eventName,
+            "description": params.eventDescription,
+            "date": params.eventDate,
+          });
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel:

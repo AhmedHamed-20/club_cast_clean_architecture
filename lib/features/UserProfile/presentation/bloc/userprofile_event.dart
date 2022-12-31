@@ -215,3 +215,38 @@ class PodcastRemoveEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken, podcastId];
 }
+
+class EventUpdateDataEvent extends UserprofileEvent {
+  final String accessToken;
+  final String eventId;
+  final String eventName;
+  final String eventDescription;
+  final String eventDate;
+
+  const EventUpdateDataEvent({
+    required this.accessToken,
+    required this.eventId,
+    required this.eventName,
+    required this.eventDescription,
+    required this.eventDate,
+  });
+
+  @override
+  List<Object?> get props => [
+        accessToken,
+        eventId,
+        eventName,
+        eventDescription,
+        eventDate,
+      ];
+}
+
+class EventRemoveEvent extends UserprofileEvent {
+  final String accessToken;
+  final String eventId;
+
+  const EventRemoveEvent({required this.accessToken, required this.eventId});
+
+  @override
+  List<Object?> get props => [accessToken, eventId];
+}

@@ -30,6 +30,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/data/repositor
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
@@ -69,7 +71,9 @@ class ServiceLocator {
         () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
         () => CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator()));
-    servicelocator.registerFactory<UserprofileBloc>(() => UserprofileBloc(
+    servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
+        servicelocator(),
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -145,6 +149,11 @@ class ServiceLocator {
         () => MoreFollowingGetUsecase(servicelocator()));
     servicelocator.registerFactory<PodcastRemoveUsecase>(
         () => PodcastRemoveUsecase(servicelocator()));
+
+    servicelocator.registerFactory<EventRemoveUsecase>(
+        () => EventRemoveUsecase(servicelocator()));
+    servicelocator.registerFactory<EventUpdateUsecase>(
+        () => EventUpdateUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

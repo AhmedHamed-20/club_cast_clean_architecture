@@ -10,7 +10,7 @@ class UpdateButtonDesignWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserprofileBloc>(context);
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return Defaults.defaultButton(
         onPressed: () {
           userProfileBloc.add(UserDataUpdateEvent(

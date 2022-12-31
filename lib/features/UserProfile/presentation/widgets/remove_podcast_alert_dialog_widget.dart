@@ -15,18 +15,18 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
   final String podcastId;
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserprofileBloc>(context);
-    return BlocConsumer<UserprofileBloc, UserprofileState>(
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
+    return BlocConsumer<UserProfileBloc, UserprofileState>(
         listener: (context, state) {
       if (state.myPodCastRemoveRequestStatus ==
-          MyPodCastRemoveRequestStatus.removed) {
+          MyDataRemoveRequestStatus.removed) {
         flutterToast(
             msg: 'Podcast Removed',
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         Navigator.of(context).pop();
       } else if (state.myPodCastRemoveRequestStatus ==
-          MyPodCastRemoveRequestStatus.error) {
+          MyDataRemoveRequestStatus.error) {
         flutterToast(
             msg: state.errorMessage,
             backgroundColor: AppColors.toastError,
@@ -35,7 +35,7 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
       }
     }, builder: (context, state) {
       switch (state.myPodCastRemoveRequestStatus) {
-        case MyPodCastRemoveRequestStatus.idle:
+        case MyDataRemoveRequestStatus.idle:
           return AlertDialog(
             backgroundColor: Theme.of(context).backgroundColor,
             shape: RoundedRectangleBorder(
@@ -76,13 +76,13 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
               )
             ],
           );
-        case MyPodCastRemoveRequestStatus.loading:
+        case MyDataRemoveRequestStatus.loading:
           return const Center(
             child: CircularProgressIndicator(),
           );
-        case MyPodCastRemoveRequestStatus.removed:
+        case MyDataRemoveRequestStatus.removed:
           return const SizedBox.shrink();
-        case MyPodCastRemoveRequestStatus.error:
+        case MyDataRemoveRequestStatus.error:
           return const SizedBox.shrink();
       }
     });

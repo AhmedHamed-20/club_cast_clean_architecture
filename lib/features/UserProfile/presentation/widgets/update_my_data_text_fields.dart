@@ -12,7 +12,7 @@ class UpdateMyDataTextFields extends StatelessWidget {
   final UserDataEntitie userDataEntitie;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserprofileBloc, UserprofileState>(
+    return BlocBuilder<UserProfileBloc, UserprofileState>(
         builder: (context, state) {
       TextEditingControllers.updateMyDataBioController.text =
           state.updatedUserDataInfoEntitie?.bio ?? userDataEntitie.bio;

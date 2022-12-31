@@ -43,7 +43,7 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserprofileBloc, UserprofileState>(
+    return BlocBuilder<UserProfileBloc, UserprofileState>(
         builder: (context, state) {
       if (widget.myProfileFollowersFollowingScreenParams.isFollowers) {
         switch (state.getMyFollowersRequestStatus) {

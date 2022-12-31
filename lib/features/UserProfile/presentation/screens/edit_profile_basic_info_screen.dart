@@ -15,7 +15,7 @@ class EditUserProfileBasicDataScreen extends StatelessWidget {
   final UserDataEntitie userDataEntitie;
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserprofileBloc>(context);
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -30,7 +30,7 @@ class EditUserProfileBasicDataScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              BlocBuilder<UserprofileBloc, UserprofileState>(
+              BlocBuilder<UserProfileBloc, UserprofileState>(
                 builder: (context, state) => Center(
                   child: CircleAvatar(
                     radius: AppRadius.r70,

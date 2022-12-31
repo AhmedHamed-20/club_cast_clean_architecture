@@ -17,7 +17,7 @@ class MainUserProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofileBloc = BlocProvider.of<UserprofileBloc>(context);
+    final userprofileBloc = BlocProvider.of<UserProfileBloc>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

@@ -20,12 +20,16 @@ class UserprofileState extends Equatable {
   final List<PaletteColor> backGroundColors;
   final bool isEndOfFollowersData;
   final bool isEndOfFollowingData;
-  final MyPodCastRemoveRequestStatus myPodCastRemoveRequestStatus;
+  final MyDataRemoveRequestStatus myPodCastRemoveRequestStatus;
+  final MyDataRemoveRequestStatus myEventRemoveRequestStatus;
+  final MyDataUpdateRequestStatus myEventUpdateRequestStatus;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.backGroundColors = const [],
-      this.myPodCastRemoveRequestStatus = MyPodCastRemoveRequestStatus.idle,
+      this.myEventRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
+      this.myEventUpdateRequestStatus = MyDataUpdateRequestStatus.idle,
+      this.myPodCastRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
       this.followersData,
       this.followingData,
       this.isEndOfFollowersData = false,
@@ -44,7 +48,9 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
-    MyPodCastRemoveRequestStatus? myPodCastRemoveRequestStatus,
+    MyDataRemoveRequestStatus? myEventRemoveRequestStatus,
+    MyDataUpdateRequestStatus? myEventUpdateRequestStatus,
+    MyDataRemoveRequestStatus? myPodCastRemoveRequestStatus,
     OtherUsersDataEntitie? followersData,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
@@ -65,6 +71,10 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      myEventRemoveRequestStatus:
+          myEventRemoveRequestStatus ?? this.myEventRemoveRequestStatus,
+      myEventUpdateRequestStatus:
+          myEventUpdateRequestStatus ?? this.myEventUpdateRequestStatus,
       myPodCastRemoveRequestStatus:
           myPodCastRemoveRequestStatus ?? this.myPodCastRemoveRequestStatus,
       isEndOfFollowersData: isEndOfFollowersData ?? this.isEndOfFollowersData,
@@ -100,6 +110,8 @@ class UserprofileState extends Equatable {
 
   @override
   List<Object?> get props => [
+        myEventRemoveRequestStatus,
+        myEventUpdateRequestStatus,
         myPodCastRemoveRequestStatus,
         myPodCastequestStatus,
         myEventRequestStatus,

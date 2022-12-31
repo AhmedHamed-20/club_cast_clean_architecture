@@ -10,6 +10,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
@@ -217,6 +219,30 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       PodcastRemoveParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.removePodcast(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeEvent(
+      EventRemoveUsecaseParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.removeEvent(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateEvent(
+      EventUpdateUsecaseParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.updateEvent(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

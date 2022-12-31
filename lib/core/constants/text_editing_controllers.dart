@@ -32,4 +32,10 @@ class TextEditingControllers {
       TextEditingController();
   static final TextEditingController updateMyDataNewPasswordController =
       TextEditingController();
+
+  static final TextEditingController editEventTitleController =
+      TextEditingController();
+
+  static final TextEditingController editEventDescriptionController =
+      TextEditingController();
 }

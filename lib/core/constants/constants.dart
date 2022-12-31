@@ -213,6 +213,9 @@ class AppRoutesNames {
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen';
   static const String updateBasicUserDataInoScreen =
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/update_basic_user_data_info_screen';
+
+  static const String editEventScreen =
+      '/layout_screen/user_profile_screen/myProfile_followers_following_screen/edit_event_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

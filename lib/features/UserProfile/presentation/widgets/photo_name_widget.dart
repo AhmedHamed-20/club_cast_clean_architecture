@@ -14,7 +14,7 @@ class PhotoAndNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BlocBuilder<UserprofileBloc, UserprofileState>(
+        BlocBuilder<UserProfileBloc, UserprofileState>(
           builder: (context, userProfileState) => Container(
             width: MediaQueryOfMethods.getAppWidth(context),
             height: MediaQueryOfMethods.getAppHeight(context) * 0.3,

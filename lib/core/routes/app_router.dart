@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/screens/signup_screen.dart';
+import '../../features/UserProfile/presentation/screens/edit_event_screen.dart';
 import '../../features/UserProfile/presentation/screens/user_profile_screen.dart';
 import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../constants/params.dart';
@@ -73,6 +74,15 @@ class AppRoutes {
                       userDataEntitie: arguments.userDataEntitie),
                 ));
 
+      case AppRoutesNames.editEventScreen:
+        EditEventScreenParams arguments = args as EditEventScreenParams;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: arguments.userprofileBloc,
+                  child: EditEventScreen(
+                    myEventEntitie: arguments.myEventEntitie,
+                  ),
+                ));
       default:
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

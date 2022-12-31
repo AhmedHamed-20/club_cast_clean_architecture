@@ -7,8 +7,10 @@ class MyFollowingEventsEntitie extends BaseEventEntitie {
       {required super.eventName,
       required super.eventDescription,
       required super.eventDate,
-      required this.userInfo});
+      required this.userInfo,
+      required super.eventId});
 
   @override
-  List<Object?> get props => [userInfo, eventDate, eventName, eventDescription];
+  List<Object?> get props =>
+      [eventId, userInfo, eventDate, eventName, eventDescription];
 }

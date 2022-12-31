@@ -2,6 +2,8 @@ import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_da
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../features/UserProfile/domain/entities/my_event_entitie.dart';
+
 class LikesUsersScreenParams extends Equatable {
   final String podcastId;
 
@@ -16,7 +18,7 @@ class LikesUsersScreenParams extends Equatable {
 class MyProfileFollowersFollowingScreenParams extends Equatable {
   final String accessToken;
   final bool isFollowers;
-  final UserprofileBloc userprofileBloc;
+  final UserProfileBloc userprofileBloc;
 
   const MyProfileFollowersFollowingScreenParams(
       {required this.accessToken,
@@ -29,11 +31,20 @@ class MyProfileFollowersFollowingScreenParams extends Equatable {
 
 class UpdateUserProfileBasicDataScreenParams extends Equatable {
   final UserDataEntitie userDataEntitie;
-  final UserprofileBloc userprofileBloc;
+  final UserProfileBloc userprofileBloc;
 
   const UpdateUserProfileBasicDataScreenParams(
       this.userDataEntitie, this.userprofileBloc);
 
   @override
   List<Object?> get props => [userDataEntitie, userprofileBloc];
+}
+
+class EditEventScreenParams extends Equatable {
+  final MyEventEntitie myEventEntitie;
+  final UserProfileBloc userprofileBloc;
+  const EditEventScreenParams(this.myEventEntitie, this.userprofileBloc);
+
+  @override
+  List<Object?> get props => [myEventEntitie, userprofileBloc];
 }

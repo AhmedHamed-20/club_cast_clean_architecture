@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
@@ -23,14 +24,15 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/utl/utls.dart';
+import '../../domain/usecases/events/remove_event.dart';
 import '../../domain/usecases/podcasts/get_my_podcasts.dart';
 import '../../domain/usecases/podcasts/remove_like.dart';
 
 part 'userprofile_event.dart';
 part 'userprofile_state.dart';
 
-class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
-  UserprofileBloc(
+class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
+  UserProfileBloc(
       this.myPodcastsGetUseCase,
       this.signatureGenerateUsecase,
       this.myFollowersGetUseCase,
@@ -45,6 +47,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.moreFollowersGetUsecase,
       this.moreFollowingGetUsecase,
       this.podcastRemoveUsecase,
+      this.eventRemoveUsecase,
+      this.eventUpdateUsecase,
       this.podcastUploadUsecase)
       : super(const UserprofileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
@@ -63,6 +67,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<MyFollowersGetMoreEvent>(_getMoreFollowers);
     on<MyFollowingGetMoreEvent>(_getMoreFollowing);
     on<PodcastRemoveEvent>(_removePodcast);
+    on<EventRemoveEvent>(_removeEvent);
+    on<EventUpdateDataEvent>(_updateEvent);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -79,6 +85,8 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final MoreFollowersGetUsecase moreFollowersGetUsecase;
   final MoreFollowingGetUsecase moreFollowingGetUsecase;
   final PodcastRemoveUsecase podcastRemoveUsecase;
+  final EventRemoveUsecase eventRemoveUsecase;
+  final EventUpdateUsecase eventUpdateUsecase;
   FutureOr<void> _getMyPodcasts(
       MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
     final result =
@@ -427,18 +435,58 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   FutureOr<void> _removePodcast(
       PodcastRemoveEvent event, Emitter<UserprofileState> emit) async {
     emit(state.copyWith(
-        myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.loading));
+        myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.loading));
     final result = await podcastRemoveUsecase(PodcastRemoveParams(
         accessToken: event.accessToken, podcastId: event.podcastId));
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
-            myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.error)),
+            myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.error)),
         (r) {
       emit(state.copyWith(
           errorMessage: '',
-          myPodCastRemoveRequestStatus: MyPodCastRemoveRequestStatus.removed));
+          myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.removed));
       add(MyPodcastsGetEvent(event.accessToken));
+    });
+  }
+
+  FutureOr<void> _removeEvent(
+      EventRemoveEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        myEventRemoveRequestStatus: MyDataRemoveRequestStatus.loading));
+    final result = await eventRemoveUsecase(EventRemoveUsecaseParams(
+        accessToken: event.accessToken, eventID: event.eventId));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            myEventRemoveRequestStatus: MyDataRemoveRequestStatus.error)), (r) {
+      emit(state.copyWith(
+          errorMessage: '',
+          myEventRemoveRequestStatus: MyDataRemoveRequestStatus.removed));
+      add(MyEventsGetEvent(event.accessToken));
+    });
+  }
+
+  FutureOr<void> _updateEvent(
+      EventUpdateDataEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        myEventUpdateRequestStatus: MyDataUpdateRequestStatus.loading));
+    final result = await eventUpdateUsecase(EventUpdateUsecaseParams(
+        accessToken: event.accessToken,
+        eventDescription: event.eventDescription,
+        eventName: event.eventName,
+        eventID: event.eventId,
+        eventDate: event.eventDate));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            myEventUpdateRequestStatus: MyDataUpdateRequestStatus.error)), (r) {
+      emit(state.copyWith(
+          errorMessage: '',
+          myEventUpdateRequestStatus: MyDataUpdateRequestStatus.updated));
+      add(MyEventsGetEvent(event.accessToken));
     });
   }
 }

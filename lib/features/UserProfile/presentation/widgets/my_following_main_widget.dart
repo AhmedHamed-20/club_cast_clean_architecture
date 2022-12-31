@@ -26,7 +26,7 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
       if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent &&
           isEndOfMyFolloweringData == false) {
-        BlocProvider.of<UserprofileBloc>(context).add(
+        BlocProvider.of<UserProfileBloc>(context).add(
           MyFollowingGetMoreEvent(
             ConstVar.accessToken,
             myFollowingPage.toString(),
@@ -47,7 +47,7 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: BlocConsumer<UserprofileBloc, UserprofileState>(
+      body: BlocConsumer<UserProfileBloc, UserprofileState>(
         listener: (context, state) {
           isEndOfMyFolloweringData = state.isEndOfFollowingData;
         },

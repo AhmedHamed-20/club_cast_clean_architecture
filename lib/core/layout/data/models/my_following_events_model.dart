@@ -6,13 +6,15 @@ class MyFollowingEventsModel extends MyFollowingEventsEntitie {
       {required super.eventName,
       required super.eventDescription,
       required super.eventDate,
-      required super.userInfo});
+      required super.userInfo,
+      required super.eventId});
 
   factory MyFollowingEventsModel.fromJson(Map<String, dynamic> json) {
     return MyFollowingEventsModel(
       eventName: json['name'],
       eventDescription: json['description'],
       eventDate: json['date'],
+      eventId: json['_id'],
       userInfo: EventUserInfoModel.fromJson(json['createdBy']),
     );
   }

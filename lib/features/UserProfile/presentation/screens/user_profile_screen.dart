@@ -14,7 +14,7 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => servicelocator<UserprofileBloc>()
+      create: (context) => servicelocator<UserProfileBloc>()
         ..add(
           BackGroundColorGenerateEvent(
             userDataEntitie.userPhoto,
@@ -26,7 +26,7 @@ class UserProfileScreen extends StatelessWidget {
           ),
         )
         ..add(MyEventsGetEvent(ConstVar.accessToken)),
-      child: BlocBuilder<UserprofileBloc, UserprofileState>(
+      child: BlocBuilder<UserProfileBloc, UserprofileState>(
           builder: (context, state) {
         switch (state.backGroundColorGenerateRequestStatus) {
           case BackGroundColorGenerateRequestStatus.loading:

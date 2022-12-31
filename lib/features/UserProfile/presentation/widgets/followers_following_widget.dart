@@ -12,7 +12,7 @@ class FollowersFollowingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserprofileBloc>(context);
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return BlocBuilder<LayoutBloc, LayoutState>(
       builder: (context, state) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

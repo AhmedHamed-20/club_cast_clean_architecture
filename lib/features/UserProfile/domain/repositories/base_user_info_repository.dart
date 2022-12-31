@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
@@ -17,6 +18,7 @@ import 'package:dartz/dartz.dart';
 import '../../data/models/podcast_upload_model.dart';
 import '../entities/signature_entitie.dart';
 import '../usecases/events/get_my_events.dart';
+import '../usecases/events/remove_event.dart';
 import '../usecases/podcasts/remove_like.dart';
 import '../usecases/upload_podcast_usecase/generate_signature.dart';
 import '../usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -53,4 +55,6 @@ abstract class BaseUserInfoRepository {
       MoreFollowersFollowingGetParams params);
 
   Future<Either<Failure, void>> removePodcast(PodcastRemoveParams params);
+  Future<Either<Failure, void>> updateEvent(EventUpdateUsecaseParams params);
+  Future<Either<Failure, void>> removeEvent(EventRemoveUsecaseParams params);
 }
