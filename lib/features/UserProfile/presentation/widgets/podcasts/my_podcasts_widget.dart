@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/remove_podcast_alert_dialog_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/podcasts/remove_podcast_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
-import '../../../../core/constants/params.dart';
-import '../../../../core/utl/utls.dart';
+import '../../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../../../../../core/constants/params.dart';
+import '../../../../../core/utl/utls.dart';
 
 class MyPodcastsWidget extends StatelessWidget {
   const MyPodcastsWidget({super.key});

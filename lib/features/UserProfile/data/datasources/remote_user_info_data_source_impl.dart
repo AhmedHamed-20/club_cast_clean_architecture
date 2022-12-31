@@ -180,7 +180,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
         data: {
           "name": params.eventName,
           "description": params.eventDescription,
-          "date": "${params.eventDate}, ${params.eventTime}"
+          "date": params.eventDate,
         },
       );
     } on DioError catch (e) {

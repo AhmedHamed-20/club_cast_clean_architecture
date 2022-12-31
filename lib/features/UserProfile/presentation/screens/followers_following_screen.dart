@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/params.dart';
 import '../../../../core/utl/utls.dart';
-import '../widgets/my_followers_main_widget.dart';
-import '../widgets/my_following_main_widget.dart';
+import '../widgets/my_profile_data/my_followers_main_widget.dart';
+import '../widgets/my_profile_data/my_following_main_widget.dart';
 
 class FollowersFollowingScreen extends StatefulWidget {
   const FollowersFollowingScreen(

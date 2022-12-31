@@ -3,9 +3,9 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/constants/text_editing_controllers.dart';
-import '../../../../core/widgets/defaults.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/constants/text_editing_controllers.dart';
+import '../../../../../core/widgets/defaults.dart';
 
 class UpdateMyDataTextFields extends StatelessWidget {
   const UpdateMyDataTextFields({super.key, required this.userDataEntitie});

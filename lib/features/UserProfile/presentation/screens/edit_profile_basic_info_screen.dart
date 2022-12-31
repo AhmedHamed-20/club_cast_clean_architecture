@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/layout/domain/entities/user_data_entitie.dart';
-import '../widgets/change_password_bottom_sheet_widget.dart';
-import '../widgets/update_data_button_widget.dart';
-import '../widgets/update_my_data_text_fields.dart';
+import '../widgets/change_profile_data/change_password_bottom_sheet_widget.dart';
+import '../widgets/change_profile_data/update_data_button_widget.dart';
+import '../widgets/change_profile_data/update_my_data_text_fields.dart';
 
 class EditUserProfileBasicDataScreen extends StatelessWidget {
   const EditUserProfileBasicDataScreen(

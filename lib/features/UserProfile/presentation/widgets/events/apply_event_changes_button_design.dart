@@ -2,11 +2,11 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/edite_date_edit_event_screen_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/edit_date_edit_event_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/userprofile_bloc.dart';
+import '../../bloc/userprofile_bloc.dart';
 
 class ApplyEventChangesButtonDesign extends StatelessWidget {
   const ApplyEventChangesButtonDesign(

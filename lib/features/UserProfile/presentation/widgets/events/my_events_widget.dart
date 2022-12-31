@@ -1,11 +1,12 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
+import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utl/utls.dart';
+import '../../../../../core/utl/utls.dart';
 
 class MyEventsWidget extends StatelessWidget {
   const MyEventsWidget({super.key});
@@ -21,21 +22,44 @@ class MyEventsWidget extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           case UserDataGetRequestStatus.success:
-            return ListView.builder(
-                itemCount: state.myEvents.length,
-                itemBuilder: (context, index) => EventsCardWidget(
-                    onPressedOnEdit: () {
+            return Column(
+              children: [
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Defaults.defaultTextButton(
+                    child: Text(
+                      'Create Event',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    ),
+                    onPressed: () {
                       Navigator.of(context).pushNamed(
-                        AppRoutesNames.editEventScreen,
-                        arguments: EditEventScreenParams(
-                          state.myEvents[index],
-                          userprofileBloc,
-                        ),
-                      );
+                          AppRoutesNames.createEventScreen,
+                          arguments: CreateEventScreenParams(userprofileBloc));
                     },
-                    date: state.myEvents[index].eventDate,
-                    eventDescription: state.myEvents[index].eventDescription,
-                    eventsTitle: state.myEvents[index].eventName));
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: state.myEvents.length,
+                      itemBuilder: (context, index) => EventsCardWidget(
+                          onPressedOnEdit: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutesNames.editEventScreen,
+                              arguments: EditEventScreenParams(
+                                state.myEvents[index],
+                                userprofileBloc,
+                              ),
+                            );
+                          },
+                          date: state.myEvents[index].eventDate,
+                          eventDescription:
+                              state.myEvents[index].eventDescription,
+                          eventsTitle: state.myEvents[index].eventName)),
+                ),
+              ],
+            );
           case UserDataGetRequestStatus.error:
             return Center(
               child: Text(state.errorMessage),

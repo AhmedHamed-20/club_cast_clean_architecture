@@ -48,3 +48,11 @@ class EditEventScreenParams extends Equatable {
   @override
   List<Object?> get props => [myEventEntitie, userprofileBloc];
 }
+
+class CreateEventScreenParams extends Equatable {
+  final UserProfileBloc userprofileBloc;
+  const CreateEventScreenParams(this.userprofileBloc);
+
+  @override
+  List<Object?> get props => [userprofileBloc];
+}

@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/update_passwod_text_fields.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_passwod_text_fields.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswodBottomSheetWidget extends StatelessWidget {

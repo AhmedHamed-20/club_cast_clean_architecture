@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/utl/utls.dart';
-import '../bloc/userprofile_bloc.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/utl/utls.dart';
+import '../../bloc/userprofile_bloc.dart';
 
 class DeleteEventAlertDialogWidget extends StatelessWidget {
   const DeleteEventAlertDialogWidget({

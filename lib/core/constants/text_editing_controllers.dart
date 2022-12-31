@@ -38,4 +38,10 @@ class TextEditingControllers {
 
   static final TextEditingController editEventDescriptionController =
       TextEditingController();
+
+  static final TextEditingController createEventTitleController =
+      TextEditingController();
+
+  static final TextEditingController createEventDescriptionController =
+      TextEditingController();
 }

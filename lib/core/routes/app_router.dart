@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/layout/presentation/screens/la
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/edit_profile_basic_info_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/followers_following_screen.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,13 @@ class AppRoutes {
                   child: EditEventScreen(
                     myEventEntitie: arguments.myEventEntitie,
                   ),
+                ));
+      case AppRoutesNames.createEventScreen:
+        CreateEventScreenParams arguments = args as CreateEventScreenParams;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: arguments.userprofileBloc,
+                  child: const CreateEventScreen(),
                 ));
       default:
         return MaterialPageRoute(builder: (context) {

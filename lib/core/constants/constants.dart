@@ -216,6 +216,8 @@ class AppRoutesNames {
 
   static const String editEventScreen =
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/edit_event_screen';
+  static const String createEventScreen =
+      '/layout_screen/user_profile_screen/myProfile_followers_following_screen/create_event_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

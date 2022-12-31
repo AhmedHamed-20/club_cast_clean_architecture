@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/update_passwod_button_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_passwod_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class UpdatePasswordTextFields extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/update_button_design_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_button_design_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utl/utls.dart';
+import '../../../../../core/utl/utls.dart';
 
 class UpdateDataButtonWidget extends StatelessWidget {
   const UpdateDataButtonWidget({super.key});

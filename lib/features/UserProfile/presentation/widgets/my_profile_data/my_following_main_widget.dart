@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/users_card_widget.dart';
+import '../../../../../core/widgets/users_card_widget.dart';
 
 int myFollowingPage = 2;
 bool isEndOfMyFolloweringData = false;

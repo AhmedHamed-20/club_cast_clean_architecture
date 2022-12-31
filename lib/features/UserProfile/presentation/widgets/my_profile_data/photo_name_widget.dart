@@ -3,8 +3,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/constants/media_query_of_methods.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/constants/media_query_of_methods.dart';
 
 class PhotoAndNameWidget extends StatelessWidget {
   const PhotoAndNameWidget({Key? key, required this.userDataEntitie})

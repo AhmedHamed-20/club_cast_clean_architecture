@@ -249,19 +249,21 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     emit(state.copyWith(
         eventCreateRequestStatus: EventCreateRequestStatus.loading));
     final result = await eventCreateUseCase(EventCreateParams(
-        accessToken: event.accessToken,
-        eventName: event.eventName,
-        eventDescription: event.eventDescription,
-        eventDate: event.eventDate,
-        eventTime: event.eventTime));
+      accessToken: event.accessToken,
+      eventName: event.eventName,
+      eventDescription: event.eventDescription,
+      eventDate: event.eventDate,
+    ));
 
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
-            eventCreateRequestStatus: EventCreateRequestStatus.error)),
-        (r) => emit(state.copyWith(
-            errorMessage: '',
-            eventCreateRequestStatus: EventCreateRequestStatus.success)));
+            eventCreateRequestStatus: EventCreateRequestStatus.error)), (r) {
+      emit(state.copyWith(
+          errorMessage: '',
+          eventCreateRequestStatus: EventCreateRequestStatus.success));
+      add(MyEventsGetEvent(event.accessToken));
+    });
   }
 
   FutureOr<void> _getMyEvents(

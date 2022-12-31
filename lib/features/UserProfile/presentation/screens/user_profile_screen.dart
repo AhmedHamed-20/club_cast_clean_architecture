@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/main_user_profile_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/my_profile_data/main_user_profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

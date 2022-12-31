@@ -19,21 +19,19 @@ class EventCreateParams extends Equatable {
   final String eventName;
   final String eventDescription;
   final String eventDate;
-  final String eventTime;
 
-  const EventCreateParams(
-      {required this.accessToken,
-      required this.eventName,
-      required this.eventDescription,
-      required this.eventDate,
-      required this.eventTime});
+  const EventCreateParams({
+    required this.accessToken,
+    required this.eventName,
+    required this.eventDescription,
+    required this.eventDate,
+  });
 
   @override
   List<Object?> get props => [
         accessToken,
         eventDate,
         eventName,
-        eventTime,
         eventDescription,
       ];
 }

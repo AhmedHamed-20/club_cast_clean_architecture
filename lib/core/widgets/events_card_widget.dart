@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 
 class EventsCardWidget extends StatelessWidget {
@@ -36,34 +37,40 @@ class EventsCardWidget extends StatelessWidget {
                     ),
                   )
                 : const SizedBox.shrink(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  eventsTitle,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: AppHeight.h6,
-                ),
-                eventUserName != null
-                    ? Padding(
-                        padding: const EdgeInsets.all(AppPadding.p8),
-                        child: Text(
-                          'From $eventUserName',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-                Text(
-                  eventDescription,
-                  style: Theme.of(context).textTheme.titleSmall,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                ),
-              ],
-            ),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                eventsTitle,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(
+                height: AppHeight.h6,
+              ),
+              eventUserName != null
+                  ? Padding(
+                      padding: const EdgeInsets.all(AppPadding.p8),
+                      child: Text(
+                        'From $eventUserName',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              Text(
+                eventDescription,
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+              ),
+              const SizedBox(
+                height: AppHeight.h6,
+              ),
+              Text(
+                  DateTimeFormat.format(
+                    DateTime.parse(date),
+                    format: 'd/M/Y, H:i',
+                  ),
+                  style: Theme.of(context).textTheme.titleSmall),
+            ]),
             if (eventUserPhoto == null && eventUserName == null) const Spacer(),
             if (eventUserPhoto == null && eventUserName == null)
               Align(
