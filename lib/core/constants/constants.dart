@@ -218,6 +218,8 @@ class AppRoutesNames {
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/edit_event_screen';
   static const String createEventScreen =
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/create_event_screen';
+  static const String uploadPodcastScreen =
+      '/layout_screen/user_profile_screen/myProfile_followers_following_screen/upload_podcast_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;
@@ -225,3 +227,4 @@ String currentPlayingPodcastsId = '';
 String currentPausePodcastsId = '';
 String currentDownloadingPodcastId = '';
 late StreamController<double> downloadProgress;
+late StreamController<double> uploadProgress;

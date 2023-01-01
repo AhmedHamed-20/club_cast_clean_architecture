@@ -4,6 +4,8 @@ import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_da
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../usecase/usecase.dart';
+import '../entities/category_entitie.dart';
 import '../usecases/get_active_user_data.dart';
 import '../usecases/get_my_following_events.dart';
 
@@ -15,4 +17,6 @@ abstract class BaseLayoutRepository {
 
   Future<Either<Failure, List<MyFollowingEventsEntitie>>> getMyFollowingEvents(
       MyFollowingEventsParams params);
+
+  Future<Either<Failure, CategoryEntitie>> getCategories(NoParams params);
 }

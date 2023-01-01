@@ -17,8 +17,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LayoutBloc>(context)
-        .add(ActiveUserDataGetEvent(ConstVar.accessToken));
+    final layoutBloc = BlocProvider.of<LayoutBloc>(context);
+    layoutBloc.add(ActiveUserDataGetEvent(ConstVar.accessToken));
+    layoutBloc.add(const CategoriesGetEvent());
   }
 
   @override

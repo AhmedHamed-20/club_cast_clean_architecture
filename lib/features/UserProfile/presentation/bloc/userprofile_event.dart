@@ -15,22 +15,48 @@ class MyPodcastsGetEvent extends UserprofileEvent {
 class SignatureGenerateEventEvent extends UserprofileEvent {
   final String accessToken;
   final String filePath;
-  const SignatureGenerateEventEvent(this.accessToken, this.filePath);
+  final String podcastName;
+  final String podcastCategory;
+  final CancelToken cancelToken;
+  final StreamController uploadProgress;
+  const SignatureGenerateEventEvent({
+    required this.filePath,
+    required this.accessToken,
+    required this.cancelToken,
+    required this.uploadProgress,
+    required this.podcastName,
+    required this.podcastCategory,
+  });
   @override
-  List<Object?> get props => [accessToken, filePath];
+  List<Object?> get props => [
+        accessToken,
+        filePath,
+        podcastName,
+        cancelToken,
+        uploadProgress,
+        podcastCategory
+      ];
 }
 
 class UploadPodcastEvent extends UserprofileEvent {
   final String filePath;
   final String accessToken;
-  final String timestamp;
+  final int timestamp;
+  final String podcastCategory;
+  final StreamController uploadProgress;
+  final String podcastName;
+  final CancelToken cancelToken;
   final String cloudName;
   final String apiKey;
   final String signature;
 
   const UploadPodcastEvent({
     required this.filePath,
+    required this.podcastCategory,
     required this.accessToken,
+    required this.cancelToken,
+    required this.uploadProgress,
+    required this.podcastName,
     required this.timestamp,
     required this.cloudName,
     required this.apiKey,
@@ -44,7 +70,11 @@ class UploadPodcastEvent extends UserprofileEvent {
         timestamp,
         cloudName,
         apiKey,
+        podcastCategory,
         signature,
+        cancelToken,
+        uploadProgress,
+        podcastName,
       ];
 }
 
@@ -247,4 +277,18 @@ class EventRemoveEvent extends UserprofileEvent {
 
   @override
   List<Object?> get props => [accessToken, eventId];
+}
+
+class PickPodcastFileEvent extends UserprofileEvent {
+  const PickPodcastFileEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ClearPodcastFileEvent extends UserprofileEvent {
+  const ClearPodcastFileEvent();
+
+  @override
+  List<Object?> get props => [];
 }

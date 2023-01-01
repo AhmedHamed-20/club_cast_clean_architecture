@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../data/models/podcast_upload_model.dart';
@@ -20,8 +23,11 @@ class PodcastUploadUsecase
 
 class PodcastUploadParams extends Equatable {
   final String filePath;
+  final String podcastName;
+  final CancelToken cancelToken;
   final String accessToken;
-  final String timestamp;
+  final StreamController uploadController;
+  final int timestamp;
   final String cloudName;
   final String apiKey;
   final String signature;
@@ -30,6 +36,9 @@ class PodcastUploadParams extends Equatable {
       {required this.accessToken,
       required this.timestamp,
       required this.filePath,
+      required this.podcastName,
+      required this.cancelToken,
+      required this.uploadController,
       required this.cloudName,
       required this.apiKey,
       required this.signature});
@@ -39,7 +48,10 @@ class PodcastUploadParams extends Equatable {
         accessToken,
         timestamp,
         signature,
+        uploadController,
+        podcastName,
         apiKey,
+        cancelToken,
         cloudName,
         filePath,
         accessToken,

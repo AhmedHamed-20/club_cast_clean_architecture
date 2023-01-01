@@ -9,7 +9,7 @@ class SignatureModel extends SignatureEntitie {
 
   factory SignatureModel.fromJson(Map<String, dynamic> json) {
     return SignatureModel(
-      apiKey: json['apoKey'],
+      apiKey: json['apiKey'],
       cloudName: json['cloudName'],
       signature: json['signature'],
       timestamp: json['timestamp'],

@@ -36,11 +36,13 @@ class DioHelper {
     Map<String, dynamic>? headers,
     ProgressCallback? onReceiveProgress,
     ProgressCallback? onSendProgress,
+    CancelToken? cancelToken,
   }) async {
     return response = await dio?.post(
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       url,
+      cancelToken: cancelToken,
       data: data,
       options: Options(headers: headers),
     );

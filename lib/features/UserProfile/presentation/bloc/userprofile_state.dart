@@ -23,6 +23,7 @@ class UserprofileState extends Equatable {
   final MyDataRemoveRequestStatus myPodCastRemoveRequestStatus;
   final MyDataRemoveRequestStatus myEventRemoveRequestStatus;
   final MyDataUpdateRequestStatus myEventUpdateRequestStatus;
+  final String pickedPodcastFilePath;
   const UserprofileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
@@ -31,6 +32,7 @@ class UserprofileState extends Equatable {
       this.myEventUpdateRequestStatus = MyDataUpdateRequestStatus.idle,
       this.myPodCastRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
       this.followersData,
+      this.pickedPodcastFilePath = '',
       this.followingData,
       this.isEndOfFollowersData = false,
       this.isEndOfFollowingData = false,
@@ -48,6 +50,7 @@ class UserprofileState extends Equatable {
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
   UserprofileState copyWith({
+    String? pickedPodcastFilePath,
     MyDataRemoveRequestStatus? myEventRemoveRequestStatus,
     MyDataUpdateRequestStatus? myEventUpdateRequestStatus,
     MyDataRemoveRequestStatus? myPodCastRemoveRequestStatus,
@@ -71,6 +74,8 @@ class UserprofileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserprofileState(
+      pickedPodcastFilePath:
+          pickedPodcastFilePath ?? this.pickedPodcastFilePath,
       myEventRemoveRequestStatus:
           myEventRemoveRequestStatus ?? this.myEventRemoveRequestStatus,
       myEventUpdateRequestStatus:
@@ -116,6 +121,7 @@ class UserprofileState extends Equatable {
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,
+        pickedPodcastFilePath,
         followersData,
         followingData,
         isEndOfFollowersData,

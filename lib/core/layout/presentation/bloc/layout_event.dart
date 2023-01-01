@@ -39,3 +39,10 @@ class BottomNavIndexChangeEvent extends LayoutEvent {
   @override
   List<Object?> get props => [index];
 }
+
+class CategoriesGetEvent extends LayoutEvent {
+  const CategoriesGetEvent();
+
+  @override
+  List<Object?> get props => [];
+}

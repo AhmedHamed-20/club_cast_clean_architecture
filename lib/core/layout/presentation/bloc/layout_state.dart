@@ -8,9 +8,13 @@ class LayoutState extends Equatable {
   final List<MyFollowingEventsEntitie> myFollowingEventsEntitie;
   final UserDataGetRequestStatus myFollowingEventsRequestStatus;
   final int currentBottomNavIndex;
+  final UserDataGetRequestStatus categoriesRequestStatus;
+  final CategoryEntitie? categoryEntitie;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
+      this.categoryEntitie,
+      this.categoriesRequestStatus = UserDataGetRequestStatus.loading,
       this.currentBottomNavIndex = 0,
       this.myFollowingEventsEntitie = const [],
       this.myFollowingEventsRequestStatus = UserDataGetRequestStatus.loading,
@@ -18,6 +22,8 @@ class LayoutState extends Equatable {
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   LayoutState copyWith({
+    CategoryEntitie? categoryEntitie,
+    UserDataGetRequestStatus? categoriesRequestStatus,
     int? currentBottomNavIndex,
     List<MyFollowingEventsEntitie>? myFollowingEventsEntitie,
     UserDataGetRequestStatus? myFollowingEventsRequestStatus,
@@ -27,6 +33,9 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      categoryEntitie: categoryEntitie ?? this.categoryEntitie,
+      categoriesRequestStatus:
+          categoriesRequestStatus ?? this.categoriesRequestStatus,
       currentBottomNavIndex:
           currentBottomNavIndex ?? this.currentBottomNavIndex,
       myFollowingEventsEntitie:
@@ -44,6 +53,8 @@ class LayoutState extends Equatable {
 
   @override
   List<Object?> get props => [
+        categoriesRequestStatus,
+        categoryEntitie,
         userDataGetRequestStatus,
         userDataEntitie,
         errorMessage,

@@ -43,7 +43,7 @@ class EndPoints {
       '$baseUrl/v1/podcasts/likes/$podcastId';
 
   static String uploadPodcast({
-    required String timestamp,
+    required int timestamp,
     required String apiKey,
     required String cloudName,
     required String signature,

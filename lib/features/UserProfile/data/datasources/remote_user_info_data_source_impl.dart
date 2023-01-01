@@ -24,6 +24,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../../domain/usecases/upload_podcast_usecase/generate_signature.dart';
 
@@ -90,23 +91,34 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<PodcastUploadModel> uploadPodcast(PodcastUploadParams params) async {
     try {
       final respone = await DioHelper.postData(
-          url: EndPoints.uploadPodcast(
-              apiKey: params.apiKey,
-              cloudName: params.cloudName,
-              signature: params.signature,
-              timestamp: params.timestamp),
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          },
-          data: {
-            'folder': 'podcasts',
-            'resource_type': 'auto'
-          });
+        url: EndPoints.uploadPodcast(
+            apiKey: params.apiKey,
+            cloudName: params.cloudName,
+            signature: params.signature,
+            timestamp: params.timestamp),
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+        cancelToken: params.cancelToken,
+        onSendProgress: (count, total) {
+          final progress = (count / total);
+          params.uploadController.add(progress);
+        },
+        data: FormData.fromMap({
+          'file': await MultipartFile.fromFile(
+            params.filePath,
+            filename: params.podcastName,
+            contentType: MediaType('audio', 'mp3'),
+          ),
+          'folder': 'podcasts',
+          'resource_type': 'auto',
+        }),
+      );
       return PodcastUploadModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromJson(
+              e.response?.data ?? {'message': 'error'}));
     }
   }
 

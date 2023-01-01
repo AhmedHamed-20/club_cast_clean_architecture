@@ -56,3 +56,11 @@ class CreateEventScreenParams extends Equatable {
   @override
   List<Object?> get props => [userprofileBloc];
 }
+
+class UploadPodcastScreenParams extends Equatable {
+  final UserProfileBloc userprofileBloc;
+  const UploadPodcastScreenParams(this.userprofileBloc);
+
+  @override
+  List<Object?> get props => [userprofileBloc];
+}

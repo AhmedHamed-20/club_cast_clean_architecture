@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
@@ -19,7 +20,9 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -69,6 +72,8 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<PodcastRemoveEvent>(_removePodcast);
     on<EventRemoveEvent>(_removeEvent);
     on<EventUpdateDataEvent>(_updateEvent);
+    on<PickPodcastFileEvent>(_pickPodcastFile);
+    on<ClearPodcastFileEvent>(_clearPodcastFile);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -103,6 +108,9 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
 
   FutureOr<void> _generateSignature(
       SignatureGenerateEventEvent event, Emitter<UserprofileState> emit) async {
+    emit(state.copyWith(
+        errorMessage: '',
+        uploadPodcastRequestStatus: UploadPodcastRequestStatus.loading));
     final result = await signatureGenerateUsecase(
         SignatureGenerateParams(event.accessToken));
     result.fold(
@@ -121,6 +129,10 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       );
       add(
         UploadPodcastEvent(
+          podcastCategory: event.podcastCategory,
+          cancelToken: event.cancelToken,
+          podcastName: event.podcastName,
+          uploadProgress: event.uploadProgress,
           filePath: event.filePath,
           accessToken: event.accessToken,
           timestamp: r.timestamp,
@@ -165,6 +177,9 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       UploadPodcastEvent event, Emitter<UserprofileState> emit) async {
     final result = await podcastUploadUsecase(
       PodcastUploadParams(
+        cancelToken: event.cancelToken,
+        podcastName: event.podcastName,
+        uploadController: event.uploadProgress,
         accessToken: event.accessToken,
         timestamp: event.timestamp,
         filePath: event.filePath,
@@ -189,7 +204,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
         CreatePodcastEvent(
           accessToken: event.accessToken,
           podcastName: r.name,
-          category: r.category,
+          category: event.podcastCategory,
           publicId: r.publicId,
         ),
       );
@@ -207,17 +222,19 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       ),
     );
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          uploadPodcastRequestStatus: UploadPodcastRequestStatus.error)),
-      (r) => emit(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            uploadPodcastRequestStatus: UploadPodcastRequestStatus.error)),
+        (r) {
+      emit(
         state.copyWith(
           errorMessage: '',
           uploadPodcastRequestStatus:
               UploadPodcastRequestStatus.podcastCreatedSucess,
         ),
-      ),
-    );
+      );
+      add(MyPodcastsGetEvent(event.accessToken));
+    });
   }
 
   FutureOr<void> _updatePassword(
@@ -490,5 +507,32 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
           myEventUpdateRequestStatus: MyDataUpdateRequestStatus.updated));
       add(MyEventsGetEvent(event.accessToken));
     });
+  }
+
+  FutureOr<void> _pickPodcastFile(
+      PickPodcastFileEvent event, Emitter<UserprofileState> emit) async {
+    try {
+      final pickedFile = await FilePicker.platform.pickFiles(
+        type: FileType.audio,
+      );
+      if (pickedFile!.files.first.size <= 100000000) {
+        emit(
+            state.copyWith(pickedPodcastFilePath: pickedFile.files.first.path));
+      } else {
+        flutterToast(
+            msg: 'File size must be less than 100 MB',
+            backgroundColor: AppColors.toastError,
+            textColor: AppColors.white);
+      }
+    } on Exception catch (e) {
+      emit(state.copyWith(errorMessage: e.toString()));
+    }
+  }
+
+  FutureOr<void> _clearPodcastFile(
+      ClearPodcastFileEvent event, Emitter<UserprofileState> emit) {
+    emit(state.copyWith(
+        pickedPodcastFilePath: '',
+        uploadPodcastRequestStatus: UploadPodcastRequestStatus.idle));
   }
 }

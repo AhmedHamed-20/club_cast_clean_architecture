@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/screens/signup_screen.dart';
 import '../../features/UserProfile/presentation/screens/edit_event_screen.dart';
+import '../../features/UserProfile/presentation/screens/upload_podcast_screen.dart';
 import '../../features/UserProfile/presentation/screens/user_profile_screen.dart';
 import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../constants/params.dart';
@@ -90,6 +91,15 @@ class AppRoutes {
             builder: (context) => BlocProvider.value(
                   value: arguments.userprofileBloc,
                   child: const CreateEventScreen(),
+                ));
+
+      case AppRoutesNames.uploadPodcastScreen:
+        UploadPodcastScreenParams arguments = args as UploadPodcastScreenParams;
+
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: arguments.userprofileBloc,
+                  child: const UploadPodcastScreen(),
                 ));
       default:
         return MaterialPageRoute(builder: (context) {

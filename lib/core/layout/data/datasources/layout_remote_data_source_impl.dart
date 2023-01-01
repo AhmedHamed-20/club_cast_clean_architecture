@@ -9,10 +9,15 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
+import '../../../usecase/usecase.dart';
+import '../models/category_model.dart';
+
 abstract class BaseLayoutRemoteDataSource {
   Future<UserDataModel> getActiveUserData(ActiveUserDataGetParams params);
   Future<List<MyFollowingEventsEntitie>> getMyFollowingEvents(
       MyFollowingEventsParams params);
+
+  Future<CategoryModel> getCategories(NoParams params);
 }
 
 class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
@@ -43,6 +48,22 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
       return (respone?.data as List)
           .map((e) => MyFollowingEventsModel.fromJson(e))
           .toList();
+    } on DioError catch (e) {
+      throw ServerException(
+        serverErrorMessageModel: ServerErrorMessageModel.fromJson(
+          e.response?.data,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<CategoryModel> getCategories(NoParams params) async {
+    try {
+      final respone = await DioHelper.getData(
+        url: EndPoints.allCategory,
+      );
+      return CategoryModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
         serverErrorMessageModel: ServerErrorMessageModel.fromJson(

@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/core/layout/data/repositories/layou
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
@@ -67,8 +68,11 @@ class ServiceLocator {
           servicelocator(),
         ));
 
-    servicelocator.registerFactory<LayoutBloc>(
-        () => LayoutBloc(servicelocator(), servicelocator(), servicelocator()));
+    servicelocator.registerFactory<LayoutBloc>(() => LayoutBloc(
+        servicelocator(),
+        servicelocator(),
+        servicelocator(),
+        servicelocator()));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
         () => CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator()));
     servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
@@ -154,6 +158,8 @@ class ServiceLocator {
         () => EventRemoveUsecase(servicelocator()));
     servicelocator.registerFactory<EventUpdateUsecase>(
         () => EventUpdateUsecase(servicelocator()));
+    servicelocator.registerFactory<CategoriesGetUsecase>(
+        () => CategoriesGetUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
+import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/my_following_podcast_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -18,17 +21,18 @@ part 'layout_state.dart';
 
 class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   LayoutBloc(this.activeUserDataGetUseCase, this.cachedAccessTokenGetUsecase,
-      this.myFollowingEventsUsecase)
+      this.myFollowingEventsUsecase, this.categoriesGetUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
     on<AccessTokenGetFromCacheEvent>(_getAccessTokenFromCache);
     on<MyFollowingEventsGetEvent>(_getMyFollowingEvents);
     on<BottomNavIndexChangeEvent>(_changeBottomNavIndex);
+    on<CategoriesGetEvent>(_getCategories);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
   final MyFollowingEventsUsecase myFollowingEventsUsecase;
-
+  final CategoriesGetUsecase categoriesGetUsecase;
   final List<Widget> bottomNaveIcons = const [
     NavigationDestination(
       icon: Icon(Icons.home),
@@ -108,5 +112,22 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   FutureOr<void> _changeBottomNavIndex(
       BottomNavIndexChangeEvent event, Emitter<LayoutState> emit) {
     emit(state.copyWith(currentBottomNavIndex: event.index));
+  }
+
+  FutureOr<void> _getCategories(
+      CategoriesGetEvent event, Emitter<LayoutState> emit) async {
+    final result = await categoriesGetUsecase(NoParams());
+    result.fold(
+      (l) => emit(state.copyWith(
+          errorMessage: l.message,
+          categoriesRequestStatus: UserDataGetRequestStatus.error)),
+      (r) => emit(
+        state.copyWith(
+          errorMessage: '',
+          categoryEntitie: r,
+          categoriesRequestStatus: UserDataGetRequestStatus.success,
+        ),
+      ),
+    );
   }
 }

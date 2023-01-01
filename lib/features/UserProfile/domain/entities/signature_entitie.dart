@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class SignatureEntitie extends Equatable {
-  final String timestamp;
+  final int timestamp;
   final String signature;
   final String cloudName;
   final String apiKey;

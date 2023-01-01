@@ -44,4 +44,6 @@ class TextEditingControllers {
 
   static final TextEditingController createEventDescriptionController =
       TextEditingController();
+  static final TextEditingController uploadPodcastNameController =
+      TextEditingController();
 }
