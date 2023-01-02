@@ -28,6 +28,7 @@ class UserCardWidget extends StatelessWidget {
                 DateTime.parse(createdAt!).toLocal(),
                 format: 'D, M j, H:i',
               ),
+              style: Theme.of(context).textTheme.titleSmall,
             )
           : const SizedBox.shrink(),
     );
