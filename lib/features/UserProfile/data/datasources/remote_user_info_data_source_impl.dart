@@ -66,8 +66,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           .toList();
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel:
-            ServerErrorMessageModel.fromJson(e.response?.data),
+        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e),
       );
     }
   }
@@ -82,8 +81,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return SignatureModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -117,8 +115,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return PodcastUploadModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromJson(
-              e.response?.data ?? {'message': 'error'}));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -134,8 +131,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       });
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -155,8 +151,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return UpdatedUserDataInfoModel.fromJson(response?.data['user']);
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromJson(
-          e.response?.data,
+        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(
+          e,
         ),
       );
     }
@@ -176,8 +172,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return response?.data['token'];
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -197,8 +192,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -216,8 +210,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           .toList();
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -232,8 +225,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -248,8 +240,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -266,8 +257,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -284,8 +274,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -302,8 +291,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -320,8 +308,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return OtherUsersDataModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -336,8 +323,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -352,8 +338,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -372,8 +357,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           });
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 }

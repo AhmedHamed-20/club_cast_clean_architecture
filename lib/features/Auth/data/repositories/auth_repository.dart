@@ -23,8 +23,8 @@ class AuthRepositoryImple extends BaseAuthRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.type));
+        message: exception.serverErrorMessageModel.message,
+      ));
     }
   }
 
@@ -35,8 +35,8 @@ class AuthRepositoryImple extends BaseAuthRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.type));
+        message: exception.serverErrorMessageModel.message,
+      ));
     }
   }
 

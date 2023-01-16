@@ -31,8 +31,8 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
       return UserDataModel.fromJson(respone?.data['data']['data']);
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromJson(
-          e.response?.data,
+        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(
+          e,
         ),
       );
     }
@@ -50,8 +50,8 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
           .toList();
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromJson(
-          e.response?.data,
+        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(
+          e,
         ),
       );
     }
@@ -66,8 +66,8 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
       return CategoryModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromJson(
-          e.response?.data,
+        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(
+          e,
         ),
       );
     }

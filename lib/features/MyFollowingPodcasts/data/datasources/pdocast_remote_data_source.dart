@@ -32,7 +32,7 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 
@@ -50,7 +50,7 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 
@@ -67,7 +67,7 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 
@@ -88,7 +88,7 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 }

@@ -29,7 +29,7 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 
@@ -44,7 +44,7 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 
@@ -57,7 +57,7 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(error.response?.data));
+              ServerErrorMessageModel.fromDioException(error));
     }
   }
 }

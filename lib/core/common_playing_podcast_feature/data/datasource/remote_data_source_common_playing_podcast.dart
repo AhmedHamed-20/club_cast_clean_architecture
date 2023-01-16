@@ -31,8 +31,7 @@ class RemoteCommonPlayingPodcastDataSource
           .toList();
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 
@@ -49,8 +48,7 @@ class RemoteCommonPlayingPodcastDataSource
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel:
-              ServerErrorMessageModel.fromJson(e.response?.data));
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
     }
   }
 }
