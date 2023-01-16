@@ -11,7 +11,7 @@ class UpdatePasswodButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserProfileBloc, UserprofileState>(
+    return BlocConsumer<UserProfileBloc, UserProfileState>(
         listener: (context, state) {
       if (state.updateUserDataRequestStatus ==
           UpdateUserDataRequestStatus.success) {

@@ -292,3 +292,21 @@ class ClearPodcastFileEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class PickImageEvent extends UserprofileEvent {
+  const PickImageEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UserImageUpdateEvent extends UserprofileEvent {
+  final String accessToken;
+  final String photoUrl;
+
+  const UserImageUpdateEvent(
+      {required this.accessToken, required this.photoUrl});
+
+  @override
+  List<Object?> get props => [accessToken, photoUrl];
+}

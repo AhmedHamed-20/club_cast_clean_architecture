@@ -1,6 +1,5 @@
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/screens/likes_users_screens.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
@@ -52,9 +51,9 @@ class AppRoutes {
         });
 
       case AppRoutesNames.userProfileScreen:
-        UserDataEntitie arguments = args as UserDataEntitie;
+        //    UserDataEntitie arguments = args as UserDataEntitie;
         return MaterialPageRoute(
-          builder: (context) => UserProfileScreen(userDataEntitie: arguments),
+          builder: (context) => const UserProfileScreen(),
         );
 
       case AppRoutesNames.myProfileFollowersFollowingScreen:
@@ -72,8 +71,7 @@ class AppRoutes {
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
                   value: arguments.userprofileBloc,
-                  child: EditUserProfileBasicDataScreen(
-                      userDataEntitie: arguments.userDataEntitie),
+                  child: const EditUserProfileBasicDataScreen(),
                 ));
 
       case AppRoutesNames.editEventScreen:

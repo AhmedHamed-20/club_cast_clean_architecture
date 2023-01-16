@@ -43,6 +43,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -76,6 +77,7 @@ class ServiceLocator {
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
         () => CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator()));
     servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -160,6 +162,8 @@ class ServiceLocator {
         () => EventUpdateUsecase(servicelocator()));
     servicelocator.registerFactory<CategoriesGetUsecase>(
         () => CategoriesGetUsecase(servicelocator()));
+    servicelocator.registerFactory<UpdateUserImageUsecase>(
+        () => UpdateUserImageUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

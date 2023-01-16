@@ -1,47 +1,54 @@
-import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_button_design_widget.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_image_button_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/constants.dart';
 import '../../../../../core/utl/utls.dart';
 
-class UpdateDataButtonWidget extends StatelessWidget {
-  const UpdateDataButtonWidget({super.key});
+class UpdateUserImageButtonWidget extends StatelessWidget {
+  const UpdateUserImageButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserProfileBloc, UserProfileState>(
         listener: (context, state) {
-      if (state.updateUserDataRequestStatus ==
+      if (state.updateUserPhotoRequestStatus ==
           UpdateUserDataRequestStatus.success) {
-        flutterToast(
-            msg: 'Updated Success',
-            backgroundColor: AppColors.toastSuccess,
-            textColor: AppColors.white);
-
         BlocProvider.of<LayoutBloc>(context)
             .add(ActiveUserDataGetEvent(ConstVar.accessToken));
-      } else if (state.updateUserDataRequestStatus ==
+        flutterToast(
+            msg: 'UpdateSuccess',
+            backgroundColor: AppColors.toastSuccess,
+            textColor: AppColors.white);
+        Navigator.of(context).pop();
+      } else if (state.updateUserPhotoRequestStatus ==
           UpdateUserDataRequestStatus.error) {
         flutterToast(
             msg: state.errorMessage,
             backgroundColor: AppColors.toastError,
             textColor: AppColors.white);
+        Navigator.of(context).pop();
       }
     }, builder: (context, state) {
-      switch (state.updateUserDataRequestStatus) {
+      switch (state.updateUserPhotoRequestStatus) {
         case UpdateUserDataRequestStatus.idle:
-          return const UpdateButtonDesignWidget();
+          return UpdateImageButtonDesign(
+            photoPath: state.pickedUserProfileImageFilePath,
+          );
         case UpdateUserDataRequestStatus.loading:
           return const Center(
             child: CircularProgressIndicator(),
           );
         case UpdateUserDataRequestStatus.success:
-          return const UpdateButtonDesignWidget();
+          return UpdateImageButtonDesign(
+            photoPath: state.pickedUserProfileImageFilePath,
+          );
         case UpdateUserDataRequestStatus.error:
-          return const UpdateButtonDesignWidget();
+          return UpdateImageButtonDesign(
+            photoPath: state.pickedUserProfileImageFilePath,
+          );
       }
     });
   }

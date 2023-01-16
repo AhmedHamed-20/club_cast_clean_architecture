@@ -4,15 +4,15 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/layout/domain/entities/user_data_entitie.dart';
 import '../widgets/change_profile_data/change_password_bottom_sheet_widget.dart';
+import '../widgets/change_profile_data/edit_user_image_widget.dart';
 import '../widgets/change_profile_data/update_data_button_widget.dart';
 import '../widgets/change_profile_data/update_my_data_text_fields.dart';
 
 class EditUserProfileBasicDataScreen extends StatelessWidget {
-  const EditUserProfileBasicDataScreen(
-      {super.key, required this.userDataEntitie});
-  final UserDataEntitie userDataEntitie;
+  const EditUserProfileBasicDataScreen({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
@@ -30,21 +30,11 @@ class EditUserProfileBasicDataScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              BlocBuilder<UserProfileBloc, UserprofileState>(
-                builder: (context, state) => Center(
-                  child: CircleAvatar(
-                    radius: AppRadius.r70,
-                    backgroundImage: state.updatedUserDataInfoEntitie != null
-                        ? NetworkImage(
-                            state.updatedUserDataInfoEntitie!.userPhoto)
-                        : NetworkImage(userDataEntitie.userPhoto),
-                  ),
-                ),
-              ),
+              const EditUserScreenUserImageWidget(),
               const SizedBox(
                 height: AppHeight.h10,
               ),
-              UpdateMyDataTextFields(userDataEntitie: userDataEntitie),
+              const UpdateMyDataTextFields(),
               const SizedBox(
                 height: AppHeight.h20,
               ),

@@ -22,6 +22,7 @@ import '../usecases/events/remove_event.dart';
 import '../usecases/podcasts/remove_like.dart';
 import '../usecases/upload_podcast_usecase/generate_signature.dart';
 import '../usecases/upload_podcast_usecase/upload_podcast.dart';
+import '../usecases/user_information/update_user_image.dart';
 
 abstract class BaseUserInfoRepository {
   Future<Either<Failure, List<MyPodcastEntite>>> getMyPodcasts(
@@ -57,4 +58,6 @@ abstract class BaseUserInfoRepository {
   Future<Either<Failure, void>> removePodcast(PodcastRemoveParams params);
   Future<Either<Failure, void>> updateEvent(EventUpdateUsecaseParams params);
   Future<Either<Failure, void>> removeEvent(EventRemoveUsecaseParams params);
+  Future<Either<Failure, void>> updateUserImage(
+      UpdateUserImageUsecaseParams params);
 }

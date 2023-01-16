@@ -12,7 +12,7 @@ class ApplyChangesButtonWidget extends StatelessWidget {
   final MyEventEntitie myEventEntitie;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserProfileBloc, UserprofileState>(
+    return BlocConsumer<UserProfileBloc, UserProfileState>(
       listener: (context, state) {
         if (state.myEventUpdateRequestStatus ==
             MyDataUpdateRequestStatus.updated) {

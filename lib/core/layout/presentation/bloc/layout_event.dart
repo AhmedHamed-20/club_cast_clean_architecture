@@ -46,3 +46,14 @@ class CategoriesGetEvent extends LayoutEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UserDataUpdateEvent extends LayoutEvent {
+  final BaseUserDataEntitie userDataEntitie;
+
+  const UserDataUpdateEvent({
+    required this.userDataEntitie,
+  });
+
+  @override
+  List<Object?> get props => [userDataEntitie];
+}

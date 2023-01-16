@@ -63,7 +63,7 @@ class DioHelper {
     String? url,
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
-    Map<String, dynamic>? data,
+    dynamic data,
   }) async {
     return response = await dio!.patch(
       data: data,

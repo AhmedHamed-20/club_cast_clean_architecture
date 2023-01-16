@@ -47,7 +47,7 @@ class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: BlocConsumer<UserProfileBloc, UserprofileState>(
+      body: BlocConsumer<UserProfileBloc, UserProfileState>(
         listener: (context, state) {
           isEndOfMyFollowersData = state.isEndOfFollowersData;
         },

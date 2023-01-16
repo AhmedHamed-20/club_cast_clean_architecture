@@ -14,7 +14,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocListener<UserProfileBloc, UserprofileState>(
+    return BlocListener<UserProfileBloc, UserProfileState>(
       listener: (context, state) {
         if (state.myEventRemoveRequestStatus ==
             MyDataRemoveRequestStatus.removed) {

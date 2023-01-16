@@ -14,6 +14,7 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presen
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
 
 part 'layout_event.dart';
@@ -61,17 +62,17 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         ActiveUserDataGetParams(event.accessToken));
 
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          userDataGetRequestStatus: UserDataGetRequestStatus.error)),
-      (r) => emit(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            userDataGetRequestStatus: UserDataGetRequestStatus.error)), (r) {
+      emit(
         state.copyWith(
           errorMessage: '',
           userDataEntitie: r,
           userDataGetRequestStatus: UserDataGetRequestStatus.success,
         ),
-      ),
-    );
+      );
+    });
   }
 
   FutureOr<void> _getAccessTokenFromCache(

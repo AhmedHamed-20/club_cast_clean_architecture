@@ -13,7 +13,7 @@ class PickFileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocBuilder<UserProfileBloc, UserprofileState>(
+    return BlocBuilder<UserProfileBloc, UserProfileState>(
         builder: (context, state) {
       switch (state.uploadPodcastRequestStatus) {
         case UploadPodcastRequestStatus.idle:

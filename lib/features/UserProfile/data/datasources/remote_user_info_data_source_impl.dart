@@ -27,6 +27,7 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
 import '../../domain/usecases/upload_podcast_usecase/generate_signature.dart';
+import '../../domain/usecases/user_information/update_user_image.dart';
 
 abstract class BaseUserInfoRemoteDataSource {
   Future<List<MyPodcastsModel>> getMyPodcasts(MyPodcastGetParams params);
@@ -51,6 +52,7 @@ abstract class BaseUserInfoRemoteDataSource {
   Future<void> removeEvent(EventRemoveUsecaseParams params);
 
   Future<void> updateEvent(EventUpdateUsecaseParams params);
+  Future<void> updateUserPhoto(UpdateUserImageUsecaseParams params);
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
@@ -355,6 +357,27 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
             "description": params.eventDescription,
             "date": params.eventDate,
           });
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<void> updateUserPhoto(UpdateUserImageUsecaseParams params) async {
+    try {
+      await DioHelper.patchData(
+        url: EndPoints.updateAvatar,
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+        data: FormData.fromMap({
+          'photo': await MultipartFile.fromFile(
+            params.imagePath,
+            contentType: MediaType('image', 'png'),
+          ),
+        }),
+      );
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));

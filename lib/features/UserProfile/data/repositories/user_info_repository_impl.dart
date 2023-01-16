@@ -21,6 +21,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
@@ -243,6 +244,18 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       EventUpdateUsecaseParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.updateEvent(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateUserImage(
+      UpdateUserImageUsecaseParams params) async {
+    try {
+      final result = await baseUserInfoRemoteDataSource.updateUserPhoto(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

@@ -1,6 +1,6 @@
 part of 'userprofile_bloc.dart';
 
-class UserprofileState extends Equatable {
+class UserProfileState extends Equatable {
   final List<MyPodcastEntite> myPodcastEntite;
   final String errorMessage;
   final MyPodCastRequestStatus myPodCastequestStatus;
@@ -24,10 +24,14 @@ class UserprofileState extends Equatable {
   final MyDataRemoveRequestStatus myEventRemoveRequestStatus;
   final MyDataUpdateRequestStatus myEventUpdateRequestStatus;
   final String pickedPodcastFilePath;
-  const UserprofileState(
+  final String pickedUserProfileImageFilePath;
+  final UpdateUserDataRequestStatus updateUserPhotoRequestStatus;
+  const UserProfileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.backGroundColors = const [],
+      this.updateUserPhotoRequestStatus = UpdateUserDataRequestStatus.idle,
+      this.pickedUserProfileImageFilePath = '',
       this.myEventRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
       this.myEventUpdateRequestStatus = MyDataUpdateRequestStatus.idle,
       this.myPodCastRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
@@ -49,7 +53,8 @@ class UserprofileState extends Equatable {
       this.updatePasswordRequestStatus = UpdateUserDataRequestStatus.idle,
       this.myPodCastequestStatus = MyPodCastRequestStatus.loading});
 
-  UserprofileState copyWith({
+  UserProfileState copyWith({
+    UpdateUserDataRequestStatus? updateUserPhotoRequestStatus,
     String? pickedPodcastFilePath,
     MyDataRemoveRequestStatus? myEventRemoveRequestStatus,
     MyDataUpdateRequestStatus? myEventUpdateRequestStatus,
@@ -57,6 +62,7 @@ class UserprofileState extends Equatable {
     OtherUsersDataEntitie? followersData,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
+    String? pickedUserProfileImageFilePath,
     OtherUsersDataEntitie? followingData,
     UserDataGetRequestStatus? getMyFollowersRequestStatus,
     UserDataGetRequestStatus? getMyFollowingRequestStatus,
@@ -73,7 +79,11 @@ class UserprofileState extends Equatable {
     String? errorMessage,
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
-    return UserprofileState(
+    return UserProfileState(
+      updateUserPhotoRequestStatus:
+          updateUserPhotoRequestStatus ?? this.updateUserPhotoRequestStatus,
+      pickedUserProfileImageFilePath:
+          pickedUserProfileImageFilePath ?? this.pickedUserProfileImageFilePath,
       pickedPodcastFilePath:
           pickedPodcastFilePath ?? this.pickedPodcastFilePath,
       myEventRemoveRequestStatus:
@@ -116,6 +126,7 @@ class UserprofileState extends Equatable {
   @override
   List<Object?> get props => [
         myEventRemoveRequestStatus,
+        updateUserPhotoRequestStatus,
         myEventUpdateRequestStatus,
         myPodCastRemoveRequestStatus,
         myPodCastequestStatus,
@@ -124,6 +135,7 @@ class UserprofileState extends Equatable {
         pickedPodcastFilePath,
         followersData,
         followingData,
+        pickedUserProfileImageFilePath,
         isEndOfFollowersData,
         isEndOfFollowingData,
         getMyFollowersRequestStatus,

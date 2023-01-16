@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entite.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -196,6 +197,7 @@ void navigatePushAndRemove(
 
 class ConstVar {
   static String accessToken = '';
+  static late BaseUserDataEntitie baseUserDataEntitie;
 }
 
 class AppRoutesNames {

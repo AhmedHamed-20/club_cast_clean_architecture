@@ -19,6 +19,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -34,7 +35,7 @@ import '../../domain/usecases/podcasts/remove_like.dart';
 part 'userprofile_event.dart';
 part 'userprofile_state.dart';
 
-class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
+class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
   UserProfileBloc(
       this.myPodcastsGetUseCase,
       this.signatureGenerateUsecase,
@@ -52,8 +53,9 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       this.podcastRemoveUsecase,
       this.eventRemoveUsecase,
       this.eventUpdateUsecase,
+      this.updateUserImageUsecase,
       this.podcastUploadUsecase)
-      : super(const UserprofileState()) {
+      : super(const UserProfileState()) {
     on<MyPodcastsGetEvent>(_getMyPodcasts);
     on<SignatureGenerateEventEvent>(_generateSignature);
     on<UserDataUpdateEvent>(_updateUserData);
@@ -74,6 +76,8 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
     on<EventUpdateDataEvent>(_updateEvent);
     on<PickPodcastFileEvent>(_pickPodcastFile);
     on<ClearPodcastFileEvent>(_clearPodcastFile);
+    on<PickImageEvent>(_pickImage);
+    on<UserImageUpdateEvent>(_updateUserImage);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final SignatureGenerateUsecase signatureGenerateUsecase;
@@ -82,6 +86,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final PodcastCreateUseCase podcastCreateUseCase;
   final PasswordUpdateUseCase passwordUpdateUseCase;
   final EventCreateUseCase eventCreateUseCase;
+  final UpdateUserImageUsecase updateUserImageUsecase;
   final MyEventsGetUsecase myEventsGetUsecase;
   final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
   final LikeRemoveMyPodcastsUsecast likeRemoveByPodcastIdUsecase;
@@ -93,7 +98,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   final EventRemoveUsecase eventRemoveUsecase;
   final EventUpdateUsecase eventUpdateUsecase;
   FutureOr<void> _getMyPodcasts(
-      MyPodcastsGetEvent event, Emitter<UserprofileState> emit) async {
+      MyPodcastsGetEvent event, Emitter<UserProfileState> emit) async {
     final result =
         await myPodcastsGetUseCase(MyPodcastGetParams(event.accessToken));
     result.fold(
@@ -107,7 +112,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _generateSignature(
-      SignatureGenerateEventEvent event, Emitter<UserprofileState> emit) async {
+      SignatureGenerateEventEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         errorMessage: '',
         uploadPodcastRequestStatus: UploadPodcastRequestStatus.loading));
@@ -145,7 +150,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _updateUserData(
-      UserDataUpdateEvent event, Emitter<UserprofileState> emit) async {
+      UserDataUpdateEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         updateUserDataRequestStatus: UpdateUserDataRequestStatus.loading));
     final result = await userDataUpdateUseCase(
@@ -174,7 +179,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _uploadPodcastToCloud(
-      UploadPodcastEvent event, Emitter<UserprofileState> emit) async {
+      UploadPodcastEvent event, Emitter<UserProfileState> emit) async {
     final result = await podcastUploadUsecase(
       PodcastUploadParams(
         cancelToken: event.cancelToken,
@@ -212,7 +217,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _createPodcastInDataBase(
-      CreatePodcastEvent event, Emitter<UserprofileState> emit) async {
+      CreatePodcastEvent event, Emitter<UserProfileState> emit) async {
     final result = await podcastCreateUseCase(
       PodcastCreateParams(
         accessToken: event.accessToken,
@@ -238,7 +243,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _updatePassword(
-      PasswordUpdateEvent event, Emitter<UserprofileState> emit) async {
+      PasswordUpdateEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         updatePasswordRequestStatus: UpdateUserDataRequestStatus.loading));
     final result = await passwordUpdateUseCase(
@@ -262,7 +267,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _createEvent(
-      EventCreateEvent event, Emitter<UserprofileState> emit) async {
+      EventCreateEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         eventCreateRequestStatus: EventCreateRequestStatus.loading));
     final result = await eventCreateUseCase(EventCreateParams(
@@ -284,7 +289,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _getMyEvents(
-      MyEventsGetEvent event, Emitter<UserprofileState> emit) async {
+      MyEventsGetEvent event, Emitter<UserProfileState> emit) async {
     final result = await myEventsGetUsecase(MyEventsParams(event.accessToken));
     result.fold(
       (l) => emit(state.copyWith(
@@ -301,7 +306,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
 
   FutureOr<void> _generateBackGroundImageColor(
       BackGroundColorGenerateEvent event,
-      Emitter<UserprofileState> emit) async {
+      Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         backGroundColorGenerateRequestStatus:
             BackGroundColorGenerateRequestStatus.loading,
@@ -325,7 +330,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _addLike(
-      LikeAddMyPodcastEvent event, Emitter<UserprofileState> emit) async {
+      LikeAddMyPodcastEvent event, Emitter<UserProfileState> emit) async {
     final result = await likeAddMyPodcastsUsecast(LikeAddMyPodcastsParams(
         accessToken: event.accessToken, podcastId: event.podcastId));
     result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
@@ -334,7 +339,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _removeLike(
-      LikeRemoveMyPodcastEvent event, Emitter<UserprofileState> emit) async {
+      LikeRemoveMyPodcastEvent event, Emitter<UserProfileState> emit) async {
     final result = await likeRemoveByPodcastIdUsecase(
         LikeRemoveMyPodcastsParams(
             accessToken: event.accessToken, podcastId: event.podcastId));
@@ -344,7 +349,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _getMyFollwers(
-      MyFollowersGetEvent event, Emitter<UserprofileState> emit) async {
+      MyFollowersGetEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         getMyFollowersRequestStatus: UserDataGetRequestStatus.loading));
     final result = await myFollowersGetUseCase(
@@ -360,7 +365,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _getMyFollowing(
-      MyFollowingGetEvent event, Emitter<UserprofileState> emit) async {
+      MyFollowingGetEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         getMyFollowingRequestStatus: UserDataGetRequestStatus.loading));
     final result = await myFollowingGetUseCase(
@@ -376,7 +381,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _getMoreFollowers(
-      MyFollowersGetMoreEvent event, Emitter<UserprofileState> emit) async {
+      MyFollowersGetMoreEvent event, Emitter<UserProfileState> emit) async {
     final result = await moreFollowersGetUsecase(
         MoreFollowersFollowingGetParams(
             accessToken: event.accessToken, page: event.page));
@@ -414,7 +419,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _getMoreFollowing(
-      MyFollowingGetMoreEvent event, Emitter<UserprofileState> emit) async {
+      MyFollowingGetMoreEvent event, Emitter<UserProfileState> emit) async {
     final result = await moreFollowingGetUsecase(
         MoreFollowersFollowingGetParams(
             accessToken: event.accessToken, page: event.page));
@@ -452,7 +457,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _removePodcast(
-      PodcastRemoveEvent event, Emitter<UserprofileState> emit) async {
+      PodcastRemoveEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.loading));
     final result = await podcastRemoveUsecase(PodcastRemoveParams(
@@ -470,7 +475,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _removeEvent(
-      EventRemoveEvent event, Emitter<UserprofileState> emit) async {
+      EventRemoveEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         myEventRemoveRequestStatus: MyDataRemoveRequestStatus.loading));
     final result = await eventRemoveUsecase(EventRemoveUsecaseParams(
@@ -488,7 +493,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _updateEvent(
-      EventUpdateDataEvent event, Emitter<UserprofileState> emit) async {
+      EventUpdateDataEvent event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(
         myEventUpdateRequestStatus: MyDataUpdateRequestStatus.loading));
     final result = await eventUpdateUsecase(EventUpdateUsecaseParams(
@@ -510,7 +515,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _pickPodcastFile(
-      PickPodcastFileEvent event, Emitter<UserprofileState> emit) async {
+      PickPodcastFileEvent event, Emitter<UserProfileState> emit) async {
     try {
       final pickedFile = await FilePicker.platform.pickFiles(
         type: FileType.audio,
@@ -530,9 +535,44 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserprofileState> {
   }
 
   FutureOr<void> _clearPodcastFile(
-      ClearPodcastFileEvent event, Emitter<UserprofileState> emit) {
+      ClearPodcastFileEvent event, Emitter<UserProfileState> emit) {
     emit(state.copyWith(
         pickedPodcastFilePath: '',
         uploadPodcastRequestStatus: UploadPodcastRequestStatus.idle));
+  }
+
+  FutureOr<void> _pickImage(
+      PickImageEvent event, Emitter<UserProfileState> emit) async {
+    try {
+      final pickkImage = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+      emit(
+        state.copyWith(
+          pickedUserProfileImageFilePath: pickkImage!.files.first.path,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(state.copyWith(
+          errorMessage: e.toString(), pickedUserProfileImageFilePath: ''));
+    }
+  }
+
+  FutureOr<void> _updateUserImage(
+      UserImageUpdateEvent event, Emitter<UserProfileState> emit) async {
+    emit(state.copyWith(
+        updateUserPhotoRequestStatus: UpdateUserDataRequestStatus.loading));
+    final result = await updateUserImageUsecase(UpdateUserImageUsecaseParams(
+        accessToken: event.accessToken, imagePath: event.photoUrl));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            updateUserPhotoRequestStatus: UpdateUserDataRequestStatus.error)),
+        (r) => emit(state.copyWith(
+            errorMessage: '',
+            pickedUserProfileImageFilePath: '',
+            updateUserPhotoRequestStatus:
+                UpdateUserDataRequestStatus.success)));
   }
 }

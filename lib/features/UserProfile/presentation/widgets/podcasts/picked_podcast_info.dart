@@ -20,7 +20,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocConsumer<UserProfileBloc, UserprofileState>(
+    return BlocConsumer<UserProfileBloc, UserProfileState>(
         listener: (context, state) {
       if (state.uploadPodcastRequestStatus ==
           UploadPodcastRequestStatus.podcastCreatedSucess) {

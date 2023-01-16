@@ -1,5 +1,4 @@
-import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,19 +7,18 @@ import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
 
 class UpdateMyDataTextFields extends StatelessWidget {
-  const UpdateMyDataTextFields({super.key, required this.userDataEntitie});
-  final UserDataEntitie userDataEntitie;
+  const UpdateMyDataTextFields({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProfileBloc, UserprofileState>(
-        builder: (context, state) {
+    return BlocBuilder<LayoutBloc, LayoutState>(builder: (context, state) {
       TextEditingControllers.updateMyDataBioController.text =
-          state.updatedUserDataInfoEntitie?.bio ?? userDataEntitie.bio;
+          state.userDataEntitie!.bio;
       TextEditingControllers.updateMyDataEmailController.text =
-          state.updatedUserDataInfoEntitie?.email ?? userDataEntitie.email;
+          state.userDataEntitie!.email;
       TextEditingControllers.updateMyDataNameController.text =
-          state.updatedUserDataInfoEntitie?.userName ??
-              userDataEntitie.userName;
+          state.userDataEntitie!.userName;
       return Column(
         children: [
           Defaults.defaultTextFormField(
