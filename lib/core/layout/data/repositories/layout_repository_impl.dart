@@ -26,8 +26,10 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       final result = await baseLayoutRemoteDataSource.getActiveUserData(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+        message: exception.serverErrorMessageModel.message,
+        statusCode: exception.serverErrorMessageModel.statusCode,
+      ));
     }
   }
 
@@ -78,7 +80,11 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+        ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
+        ),
+      );
     }
   }
 }

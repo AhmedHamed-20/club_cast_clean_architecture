@@ -65,13 +65,18 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   ];
   FutureOr<void> _getActiveUserData(
       ActiveUserDataGetEvent event, Emitter<LayoutState> emit) async {
+    if (state.userDataGetRequestStatus == UserDataGetRequestStatus.error) {
+      emit(state.copyWith(
+          userDataGetRequestStatus: UserDataGetRequestStatus.loading));
+    }
     final result = await activeUserDataGetUseCase(
         ActiveUserDataGetParams(event.accessToken));
 
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
-            userDataGetRequestStatus: UserDataGetRequestStatus.error)), (r) {
+            userDataGetRequestStatus: UserDataGetRequestStatus.error,
+            statusCode: l.statusCode)), (r) {
       emit(
         state.copyWith(
           errorMessage: '',
@@ -90,7 +95,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
-            getAccessTokenRequestStatus: UserDataGetRequestStatus.error)), (r) {
+            getAccessTokenRequestStatus: UserDataGetRequestStatus.error,
+            statusCode: l.statusCode)), (r) {
       emit(state.copyWith(
           errorMessage: '',
           getAccessTokenRequestStatus: UserDataGetRequestStatus.success));
@@ -106,7 +112,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     result.fold(
       (l) => emit(state.copyWith(
           errorMessage: l.message,
-          myFollowingEventsRequestStatus: UserDataGetRequestStatus.error)),
+          myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
+          statusCode: l.statusCode)),
       (r) => emit(
         state.copyWith(
           errorMessage: '',
@@ -128,10 +135,12 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     result.fold(
       (l) => emit(state.copyWith(
           errorMessage: l.message,
+          statusCode: l.statusCode,
           categoriesRequestStatus: UserDataGetRequestStatus.error)),
       (r) => emit(
         state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           categoryEntitie: r,
           categoriesRequestStatus: UserDataGetRequestStatus.success,
         ),

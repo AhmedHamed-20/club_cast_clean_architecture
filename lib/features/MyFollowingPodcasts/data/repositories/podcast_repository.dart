@@ -23,6 +23,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
     } on ServerException catch (exception) {
       return Left(ServerFailure(
         message: exception.serverErrorMessageModel.message,
+        statusCode: exception.serverErrorMessageModel.statusCode,
       ));
     }
   }
@@ -36,6 +37,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
     } on ServerException catch (exception) {
       return Left(ServerFailure(
         message: exception.serverErrorMessageModel.message,
+        statusCode: exception.serverErrorMessageModel.statusCode,
       ));
     }
   }
@@ -50,6 +52,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
     } on ServerException catch (exception) {
       return Left(ServerFailure(
         message: exception.serverErrorMessageModel.message,
+        statusCode: exception.serverErrorMessageModel.statusCode,
       ));
     }
   }
@@ -62,8 +65,9 @@ class PodcastRepositoryImple extends BasePodcastRepository {
           await basePodcastRemoteDataSource.getMoreMyFollowingPodcasts(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 }

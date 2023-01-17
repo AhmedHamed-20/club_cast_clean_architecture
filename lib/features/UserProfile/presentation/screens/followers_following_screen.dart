@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,11 +57,27 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
           case UserDataGetRequestStatus.success:
             return const MyFollowersMainWidget();
           case UserDataGetRequestStatus.error:
-            return Scaffold(
-              body: Center(
-                child: Text(state.errorMessage),
-              ),
-            );
+            if (state.statusCode == 403 || state.statusCode == 401) {
+              return Scaffold(
+                body: ErrorScreen(
+                  message: state.errorMessage,
+                  statusCode: state.statusCode,
+                ),
+              );
+            } else {
+              return Scaffold(
+                body: ErrorScreen(
+                  message: state.errorMessage,
+                  onRetry: () {
+                    widget
+                        .myProfileFollowersFollowingScreenParams.userprofileBloc
+                        .add(MyFollowersGetEvent(widget
+                            .myProfileFollowersFollowingScreenParams
+                            .accessToken));
+                  },
+                ),
+              );
+            }
         }
       } else {
         switch (state.getMyFollowingRequestStatus) {
@@ -73,11 +90,27 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
           case UserDataGetRequestStatus.success:
             return const MyFollowingMainWidget();
           case UserDataGetRequestStatus.error:
-            return Scaffold(
-              body: Center(
-                child: Text(state.errorMessage),
-              ),
-            );
+            if (state.statusCode == 403 || state.statusCode == 401) {
+              return Scaffold(
+                body: ErrorScreen(
+                  message: state.errorMessage,
+                  statusCode: state.statusCode,
+                ),
+              );
+            } else {
+              return Scaffold(
+                body: ErrorScreen(
+                  message: state.errorMessage,
+                  onRetry: () {
+                    widget
+                        .myProfileFollowersFollowingScreenParams.userprofileBloc
+                        .add(MyFollowingGetEvent(widget
+                            .myProfileFollowersFollowingScreenParams
+                            .accessToken));
+                  },
+                ),
+              );
+            }
         }
       }
     });

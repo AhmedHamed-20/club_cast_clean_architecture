@@ -3,9 +3,10 @@ import 'package:equatable/equatable.dart';
 
 class ServerErrorMessageModel extends Equatable {
   final String message;
-
+  final int? statusCode;
   const ServerErrorMessageModel({
     required this.message,
+    this.statusCode,
   });
 
   factory ServerErrorMessageModel.fromDioException(DioError dioError) {
@@ -45,7 +46,10 @@ class ServerErrorMessageModel extends Equatable {
     if (response.statusCode == 400 ||
         response.statusCode == 401 ||
         response.statusCode == 403) {
-      return ServerErrorMessageModel(message: response.data['message']);
+      return ServerErrorMessageModel(
+        message: response.data['message'],
+        statusCode: response.statusCode,
+      );
     } else if (response.statusCode == 404) {
       return const ServerErrorMessageModel(message: 'Not Found');
     } else if (response.statusCode == 500 ||
@@ -60,6 +64,7 @@ class ServerErrorMessageModel extends Equatable {
   @override
   List<Object?> get props => [
         message,
+        statusCode,
       ];
 }
 

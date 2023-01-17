@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utl/utls.dart';
+import '../../../../../core/widgets/error_screen.dart';
 
 class MyEventsWidget extends StatelessWidget {
   const MyEventsWidget({super.key});
@@ -61,9 +62,21 @@ class MyEventsWidget extends StatelessWidget {
               ],
             );
           case UserDataGetRequestStatus.error:
-            return Center(
-              child: Text(state.errorMessage),
-            );
+            if (state.statusCode == 403 || state.statusCode == 401) {
+              return ErrorScreen(
+                message: state.errorMessage,
+                statusCode: state.statusCode,
+              );
+            } else {
+              return ErrorScreen(
+                message: state.errorMessage,
+                onRetry: () {
+                  userprofileBloc.add(
+                    MyEventsGetEvent(ConstVar.accessToken),
+                  );
+                },
+              );
+            }
         }
       },
     );

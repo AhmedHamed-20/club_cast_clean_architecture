@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,9 +18,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-    final layoutBloc = BlocProvider.of<LayoutBloc>(context);
-    layoutBloc.add(ActiveUserDataGetEvent(ConstVar.accessToken));
-    layoutBloc.add(const CategoriesGetEvent());
+    BlocProvider.of<LayoutBloc>(context)
+        .add(ActiveUserDataGetEvent(ConstVar.accessToken));
   }
 
   @override
@@ -33,13 +33,27 @@ class _LayoutScreenState extends State<LayoutScreen> {
             ),
           );
         case UserDataGetRequestStatus.success:
+          BlocProvider.of<LayoutBloc>(context).add(const CategoriesGetEvent());
           return const MainLayoutWidget();
         case UserDataGetRequestStatus.error:
-          return Scaffold(
-            body: Center(
-              child: Text(state.errorMessage),
-            ),
-          );
+          if (state.statusCode == 403 || state.statusCode == 401) {
+            return Scaffold(
+              body: ErrorScreen(
+                message: state.errorMessage,
+                statusCode: state.statusCode,
+              ),
+            );
+          } else {
+            return Scaffold(
+              body: ErrorScreen(
+                message: state.errorMessage,
+                onRetry: () {
+                  BlocProvider.of<LayoutBloc>(context)
+                      .add(ActiveUserDataGetEvent(ConstVar.accessToken));
+                },
+              ),
+            );
+          }
       }
     });
   }

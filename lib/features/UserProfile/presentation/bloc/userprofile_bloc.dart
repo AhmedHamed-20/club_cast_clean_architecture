@@ -104,9 +104,11 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
+            statusCode: l.statusCode,
             myPodCastequestStatus: MyPodCastRequestStatus.error)),
         (r) => emit(state.copyWith(
             errorMessage: '',
+            statusCode: 0,
             myPodCastequestStatus: MyPodCastRequestStatus.success,
             myPodcastEntite: r)));
   }
@@ -122,12 +124,14 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         (l) => emit(
               state.copyWith(
                 errorMessage: l.message,
+                statusCode: l.statusCode,
                 uploadPodcastRequestStatus: UploadPodcastRequestStatus.error,
               ),
             ), (r) {
       emit(
         state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           uploadPodcastRequestStatus:
               UploadPodcastRequestStatus.signatureGetSuccess,
         ),
@@ -164,6 +168,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     result.fold(
       (l) => emit(
         state.copyWith(
+          statusCode: l.statusCode,
           errorMessage: l.message,
           updateUserDataRequestStatus: UpdateUserDataRequestStatus.error,
         ),
@@ -171,6 +176,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
       (r) => emit(
         state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           updatedUserDataInfoEntitie: r,
           updateUserDataRequestStatus: UpdateUserDataRequestStatus.success,
         ),
@@ -196,11 +202,13 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
+            statusCode: l.statusCode,
             uploadPodcastRequestStatus: UploadPodcastRequestStatus.error)),
         (r) {
       emit(
         state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           uploadPodcastRequestStatus:
               UploadPodcastRequestStatus.podcastUploadedSuccess,
         ),
@@ -228,11 +236,13 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     );
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             errorMessage: l.message,
             uploadPodcastRequestStatus: UploadPodcastRequestStatus.error)),
         (r) {
       emit(
         state.copyWith(
+          statusCode: 0,
           errorMessage: '',
           uploadPodcastRequestStatus:
               UploadPodcastRequestStatus.podcastCreatedSucess,
@@ -256,12 +266,14 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     );
     result.fold(
       (l) => emit(state.copyWith(
+          statusCode: l.statusCode,
           errorMessage: l.message,
           updatePasswordRequestStatus: UpdateUserDataRequestStatus.error)),
       (r) => emit(
         state.copyWith(
             errorMessage: '',
             newToken: r,
+            statusCode: 0,
             updatePasswordRequestStatus: UpdateUserDataRequestStatus.success),
       ),
     );
@@ -280,10 +292,12 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             errorMessage: l.message,
             eventCreateRequestStatus: EventCreateRequestStatus.error)), (r) {
       emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           eventCreateRequestStatus: EventCreateRequestStatus.success));
       add(MyEventsGetEvent(event.accessToken));
     });
@@ -294,11 +308,13 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     final result = await myEventsGetUsecase(MyEventsParams(event.accessToken));
     result.fold(
       (l) => emit(state.copyWith(
+          statusCode: l.statusCode,
           errorMessage: l.message,
           myEventRequestStatus: UserDataGetRequestStatus.error)),
       (r) => emit(
         state.copyWith(
             errorMessage: '',
+            statusCode: 0,
             myEvents: r,
             myEventRequestStatus: UserDataGetRequestStatus.success),
       ),
@@ -357,10 +373,12 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         FollowersFollowingParams(event.accessToken));
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             getMyFollowersRequestStatus: UserDataGetRequestStatus.error,
             errorMessage: l.message)),
         (r) => emit(state.copyWith(
             followersData: r,
+            statusCode: 0,
             getMyFollowersRequestStatus: UserDataGetRequestStatus.success,
             errorMessage: '')));
   }
@@ -373,10 +391,12 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         FollowersFollowingParams(event.accessToken));
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             getMyFollowingRequestStatus: UserDataGetRequestStatus.error,
             errorMessage: l.message)),
         (r) => emit(state.copyWith(
             followingData: r,
+            statusCode: 0,
             getMyFollowingRequestStatus: UserDataGetRequestStatus.success,
             errorMessage: '')));
   }
@@ -389,7 +409,9 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            errorMessage: l.message, isEndOfFollowersData: true)), (r) {
+            statusCode: l.statusCode,
+            errorMessage: l.message,
+            isEndOfFollowersData: true)), (r) {
       if (r.result == 0) {
         emit(state.copyWith(
           isEndOfFollowersData: true,
@@ -403,6 +425,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
         emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           followersData: followersEntitie,
           isEndOfFollowersData: false,
         ));
@@ -427,7 +450,9 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            errorMessage: l.message, isEndOfFollowingData: true)), (r) {
+            statusCode: l.statusCode,
+            errorMessage: l.message,
+            isEndOfFollowingData: true)), (r) {
       if (r.result == 0) {
         emit(state.copyWith(
           isEndOfFollowingData: true,
@@ -441,6 +466,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
         emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           followingData: followingData,
           isEndOfFollowingData: false,
         ));
@@ -466,10 +492,12 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
+            statusCode: l.statusCode,
             myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.error)),
         (r) {
       emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           myPodCastRemoveRequestStatus: MyDataRemoveRequestStatus.removed));
       add(MyPodcastsGetEvent(event.accessToken));
     });
@@ -484,9 +512,11 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             errorMessage: l.message,
             myEventRemoveRequestStatus: MyDataRemoveRequestStatus.error)), (r) {
       emit(state.copyWith(
+          statusCode: 0,
           errorMessage: '',
           myEventRemoveRequestStatus: MyDataRemoveRequestStatus.removed));
       add(MyEventsGetEvent(event.accessToken));
@@ -506,10 +536,12 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
 
     result.fold(
         (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
             errorMessage: l.message,
             myEventUpdateRequestStatus: MyDataUpdateRequestStatus.error)), (r) {
       emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           myEventUpdateRequestStatus: MyDataUpdateRequestStatus.updated));
       add(MyEventsGetEvent(event.accessToken));
     });
@@ -569,9 +601,11 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
+            statusCode: l.statusCode,
             updateUserPhotoRequestStatus: UpdateUserDataRequestStatus.error)),
         (r) => emit(state.copyWith(
             errorMessage: '',
+            statusCode: 0,
             pickedUserProfileImageFilePath: '',
             updateUserPhotoRequestStatus:
                 UpdateUserDataRequestStatus.success)));

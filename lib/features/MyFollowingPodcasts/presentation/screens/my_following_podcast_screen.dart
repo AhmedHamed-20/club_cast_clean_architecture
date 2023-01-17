@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
+import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,9 +30,22 @@ class MyFollowingPodcastScreen extends StatelessWidget {
               case MyFollowingPodcastsRequestStatus.success:
                 return const MainMyFollowingPodcastsWidget();
               case MyFollowingPodcastsRequestStatus.error:
-                return Center(
-                  child: Text(state.errorMessage),
-                );
+                if (state.statusCode == 403 || state.statusCode == 401) {
+                  return ErrorScreen(
+                    message: state.errorMessage,
+                    statusCode: state.statusCode,
+                  );
+                } else {
+                  return ErrorScreen(
+                    message: state.errorMessage,
+                    onRetry: () {
+                      BlocProvider.of<PodcastBloc>(context)
+                          .add(GetMyFollowingPodcastsEvent(
+                        accessToken: ConstVar.accessToken,
+                      ));
+                    },
+                  );
+                }
             }
           },
         ));

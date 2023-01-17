@@ -40,6 +40,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       return Left(
         ServerFailure(
           message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -56,6 +57,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       return Left(
         ServerFailure(
           message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -71,6 +73,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       return Left(
         ServerFailure(
           message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -86,6 +89,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       return Left(
         ServerFailure(
           message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -101,6 +105,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       return Left(
         ServerFailure(
           message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -113,8 +118,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.updatePassword(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -124,8 +130,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.createEvent(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -136,8 +143,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.getMyEvents(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -148,8 +156,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.addLike(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -160,8 +169,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.removeLike(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -172,8 +182,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.getFollowers(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -184,8 +195,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.getFollowing(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -197,8 +209,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
           await baseUserInfoRemoteDataSource.getMoreFollowers(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -210,8 +223,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
           await baseUserInfoRemoteDataSource.getMoreFollowing(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -222,8 +236,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.removePodcast(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -234,8 +249,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.removeEvent(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -246,8 +262,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.updateEvent(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 
@@ -258,8 +275,9 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       final result = await baseUserInfoRemoteDataSource.updateUserPhoto(params);
       return Right(result);
     } on ServerException catch (exception) {
-      return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 }

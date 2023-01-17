@@ -35,10 +35,12 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     result.fold(
         (l) => emit(state.copyWith(
             errorMessage: l.message,
+            statusCode: l.statusCode,
             myFollowingPodcastsRequestStatus:
                 MyFollowingPodcastsRequestStatus.error)),
         (r) => emit(state.copyWith(
             errorMessage: '',
+            statusCode: 0,
             myFollowingPodcasts: r,
             myFollowingPodcastsRequestStatus:
                 MyFollowingPodcastsRequestStatus.success)));
@@ -53,10 +55,12 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     result.fold(
         (l) => emit(state.copyWith(
               errorMessage: l.message,
+              statusCode: l.statusCode,
             )), (r) {
       emit(
         state.copyWith(
           errorMessage: '',
+          statusCode: 0,
         ),
       );
       add(
@@ -99,6 +103,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     );
     result.fold(
         (l) => emit(state.copyWith(
+              statusCode: l.statusCode,
               errorMessage: l.message,
               moreMyFollowingPodcastsRequestStatus:
                   MyFollowingPodcastsRequestStatus.error,
@@ -117,6 +122,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
 
         emit(state.copyWith(
           errorMessage: '',
+          statusCode: 0,
           myFollowingPodcasts: myFollowingPodcastsModel,
           isEndOfData: false,
           moreMyFollowingPodcastsRequestStatus:
