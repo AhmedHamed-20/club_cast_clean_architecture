@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
@@ -328,10 +329,21 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         backGroundColorGenerateRequestStatus:
             BackGroundColorGenerateRequestStatus.loading,
         backGroundColors: const []));
-    final paletteGenerator = await PaletteGenerator.fromImageProvider(
-      NetworkImage(event.imageUrl),
-      maximumColorCount: 20,
-    );
+    var paletteGenerator;
+    try {
+      paletteGenerator = await PaletteGenerator.fromImageProvider(
+        CachedNetworkImageProvider(
+          event.imageUrl,
+          errorListener: () {},
+        ),
+        maximumColorCount: 20,
+      );
+    } catch (e) {
+      paletteGenerator = await PaletteGenerator.fromImageProvider(
+        const AssetImage('assets/images/noImage.jpg'),
+        maximumColorCount: 20,
+      );
+    }
     if (paletteGenerator.colors.isNotEmpty) {
       paletteGenerator.paletteColors;
       emit(state.copyWith(

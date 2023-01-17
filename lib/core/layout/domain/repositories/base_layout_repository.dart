@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../usecase/usecase.dart';
@@ -22,4 +23,6 @@ abstract class BaseLayoutRepository {
   Future<Either<Failure, CategoryEntitie>> getCategories(NoParams params);
   Future<Either<Failure, void>> updateCachedAccessToken(
       CachedAccessTokenUpdateParams params);
+  Future<Either<Failure, void>> removeCachedAccessToken(
+      AccessTokenRemoveParams params);
 }

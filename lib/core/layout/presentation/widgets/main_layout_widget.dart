@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,9 +27,28 @@ class MainLayoutWidget extends StatelessWidget {
                     AppRoutesNames.userProfileScreen,
                     arguments: state.userDataEntitie);
               },
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  state.userDataEntitie!.userPhoto,
+              child: CachedNetworkImage(
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                imageUrl: state.userDataEntitie!.userPhoto,
+                errorWidget: (context, url, error) => const CircleAvatar(
+                  radius: AppRadius.r30,
+                  backgroundImage: AssetImage(
+                    'assets/images/noImage.jpg',
+                  ),
                 ),
               ),
             )

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +43,17 @@ class PhotoAndNameWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.r10),
               child: BlocBuilder<LayoutBloc, LayoutState>(
                 builder: (context, layoutState) {
-                  return Image.network(
-                    layoutState.userDataEntitie!.userPhoto,
+                  return CachedNetworkImage(
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/images/noImage.jpg',
+                      width: MediaQueryOfMethods.getAppWidth(context) * 0.5,
+                      height: MediaQueryOfMethods.getAppHeight(context) * 0.3,
+                      fit: BoxFit.cover,
+                    ),
+                    imageUrl: layoutState.userDataEntitie!.userPhoto,
                     width: MediaQueryOfMethods.getAppWidth(context) * 0.5,
                     height: MediaQueryOfMethods.getAppHeight(context) * 0.3,
                     fit: BoxFit.cover,

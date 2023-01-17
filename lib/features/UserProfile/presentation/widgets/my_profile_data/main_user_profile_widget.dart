@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/utl/utls.dart';
 import '../events/my_events_widget.dart';
 import '../podcasts/my_podcasts_widget.dart';
 import 'followers_following_widget.dart';
+import 'logout_alert_dialog_widget.dart';
 
 class MainUserProfileWidget extends StatelessWidget {
   const MainUserProfileWidget({
@@ -23,6 +25,21 @@ class MainUserProfileWidget extends StatelessWidget {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const LogoutAlertDialogWidget();
+                      });
+                },
+              ),
+            ],
             centerTitle: true,
             elevation: 0,
             backgroundColor: AppColors.transparentColor,

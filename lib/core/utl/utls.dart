@@ -12,6 +12,13 @@ enum BackGroundColorGenerateRequestStatus {
   error,
 }
 
+enum LogoutRequestStatus {
+  idle,
+  loading,
+  logoutSuccess,
+  error,
+}
+
 enum AccessTokenUpdateRequestStatus {
   idle,
   loading,

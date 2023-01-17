@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/update_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
@@ -77,6 +78,23 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
     try {
       final result =
           await baseLayoutLocalDataSource.updateCachedAccessToken(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeCachedAccessToken(
+      AccessTokenRemoveParams params) async {
+    try {
+      final result =
+          await baseLayoutLocalDataSource.removeCachedAccessToken(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

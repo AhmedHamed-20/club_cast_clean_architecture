@@ -9,6 +9,7 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_act
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/my_following_podcast_screen.dart';
 import 'package:equatable/equatable.dart';
@@ -27,6 +28,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       this.cachedAccessTokenGetUsecase,
       this.myFollowingEventsUsecase,
       this.categoriesGetUsecase,
+      this.accessTokenRemoveUsecase,
       this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
@@ -35,12 +37,14 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<BottomNavIndexChangeEvent>(_changeBottomNavIndex);
     on<CategoriesGetEvent>(_getCategories);
     on<CachedAccessTokenUpdateEvent>(_updateCachedAccessToken);
+    on<AccessTokenRemoveEvent>(_removeAccessToken);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
   final MyFollowingEventsUsecase myFollowingEventsUsecase;
   final CategoriesGetUsecase categoriesGetUsecase;
   final CachedAccessTokenUpdateUsecase cachedAccessTokenUpdateUsecase;
+  final AccessTokenRemoveUsecase accessTokenRemoveUsecase;
   final List<Widget> bottomNaveIcons = const [
     NavigationDestination(
       icon: Icon(Icons.home),
@@ -167,6 +171,25 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
           errorMessage: '',
           accessTokenUpdateRequestStatus:
               AccessTokenUpdateRequestStatus.success));
+    });
+  }
+
+  FutureOr<void> _removeAccessToken(
+      AccessTokenRemoveEvent event, Emitter<LayoutState> emit) async {
+    emit(state.copyWith(logoutRequestStatus: LogoutRequestStatus.loading));
+
+    final result = await accessTokenRemoveUsecase(AccessTokenRemoveParams(
+      key: event.key,
+    ));
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            logoutRequestStatus: LogoutRequestStatus.error)), (r) {
+      ConstVar.accessToken = '';
+      emit(state.copyWith(
+          errorMessage: '',
+          userDataGetRequestStatus: UserDataGetRequestStatus.loading,
+          logoutRequestStatus: LogoutRequestStatus.logoutSuccess));
     });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -55,9 +56,24 @@ class PodcastCardWidget extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: onPressedOnUserPhoto,
-                    child: CircleAvatar(
-                      radius: AppRadius.r30,
-                      backgroundImage: NetworkImage(podcastPhoto),
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/images/noImage.jpg'),
+                      imageUrl: podcastPhoto,
                     ),
                   ),
                   const SizedBox(

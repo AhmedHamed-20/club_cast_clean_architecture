@@ -23,6 +23,8 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
         'email': params.email,
         'password': params.password,
         'passwordConfirm': params.confirmPassword,
+        "country": "egypt",
+        "language": "arabic",
       });
 
       return AuthModel.fromJson(respone?.data);

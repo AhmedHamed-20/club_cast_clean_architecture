@@ -3,11 +3,14 @@ import 'package:club_cast_clean_architecture/core/error/error_message_model.dart
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 
+import '../../domain/usecases/remove_access_token.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
 abstract class BaseLayoutLocalDataSource {
   Future<String> accessTokenGetFromCache(CachedAccessTokenGetParams params);
   Future<void> updateCachedAccessToken(CachedAccessTokenUpdateParams params);
+
+  Future<void> removeCachedAccessToken(AccessTokenRemoveParams params);
 }
 
 class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
@@ -27,6 +30,15 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
       CachedAccessTokenUpdateParams params) async {
     try {
       await CacheHelper.setData(key: params.key, value: params.value);
+    } on Exception catch (error) {
+      throw CacheException(LocalErrorsMessageModel.fromException(error));
+    }
+  }
+
+  @override
+  Future<void> removeCachedAccessToken(AccessTokenRemoveParams params) async {
+    try {
+      await CacheHelper.removeData(params.key);
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }

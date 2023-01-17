@@ -10,6 +10,7 @@ class LayoutState extends Equatable {
   final int currentBottomNavIndex;
   final UserDataGetRequestStatus categoriesRequestStatus;
   final CategoryEntitie? categoryEntitie;
+  final LogoutRequestStatus logoutRequestStatus;
   final AccessTokenUpdateRequestStatus accessTokenUpdateRequestStatus;
   final int statusCode;
   const LayoutState(
@@ -17,6 +18,7 @@ class LayoutState extends Equatable {
       this.errorMessage = '',
       this.categoryEntitie,
       this.statusCode = 0,
+      this.logoutRequestStatus = LogoutRequestStatus.idle,
       this.accessTokenUpdateRequestStatus = AccessTokenUpdateRequestStatus.idle,
       this.categoriesRequestStatus = UserDataGetRequestStatus.loading,
       this.currentBottomNavIndex = 0,
@@ -36,9 +38,11 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? getAccessTokenRequestStatus,
     UserDataEntitie? userDataEntitie,
     String? errorMessage,
+    LogoutRequestStatus? logoutRequestStatus,
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      logoutRequestStatus: logoutRequestStatus ?? this.logoutRequestStatus,
       statusCode: statusCode ?? this.statusCode,
       accessTokenUpdateRequestStatus:
           accessTokenUpdateRequestStatus ?? this.accessTokenUpdateRequestStatus,
@@ -68,6 +72,7 @@ class LayoutState extends Equatable {
         accessTokenUpdateRequestStatus,
         userDataGetRequestStatus,
         userDataEntitie,
+        logoutRequestStatus,
         errorMessage,
         getAccessTokenRequestStatus,
         myFollowingEventsEntitie,

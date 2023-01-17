@@ -58,6 +58,17 @@ class UserDataUpdateEvent extends LayoutEvent {
   List<Object?> get props => [userDataEntitie];
 }
 
+class AccessTokenRemoveEvent extends LayoutEvent {
+  final String key;
+
+  const AccessTokenRemoveEvent({
+    required this.key,
+  });
+
+  @override
+  List<Object?> get props => [key];
+}
+
 class CachedAccessTokenUpdateEvent extends LayoutEvent {
   final String key;
   final String value;
