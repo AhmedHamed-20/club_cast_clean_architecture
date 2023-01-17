@@ -13,14 +13,26 @@ class UpdatePasswordButtonDesignWidget extends StatelessWidget {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return Defaults.defaultButton(
         onPressed: () {
-          userProfileBloc.add(PasswordUpdateEvent(
-              accessToken: ConstVar.accessToken,
-              newPassword:
-                  TextEditingControllers.updateMyDataNewPasswordController.text,
-              currentPassword:
-                  TextEditingControllers.updateMyDataPasswordController.text,
-              confirmPassword: TextEditingControllers
-                  .updateMyDataPasswordConfirmController.text));
+          if (TextEditingControllers
+                  .updateMyDataNewPasswordController.text.isNotEmpty &&
+              TextEditingControllers
+                  .updateMyDataPasswordController.text.isNotEmpty &&
+              TextEditingControllers
+                  .updateMyDataPasswordConfirmController.text.isNotEmpty) {
+            userProfileBloc.add(PasswordUpdateEvent(
+                accessToken: ConstVar.accessToken,
+                newPassword: TextEditingControllers
+                    .updateMyDataNewPasswordController.text,
+                currentPassword:
+                    TextEditingControllers.updateMyDataPasswordController.text,
+                confirmPassword: TextEditingControllers
+                    .updateMyDataPasswordConfirmController.text));
+          } else {
+            flutterToast(
+                msg: 'Please Fill All Data',
+                backgroundColor: AppColors.toastError,
+                textColor: AppColors.white);
+          }
         },
         context: context,
         text: 'Update Password ');

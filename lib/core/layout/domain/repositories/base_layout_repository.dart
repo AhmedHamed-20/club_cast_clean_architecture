@@ -8,6 +8,7 @@ import '../../../usecase/usecase.dart';
 import '../entities/category_entitie.dart';
 import '../usecases/get_active_user_data.dart';
 import '../usecases/get_my_following_events.dart';
+import '../usecases/update_cached_access_token.dart';
 
 abstract class BaseLayoutRepository {
   Future<Either<Failure, UserDataEntitie>> getActiveUserData(
@@ -19,4 +20,6 @@ abstract class BaseLayoutRepository {
       MyFollowingEventsParams params);
 
   Future<Either<Failure, CategoryEntitie>> getCategories(NoParams params);
+  Future<Either<Failure, void>> updateCachedAccessToken(
+      CachedAccessTokenUpdateParams params);
 }

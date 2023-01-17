@@ -10,10 +10,12 @@ class LayoutState extends Equatable {
   final int currentBottomNavIndex;
   final UserDataGetRequestStatus categoriesRequestStatus;
   final CategoryEntitie? categoryEntitie;
+  final AccessTokenUpdateRequestStatus accessTokenUpdateRequestStatus;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
       this.categoryEntitie,
+      this.accessTokenUpdateRequestStatus = AccessTokenUpdateRequestStatus.idle,
       this.categoriesRequestStatus = UserDataGetRequestStatus.loading,
       this.currentBottomNavIndex = 0,
       this.myFollowingEventsEntitie = const [],
@@ -22,6 +24,7 @@ class LayoutState extends Equatable {
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   LayoutState copyWith({
+    AccessTokenUpdateRequestStatus? accessTokenUpdateRequestStatus,
     CategoryEntitie? categoryEntitie,
     UserDataGetRequestStatus? categoriesRequestStatus,
     int? currentBottomNavIndex,
@@ -33,6 +36,8 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      accessTokenUpdateRequestStatus:
+          accessTokenUpdateRequestStatus ?? this.accessTokenUpdateRequestStatus,
       categoryEntitie: categoryEntitie ?? this.categoryEntitie,
       categoriesRequestStatus:
           categoriesRequestStatus ?? this.categoriesRequestStatus,
@@ -55,6 +60,7 @@ class LayoutState extends Equatable {
   List<Object?> get props => [
         categoriesRequestStatus,
         categoryEntitie,
+        accessTokenUpdateRequestStatus,
         userDataGetRequestStatus,
         userDataEntitie,
         errorMessage,

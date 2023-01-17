@@ -9,6 +9,7 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_act
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/update_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
@@ -70,6 +71,7 @@ class ServiceLocator {
         ));
 
     servicelocator.registerFactory<LayoutBloc>(() => LayoutBloc(
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -164,6 +166,8 @@ class ServiceLocator {
         () => CategoriesGetUsecase(servicelocator()));
     servicelocator.registerFactory<UpdateUserImageUsecase>(
         () => UpdateUserImageUsecase(servicelocator()));
+    servicelocator.registerFactory<CachedAccessTokenUpdateUsecase>(
+        () => CachedAccessTokenUpdateUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

@@ -26,9 +26,11 @@ class UserProfileState extends Equatable {
   final String pickedPodcastFilePath;
   final String pickedUserProfileImageFilePath;
   final UpdateUserDataRequestStatus updateUserPhotoRequestStatus;
+  final String newToken;
   const UserProfileState(
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
+      this.newToken = '',
       this.backGroundColors = const [],
       this.updateUserPhotoRequestStatus = UpdateUserDataRequestStatus.idle,
       this.pickedUserProfileImageFilePath = '',
@@ -62,6 +64,7 @@ class UserProfileState extends Equatable {
     OtherUsersDataEntitie? followersData,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
+    String? newToken,
     String? pickedUserProfileImageFilePath,
     OtherUsersDataEntitie? followingData,
     UserDataGetRequestStatus? getMyFollowersRequestStatus,
@@ -80,6 +83,7 @@ class UserProfileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserProfileState(
+      newToken: newToken ?? this.newToken,
       updateUserPhotoRequestStatus:
           updateUserPhotoRequestStatus ?? this.updateUserPhotoRequestStatus,
       pickedUserProfileImageFilePath:
@@ -132,6 +136,7 @@ class UserProfileState extends Equatable {
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,
+        newToken,
         pickedPodcastFilePath,
         followersData,
         followingData,

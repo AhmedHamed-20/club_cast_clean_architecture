@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/update_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
@@ -61,6 +62,19 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       NoParams params) async {
     try {
       final result = await baseLayoutRemoteDataSource.getCategories(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+          ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateCachedAccessToken(
+      CachedAccessTokenUpdateParams params) async {
+    try {
+      final result =
+          await baseLayoutLocalDataSource.updateCachedAccessToken(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

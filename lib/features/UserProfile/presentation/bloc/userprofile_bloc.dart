@@ -261,6 +261,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
       (r) => emit(
         state.copyWith(
             errorMessage: '',
+            newToken: r,
             updatePasswordRequestStatus: UpdateUserDataRequestStatus.success),
       ),
     );

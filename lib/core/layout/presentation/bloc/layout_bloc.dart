@@ -16,24 +16,31 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
+import '../../domain/usecases/update_cached_access_token.dart';
 
 part 'layout_event.dart';
 part 'layout_state.dart';
 
 class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
-  LayoutBloc(this.activeUserDataGetUseCase, this.cachedAccessTokenGetUsecase,
-      this.myFollowingEventsUsecase, this.categoriesGetUsecase)
+  LayoutBloc(
+      this.activeUserDataGetUseCase,
+      this.cachedAccessTokenGetUsecase,
+      this.myFollowingEventsUsecase,
+      this.categoriesGetUsecase,
+      this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
     on<AccessTokenGetFromCacheEvent>(_getAccessTokenFromCache);
     on<MyFollowingEventsGetEvent>(_getMyFollowingEvents);
     on<BottomNavIndexChangeEvent>(_changeBottomNavIndex);
     on<CategoriesGetEvent>(_getCategories);
+    on<CachedAccessTokenUpdateEvent>(_updateCachedAccessToken);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
   final MyFollowingEventsUsecase myFollowingEventsUsecase;
   final CategoriesGetUsecase categoriesGetUsecase;
+  final CachedAccessTokenUpdateUsecase cachedAccessTokenUpdateUsecase;
   final List<Widget> bottomNaveIcons = const [
     NavigationDestination(
       icon: Icon(Icons.home),
@@ -130,5 +137,27 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         ),
       ),
     );
+  }
+
+  FutureOr<void> _updateCachedAccessToken(
+      CachedAccessTokenUpdateEvent event, Emitter<LayoutState> emit) async {
+    emit(state.copyWith(
+        accessTokenUpdateRequestStatus:
+            AccessTokenUpdateRequestStatus.loading));
+    final result = await cachedAccessTokenUpdateUsecase(
+        CachedAccessTokenUpdateParams(key: event.key, value: event.value));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+              errorMessage: l.message,
+              accessTokenUpdateRequestStatus:
+                  AccessTokenUpdateRequestStatus.error,
+            )), (r) {
+      ConstVar.accessToken = event.value;
+      emit(state.copyWith(
+          errorMessage: '',
+          accessTokenUpdateRequestStatus:
+              AccessTokenUpdateRequestStatus.success));
+    });
   }
 }

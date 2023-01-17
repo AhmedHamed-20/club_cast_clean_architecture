@@ -12,6 +12,13 @@ enum BackGroundColorGenerateRequestStatus {
   error,
 }
 
+enum AccessTokenUpdateRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
 enum PodcastDownloadRequestStatus {
   idle,
   loading,
