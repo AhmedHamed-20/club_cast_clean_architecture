@@ -117,3 +117,9 @@ enum UploadPodcastRequestStatus {
   podcastCreatedSucess,
   error,
 }
+
+enum FollowersFollowingDataGetRequestStatus {
+  loading,
+  success,
+  error,
+}

@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -73,4 +74,18 @@ class OtherUserProfileScreenParams extends Equatable {
   List<Object?> get props => [
         userId,
       ];
+}
+
+class OtherUserFollowersFollowingScreenParams extends Equatable {
+  final String userId;
+  final bool isFollwers;
+  final OtherUserProfileBloc otherUserProfileBloc;
+
+  const OtherUserFollowersFollowingScreenParams(
+      {required this.userId,
+      required this.isFollwers,
+      required this.otherUserProfileBloc});
+
+  @override
+  List<Object?> get props => [userId, isFollwers, otherUserProfileBloc];
 }

@@ -31,6 +31,7 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presen
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/datasources/remote_other_users_data_source.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/repositories/other_user_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/repositories/base_repository.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_followers.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_profile_data.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
@@ -58,6 +59,7 @@ import 'package:get_it/get_it.dart';
 import '../../features/Auth/domain/usecases/login.dart';
 import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
 import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.dart';
+import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
@@ -106,6 +108,8 @@ class ServiceLocator {
         servicelocator()));
     servicelocator
         .registerFactory<OtherUserProfileBloc>(() => OtherUserProfileBloc(
+              servicelocator(),
+              servicelocator(),
               servicelocator(),
             ));
 
@@ -183,6 +187,11 @@ class ServiceLocator {
         () => AccessTokenRemoveUsecase(servicelocator()));
     servicelocator.registerFactory<OtherUserProfileDataGetUsecase>(
         () => OtherUserProfileDataGetUsecase(servicelocator()));
+
+    servicelocator.registerFactory<OtherUserFollowersUsecase>(
+        () => OtherUserFollowersUsecase(servicelocator()));
+    servicelocator.registerFactory<OtherUserFollowingUsecase>(
+        () => OtherUserFollowingUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

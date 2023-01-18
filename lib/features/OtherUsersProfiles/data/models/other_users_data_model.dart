@@ -18,7 +18,7 @@ class OtherUserDataModel extends OtherUserDataEntitie {
         userPhoto: json['photo'],
         followers: json['followers'],
         following: json['following'],
-        uid: json['uid'],
+        uid: json['_id'],
         isFollowing: json['isFollowed'],
         email: json['email'] ?? '',
         createdAt: json['createdAt'],

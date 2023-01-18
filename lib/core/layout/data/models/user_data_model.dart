@@ -18,7 +18,7 @@ class UserDataModel extends UserDataEntitie {
       userPhoto: json['photo'],
       followers: json['followers'],
       following: json['following'],
-      uid: json['following'],
+      uid: json['_id'],
       createdAt: json['createdAt'],
       bio: json['bio'],
     );

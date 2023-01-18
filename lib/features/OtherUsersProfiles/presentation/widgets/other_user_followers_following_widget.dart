@@ -1,6 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constants/constants.dart';
 
 class OtherUserFollowersFollowingWidget extends StatelessWidget {
   const OtherUserFollowersFollowingWidget({
@@ -9,19 +12,22 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final OtherUserProfileBloc otherUserProfileBloc =
+        BlocProvider.of<OtherUserProfileBloc>(context);
     return BlocBuilder<OtherUserProfileBloc, OtherUserProfileState>(
       builder: (context, state) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
             onTap: () {
-              // Navigator.of(context).pushNamed(
-              //   AppRoutesNames.myProfileFollowersFollowingScreen,
-              //   arguments: MyProfileFollowersFollowingScreenParams(
-              //       accessToken: ConstVar.accessToken,
-              //       isFollowers: true,
-              //       userprofileBloc: userProfileBloc),
-              // );
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.otherUserFollowersFollowingScreen,
+                arguments: OtherUserFollowersFollowingScreenParams(
+                  isFollwers: true,
+                  otherUserProfileBloc: otherUserProfileBloc,
+                  userId: state.otherUserDataEntitie!.uid.toString(),
+                ),
+              );
             },
             child: Column(
               children: [
@@ -38,13 +44,14 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Navigator.of(context).pushNamed(
-              //   AppRoutesNames.myProfileFollowersFollowingScreen,
-              //   arguments: MyProfileFollowersFollowingScreenParams(
-              //       accessToken: ConstVar.accessToken,
-              //       isFollowers: false,
-              //       userprofileBloc: userProfileBloc),
-              // );
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.otherUserFollowersFollowingScreen,
+                arguments: OtherUserFollowersFollowingScreenParams(
+                  isFollwers: false,
+                  otherUserProfileBloc: otherUserProfileBloc,
+                  userId: state.otherUserDataEntitie!.uid.toString(),
+                ),
+              );
             },
             child: Column(
               children: [

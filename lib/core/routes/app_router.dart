@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/core/layout/presentation/screens/la
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/screens/other_user_followers_following_screen.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/screens/other_user_profile_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/edit_profile_basic_info_screen.dart';
@@ -108,6 +109,16 @@ class AppRoutes {
                   userId: arguments.userId,
                 ));
 
+      case AppRoutesNames.otherUserFollowersFollowingScreen:
+        OtherUserFollowersFollowingScreenParams arguments =
+            args as OtherUserFollowersFollowingScreenParams;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: arguments.otherUserProfileBloc,
+                  child: OtherUserFollowersFollowingScreen(
+                      isFollwers: arguments.isFollwers,
+                      userId: arguments.userId),
+                ));
       default:
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,31 @@ class UserCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        radius: AppRadius.r40,
-        backgroundImage: NetworkImage(userPhoto),
+      leading: CachedNetworkImage(
+        imageUrl: userPhoto,
+        imageBuilder: (context, imageProvider) => Container(
+          width: 50.0,
+          height: 50.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Container(
+          width: 50.0,
+          height: 50.0,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage('assets/images/noImage.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
       title: Text(
         userName,

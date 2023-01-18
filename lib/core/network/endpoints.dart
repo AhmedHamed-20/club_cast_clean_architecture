@@ -4,6 +4,10 @@ class EndPoints {
   static const String getMe = '$baseUrl/v1/users/me';
   static const String login = "$baseUrl/v1/users/login";
   static const String signup = "$baseUrl/v1/users/signup";
+  static String userFollowers(String userId) =>
+      '$baseUrl/v1/users/$userId/followers';
+  static String userFollowing(String userId) =>
+      '$baseUrl/v1/users/$userId/following';
   static const String forgotPassword = "$baseUrl/v1/users/forgotPassword";
   static const String allCategory = "$baseUrl/v1/categories/";
   static const String profile = "$baseUrl/v1/users/me";

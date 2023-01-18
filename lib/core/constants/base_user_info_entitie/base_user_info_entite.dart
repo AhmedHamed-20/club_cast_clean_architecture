@@ -5,7 +5,7 @@ abstract class BaseUserDataEntitie extends Equatable {
   final String userPhoto;
   final int followers;
   final int following;
-  final int uid;
+  final String uid;
   final String createdAt;
   final String bio;
   final String email;
