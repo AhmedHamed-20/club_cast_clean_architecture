@@ -61,3 +61,16 @@ class UploadPodcastScreenParams extends Equatable {
   @override
   List<Object?> get props => [userprofileBloc];
 }
+
+class OtherUserProfileScreenParams extends Equatable {
+  final String userId;
+
+  const OtherUserProfileScreenParams(
+    this.userId,
+  );
+
+  @override
+  List<Object?> get props => [
+        userId,
+      ];
+}

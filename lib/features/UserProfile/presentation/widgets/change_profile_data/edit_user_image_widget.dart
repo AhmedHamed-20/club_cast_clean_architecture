@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/constants/constants.dart';
 import '../../../../../core/layout/presentation/bloc/layout_bloc.dart';
 import '../../bloc/userprofile_bloc.dart';
 import 'change_photo_alert_dialog_widget.dart';

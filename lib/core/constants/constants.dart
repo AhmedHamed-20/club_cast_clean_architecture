@@ -222,6 +222,8 @@ class AppRoutesNames {
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/create_event_screen';
   static const String uploadPodcastScreen =
       '/layout_screen/user_profile_screen/myProfile_followers_following_screen/upload_podcast_screen';
+  static const String otherUserProfileScreen =
+      '/layout_screen/other_user_profile_screen';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

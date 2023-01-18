@@ -5,9 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData darkMode = ThemeData(
-    bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: AppColors.transparentColor,
-      modalBackgroundColor: AppColors.transparentColor,
+    colorScheme: ColorScheme.dark(
+        secondary: AppColors.primaryColorDark,
+        primary: AppColors.primaryColorDark),
+    splashColor: AppColors.primaryColorDark,
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
+      modalBackgroundColor: Colors.transparent,
     ),
     appBarTheme: AppBarTheme(
       titleSpacing: 20,
@@ -45,10 +49,15 @@ class AppTheme {
   );
 
   static ThemeData lightMode = ThemeData(
+    colorScheme: ColorScheme.light(
+        secondary: AppColors.primaryColorLight,
+        primary: AppColors.primaryColorLight),
+    splashColor: AppColors.primaryColorLight,
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.transparent,
       modalBackgroundColor: Colors.transparent,
     ),
+
     backgroundColor: Colors.white,
     textTheme: TextTheme(
       titleMedium: GoogleFonts.rubik(
