@@ -11,10 +11,17 @@ class OtherUserProfileState extends Equatable {
       followersFollowingDataGetRequestStatus;
   final bool isEndOfFollowersData;
   final bool isEndOfFollowingData;
+  final OtherUserPodcastEntitie? otherUserPodcastEntitie;
+  final UserDataGetRequestStatus otherUserPodcastGetRequestStatus;
+  final bool isEndOfPodcastData;
+
   const OtherUserProfileState(
       {this.otherUserDataEntitie,
       this.errorMessage = '',
       this.statusCode = 0,
+      this.isEndOfPodcastData = false,
+      this.otherUserPodcastEntitie,
+      this.otherUserPodcastGetRequestStatus = UserDataGetRequestStatus.loading,
       this.isEndOfFollowersData = false,
       this.isEndOfFollowingData = false,
       this.followersFollowingDataGetRequestStatus =
@@ -23,6 +30,9 @@ class OtherUserProfileState extends Equatable {
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   OtherUserProfileState copyWith({
+    bool? isEndOfPodcastData,
+    OtherUserPodcastEntitie? otherUserPodcastEntitie,
+    UserDataGetRequestStatus? otherUserPodcastGetRequestStatus,
     FollowersFollowingDataGetRequestStatus?
         followersFollowingDataGetRequestStatus,
     OtherUserFollowersFollowingDataEntitie?
@@ -48,6 +58,11 @@ class OtherUserProfileState extends Equatable {
       statusCode: statusCode ?? this.statusCode,
       userDataGetRequestStatus:
           userDataGetRequestStatus ?? this.userDataGetRequestStatus,
+      otherUserPodcastEntitie:
+          otherUserPodcastEntitie ?? this.otherUserPodcastEntitie,
+      otherUserPodcastGetRequestStatus: otherUserPodcastGetRequestStatus ??
+          this.otherUserPodcastGetRequestStatus,
+      isEndOfPodcastData: isEndOfPodcastData ?? this.isEndOfPodcastData,
     );
   }
 
@@ -61,5 +76,8 @@ class OtherUserProfileState extends Equatable {
         userDataGetRequestStatus,
         otherUserFollowersFollowingDataEntitie,
         followersFollowingDataGetRequestStatus,
+        otherUserPodcastEntitie,
+        otherUserPodcastGetRequestStatus,
+        isEndOfPodcastData,
       ];
 }

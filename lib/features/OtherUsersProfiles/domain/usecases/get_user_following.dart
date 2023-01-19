@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../entities/followers_following_data_entitie.dart';
-import '../repositories/base_repository.dart';
+import '../repositories/base_other_user_repository.dart';
 import 'get_user_followers.dart';
 
 class OtherUserFollowingUsecase extends BaseUsecase<

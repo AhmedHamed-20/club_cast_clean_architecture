@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'bio_widget.dart';
 import 'follow_un_follow_button_widget.dart';
 import 'other_user_followers_following_widget.dart';
+import 'other_user_podcasts_widget.dart';
 import 'other_user_profile_name_widget.dart';
 
 class MainOtherUserProfileWidget extends StatelessWidget {
   const MainOtherUserProfileWidget({
     Key? key,
+    required this.userId,
   }) : super(key: key);
-
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -69,7 +71,7 @@ class MainOtherUserProfileWidget extends StatelessWidget {
             ];
           },
           body: TabBarView(
-            children: [Container(), Container()],
+            children: [OtherUserPodcastsWidget(userId: userId), Container()],
           )),
     );
   }

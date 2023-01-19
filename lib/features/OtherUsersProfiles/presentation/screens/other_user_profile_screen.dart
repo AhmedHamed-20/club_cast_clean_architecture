@@ -20,7 +20,9 @@ class OtherUserProfileScreen extends StatelessWidget {
             accessToken: ConstVar.accessToken,
             userId: userId,
           ),
-        ),
+        )
+        ..add(OtherUserPodcastsGetEvent(
+            accessToken: ConstVar.accessToken, userId: userId)),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.transparentColor,
@@ -39,7 +41,9 @@ class OtherUserProfileScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case UserDataGetRequestStatus.success:
-                return const MainOtherUserProfileWidget();
+                return MainOtherUserProfileWidget(
+                  userId: userId,
+                );
               case UserDataGetRequestStatus.error:
                 if (state.statusCode == 403 || state.statusCode == 401) {
                   return ErrorScreen(

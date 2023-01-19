@@ -18,31 +18,19 @@ class MainMyFollowingPodcastsWidget extends StatefulWidget {
 
 class _MainMyFollowingPodcastsWidgetState
     extends State<MainMyFollowingPodcastsWidget> {
-  final ScrollController scrollController = ScrollController();
+  ScrollController scrollController = ScrollController();
   bool isEndOfData = false;
   @override
   void initState() {
     super.initState();
-    //  downloadProgress = StreamController<double>();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          isEndOfData == false) {
-        BlocProvider.of<PodcastBloc>(context).add(
-          MoreMyFollowingPodcastsGetEvent(
-            accessToken: ConstVar.accessToken,
-            page: myFollowingPodcastsPage.toString(),
-          ),
-        );
-        myFollowingPodcastsPage++;
-      }
-    });
+    addScrollListener();
   }
 
   @override
   void dispose() async {
     myFollowingPodcastsPage = 2;
     isEndOfData = false;
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -78,5 +66,22 @@ class _MainMyFollowingPodcastsWidgetState
         },
       ),
     );
+  }
+
+  void addScrollListener() {
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          isEndOfData == false) {
+        BlocProvider.of<PodcastBloc>(context).add(
+          MoreMyFollowingPodcastsGetEvent(
+            accessToken: ConstVar.accessToken,
+            page: myFollowingPodcastsPage.toString(),
+          ),
+        );
+        myFollowingPodcastsPage++;
+      }
+    });
   }
 }

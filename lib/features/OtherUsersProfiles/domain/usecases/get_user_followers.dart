@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../entities/followers_following_data_entitie.dart';
-import '../repositories/base_repository.dart';
+import '../repositories/base_other_user_repository.dart';
 
 class OtherUserFollowersUsecase extends BaseUsecase<
     OtherUserFollowersFollowingDataEntitie, OtherUserFollowersFollowingParams> {

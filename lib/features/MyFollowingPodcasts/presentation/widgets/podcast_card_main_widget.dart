@@ -74,7 +74,15 @@ class PodcastCardMainWdget extends StatelessWidget {
                 podcastUserName: myFollowingPodcasts
                     .podcastInformationEntitie[index].podcastUserInfo.userName);
           },
-          onPressedOnUserPhoto: () {},
+          onPressedOnUserPhoto: () {
+            Navigator.of(context).pushNamed(
+              AppRoutesNames.otherUserProfileScreen,
+              arguments: OtherUserProfileScreenParams(
+                myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastUserInfo.userId,
+              ),
+            );
+          },
           onPressedOnLikeButton: () {
             if (myFollowingPodcasts.podcastInformationEntitie[index].isLiked) {
               podcastBloc.add(

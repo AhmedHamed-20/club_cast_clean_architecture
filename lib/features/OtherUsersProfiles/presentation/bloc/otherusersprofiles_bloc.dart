@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
@@ -15,18 +17,24 @@ part 'otherusersprofiles_state.dart';
 
 class OtherUserProfileBloc
     extends Bloc<OtherUserProfileEvent, OtherUserProfileState> {
-  OtherUserProfileBloc(this.otherUserProfileDataGetUsecase,
-      this.otherUserFollowersUsecase, this.otherUserFollowingUsecase)
+  OtherUserProfileBloc(
+      this.otherUserProfileDataGetUsecase,
+      this.otherUserFollowersUsecase,
+      this.otherUserFollowingUsecase,
+      this.otherUserPodcastUsecase)
       : super(const OtherUserProfileState()) {
     on<OtherUserProfileGetEvent>(_getuserProfileData);
     on<OtherUserFollowersGetEvent>(_getUserFollowersData);
     on<OtherUserFollowingGetEvent>(_getUserFollowingData);
     on<OtherUserFollowersGetMoreEvent>(_getUserFollowersMoreData);
     on<OtherUserFollowingGetMoreEvent>(_getUserFollowingMoreData);
+    on<OtherUserPodcastsGetEvent>(_getOtherUserPodcastsData);
+    on<OtherUserPodcastsGetMoreEvent>(_getOtherUserPodcastsMoreData);
   }
   final OtherUserProfileDataGetUsecase otherUserProfileDataGetUsecase;
   final OtherUserFollowingUsecase otherUserFollowingUsecase;
   final OtherUserFollowersUsecase otherUserFollowersUsecase;
+  final OtherUserPodcastUsecase otherUserPodcastUsecase;
   FutureOr<void> _getuserProfileData(OtherUserProfileGetEvent event,
       Emitter<OtherUserProfileState> emit) async {
     if (state.userDataGetRequestStatus != UserDataGetRequestStatus.loading) {
@@ -239,6 +247,90 @@ class OtherUserProfileBloc
           otherUserFollowersFollowingDataEntitie:
               otherUserFollowersFollowingDataEntitie,
           isEndOfFollowingData: true,
+        ));
+      }
+    });
+  }
+
+  FutureOr<void> _getOtherUserPodcastsData(OtherUserPodcastsGetEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    if (state.otherUserPodcastGetRequestStatus !=
+        UserDataGetRequestStatus.loading) {
+      emit(state.copyWith(
+          otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.loading));
+    }
+    final result = await otherUserPodcastUsecase(OtherUserPodcastParams(
+        accessToken: event.accessToken, userId: event.userId, page: 1));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.error)),
+        (r) {
+      if (r.results <= 10) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfPodcastData: true,
+            otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.success,
+            otherUserPodcastEntitie: r,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfPodcastData: false,
+            otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.success,
+            otherUserPodcastEntitie: r,
+          ),
+        );
+      }
+    });
+  }
+
+  FutureOr<void> _getOtherUserPodcastsMoreData(
+      OtherUserPodcastsGetMoreEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    final result = await otherUserPodcastUsecase(OtherUserPodcastParams(
+        accessToken: event.accessToken,
+        userId: event.userId,
+        page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            isEndOfPodcastData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfPodcastData: true,
+        ));
+      } else if (r.results == 10) {
+        OtherUserPodcastEntitie otherUserPodcastEntitie;
+        otherUserPodcastEntitie = state.otherUserPodcastEntitie!;
+
+        otherUserPodcastEntitie.otherUserPodcastDataEntitie
+            .addAll(r.otherUserPodcastDataEntitie);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          otherUserPodcastEntitie: otherUserPodcastEntitie,
+          isEndOfPodcastData: false,
+        ));
+      } else {
+        OtherUserPodcastEntitie otherUserPodcastEntitie =
+            state.otherUserPodcastEntitie!;
+        otherUserPodcastEntitie.otherUserPodcastDataEntitie
+            .addAll(r.otherUserPodcastDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          otherUserPodcastEntitie: otherUserPodcastEntitie,
+          isEndOfPodcastData: true,
         ));
       }
     });
