@@ -3,6 +3,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/params.dart';
 import '../../../../../core/widgets/users_card_widget.dart';
 
 int myFollowingPage = 2;
@@ -60,11 +61,21 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
               itemBuilder: (context, index) {
                 if (index <
                     state.followingData!.followerFollowigDataEntite.length) {
-                  return UserCardWidget(
-                    userName: state.followingData!
-                        .followerFollowigDataEntite[index].userName,
-                    userPhoto: state.followingData!
-                        .followerFollowigDataEntite[index].userPhoto,
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                          AppRoutesNames.otherUserProfileScreen,
+                          arguments: OtherUserProfileScreenParams(state
+                              .followingData!
+                              .followerFollowigDataEntite[index]
+                              .userId));
+                    },
+                    child: UserCardWidget(
+                      userName: state.followingData!
+                          .followerFollowigDataEntite[index].userName,
+                      userPhoto: state.followingData!
+                          .followerFollowigDataEntite[index].userPhoto,
+                    ),
                   );
                 } else {
                   return state.isEndOfFollowingData

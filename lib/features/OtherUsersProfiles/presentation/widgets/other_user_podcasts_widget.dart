@@ -48,9 +48,19 @@ class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
               child: CircularProgressIndicator(),
             );
           case UserDataGetRequestStatus.success:
-            return MainOtherUserPodcastWidget(
-              otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
-            );
+            if (state
+                .otherUserPodcastEntitie!.otherUserPodcastDataEntitie.isEmpty) {
+              return Center(
+                child: Text(
+                  'No Podcasts Found',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              );
+            } else {
+              return MainOtherUserPodcastWidget(
+                otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
+              );
+            }
           case UserDataGetRequestStatus.error:
             if (state.statusCode == 403 || state.statusCode == 401) {
               return ErrorScreen(
