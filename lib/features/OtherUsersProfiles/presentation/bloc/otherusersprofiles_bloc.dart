@@ -21,6 +21,8 @@ class OtherUserProfileBloc
     on<OtherUserProfileGetEvent>(_getuserProfileData);
     on<OtherUserFollowersGetEvent>(_getUserFollowersData);
     on<OtherUserFollowingGetEvent>(_getUserFollowingData);
+    on<OtherUserFollowersGetMoreEvent>(_getUserFollowersMoreData);
+    on<OtherUserFollowingGetMoreEvent>(_getUserFollowingMoreData);
   }
   final OtherUserProfileDataGetUsecase otherUserProfileDataGetUsecase;
   final OtherUserFollowingUsecase otherUserFollowingUsecase;
@@ -65,21 +67,35 @@ class OtherUserProfileBloc
             accessToken: event.accessToken, uid: event.userId, page: 1));
 
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          statusCode: l.statusCode,
-          followersFollowingDataGetRequestStatus:
-              FollowersFollowingDataGetRequestStatus.error)),
-      (r) => emit(
-        state.copyWith(
-          errorMessage: '',
-          statusCode: 0,
-          followersFollowingDataGetRequestStatus:
-              FollowersFollowingDataGetRequestStatus.success,
-          otherUserFollowersFollowingDataEntitie: r,
-        ),
-      ),
-    );
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.error)), (r) {
+      if (r.results <= 10) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfFollowersData: true,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.success,
+            otherUserFollowersFollowingDataEntitie: r,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfFollowersData: false,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.success,
+            otherUserFollowersFollowingDataEntitie: r,
+          ),
+        );
+      }
+    });
   }
 
   FutureOr<void> _getUserFollowingData(OtherUserFollowingGetEvent event,
@@ -95,20 +111,136 @@ class OtherUserProfileBloc
             accessToken: event.accessToken, uid: event.userId, page: 1));
 
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          statusCode: l.statusCode,
-          followersFollowingDataGetRequestStatus:
-              FollowersFollowingDataGetRequestStatus.error)),
-      (r) => emit(
-        state.copyWith(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.error)), (r) {
+      if (r.results <= 10) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfFollowingData: true,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.success,
+            otherUserFollowersFollowingDataEntitie: r,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfFollowingData: false,
+            followersFollowingDataGetRequestStatus:
+                FollowersFollowingDataGetRequestStatus.success,
+            otherUserFollowersFollowingDataEntitie: r,
+          ),
+        );
+      }
+    });
+  }
+
+  FutureOr<void> _getUserFollowersMoreData(OtherUserFollowersGetMoreEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    final result = await otherUserFollowersUsecase(
+        OtherUserFollowersFollowingParams(
+            accessToken: event.accessToken,
+            uid: event.userId,
+            page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            isEndOfFollowersData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfFollowersData: true,
+        ));
+      } else if (r.results == 10) {
+        OtherUserFollowersFollowingDataEntitie
+            otherUserFollowersFollowingDataEntitie;
+        otherUserFollowersFollowingDataEntitie =
+            state.otherUserFollowersFollowingDataEntitie!;
+
+        otherUserFollowersFollowingDataEntitie
+            .otherUserFollowersFollowingUserDataEntitie
+            .addAll(r.otherUserFollowersFollowingUserDataEntitie);
+
+        emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          followersFollowingDataGetRequestStatus:
-              FollowersFollowingDataGetRequestStatus.success,
-          otherUserFollowersFollowingDataEntitie: r,
-        ),
-      ),
-    );
+          otherUserFollowersFollowingDataEntitie:
+              otherUserFollowersFollowingDataEntitie,
+          isEndOfFollowersData: false,
+        ));
+      } else {
+        OtherUserFollowersFollowingDataEntitie
+            otherUserFollowersFollowingDataEntitie =
+            state.otherUserFollowersFollowingDataEntitie!;
+        otherUserFollowersFollowingDataEntitie
+            .otherUserFollowersFollowingUserDataEntitie
+            .addAll(r.otherUserFollowersFollowingUserDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          otherUserFollowersFollowingDataEntitie:
+              otherUserFollowersFollowingDataEntitie,
+          isEndOfFollowersData: true,
+        ));
+      }
+    });
+  }
+
+  FutureOr<void> _getUserFollowingMoreData(OtherUserFollowingGetMoreEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    final result = await otherUserFollowingUsecase(
+        OtherUserFollowersFollowingParams(
+            accessToken: event.accessToken,
+            uid: event.userId,
+            page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            isEndOfFollowingData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfFollowingData: true,
+        ));
+      } else if (r.results == 10) {
+        OtherUserFollowersFollowingDataEntitie
+            otherUserFollowersFollowingDataEntitie;
+        otherUserFollowersFollowingDataEntitie =
+            state.otherUserFollowersFollowingDataEntitie!;
+
+        otherUserFollowersFollowingDataEntitie
+            .otherUserFollowersFollowingUserDataEntitie
+            .addAll(r.otherUserFollowersFollowingUserDataEntitie);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          otherUserFollowersFollowingDataEntitie:
+              otherUserFollowersFollowingDataEntitie,
+          isEndOfFollowingData: false,
+        ));
+      } else {
+        OtherUserFollowersFollowingDataEntitie
+            otherUserFollowersFollowingDataEntitie =
+            state.otherUserFollowersFollowingDataEntitie!;
+        otherUserFollowersFollowingDataEntitie
+            .otherUserFollowersFollowingUserDataEntitie
+            .addAll(r.otherUserFollowersFollowingUserDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          otherUserFollowersFollowingDataEntitie:
+              otherUserFollowersFollowingDataEntitie,
+          isEndOfFollowingData: true,
+        ));
+      }
+    });
   }
 }

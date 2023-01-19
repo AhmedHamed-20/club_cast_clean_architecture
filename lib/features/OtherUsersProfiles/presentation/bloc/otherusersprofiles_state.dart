@@ -9,10 +9,14 @@ class OtherUserProfileState extends Equatable {
       otherUserFollowersFollowingDataEntitie;
   final FollowersFollowingDataGetRequestStatus
       followersFollowingDataGetRequestStatus;
+  final bool isEndOfFollowersData;
+  final bool isEndOfFollowingData;
   const OtherUserProfileState(
       {this.otherUserDataEntitie,
       this.errorMessage = '',
       this.statusCode = 0,
+      this.isEndOfFollowersData = false,
+      this.isEndOfFollowingData = false,
       this.followersFollowingDataGetRequestStatus =
           FollowersFollowingDataGetRequestStatus.loading,
       this.otherUserFollowersFollowingDataEntitie,
@@ -24,11 +28,15 @@ class OtherUserProfileState extends Equatable {
     OtherUserFollowersFollowingDataEntitie?
         otherUserFollowersFollowingDataEntitie,
     OtherUserDataEntitie? otherUserDataEntitie,
+    bool? isEndOfFollowersData,
+    bool? isEndOfFollowingData,
     String? errorMessage,
     int? statusCode,
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return OtherUserProfileState(
+      isEndOfFollowersData: isEndOfFollowersData ?? this.isEndOfFollowersData,
+      isEndOfFollowingData: isEndOfFollowingData ?? this.isEndOfFollowingData,
       otherUserFollowersFollowingDataEntitie:
           otherUserFollowersFollowingDataEntitie ??
               this.otherUserFollowersFollowingDataEntitie,
@@ -45,6 +53,8 @@ class OtherUserProfileState extends Equatable {
 
   @override
   List<Object?> get props => [
+        isEndOfFollowersData,
+        isEndOfFollowingData,
         otherUserDataEntitie,
         errorMessage,
         statusCode,

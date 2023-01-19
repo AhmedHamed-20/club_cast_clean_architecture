@@ -36,3 +36,39 @@ class OtherUserFollowingGetEvent extends OtherUserProfileEvent {
   @override
   List<Object> get props => [accessToken, userId];
 }
+
+class OtherUserFollowersGetMoreEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+  final int page;
+  const OtherUserFollowersGetMoreEvent({
+    required this.accessToken,
+    required this.userId,
+    required this.page,
+  });
+
+  @override
+  List<Object> get props => [
+        accessToken,
+        userId,
+        page,
+      ];
+}
+
+class OtherUserFollowingGetMoreEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+  final int page;
+  const OtherUserFollowingGetMoreEvent({
+    required this.accessToken,
+    required this.userId,
+    required this.page,
+  });
+
+  @override
+  List<Object> get props => [
+        accessToken,
+        userId,
+        page,
+      ];
+}

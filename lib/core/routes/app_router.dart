@@ -116,7 +116,7 @@ class AppRoutes {
             builder: (context) => BlocProvider.value(
                   value: arguments.otherUserProfileBloc,
                   child: OtherUserFollowersFollowingScreen(
-                      isFollwers: arguments.isFollwers,
+                      isFollowers: arguments.isFollwers,
                       userId: arguments.userId),
                 ));
       default:
