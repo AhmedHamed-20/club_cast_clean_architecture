@@ -1,8 +1,11 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bio_widget.dart';
 import 'follow_un_follow_button_widget.dart';
+import 'other_user_events.dart';
 import 'other_user_followers_following_widget.dart';
 import 'other_user_podcasts_widget.dart';
 import 'other_user_profile_name_widget.dart';
@@ -70,8 +73,21 @@ class MainOtherUserProfileWidget extends StatelessWidget {
               ),
             ];
           },
-          body: TabBarView(
-            children: [OtherUserPodcastsWidget(userId: userId), Container()],
+          body: BlocBuilder<OtherUserProfileBloc, OtherUserProfileState>(
+            builder: (context, state) => TabBarView(
+              children: [
+                OtherUserPodcastsWidget(userId: userId),
+                state.isFollowed
+                    ? const OtherUserEventsWidget()
+                    : Center(
+                        child: Text(
+                          'You need to follow this user to see their events',
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+              ],
+            ),
           )),
     );
   }

@@ -16,10 +16,16 @@ class OtherUserProfileState extends Equatable {
   final bool isEndOfPodcastData;
   final FollowUnfollowUserRequestStatus followUnfollowUserRequestStatus;
   final bool isFollowed;
+  final OtherUserEventsEntitie? otherUserEventsEntitie;
+  final UserDataGetRequestStatus otherUserEventsGetRequestStatus;
+  final bool isEndOfEventsData;
   const OtherUserProfileState(
       {this.otherUserDataEntitie,
       this.errorMessage = '',
       this.statusCode = 0,
+      this.otherUserEventsEntitie,
+      this.otherUserEventsGetRequestStatus = UserDataGetRequestStatus.loading,
+      this.isEndOfEventsData = false,
       this.isFollowed = false,
       this.followUnfollowUserRequestStatus =
           FollowUnfollowUserRequestStatus.idle,
@@ -36,6 +42,9 @@ class OtherUserProfileState extends Equatable {
   OtherUserProfileState copyWith({
     bool? isEndOfPodcastData,
     bool? isFollowed,
+    OtherUserEventsEntitie? otherUserEventsEntitie,
+    UserDataGetRequestStatus? otherUserEventsGetRequestStatus,
+    bool? isEndOfEventsData,
     FollowUnfollowUserRequestStatus? followUnfollowUserRequestStatus,
     OtherUserPodcastEntitie? otherUserPodcastEntitie,
     UserDataGetRequestStatus? otherUserPodcastGetRequestStatus,
@@ -51,6 +60,11 @@ class OtherUserProfileState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return OtherUserProfileState(
+      otherUserEventsEntitie:
+          otherUserEventsEntitie ?? this.otherUserEventsEntitie,
+      otherUserEventsGetRequestStatus: otherUserEventsGetRequestStatus ??
+          this.otherUserEventsGetRequestStatus,
+      isEndOfEventsData: isEndOfEventsData ?? this.isEndOfEventsData,
       isFollowed: isFollowed ?? this.isFollowed,
       followUnfollowUserRequestStatus: followUnfollowUserRequestStatus ??
           this.followUnfollowUserRequestStatus,
@@ -77,6 +91,9 @@ class OtherUserProfileState extends Equatable {
 
   @override
   List<Object?> get props => [
+        otherUserEventsEntitie,
+        otherUserEventsGetRequestStatus,
+        isEndOfEventsData,
         followUnfollowUserRequestStatus,
         isEndOfFollowersData,
         isEndOfFollowingData,

@@ -10,6 +10,7 @@ class EventsCardWidget extends StatelessWidget {
       required this.eventsTitle,
       this.eventUserName,
       this.onPressedOnEdit,
+      required this.isMyProfile,
       this.eventUserPhoto});
   final String eventsTitle;
   final String eventDescription;
@@ -17,6 +18,7 @@ class EventsCardWidget extends StatelessWidget {
   final String? eventUserName;
   final String? eventUserPhoto;
   final VoidCallback? onPressedOnEdit;
+  final bool isMyProfile;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -71,8 +73,12 @@ class EventsCardWidget extends StatelessWidget {
                   ),
                   style: Theme.of(context).textTheme.titleSmall),
             ]),
-            if (eventUserPhoto == null && eventUserName == null) const Spacer(),
-            if (eventUserPhoto == null && eventUserName == null)
+            if (eventUserPhoto == null && eventUserName == null ||
+                isMyProfile == false)
+              const Spacer(),
+            if (eventUserPhoto == null &&
+                eventUserName == null &&
+                isMyProfile == true)
               Align(
                   alignment: AlignmentDirectional.topStart,
                   child: IconButton(

@@ -3,6 +3,8 @@ import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/followers_following_data_model.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_events_model.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:dio/dio.dart';
 
 import '../../domain/usecases/follow_user.dart';
@@ -25,6 +27,7 @@ abstract class BaseRemoteOtherUsersDataSorce {
       OtherUserPodcastParams params);
   Future<void> followUser(FollowUnfollowUserParams params);
   Future<void> unFollowUser(FollowUnfollowUserParams params);
+  Future<OtherUserEventsModel> getOtherUserEvents(OtherUserEventsParams params);
 }
 
 class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
@@ -131,6 +134,24 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
           headers: {
             'Authorization': 'Bearer ${params.accessToken}',
           });
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<OtherUserEventsModel> getOtherUserEvents(
+      OtherUserEventsParams params) async {
+    try {
+      final response =
+          await DioHelper.getData(url: EndPoints.getMyFollowingEvent, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      }, query: {
+        'createdBy': params.userId,
+        'page': params.page
+      });
+      return OtherUserEventsModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));

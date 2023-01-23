@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_event.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
@@ -25,6 +27,7 @@ class OtherUserProfileBloc
       this.otherUserFollowingUsecase,
       this.followUserUsecase,
       this.unFollowUserUsecase,
+      this.otherUserEventsUsecase,
       this.otherUserPodcastUsecase)
       : super(const OtherUserProfileState()) {
     on<OtherUserProfileGetEvent>(_getuserProfileData);
@@ -36,6 +39,8 @@ class OtherUserProfileBloc
     on<OtherUserPodcastsGetMoreEvent>(_getOtherUserPodcastsMoreData);
     on<FollowUserEvent>(_followUser);
     on<UnFollowUserEvent>(_unFollowUser);
+    on<OtherUserEventsGetEvent>(_getOtherUserEvents);
+    on<OtherUserEventsGetMoreEvent>(_getOtherUserEventsMore);
   }
   final OtherUserProfileDataGetUsecase otherUserProfileDataGetUsecase;
   final OtherUserFollowingUsecase otherUserFollowingUsecase;
@@ -43,6 +48,7 @@ class OtherUserProfileBloc
   final OtherUserPodcastUsecase otherUserPodcastUsecase;
   final OtherUserFollowUsecase followUserUsecase;
   final OtherUserUnFollowUsecase unFollowUserUsecase;
+  final OtherUserEventsUsecase otherUserEventsUsecase;
   FutureOr<void> _getuserProfileData(OtherUserProfileGetEvent event,
       Emitter<OtherUserProfileState> emit) async {
     if (state.userDataGetRequestStatus != UserDataGetRequestStatus.loading) {
@@ -55,11 +61,11 @@ class OtherUserProfileBloc
             accessToken: event.accessToken, userId: event.userId));
 
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          statusCode: l.statusCode,
-          userDataGetRequestStatus: UserDataGetRequestStatus.error)),
-      (r) => emit(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            userDataGetRequestStatus: UserDataGetRequestStatus.error)), (r) {
+      emit(
         state.copyWith(
           isFollowed: r.isFollowing,
           errorMessage: '',
@@ -67,8 +73,12 @@ class OtherUserProfileBloc
           userDataGetRequestStatus: UserDataGetRequestStatus.success,
           otherUserDataEntitie: r,
         ),
-      ),
-    );
+      );
+      if (r.isFollowing) {
+        add(OtherUserEventsGetEvent(
+            accessToken: event.accessToken, userId: r.uid));
+      }
+    });
   }
 
   FutureOr<void> _getUserFollowersData(OtherUserFollowersGetEvent event,
@@ -368,6 +378,9 @@ class OtherUserProfileBloc
           statusCode: 0,
           followUnfollowUserRequestStatus:
               FollowUnfollowUserRequestStatus.success));
+
+      add(OtherUserEventsGetEvent(
+          accessToken: event.accessToken, userId: event.userId));
     });
   }
 
@@ -394,6 +407,88 @@ class OtherUserProfileBloc
           statusCode: 0,
           followUnfollowUserRequestStatus:
               FollowUnfollowUserRequestStatus.success));
+    });
+  }
+
+  FutureOr<void> _getOtherUserEvents(OtherUserEventsGetEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    if (state.otherUserEventsGetRequestStatus !=
+        UserDataGetRequestStatus.loading) {
+      emit(state.copyWith(
+          otherUserEventsGetRequestStatus: UserDataGetRequestStatus.loading));
+    }
+
+    final result = await otherUserEventsUsecase(OtherUserEventsParams(
+        accessToken: event.accessToken, userId: event.userId, page: 1));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            otherUserEventsGetRequestStatus: UserDataGetRequestStatus.error)),
+        (r) {
+      if (r.results <= 10) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfEventsData: true,
+            otherUserEventsGetRequestStatus: UserDataGetRequestStatus.success,
+            otherUserEventsEntitie: r,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            statusCode: 0,
+            isEndOfEventsData: false,
+            otherUserEventsGetRequestStatus: UserDataGetRequestStatus.success,
+            otherUserEventsEntitie: r,
+          ),
+        );
+      }
+    });
+  }
+
+  FutureOr<void> _getOtherUserEventsMore(OtherUserEventsGetMoreEvent event,
+      Emitter<OtherUserProfileState> emit) async {
+    final result = await otherUserEventsUsecase(OtherUserEventsParams(
+        accessToken: event.accessToken,
+        userId: event.userId,
+        page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            isEndOfEventsData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfEventsData: true,
+        ));
+      } else if (r.results == 10) {
+        OtherUserEventsEntitie otherUserEventsEntitie;
+        otherUserEventsEntitie = state.otherUserEventsEntitie!;
+
+        otherUserEventsEntitie.events.addAll(r.events);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          otherUserEventsEntitie: otherUserEventsEntitie,
+          isEndOfEventsData: false,
+        ));
+      } else {
+        OtherUserEventsEntitie otherUserEventsEntitie =
+            state.otherUserEventsEntitie!;
+        otherUserEventsEntitie.events.addAll(r.events);
+        emit(state.copyWith(
+          errorMessage: '',
+          otherUserEventsEntitie: otherUserEventsEntitie,
+          isEndOfEventsData: true,
+        ));
+      }
     });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/followers_following_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_event.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
@@ -7,6 +8,7 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_followers.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:dartz/dartz.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_profile_data.dart';
 
@@ -90,6 +92,20 @@ class OtherUserProfileRepositoryImpl extends BaseOtherUserProfilesRepository {
       FollowUnfollowUserParams params) async {
     try {
       final result = await baseRemoteOtherUsersDataSorce.unFollowUser(params);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+          message: e.serverErrorMessageModel.message,
+          statusCode: e.serverErrorMessageModel.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtherUserEventsEntitie>> getOtherUserEvents(
+      OtherUserEventsParams params) async {
+    try {
+      final result =
+          await baseRemoteOtherUsersDataSorce.getOtherUserEvents(params);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(

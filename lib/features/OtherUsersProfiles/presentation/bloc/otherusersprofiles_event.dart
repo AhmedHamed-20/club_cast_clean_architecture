@@ -121,3 +121,37 @@ class UnFollowUserEvent extends OtherUserProfileEvent {
   @override
   List<Object> get props => [accessToken, userId];
 }
+
+class OtherUserEventsGetEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+
+  const OtherUserEventsGetEvent({
+    required this.accessToken,
+    required this.userId,
+  });
+
+  @override
+  List<Object> get props => [
+        accessToken,
+        userId,
+      ];
+}
+
+class OtherUserEventsGetMoreEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+  final int page;
+  const OtherUserEventsGetMoreEvent({
+    required this.accessToken,
+    required this.userId,
+    required this.page,
+  });
+
+  @override
+  List<Object> get props => [
+        accessToken,
+        userId,
+        page,
+      ];
+}

@@ -45,6 +45,7 @@ class MyEventsWidget extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: state.myEvents.length,
                       itemBuilder: (context, index) => EventsCardWidget(
+                          isMyProfile: true,
                           onPressedOnEdit: () {
                             Navigator.of(context).pushNamed(
                               AppRoutesNames.editEventScreen,
