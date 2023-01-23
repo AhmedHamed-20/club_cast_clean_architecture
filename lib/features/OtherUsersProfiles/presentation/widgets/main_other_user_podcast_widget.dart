@@ -56,7 +56,15 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                             .otherUserPodcastDataEntitie[index]);
                   },
                   onPressedOnUserPhoto: () {},
-                  onPressedOnLikeButton: () {},
+                  onPressedOnLikeButton: () {
+                    commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                        podcastId: otherUserPodcastEntitie
+                            .otherUserPodcastDataEntitie[index].podcastId,
+                        podcastLocalStatus:
+                            commonPlayPodcastBlocState.podcastsLikesStatus,
+                        serverLikeStatus: otherUserPodcastEntitie
+                            .otherUserPodcastDataEntitie[index].isLiked);
+                  },
                   podcastPhoto: otherUserPodcastEntitie
                       .otherUserPodcastDataEntitie[index]
                       .podcastUserInfo

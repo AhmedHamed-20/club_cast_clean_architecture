@@ -13,9 +13,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
@@ -38,8 +36,7 @@ abstract class BaseUserInfoRemoteDataSource {
   Future<String> updatePassword(PasswordUpdateParams params);
   Future<void> createEvent(EventCreateParams params);
   Future<List<MyEventEntitie>> getMyEvents(MyEventsParams params);
-  Future<void> addLike(LikeAddMyPodcastsParams params);
-  Future<void> removeLike(LikeRemoveMyPodcastsParams params);
+
   Future<OtherUsersDataModel> getFollowers(FollowersFollowingParams params);
   Future<OtherUsersDataModel> getFollowing(FollowersFollowingParams params);
   Future<OtherUsersDataModel> getMoreFollowers(
@@ -210,36 +207,6 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return (response?.data['data'] as List)
           .map((e) => MyEventsModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
-      throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
-    }
-  }
-
-  @override
-  Future<void> addLike(LikeAddMyPodcastsParams params) async {
-    try {
-      await DioHelper.postData(
-        url: EndPoints.sendLike(params.podcastId),
-        headers: {
-          'Authorization': 'Bearer ${params.accessToken}',
-        },
-      );
-    } on DioError catch (e) {
-      throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
-    }
-  }
-
-  @override
-  Future<void> removeLike(LikeRemoveMyPodcastsParams params) async {
-    try {
-      await DioHelper.deleteData(
-        url: EndPoints.removeLikeFromPodcastById(params.podcastId),
-        headers: {
-          'Authorization': 'Bearer ${params.accessToken}',
-        },
-      );
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));

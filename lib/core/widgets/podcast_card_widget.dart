@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PodcastCardWidget extends StatelessWidget {
   const PodcastCardWidget(
@@ -150,13 +152,30 @@ class PodcastCardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: onPressedOnLikeButton,
-                    icon: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_outline,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  BlocBuilder<CommonPlayingPodcastBlocBloc,
+                      CommonPlayingPodcastBlocState>(builder: (context, state) {
+                    if ((state.podcastsLikesStatus != null &&
+                            state.podcastsLikesStatus!.isNotEmpty) &&
+                        state.podcastsLikesStatus!.containsKey(podcastId)) {
+                      return IconButton(
+                        onPressed: onPressedOnLikeButton,
+                        icon: Icon(
+                          state.podcastsLikesStatus![podcastId] == true
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      );
+                    } else {
+                      return IconButton(
+                        onPressed: onPressedOnLikeButton,
+                        icon: Icon(
+                          isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      );
+                    }
+                  }),
                 ],
               ),
             ],

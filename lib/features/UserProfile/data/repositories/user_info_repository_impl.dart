@@ -1,19 +1,18 @@
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
+import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
@@ -24,7 +23,6 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:dartz/dartz.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
 
 class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   final BaseUserInfoRemoteDataSource baseUserInfoRemoteDataSource;
@@ -141,32 +139,6 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       MyEventsParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyEvents(params);
-      return Right(result);
-    } on ServerException catch (exception) {
-      return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> addLikeToPodcast(
-      LikeAddMyPodcastsParams params) async {
-    try {
-      final result = await baseUserInfoRemoteDataSource.addLike(params);
-      return Right(result);
-    } on ServerException catch (exception) {
-      return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> removeLike(
-      LikeRemoveMyPodcastsParams params) async {
-    try {
-      final result = await baseUserInfoRemoteDataSource.removeLike(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(ServerFailure(

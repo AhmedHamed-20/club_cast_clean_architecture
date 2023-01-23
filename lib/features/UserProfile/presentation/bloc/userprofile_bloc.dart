@@ -10,7 +10,6 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/entitie
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
@@ -31,7 +30,6 @@ import 'package:palette_generator/palette_generator.dart';
 import '../../../../core/utl/utls.dart';
 import '../../domain/usecases/events/remove_event.dart';
 import '../../domain/usecases/podcasts/get_my_podcasts.dart';
-import '../../domain/usecases/podcasts/remove_like.dart';
 
 part 'userprofile_event.dart';
 part 'userprofile_state.dart';
@@ -47,8 +45,6 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
       this.passwordUpdateUseCase,
       this.eventCreateUseCase,
       this.myEventsGetUsecase,
-      this.likeAddMyPodcastsUsecast,
-      this.likeRemoveByPodcastIdUsecase,
       this.moreFollowersGetUsecase,
       this.moreFollowingGetUsecase,
       this.podcastRemoveUsecase,
@@ -66,8 +62,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     on<EventCreateEvent>(_createEvent);
     on<MyEventsGetEvent>(_getMyEvents);
     on<BackGroundColorGenerateEvent>(_generateBackGroundImageColor);
-    on<LikeAddMyPodcastEvent>(_addLike);
-    on<LikeRemoveMyPodcastEvent>(_removeLike);
+
     on<MyFollowersGetEvent>(_getMyFollwers);
     on<MyFollowingGetEvent>(_getMyFollowing);
     on<MyFollowersGetMoreEvent>(_getMoreFollowers);
@@ -89,8 +84,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
   final EventCreateUseCase eventCreateUseCase;
   final UpdateUserImageUsecase updateUserImageUsecase;
   final MyEventsGetUsecase myEventsGetUsecase;
-  final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
-  final LikeRemoveMyPodcastsUsecast likeRemoveByPodcastIdUsecase;
+
   final MyFollowersGetUseCase myFollowersGetUseCase;
   final MyFollowingGetUseCase myFollowingGetUseCase;
   final MoreFollowersGetUsecase moreFollowersGetUsecase;
@@ -356,25 +350,6 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
               BackGroundColorGenerateRequestStatus.error,
           backGroundColors: const []));
     }
-  }
-
-  FutureOr<void> _addLike(
-      LikeAddMyPodcastEvent event, Emitter<UserProfileState> emit) async {
-    final result = await likeAddMyPodcastsUsecast(LikeAddMyPodcastsParams(
-        accessToken: event.accessToken, podcastId: event.podcastId));
-    result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
-      add(MyPodcastsGetEvent(event.accessToken));
-    });
-  }
-
-  FutureOr<void> _removeLike(
-      LikeRemoveMyPodcastEvent event, Emitter<UserProfileState> emit) async {
-    final result = await likeRemoveByPodcastIdUsecase(
-        LikeRemoveMyPodcastsParams(
-            accessToken: event.accessToken, podcastId: event.podcastId));
-    result.fold((l) => emit(state.copyWith(errorMessage: '')), (r) {
-      add(MyPodcastsGetEvent(event.accessToken));
-    });
   }
 
   FutureOr<void> _getMyFollwers(

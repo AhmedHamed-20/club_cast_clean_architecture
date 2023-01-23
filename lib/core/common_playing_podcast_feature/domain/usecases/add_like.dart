@@ -1,19 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
-import 'package:dartz/dartz.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/repository/base_commo_podcast_repository.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
-import 'package:equatable/equatable.dart';
-
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 
 class LikeAddMyPodcastsUsecast
     extends BaseUsecase<void, LikeAddMyPodcastsParams> {
-  final BaseUserInfoRepository userInfoRepository;
+  final BaseCommonPodcastRepository baseCommonPodcastRepository;
 
-  LikeAddMyPodcastsUsecast(this.userInfoRepository);
+  LikeAddMyPodcastsUsecast(this.baseCommonPodcastRepository);
   @override
   Future<Either<Failure, void>> call(LikeAddMyPodcastsParams params) async {
-    return await userInfoRepository.addLikeToPodcast(params);
+    return await baseCommonPodcastRepository.addLikeToPodcast(params);
   }
 }
 

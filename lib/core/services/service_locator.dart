@@ -43,9 +43,9 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/add_like.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_like.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
@@ -89,27 +89,27 @@ class ServiceLocator {
         servicelocator(),
         servicelocator(),
         servicelocator()));
-    servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(
-        () => CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator()));
+    servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(() =>
+        CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator(),
+            servicelocator(), servicelocator()));
     servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator(),
-        servicelocator()));
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+        ));
     servicelocator
         .registerFactory<OtherUserProfileBloc>(() => OtherUserProfileBloc(
               servicelocator(),

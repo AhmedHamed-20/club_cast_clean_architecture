@@ -7,6 +7,9 @@ import 'package:dartz/dartz.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
 
+import '../../domain/usecases/add_like.dart';
+import '../../domain/usecases/remove_like.dart';
+
 class CommonPlayingPodcastRepositoryImpl extends BaseCommonPodcastRepository {
   final BaseCommonPlayingPodcastDataSource baseCommonPlayingPodcastDataSource;
 
@@ -34,6 +37,33 @@ class CommonPlayingPodcastRepositoryImpl extends BaseCommonPodcastRepository {
     } on ServerException catch (exception) {
       return Left(
           ServerFailure(message: exception.serverErrorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addLikeToPodcast(
+      LikeAddMyPodcastsParams params) async {
+    try {
+      final result = await baseCommonPlayingPodcastDataSource.addLike(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeLike(
+      LikeRemoveMyPodcastsParams params) async {
+    try {
+      final result =
+          await baseCommonPlayingPodcastDataSource.removeLike(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(ServerFailure(
+          message: exception.serverErrorMessageModel.message,
+          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 }

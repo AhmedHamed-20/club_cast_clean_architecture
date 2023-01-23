@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../../../../core/constants/params.dart';
 import '../../../../core/widgets/podcast_card_widget.dart';
 
@@ -20,8 +19,7 @@ class PodcastCardMainWdget extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final podcastBloc = BlocProvider.of<PodcastBloc>(context);
-    final commanPlayPodcast =
+    final commonPlayPodcast =
         BlocProvider.of<CommonPlayingPodcastBlocBloc>(context);
     return BlocBuilder<CommonPlayingPodcastBlocBloc,
         CommonPlayingPodcastBlocState>(
@@ -48,10 +46,10 @@ class PodcastCardMainWdget extends StatelessWidget {
           onPressedDownload: () {
             if (currentDownloadingPodcastId == '') {
               downloadProgress = StreamController();
-              commanPlayPodcast.add(PodcastDownloadEvent(
+              commonPlayPodcast.add(PodcastDownloadEvent(
                   podcastUrl: myFollowingPodcasts
                       .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                  savedPath: commanPlayPodcast
+                  savedPath: commonPlayPodcast
                       .getSavedPath(
                           podcastName: myFollowingPodcasts
                               .podcastInformationEntitie[index].podcastName)
@@ -62,7 +60,7 @@ class PodcastCardMainWdget extends StatelessWidget {
             }
           },
           onPressedPlay: () {
-            commanPlayPodcast.onPressedOnPlay(
+            commonPlayPodcast.onPressedOnPlay(
                 podcastId: myFollowingPodcasts
                     .podcastInformationEntitie[index].podcastId,
                 podcastUrl: myFollowingPodcasts
@@ -84,26 +82,15 @@ class PodcastCardMainWdget extends StatelessWidget {
             );
           },
           onPressedOnLikeButton: () {
-            if (myFollowingPodcasts.podcastInformationEntitie[index].isLiked) {
-              podcastBloc.add(
-                RemovePodcastLikeEvent(
-                  accessToken: ConstVar.accessToken,
-                  podcastId: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastId,
-                ),
-              );
-            } else {
-              podcastBloc.add(
-                AddLikeToPodcastEvent(
-                  accessToken: ConstVar.accessToken,
-                  podcastId: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastId,
-                ),
-              );
-            }
+            commonPlayPodcast.onPressedOnLikeLogic(
+                podcastId: myFollowingPodcasts
+                    .podcastInformationEntitie[index].podcastId,
+                podcastLocalStatus: state.podcastsLikesStatus,
+                serverLikeStatus: myFollowingPodcasts
+                    .podcastInformationEntitie[index].isLiked);
           },
           isLiked: myFollowingPodcasts.podcastInformationEntitie[index].isLiked,
-          podcastDurathion: commanPlayPodcast.getCurrentPlayingPosition(
+          podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
             currentPosition: state.currentPosition,
             podcastId:
                 myFollowingPodcasts.podcastInformationEntitie[index].podcastId,

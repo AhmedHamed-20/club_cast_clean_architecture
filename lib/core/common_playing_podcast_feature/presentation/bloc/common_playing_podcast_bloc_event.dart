@@ -110,3 +110,36 @@ class PodcastDownloadEvent extends CommonPlayingPodcastBlocEvent {
   List<Object?> get props =>
       [podcastId, podcastUrl, savedPath, downloadProgress];
 }
+
+class LikeAddMyPodcastEvent extends CommonPlayingPodcastBlocEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const LikeAddMyPodcastEvent(
+      {required this.accessToken, required this.podcastId});
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}
+
+class LikeRemoveMyPodcastEvent extends CommonPlayingPodcastBlocEvent {
+  final String accessToken;
+  final String podcastId;
+
+  const LikeRemoveMyPodcastEvent(
+      {required this.accessToken, required this.podcastId});
+
+  @override
+  List<Object?> get props => [accessToken, podcastId];
+}
+
+class AddPodcastLikeIdToMapEvent extends CommonPlayingPodcastBlocEvent {
+  final String podcastId;
+  final bool isLiked;
+
+  const AddPodcastLikeIdToMapEvent(
+      {required this.podcastId, required this.isLiked});
+
+  @override
+  List<Object?> get props => [podcastId, isLiked];
+}

@@ -6,13 +6,18 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
+import '../../domain/usecases/add_like.dart';
 import '../../domain/usecases/download_podcast.dart';
+import '../../domain/usecases/remove_like.dart';
 
 abstract class BaseCommonPlayingPodcastDataSource {
   Future<List<PodcastLikesUsersInfoModel>> getPodcastLikesUsers(
       PodcastLikesUsersparams params);
 
   Future<void> downloadPodcast(PodcastDownloadParams params);
+
+  Future<void> addLike(LikeAddMyPodcastsParams params);
+  Future<void> removeLike(LikeRemoveMyPodcastsParams params);
 }
 
 class RemoteCommonPlayingPodcastDataSource
@@ -44,6 +49,36 @@ class RemoteCommonPlayingPodcastDataSource
         onReceive: (recieved, total) {
           var progress = recieved / total;
           params.receivedData.add(progress);
+        },
+      );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<void> addLike(LikeAddMyPodcastsParams params) async {
+    try {
+      await DioHelper.postData(
+        url: EndPoints.sendLike(params.podcastId),
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
+        },
+      );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<void> removeLike(LikeRemoveMyPodcastsParams params) async {
+    try {
+      await DioHelper.deleteData(
+        url: EndPoints.removeLikeFromPodcastById(params.podcastId),
+        headers: {
+          'Authorization': 'Bearer ${params.accessToken}',
         },
       );
     } on DioError catch (e) {

@@ -58,21 +58,12 @@ class MainMyPodcastWidget extends StatelessWidget {
             },
             onPressedOnUserPhoto: () {},
             onPressedOnLikeButton: () {
-              if (myPodcastEntite[index].isLiked) {
-                userProfileBloc.add(
-                  LikeRemoveMyPodcastEvent(
-                    accessToken: ConstVar.accessToken,
-                    podcastId: myPodcastEntite[index].podcastId,
-                  ),
-                );
-              } else {
-                userProfileBloc.add(
-                  LikeAddMyPodcastEvent(
-                    accessToken: ConstVar.accessToken,
-                    podcastId: myPodcastEntite[index].podcastId,
-                  ),
-                );
-              }
+              commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                podcastId: myPodcastEntite[index].podcastId,
+                podcastLocalStatus:
+                    commonPlayPodcastBlocState.podcastsLikesStatus,
+                serverLikeStatus: myPodcastEntite[index].isLiked,
+              );
             },
             podcastPhoto: myPodcastEntite[index].podcastUserInfo.userImage,
             podcastUserName: myPodcastEntite[index].podcastUserInfo.userName,

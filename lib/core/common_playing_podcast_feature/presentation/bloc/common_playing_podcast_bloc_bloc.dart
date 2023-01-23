@@ -15,6 +15,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../constants/constants.dart';
 import '../../../utl/utls.dart';
 import '../../domain/entities/podcast_likes_users_entitie.dart';
+import '../../domain/usecases/add_like.dart';
+import '../../domain/usecases/remove_like.dart';
 
 part 'common_playing_podcast_bloc_event.dart';
 part 'common_playing_podcast_bloc_state.dart';
@@ -22,7 +24,10 @@ part 'common_playing_podcast_bloc_state.dart';
 class CommonPlayingPodcastBlocBloc
     extends Bloc<CommonPlayingPodcastBlocEvent, CommonPlayingPodcastBlocState> {
   CommonPlayingPodcastBlocBloc(
-      this.podcastLikesUsersUsecase, this.podcastDownloadUsecase)
+      this.podcastLikesUsersUsecase,
+      this.podcastDownloadUsecase,
+      this.likeAddMyPodcastsUsecast,
+      this.likeRemoveMyPodcastsUsecast)
       : super(const CommonPlayingPodcastBlocState()) {
     on<PodcastPlayEvent>(_playPodcast);
     on<PodcastPlayPaused>(_playPaused);
@@ -34,10 +39,15 @@ class CommonPlayingPodcastBlocBloc
     on<SeekByEvent>(_seekByEvent);
     on<PodcastLikesUsersGetEvent>(_getPodcastLikesUser);
     on<PodcastDownloadEvent>(_downloadPodcast);
+    on<LikeAddMyPodcastEvent>(_addLike);
+    on<LikeRemoveMyPodcastEvent>(_removeLike);
+    on<AddPodcastLikeIdToMapEvent>(_addPodcastLikeIdToMap);
   }
   late AssetsAudioPlayer myAssetAudioPlayer;
   final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
   final PodcastDownloadUsecase podcastDownloadUsecase;
+  final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
+  final LikeRemoveMyPodcastsUsecast likeRemoveMyPodcastsUsecast;
   FutureOr<void> _playPodcast(PodcastPlayEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     try {
@@ -295,5 +305,78 @@ class CommonPlayingPodcastBlocBloc
     final fileName = removeOrSymbole.replaceAll('/', '');
     final file = File('${directory.path}/($fileName).mp3');
     return file;
+  }
+
+  FutureOr<void> _addLike(LikeAddMyPodcastEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) async {
+    final result = await likeAddMyPodcastsUsecast(LikeAddMyPodcastsParams(
+        accessToken: event.accessToken, podcastId: event.podcastId));
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      add(AddPodcastLikeIdToMapEvent(
+          isLiked: true, podcastId: event.podcastId));
+    });
+  }
+
+  FutureOr<void> _removeLike(LikeRemoveMyPodcastEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) async {
+    final result = await likeRemoveMyPodcastsUsecast(LikeRemoveMyPodcastsParams(
+        accessToken: event.accessToken, podcastId: event.podcastId));
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      add(AddPodcastLikeIdToMapEvent(
+          isLiked: false, podcastId: event.podcastId));
+    });
+  }
+
+  FutureOr<void> _addPodcastLikeIdToMap(AddPodcastLikeIdToMapEvent event,
+      Emitter<CommonPlayingPodcastBlocState> emit) {
+    Map<String, bool>? myLikesMap = Map.from(state.podcastsLikesStatus ?? {});
+    if (myLikesMap == {} || myLikesMap.isEmpty) {
+      myLikesMap = {};
+      myLikesMap[event.podcastId] = event.isLiked;
+      emit(state.copyWith(podcastsLikesStatus: myLikesMap));
+    } else {
+      myLikesMap[event.podcastId] = event.isLiked;
+      emit(state.copyWith(podcastsLikesStatus: myLikesMap));
+    }
+  }
+
+  void onPressedOnLikeLogic(
+      {required bool serverLikeStatus,
+      required Map<String, bool>? podcastLocalStatus,
+      required String podcastId}) {
+    if ((podcastLocalStatus != null && podcastLocalStatus.isNotEmpty) &&
+        podcastLocalStatus.containsKey(podcastId)) {
+      if (podcastLocalStatus[podcastId]!) {
+        add(
+          LikeRemoveMyPodcastEvent(
+            accessToken: ConstVar.accessToken,
+            podcastId: podcastId,
+          ),
+        );
+      } else {
+        add(
+          LikeAddMyPodcastEvent(
+            accessToken: ConstVar.accessToken,
+            podcastId: podcastId,
+          ),
+        );
+      }
+    } else {
+      if (serverLikeStatus) {
+        add(
+          LikeRemoveMyPodcastEvent(
+            accessToken: ConstVar.accessToken,
+            podcastId: podcastId,
+          ),
+        );
+      } else {
+        add(
+          LikeAddMyPodcastEvent(
+            accessToken: ConstVar.accessToken,
+            podcastId: podcastId,
+          ),
+        );
+      }
+    }
   }
 }

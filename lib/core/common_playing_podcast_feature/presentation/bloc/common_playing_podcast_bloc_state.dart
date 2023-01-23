@@ -12,10 +12,11 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final BackGroundColorGenerateRequestStatus
       podcastInfoScreenColorsGenerateRequestStatus;
   final PodcastDownloadRequestStatus podcastDownloadRequestStatus;
-
+  final Map<String, bool>? podcastsLikesStatus;
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
+      this.podcastsLikesStatus,
       this.podcastLikesUsersEntitie = const [],
       this.podcastsUsersLikesRequestStatus =
           PodcastsUsersLikesRequestStatus.loading,
@@ -27,6 +28,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
       this.isPlaying = false});
 
   CommonPlayingPodcastBlocState copyWith({
+    Map<String, bool>? podcastsLikesStatus,
     PodcastDownloadRequestStatus? podcastDownloadRequestStatus,
     List<PaletteColor>? backGroundColors,
     BackGroundColorGenerateRequestStatus?
@@ -39,6 +41,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
     bool? isPlaying,
   }) {
     return CommonPlayingPodcastBlocState(
+      podcastsLikesStatus: podcastsLikesStatus ?? this.podcastsLikesStatus,
       podcastDownloadRequestStatus:
           podcastDownloadRequestStatus ?? this.podcastDownloadRequestStatus,
       podcastLikesUsersEntitie:
@@ -58,9 +61,10 @@ class CommonPlayingPodcastBlocState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         currentPosition,
         errorMessage,
+        podcastsLikesStatus,
         backGroundColors,
         podcastDownloadRequestStatus,
         playPodcastRequestStatus,
