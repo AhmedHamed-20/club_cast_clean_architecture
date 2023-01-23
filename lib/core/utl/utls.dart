@@ -123,3 +123,10 @@ enum FollowersFollowingDataGetRequestStatus {
   success,
   error,
 }
+
+enum FollowUnfollowUserRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}

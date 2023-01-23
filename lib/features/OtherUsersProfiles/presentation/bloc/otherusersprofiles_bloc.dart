@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,6 +12,7 @@ import '../../domain/entities/followers_following_data_entitie.dart';
 import '../../domain/usecases/get_user_followers.dart';
 import '../../domain/usecases/get_user_following.dart';
 import '../../domain/usecases/get_user_profile_data.dart';
+import '../../domain/usecases/un_follow_user.dart';
 
 part 'otherusersprofiles_event.dart';
 part 'otherusersprofiles_state.dart';
@@ -21,6 +23,8 @@ class OtherUserProfileBloc
       this.otherUserProfileDataGetUsecase,
       this.otherUserFollowersUsecase,
       this.otherUserFollowingUsecase,
+      this.followUserUsecase,
+      this.unFollowUserUsecase,
       this.otherUserPodcastUsecase)
       : super(const OtherUserProfileState()) {
     on<OtherUserProfileGetEvent>(_getuserProfileData);
@@ -30,11 +34,15 @@ class OtherUserProfileBloc
     on<OtherUserFollowingGetMoreEvent>(_getUserFollowingMoreData);
     on<OtherUserPodcastsGetEvent>(_getOtherUserPodcastsData);
     on<OtherUserPodcastsGetMoreEvent>(_getOtherUserPodcastsMoreData);
+    on<FollowUserEvent>(_followUser);
+    on<UnFollowUserEvent>(_unFollowUser);
   }
   final OtherUserProfileDataGetUsecase otherUserProfileDataGetUsecase;
   final OtherUserFollowingUsecase otherUserFollowingUsecase;
   final OtherUserFollowersUsecase otherUserFollowersUsecase;
   final OtherUserPodcastUsecase otherUserPodcastUsecase;
+  final OtherUserFollowUsecase followUserUsecase;
+  final OtherUserUnFollowUsecase unFollowUserUsecase;
   FutureOr<void> _getuserProfileData(OtherUserProfileGetEvent event,
       Emitter<OtherUserProfileState> emit) async {
     if (state.userDataGetRequestStatus != UserDataGetRequestStatus.loading) {
@@ -53,6 +61,7 @@ class OtherUserProfileBloc
           userDataGetRequestStatus: UserDataGetRequestStatus.error)),
       (r) => emit(
         state.copyWith(
+          isFollowed: r.isFollowing,
           errorMessage: '',
           statusCode: 0,
           userDataGetRequestStatus: UserDataGetRequestStatus.success,
@@ -333,6 +342,58 @@ class OtherUserProfileBloc
           isEndOfPodcastData: true,
         ));
       }
+    });
+  }
+
+  FutureOr<void> _followUser(
+      FollowUserEvent event, Emitter<OtherUserProfileState> emit) async {
+    if (state.followUnfollowUserRequestStatus !=
+        FollowUnfollowUserRequestStatus.loading) {
+      emit(state.copyWith(
+          followUnfollowUserRequestStatus:
+              FollowUnfollowUserRequestStatus.loading));
+    }
+    final result = await followUserUsecase(FollowUnfollowUserParams(
+        accessToken: event.accessToken, userId: event.userId));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            followUnfollowUserRequestStatus:
+                FollowUnfollowUserRequestStatus.error)), (r) {
+      emit(state.copyWith(
+          isFollowed: true,
+          errorMessage: '',
+          statusCode: 0,
+          followUnfollowUserRequestStatus:
+              FollowUnfollowUserRequestStatus.success));
+    });
+  }
+
+  FutureOr<void> _unFollowUser(
+      UnFollowUserEvent event, Emitter<OtherUserProfileState> emit) async {
+    if (state.followUnfollowUserRequestStatus !=
+        FollowUnfollowUserRequestStatus.loading) {
+      emit(state.copyWith(
+          followUnfollowUserRequestStatus:
+              FollowUnfollowUserRequestStatus.loading));
+    }
+    final result = await unFollowUserUsecase(FollowUnfollowUserParams(
+        accessToken: event.accessToken, userId: event.userId));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            followUnfollowUserRequestStatus:
+                FollowUnfollowUserRequestStatus.error)), (r) {
+      emit(state.copyWith(
+          isFollowed: false,
+          errorMessage: '',
+          statusCode: 0,
+          followUnfollowUserRequestStatus:
+              FollowUnfollowUserRequestStatus.success));
     });
   }
 }

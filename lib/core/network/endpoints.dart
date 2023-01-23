@@ -18,7 +18,7 @@ class EndPoints {
       '$baseUrl/v1/podcasts/likes/$podcastId';
   static String getPodcastLikesUsers(String podcastId) =>
       '$baseUrl/v1/podcasts/likes/$podcastId';
-  static const String userById = '$baseUrl/v1/users/';
+  static const String users = '$baseUrl/v1/users/';
   static const String getuserPodCast = '$baseUrl/v1/podcasts?createdBy=';
   static const String searchUser = '$baseUrl/v1/users/search?s=';
   static const String searchPodCast = '$baseUrl/v1/podcasts/search?s=';

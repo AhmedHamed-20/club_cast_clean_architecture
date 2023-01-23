@@ -101,3 +101,23 @@ class OtherUserPodcastsGetMoreEvent extends OtherUserProfileEvent {
         page,
       ];
 }
+
+class FollowUserEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+
+  const FollowUserEvent({required this.accessToken, required this.userId});
+
+  @override
+  List<Object> get props => [accessToken, userId];
+}
+
+class UnFollowUserEvent extends OtherUserProfileEvent {
+  final String accessToken;
+  final String userId;
+
+  const UnFollowUserEvent({required this.accessToken, required this.userId});
+
+  @override
+  List<Object> get props => [accessToken, userId];
+}

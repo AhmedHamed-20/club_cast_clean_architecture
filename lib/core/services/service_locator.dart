@@ -60,7 +60,9 @@ import 'package:get_it/get_it.dart';
 import '../../features/Auth/domain/usecases/login.dart';
 import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
 import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.dart';
+import '../../features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dart';
+import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
@@ -113,6 +115,8 @@ class ServiceLocator {
               servicelocator(),
               servicelocator(),
               servicelocator(),
+      servicelocator(),
+      servicelocator(),
             ));
 
     ///usecase
@@ -197,6 +201,11 @@ class ServiceLocator {
     servicelocator.registerFactory<OtherUserPodcastUsecase>(
         () => OtherUserPodcastUsecase(servicelocator()));
 
+    servicelocator.registerFactory<OtherUserFollowUsecase>(
+            () => OtherUserFollowUsecase(servicelocator()));
+
+    servicelocator.registerFactory<OtherUserUnFollowUsecase>(
+            () => OtherUserUnFollowUsecase(servicelocator()));
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
         () => AuthRepositoryImple(servicelocator(), servicelocator()));

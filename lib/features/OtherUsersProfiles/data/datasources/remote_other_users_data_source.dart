@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/followers_following_data_model.dart';
 import 'package:dio/dio.dart';
 
+import '../../domain/usecases/follow_user.dart';
 import '../../domain/usecases/get_other_user_podcasts.dart';
 import '../../domain/usecases/get_user_followers.dart';
 import '../../domain/usecases/get_user_profile_data.dart';
@@ -22,6 +23,8 @@ abstract class BaseRemoteOtherUsersDataSorce {
 
   Future<OtherUserPodcastModel> getOtherUserPodcasts(
       OtherUserPodcastParams params);
+  Future<void> followUser(FollowUnfollowUserParams params);
+  Future<void> unFollowUser(FollowUnfollowUserParams params);
 }
 
 class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
@@ -30,7 +33,7 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
       UserProfileDataGetParams params) async {
     try {
       final response = await DioHelper.getData(
-          url: EndPoints.userById + params.userId,
+          url: EndPoints.users + params.userId,
           headers: {
             'Authorization': 'Bearer ${params.accessToken}',
           });
@@ -100,6 +103,34 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
       return OtherUserPodcastModel.fromJson(
         response?.data,
       );
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<void> followUser(FollowUnfollowUserParams params) async {
+    try {
+      await DioHelper.postData(
+          url: EndPoints.userFollowing(params.userId),
+          headers: {
+            'Authorization': 'Bearer ${params.accessToken}',
+          });
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<void> unFollowUser(FollowUnfollowUserParams params) async {
+    try {
+      await DioHelper.deleteData(
+          url: EndPoints.userFollowing(params.userId),
+          headers: {
+            'Authorization': 'Bearer ${params.accessToken}',
+          });
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));

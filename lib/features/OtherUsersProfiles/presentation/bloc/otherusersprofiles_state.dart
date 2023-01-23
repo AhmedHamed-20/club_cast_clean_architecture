@@ -14,11 +14,15 @@ class OtherUserProfileState extends Equatable {
   final OtherUserPodcastEntitie? otherUserPodcastEntitie;
   final UserDataGetRequestStatus otherUserPodcastGetRequestStatus;
   final bool isEndOfPodcastData;
-
+  final FollowUnfollowUserRequestStatus followUnfollowUserRequestStatus;
+  final bool isFollowed;
   const OtherUserProfileState(
       {this.otherUserDataEntitie,
       this.errorMessage = '',
       this.statusCode = 0,
+      this.isFollowed = false,
+      this.followUnfollowUserRequestStatus =
+          FollowUnfollowUserRequestStatus.idle,
       this.isEndOfPodcastData = false,
       this.otherUserPodcastEntitie,
       this.otherUserPodcastGetRequestStatus = UserDataGetRequestStatus.loading,
@@ -31,6 +35,8 @@ class OtherUserProfileState extends Equatable {
 
   OtherUserProfileState copyWith({
     bool? isEndOfPodcastData,
+    bool? isFollowed,
+    FollowUnfollowUserRequestStatus? followUnfollowUserRequestStatus,
     OtherUserPodcastEntitie? otherUserPodcastEntitie,
     UserDataGetRequestStatus? otherUserPodcastGetRequestStatus,
     FollowersFollowingDataGetRequestStatus?
@@ -45,6 +51,9 @@ class OtherUserProfileState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return OtherUserProfileState(
+      isFollowed: isFollowed ?? this.isFollowed,
+      followUnfollowUserRequestStatus: followUnfollowUserRequestStatus ??
+          this.followUnfollowUserRequestStatus,
       isEndOfFollowersData: isEndOfFollowersData ?? this.isEndOfFollowersData,
       isEndOfFollowingData: isEndOfFollowingData ?? this.isEndOfFollowingData,
       otherUserFollowersFollowingDataEntitie:
@@ -68,8 +77,10 @@ class OtherUserProfileState extends Equatable {
 
   @override
   List<Object?> get props => [
+        followUnfollowUserRequestStatus,
         isEndOfFollowersData,
         isEndOfFollowingData,
+        isFollowed,
         otherUserDataEntitie,
         errorMessage,
         statusCode,

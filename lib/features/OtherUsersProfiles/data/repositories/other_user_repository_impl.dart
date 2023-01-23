@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/repositories/base_other_user_repository.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_followers.dart';
 import 'package:dartz/dartz.dart';
@@ -63,6 +64,32 @@ class OtherUserProfileRepositoryImpl extends BaseOtherUserProfilesRepository {
     try {
       final result =
           await baseRemoteOtherUsersDataSorce.getOtherUserPodcasts(params);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+          message: e.serverErrorMessageModel.message,
+          statusCode: e.serverErrorMessageModel.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> followUser(
+      FollowUnfollowUserParams params) async {
+    try {
+      final result = await baseRemoteOtherUsersDataSorce.followUser(params);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+          message: e.serverErrorMessageModel.message,
+          statusCode: e.serverErrorMessageModel.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> unFollowUser(
+      FollowUnfollowUserParams params) async {
+    try {
+      final result = await baseRemoteOtherUsersDataSorce.unFollowUser(params);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(

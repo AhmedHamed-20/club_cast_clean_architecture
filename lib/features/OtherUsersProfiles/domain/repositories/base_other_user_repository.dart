@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
@@ -17,4 +18,7 @@ abstract class BaseOtherUserProfilesRepository {
       getUserFollowing(OtherUserFollowersFollowingParams params);
   Future<Either<Failure, OtherUserPodcastEntitie>> getOtherUserPodcast(
       OtherUserPodcastParams params);
+
+  Future<Either<Failure, void>> followUser(FollowUnfollowUserParams params);
+  Future<Either<Failure, void>> unFollowUser(FollowUnfollowUserParams params);
 }
