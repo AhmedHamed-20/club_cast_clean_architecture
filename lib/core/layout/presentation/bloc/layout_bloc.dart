@@ -15,6 +15,7 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presen
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../features/Rooms/presentation/screens/all_rooms_screen.dart';
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
@@ -63,7 +64,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final appBarTitles = ['Home', '', 'Podcasts'];
 
   final List<Widget> bottomNaveScreens = [
-    Container(),
+    const AllRoomsScreen(),
     Container(),
     const MyFollowingPodcastScreen(),
   ];

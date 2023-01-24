@@ -15,6 +15,7 @@ class MainLayoutWidget extends StatelessWidget {
     return BlocBuilder<LayoutBloc, LayoutState>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
+          leading: const SizedBox(),
           centerTitle: true,
           title: Text(
             layoutBloc.appBarTitles[state.currentBottomNavIndex],

@@ -1,21 +1,17 @@
-import 'package:club_cast_clean_architecture/core/layout/data/models/event_user_info_model.dart';
+import 'package:club_cast_clean_architecture/core/layout/data/models/my_following_events_data_model.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 
 class MyFollowingEventsModel extends MyFollowingEventsEntitie {
   const MyFollowingEventsModel(
-      {required super.eventName,
-      required super.eventDescription,
-      required super.eventDate,
-      required super.userInfo,
-      required super.eventId});
+      {required super.results, required super.myFollowingEventsDataEntitie});
 
   factory MyFollowingEventsModel.fromJson(Map<String, dynamic> json) {
     return MyFollowingEventsModel(
-      eventName: json['name'],
-      eventDescription: json['description'],
-      eventDate: json['date'],
-      eventId: json['_id'],
-      userInfo: EventUserInfoModel.fromJson(json['createdBy']),
-    );
+        results: json['results'],
+        myFollowingEventsDataEntitie: List<MyFollowingEventsDataModel>.from(
+          json['data'].map(
+            (x) => MyFollowingEventsDataModel.fromJson(x),
+          ),
+        ));
   }
 }

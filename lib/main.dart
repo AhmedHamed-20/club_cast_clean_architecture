@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         title: 'Club Cast',
         theme: AppTheme.lightMode,
         darkTheme: AppTheme.darkMode,
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         onGenerateRoute: appRoutes.generateRoutes,
         initialRoute: accessToken == ''
             ? AppRoutesNames.loginScreen

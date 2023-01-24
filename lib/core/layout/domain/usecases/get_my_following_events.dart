@@ -5,13 +5,13 @@ import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class MyFollowingEventsUsecase extends BaseUsecase<
-    List<MyFollowingEventsEntitie>, MyFollowingEventsParams> {
+class MyFollowingEventsUsecase
+    extends BaseUsecase<MyFollowingEventsEntitie, MyFollowingEventsParams> {
   final BaseLayoutRepository baseLayoutRepository;
 
   MyFollowingEventsUsecase(this.baseLayoutRepository);
   @override
-  Future<Either<Failure, List<MyFollowingEventsEntitie>>> call(
+  Future<Either<Failure, MyFollowingEventsEntitie>> call(
       MyFollowingEventsParams params) async {
     return await baseLayoutRepository.getMyFollowingEvents(params);
   }

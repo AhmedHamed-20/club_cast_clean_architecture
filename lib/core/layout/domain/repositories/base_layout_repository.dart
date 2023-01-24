@@ -17,7 +17,7 @@ abstract class BaseLayoutRepository {
   Future<Either<Failure, String>> getAccessTokenFromCache(
       CachedAccessTokenGetParams params);
 
-  Future<Either<Failure, List<MyFollowingEventsEntitie>>> getMyFollowingEvents(
+  Future<Either<Failure, MyFollowingEventsEntitie>> getMyFollowingEvents(
       MyFollowingEventsParams params);
 
   Future<Either<Failure, CategoryEntitie>> getCategories(NoParams params);

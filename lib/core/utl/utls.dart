@@ -130,3 +130,9 @@ enum FollowUnfollowUserRequestStatus {
   success,
   error,
 }
+
+enum AllRoomsGetRequestStatus {
+  loading,
+  success,
+  error,
+}

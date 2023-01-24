@@ -1,16 +1,16 @@
-import '../../../constants/base_event_entite/base_event_entitie.dart';
-import 'event_user_info.dart';
+import 'package:equatable/equatable.dart';
 
-class MyFollowingEventsEntitie extends BaseEventEntitie {
-  final EventUserInfoEntitie userInfo;
+import 'my_following_events_data_entitie.dart';
+
+class MyFollowingEventsEntitie extends Equatable {
+  final int results;
+  final List<MyFollowingEventsDataEntitie> myFollowingEventsDataEntitie;
   const MyFollowingEventsEntitie(
-      {required super.eventName,
-      required super.eventDescription,
-      required super.eventDate,
-      required this.userInfo,
-      required super.eventId});
+      {required this.results, required this.myFollowingEventsDataEntitie});
 
   @override
-  List<Object?> get props =>
-      [eventId, userInfo, eventDate, eventName, eventDescription];
+  List<Object?> get props => [
+        myFollowingEventsDataEntitie,
+        results,
+      ];
 }

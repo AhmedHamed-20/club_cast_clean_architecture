@@ -14,7 +14,7 @@ import '../models/category_model.dart';
 
 abstract class BaseLayoutRemoteDataSource {
   Future<UserDataModel> getActiveUserData(ActiveUserDataGetParams params);
-  Future<List<MyFollowingEventsEntitie>> getMyFollowingEvents(
+  Future<MyFollowingEventsEntitie> getMyFollowingEvents(
       MyFollowingEventsParams params);
 
   Future<CategoryModel> getCategories(NoParams params);
@@ -39,15 +39,13 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
   }
 
   @override
-  Future<List<MyFollowingEventsEntitie>> getMyFollowingEvents(
+  Future<MyFollowingEventsEntitie> getMyFollowingEvents(
       MyFollowingEventsParams params) async {
     try {
       final respone = await DioHelper.getData(
           url: EndPoints.getMyFollowingEvent,
           headers: {'Authorization': 'Bearer ${params.accessToken}'});
-      return (respone?.data as List)
-          .map((e) => MyFollowingEventsModel.fromJson(e))
-          .toList();
+      return MyFollowingEventsModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(
         serverErrorMessageModel: ServerErrorMessageModel.fromDioException(

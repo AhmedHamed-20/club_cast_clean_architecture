@@ -48,7 +48,7 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
   }
 
   @override
-  Future<Either<Failure, List<MyFollowingEventsEntitie>>> getMyFollowingEvents(
+  Future<Either<Failure, MyFollowingEventsEntitie>> getMyFollowingEvents(
       MyFollowingEventsParams params) async {
     try {
       final result =
