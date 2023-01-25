@@ -13,7 +13,7 @@ class RoomsCardWidget extends StatelessWidget {
       elevation: AppElevation.eL4,
       color: Theme.of(context).backgroundColor,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.r12)),
+          borderRadius: BorderRadius.circular(AppRadius.r22)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,9 +59,9 @@ class RoomsCardWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(AppRadius.r12),
+                bottomLeft: Radius.circular(AppRadius.r22),
                 bottomRight: Radius.circular(
-                  AppRadius.r12,
+                  AppRadius.r22,
                 ),
               ),
             ),

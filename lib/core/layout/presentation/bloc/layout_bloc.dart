@@ -35,6 +35,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
     on<AccessTokenGetFromCacheEvent>(_getAccessTokenFromCache);
     on<MyFollowingEventsGetEvent>(_getMyFollowingEvents);
+    on<MyFollowingEventsGetMoreEvent>(_myFollowingEventGetMore);
     on<BottomNavIndexChangeEvent>(_changeBottomNavIndex);
     on<CategoriesGetEvent>(_getCategories);
     on<CachedAccessTokenUpdateEvent>(_updateCachedAccessToken);
@@ -113,20 +114,33 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   FutureOr<void> _getMyFollowingEvents(
       MyFollowingEventsGetEvent event, Emitter<LayoutState> emit) async {
     final result = await myFollowingEventsUsecase(
-        MyFollowingEventsParams(event.accessToken));
+        MyFollowingEventsParams(event.accessToken, 1));
     result.fold(
-      (l) => emit(state.copyWith(
-          errorMessage: l.message,
-          myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
-          statusCode: l.statusCode)),
-      (r) => emit(
-        state.copyWith(
-          errorMessage: '',
-          myFollowingEventsEntitie: r,
-          myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
-        ),
-      ),
-    );
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            isEndOfEvents: true,
+            myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
+            statusCode: l.statusCode)), (r) {
+      if (r.results <= 10) {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            isEndOfEvents: true,
+            myFollowingEventsEntitie: r,
+            myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            errorMessage: '',
+            isEndOfEvents: false,
+            myFollowingEventsEntitie: r,
+            myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
+          ),
+        );
+      }
+    });
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -191,6 +205,47 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
           errorMessage: '',
           userDataGetRequestStatus: UserDataGetRequestStatus.loading,
           logoutRequestStatus: LogoutRequestStatus.logoutSuccess));
+    });
+  }
+
+  FutureOr<void> _myFollowingEventGetMore(
+      MyFollowingEventsGetMoreEvent event, Emitter<LayoutState> emit) async {
+    final result = await myFollowingEventsUsecase(
+        MyFollowingEventsParams(event.accessToken, event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
+            statusCode: l.statusCode)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfEvents: true,
+        ));
+      } else if (r.results == 10) {
+        MyFollowingEventsEntitie myFollowingEventsEntitie;
+        myFollowingEventsEntitie = state.myFollowingEventsEntitie!;
+
+        myFollowingEventsEntitie.myFollowingEventsDataEntitie
+            .addAll(r.myFollowingEventsDataEntitie);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          myFollowingEventsEntitie: myFollowingEventsEntitie,
+          isEndOfEvents: false,
+        ));
+      } else {
+        MyFollowingEventsEntitie myFollowingEventsEntitie =
+            state.myFollowingEventsEntitie!;
+        myFollowingEventsEntitie.myFollowingEventsDataEntitie
+            .addAll(r.myFollowingEventsDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          myFollowingEventsEntitie: myFollowingEventsEntitie,
+          isEndOfEvents: true,
+        ));
+      }
     });
   }
 }

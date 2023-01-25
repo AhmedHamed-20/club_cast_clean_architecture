@@ -33,9 +33,12 @@ class EventsCardWidget extends StatelessWidget {
             eventUserPhoto != null
                 ? Padding(
                     padding: const EdgeInsets.all(AppPadding.p8),
-                    child: CircleAvatar(
-                      radius: AppRadius.r22,
-                      backgroundImage: NetworkImage(eventUserPhoto!),
+                    child: Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: CircleAvatar(
+                        radius: AppRadius.r22,
+                        backgroundImage: NetworkImage(eventUserPhoto!),
+                      ),
                     ),
                   )
                 : const SizedBox.shrink(),
@@ -48,20 +51,20 @@ class EventsCardWidget extends StatelessWidget {
                 height: AppHeight.h6,
               ),
               eventUserName != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(AppPadding.p8),
-                      child: Text(
-                        'From $eventUserName',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                  ? Text(
+                      'From $eventUserName',
+                      style: Theme.of(context).textTheme.titleMedium,
                     )
                   : const SizedBox.shrink(),
+              const SizedBox(
+                height: AppHeight.h6,
+              ),
               Text(
                 eventDescription,
                 style: Theme.of(context).textTheme.titleSmall,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 3,
+                maxLines: 2,
               ),
               const SizedBox(
                 height: AppHeight.h6,

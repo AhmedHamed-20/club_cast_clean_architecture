@@ -13,10 +13,12 @@ class LayoutState extends Equatable {
   final LogoutRequestStatus logoutRequestStatus;
   final AccessTokenUpdateRequestStatus accessTokenUpdateRequestStatus;
   final int statusCode;
+  final bool isEndOfEvents;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
       this.categoryEntitie,
+      this.isEndOfEvents = false,
       this.statusCode = 0,
       this.logoutRequestStatus = LogoutRequestStatus.idle,
       this.accessTokenUpdateRequestStatus = AccessTokenUpdateRequestStatus.idle,
@@ -28,6 +30,7 @@ class LayoutState extends Equatable {
       this.userDataGetRequestStatus = UserDataGetRequestStatus.loading});
 
   LayoutState copyWith({
+    bool? isEndOfEvents,
     int? statusCode,
     AccessTokenUpdateRequestStatus? accessTokenUpdateRequestStatus,
     CategoryEntitie? categoryEntitie,
@@ -42,6 +45,7 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      isEndOfEvents: isEndOfEvents ?? this.isEndOfEvents,
       logoutRequestStatus: logoutRequestStatus ?? this.logoutRequestStatus,
       statusCode: statusCode ?? this.statusCode,
       accessTokenUpdateRequestStatus:
@@ -66,6 +70,7 @@ class LayoutState extends Equatable {
 
   @override
   List<Object?> get props => [
+        isEndOfEvents,
         statusCode,
         categoriesRequestStatus,
         categoryEntitie,

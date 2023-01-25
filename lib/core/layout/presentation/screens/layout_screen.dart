@@ -19,7 +19,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<LayoutBloc>(context)
-        .add(ActiveUserDataGetEvent(ConstVar.accessToken));
+      ..add(
+        ActiveUserDataGetEvent(ConstVar.accessToken),
+      )
+      ..add(MyFollowingEventsGetEvent(ConstVar.accessToken));
   }
 
   @override

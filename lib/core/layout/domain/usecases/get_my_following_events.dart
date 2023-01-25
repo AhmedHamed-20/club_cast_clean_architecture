@@ -19,9 +19,9 @@ class MyFollowingEventsUsecase
 
 class MyFollowingEventsParams extends Equatable {
   final String accessToken;
-
-  const MyFollowingEventsParams(this.accessToken);
+  final int page;
+  const MyFollowingEventsParams(this.accessToken, this.page);
 
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken, page];
 }

@@ -44,7 +44,8 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
     try {
       final respone = await DioHelper.getData(
           url: EndPoints.getMyFollowingEvent,
-          headers: {'Authorization': 'Bearer ${params.accessToken}'});
+          headers: {'Authorization': 'Bearer ${params.accessToken}'},
+          query: {'page': params.page});
       return MyFollowingEventsModel.fromJson(respone?.data);
     } on DioError catch (e) {
       throw ServerException(

@@ -12,6 +12,7 @@ part 'rooms_state.dart';
 class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
   RoomsBloc(this.allRoomsGetUsecase) : super(const RoomsState()) {
     on<AllRoomsGetEvent>(_getAllRooms);
+    on<AllRoomsGetMoreEvent>(_getMoreRooms);
   }
   final AllRoomsGetUsecase allRoomsGetUsecase;
   FutureOr<void> _getAllRooms(
@@ -27,6 +28,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         (l) => emit(state.copyWith(
             errorMessage: l.message,
             statusCode: l.statusCode,
+            isEndOfRoomsData: true,
             allRoomsGetRequestStatus: AllRoomsGetRequestStatus.error)), (r) {
       if (r.results <= 10) {
         emit(state.copyWith(
@@ -42,6 +44,45 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
             statusCode: 0,
             allRoomsGetRequestStatus: AllRoomsGetRequestStatus.success,
             allRoomsEntitie: r));
+      }
+    });
+  }
+
+  FutureOr<void> _getMoreRooms(
+      AllRoomsGetMoreEvent event, Emitter<RoomsState> emit) async {
+    final result = await allRoomsGetUsecase(
+        AllRoomsGetParams(accessToken: event.accessToken, page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            isEndOfRoomsData: true,
+            allRoomsGetRequestStatus: AllRoomsGetRequestStatus.error)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfRoomsData: true,
+        ));
+      } else if (r.results == 10) {
+        AllRoomsEntitie allRoomsEntitie;
+        allRoomsEntitie = state.allRoomsEntitie!;
+
+        allRoomsEntitie.allRoomsDataEntitie.addAll(r.allRoomsDataEntitie);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          allRoomsEntitie: allRoomsEntitie,
+          isEndOfRoomsData: false,
+        ));
+      } else {
+        AllRoomsEntitie allRoomsEntitie = state.allRoomsEntitie!;
+        allRoomsEntitie.allRoomsDataEntitie.addAll(r.allRoomsDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          allRoomsEntitie: allRoomsEntitie,
+          isEndOfRoomsData: true,
+        ));
       }
     });
   }

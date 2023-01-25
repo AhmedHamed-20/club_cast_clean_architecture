@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utl/utls.dart';
 import '../widgets/all_rooms_main_widget.dart';
+import '../widgets/home_main_widget.dart';
 
 class AllRoomsScreen extends StatelessWidget {
   const AllRoomsScreen({super.key});
@@ -22,17 +23,7 @@ class AllRoomsScreen extends StatelessWidget {
             case AllRoomsGetRequestStatus.loading:
               return const Center(child: CircularProgressIndicator());
             case AllRoomsGetRequestStatus.success:
-              if (state.allRoomsEntitie!.allRoomsDataEntitie.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No currently active rooms',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              } else {
-                return const AllRoomsMainWidget();
-              }
+              return const HomeMainWidget();
             case AllRoomsGetRequestStatus.error:
               if (state.statusCode == 403 || state.statusCode == 401) {
                 return ErrorScreen(
