@@ -57,7 +57,7 @@ class MainLayoutWidget extends StatelessWidget {
         ),
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             height: MediaQueryOfMethods.getAppHeight(context) * 0.08,
             elevation: AppElevation.eL6,
             indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
@@ -70,7 +70,7 @@ class MainLayoutWidget extends StatelessWidget {
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             elevation: AppElevation.eL4,
             destinations: layoutBloc.bottomNaveIcons,
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             selectedIndex: state.currentBottomNavIndex,
             onDestinationSelected: (value) {
               layoutBloc.add(BottomNavIndexChangeEvent(value));

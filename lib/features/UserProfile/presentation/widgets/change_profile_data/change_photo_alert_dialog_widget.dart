@@ -18,7 +18,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return AlertDialog(
       scrollable: true,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       title: Text(
         'Change Profile Image',
         style: Theme.of(context).textTheme.titleLarge,

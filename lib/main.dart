@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Club Cast',
-        theme: AppTheme.lightMode,
-        darkTheme: AppTheme.darkMode,
+        theme: Material3Colors.light,
+        darkTheme: Material3Colors.dark,
         themeMode: ThemeMode.dark,
         onGenerateRoute: appRoutes.generateRoutes,
         initialRoute: accessToken == ''

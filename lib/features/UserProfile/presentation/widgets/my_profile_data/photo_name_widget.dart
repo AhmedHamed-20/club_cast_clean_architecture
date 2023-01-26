@@ -28,7 +28,8 @@ class PhotoAndNameWidget extends StatelessWidget {
                   offset: const Offset(0, -20),
                 ),
                 BoxShadow(
-                  color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                  color:
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
                   blurRadius: 50,
                   spreadRadius: 5,
                   offset: const Offset(0, -20),

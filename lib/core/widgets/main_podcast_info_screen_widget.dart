@@ -47,8 +47,10 @@ class MainPodcastInfoWidget extends StatelessWidget {
                         offset: const Offset(70, 50),
                       ),
                       BoxShadow(
-                        color:
-                            Theme.of(context).backgroundColor.withOpacity(0.6),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .background
+                            .withOpacity(0.6),
                         blurRadius: 50,
                         spreadRadius: 30,
                         offset: const Offset(70, 50),
@@ -106,7 +108,7 @@ class MainPodcastInfoWidget extends StatelessWidget {
                   }
                 },
                 activeColor: Theme.of(context).primaryColor,
-                inactiveColor: Theme.of(context).backgroundColor,
+                inactiveColor: Theme.of(context).colorScheme.background,
                 value: currentPlayingPodcastsId ==
                         podcastInformationEntitie.podcastId
                     ? state.currentPosition.toDouble()
@@ -183,7 +185,7 @@ class MainPodcastInfoWidget extends StatelessWidget {
                                 podcastInformationEntitie.podcastId
                             ? Icons.pause
                             : Icons.play_arrow,
-                        color: Colors.white,
+                        color: Theme.of(context).secondaryHeaderColor,
                       ),
                     ),
                   ),

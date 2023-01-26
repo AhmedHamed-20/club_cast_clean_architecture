@@ -42,7 +42,7 @@ class PodcastCardWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressedOnCard,
       child: Card(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             AppRadius.r22,
@@ -148,7 +148,8 @@ class PodcastCardWidget extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                       child: Text(
                         podcastLikes.toString(),
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor),
                       ),
                     ),
                   ),

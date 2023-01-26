@@ -26,7 +26,7 @@ class PodcastCategoryWidget extends StatelessWidget {
             return StatefulBuilder(
               builder: (context, setState) => DropdownButton<String>(
                   style: Theme.of(context).textTheme.titleSmall,
-                  dropdownColor: Theme.of(context).backgroundColor,
+                  dropdownColor: Theme.of(context).colorScheme.background,
                   value: podcastCategoryValue,
                   items: state.categoryEntitie!.categories
                       .map<DropdownMenuItem<String>>(

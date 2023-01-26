@@ -46,7 +46,8 @@ class EditUserProfileBasicDataScreen extends StatelessWidget {
                   onPressed: () {
                     showModalBottomSheet(
                         context: context,
-                        backgroundColor: Theme.of(context).backgroundColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
                         isScrollControlled: true,
                         enableDrag: true,
                         shape: const RoundedRectangleBorder(

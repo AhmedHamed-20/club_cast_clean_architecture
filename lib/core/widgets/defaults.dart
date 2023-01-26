@@ -76,22 +76,21 @@ class Defaults {
     double radius = 10,
     required BuildContext context,
   }) {
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius),
-        color: Theme.of(context).primaryColor,
-      ),
-      child: MaterialButton(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+              color: Theme.of(context).secondaryHeaderColor, width: 2),
+        ),
         onPressed: onPressed,
         child: Text(
           isUpperCase ? text.toString().toUpperCase() : '$text',
           style: Theme.of(context)
               .textTheme
               .titleMedium
-              ?.copyWith(color: AppColors.white),
+              ?.copyWith(color: Theme.of(context).primaryColor),
         ),
       ),
     );

@@ -11,7 +11,7 @@ class RoomsCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: AppElevation.eL4,
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.r22)),
       child: Column(

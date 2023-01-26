@@ -35,7 +35,10 @@ class AdminRoomsWidget extends StatelessWidget {
         ),
         Text(
           allRoomsDataEntitie.admin.name,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -43,7 +46,7 @@ class AdminRoomsWidget extends StatelessWidget {
           width: AppWidth.w10,
         ),
         Card(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.r5)),
           child: Padding(
@@ -59,7 +62,10 @@ class AdminRoomsWidget extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Text(
             'Recording : ${allRoomsDataEntitie.isRecording ? 'ON' : 'OFF'}',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
           ),
         ),
       ],

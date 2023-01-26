@@ -37,7 +37,7 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
       switch (state.myPodCastRemoveRequestStatus) {
         case MyDataRemoveRequestStatus.idle:
           return AlertDialog(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.r12)),
             title: Text(

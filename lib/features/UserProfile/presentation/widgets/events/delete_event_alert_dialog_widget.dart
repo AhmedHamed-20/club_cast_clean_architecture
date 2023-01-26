@@ -38,7 +38,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.r12),
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: Text(
           'Delete Event',
           style: Theme.of(context).textTheme.titleLarge,

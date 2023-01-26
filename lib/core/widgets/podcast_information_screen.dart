@@ -44,7 +44,7 @@ class _PodcastInformationScreenState extends State<PodcastInformationScreen> {
         case BackGroundColorGenerateRequestStatus.error:
           return MainPodcastInfoWidget(
               podcastInformationEntitie: widget.podcastInformationEntitie,
-              backGroundColor: Theme.of(context).backgroundColor);
+              backGroundColor: Theme.of(context).colorScheme.background);
       }
     });
   }
