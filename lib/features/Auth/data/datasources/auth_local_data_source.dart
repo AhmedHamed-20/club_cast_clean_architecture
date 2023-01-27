@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 
-import '../../../../core/cache/chache_setup.dart';
+import '../../../../core/cache/cache_setup.dart';
 import '../../../../core/error/error_message_model.dart';
 import '../../../../core/error/exception.dart';
 import '../../domain/usecases/cache_access_token.dart';

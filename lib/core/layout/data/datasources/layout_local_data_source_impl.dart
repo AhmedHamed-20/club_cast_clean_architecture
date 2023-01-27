@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/core/cache/chache_setup.dart';
+import 'package:club_cast_clean_architecture/core/cache/cache_setup.dart';
 import 'package:club_cast_clean_architecture/core/error/error_message_model.dart';
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';

@@ -1,4 +1,3 @@
-import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:dio/dio.dart';
 
@@ -8,14 +7,6 @@ class DioHelper {
   DioHelper(
     this.dio,
   );
-  init() {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: EndPoints.baseUrl,
-        receiveDataWhenStatusError: true,
-      ),
-    );
-  }
 
   Future<Response<dynamic>?> getData({
     required String url,

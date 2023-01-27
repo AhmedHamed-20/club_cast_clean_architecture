@@ -73,9 +73,10 @@ import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dar
 import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
-import '../cache/chache_setup.dart';
+import '../cache/cache_setup.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../network/dio.dart';
+import '../network/endpoints.dart';
 
 final servicelocator = GetIt.instance;
 
@@ -88,12 +89,19 @@ class ServiceLocator {
         () => CacheHelper(sharedPreferences: servicelocator()));
   }
 
-  static void init() {
-    //Dio
+  static Future<void> initDio() async {
+    Dio dio = Dio(
+      BaseOptions(
+        baseUrl: EndPoints.baseUrl,
+        receiveDataWhenStatusError: true,
+      ),
+    );
+    servicelocator.registerLazySingleton<Dio>(() => dio);
     servicelocator
         .registerLazySingleton<DioHelper>(() => DioHelper(servicelocator()));
-    servicelocator.registerLazySingleton<Dio>(() => Dio());
+  }
 
+  static void init() {
     ///bloc
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));

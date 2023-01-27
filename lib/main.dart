@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/core/cache/chache_setup.dart';
+import 'package:club_cast_clean_architecture/core/cache/cache_setup.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
@@ -8,15 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
-import 'core/network/dio.dart';
 import 'core/routes/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator.init();
+  await ServiceLocator.initDio();
   await ServiceLocator.initSharedPref();
-  await servicelocator<DioHelper>().init();
-  await servicelocator<CacheHelper>().init();
   final String accessToken =
       await servicelocator<CacheHelper>().getData(key: 'accessToken') ?? '';
   ConstVar.accessToken = accessToken;
