@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_act
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
+import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:dio/dio.dart';
 
 import '../../../usecase/usecase.dart';
@@ -25,7 +26,7 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
   Future<UserDataModel> getActiveUserData(
       ActiveUserDataGetParams params) async {
     try {
-      final respone = await DioHelper.getData(
+      final respone = await servicelocator<DioHelper>().getData(
           url: EndPoints.getMe,
           headers: {'Authorization': 'Bearer ${params.accessToken}'});
       return UserDataModel.fromJson(respone?.data['data']['data']);
@@ -42,7 +43,7 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
   Future<MyFollowingEventsEntitie> getMyFollowingEvents(
       MyFollowingEventsParams params) async {
     try {
-      final respone = await DioHelper.getData(
+      final respone = await servicelocator<DioHelper>().getData(
           url: EndPoints.getMyFollowingEvent,
           headers: {'Authorization': 'Bearer ${params.accessToken}'},
           query: {'page': params.page});
@@ -59,7 +60,7 @@ class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
   @override
   Future<CategoryModel> getCategories(NoParams params) async {
     try {
-      final respone = await DioHelper.getData(
+      final respone = await servicelocator<DioHelper>().getData(
         url: EndPoints.allCategory,
       );
       return CategoryModel.fromJson(respone?.data);

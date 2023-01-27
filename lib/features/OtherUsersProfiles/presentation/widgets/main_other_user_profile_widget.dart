@@ -42,6 +42,9 @@ class MainOtherUserProfileWidget extends StatelessWidget {
                         height: AppHeight.h10,
                       ),
                       const FollowUnFollowButton(),
+                      const SizedBox(
+                        height: AppHeight.h10,
+                      ),
                       SizedBox(
                         height: 50,
                         child: AppBar(

@@ -24,6 +24,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
+import '../../../../core/services/service_locator.dart';
 import '../../domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import '../../domain/usecases/user_information/update_user_image.dart';
 
@@ -56,7 +57,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<List<MyPodcastsModel>> getMyPodcasts(MyPodcastGetParams params) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await servicelocator<DioHelper>().getData(
         url: EndPoints.getMyPodCasts,
         headers: {'Authorization': 'Bearer ${params.accessToken}'},
       );
@@ -74,7 +75,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<SignatureModel> generateSignature(
       SignatureGenerateParams params) async {
     try {
-      final respone = await DioHelper.getData(
+      final respone = await servicelocator<DioHelper>().getData(
           url: EndPoints.generateSignature,
           headers: {'Authorization': 'Bearer ${params.accessToken}'});
       return SignatureModel.fromJson(respone?.data);
@@ -87,7 +88,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<PodcastUploadModel> uploadPodcast(PodcastUploadParams params) async {
     try {
-      final respone = await DioHelper.postData(
+      final respone = await servicelocator<DioHelper>().postData(
         url: EndPoints.uploadPodcast(
             apiKey: params.apiKey,
             cloudName: params.cloudName,
@@ -121,7 +122,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> createPodcast(PodcastCreateParams params) async {
     try {
-      await DioHelper.postData(url: EndPoints.createPodCast, headers: {
+      await servicelocator<DioHelper>()
+          .postData(url: EndPoints.createPodCast, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
         'name': params.podcastName,
@@ -138,8 +140,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<UpdatedUserDataInfoModel> updateUserData(
       UserDataUpdateParams params) async {
     try {
-      final response =
-          await DioHelper.patchData(url: EndPoints.updateProfile, headers: {
+      final response = await servicelocator<DioHelper>()
+          .patchData(url: EndPoints.updateProfile, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
         'name': params.name,
@@ -160,8 +162,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<String> updatePassword(PasswordUpdateParams params) async {
     try {
-      final response =
-          await DioHelper.patchData(url: EndPoints.updatePassword, headers: {
+      final response = await servicelocator<DioHelper>()
+          .patchData(url: EndPoints.updatePassword, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
         "passwordCurrent": params.currentPassword,
@@ -178,7 +180,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> createEvent(EventCreateParams params) async {
     try {
-      await DioHelper.postData(
+      await servicelocator<DioHelper>().postData(
         url: EndPoints.createEvent,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -198,7 +200,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<List<MyEventEntitie>> getMyEvents(MyEventsParams params) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await servicelocator<DioHelper>().getData(
         url: EndPoints.getMyEvent,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -217,7 +219,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getFollowers(
       FollowersFollowingParams params) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await servicelocator<DioHelper>().getData(
         url: EndPoints.myFollowers,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -234,7 +236,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getFollowing(
       FollowersFollowingParams params) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await servicelocator<DioHelper>().getData(
         url: EndPoints.myFollowing,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -251,8 +253,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getMoreFollowers(
       MoreFollowersFollowingGetParams params) async {
     try {
-      final response =
-          await DioHelper.getData(url: EndPoints.myFollowers, headers: {
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.myFollowers, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page
@@ -268,8 +270,8 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getMoreFollowing(
       MoreFollowersFollowingGetParams params) async {
     try {
-      final response =
-          await DioHelper.getData(url: EndPoints.myFollowing, headers: {
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.myFollowing, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page
@@ -284,7 +286,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> removePodcast(PodcastRemoveParams params) async {
     try {
-      await DioHelper.deleteData(
+      await servicelocator<DioHelper>().deleteData(
         url: EndPoints.removePodCastById + params.podcastId,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -299,7 +301,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> removeEvent(EventRemoveUsecaseParams params) async {
     try {
-      await DioHelper.deleteData(
+      await servicelocator<DioHelper>().deleteData(
         url: EndPoints.deleteEvent + params.eventID,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -314,16 +316,14 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> updateEvent(EventUpdateUsecaseParams params) async {
     try {
-      await DioHelper.patchData(
-          url: EndPoints.updateEventData + params.eventID,
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          },
-          data: {
-            "title": params.eventName,
-            "description": params.eventDescription,
-            "date": params.eventDate,
-          });
+      await servicelocator<DioHelper>()
+          .patchData(url: EndPoints.updateEventData + params.eventID, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      }, data: {
+        "title": params.eventName,
+        "description": params.eventDescription,
+        "date": params.eventDate,
+      });
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
@@ -333,7 +333,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<void> updateUserPhoto(UpdateUserImageUsecaseParams params) async {
     try {
-      await DioHelper.patchData(
+      await servicelocator<DioHelper>().patchData(
         url: EndPoints.updateAvatar,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',

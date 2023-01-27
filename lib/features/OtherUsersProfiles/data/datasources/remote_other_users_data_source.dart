@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/mo
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../core/services/service_locator.dart';
 import '../../domain/usecases/follow_user.dart';
 import '../../domain/usecases/get_other_user_podcasts.dart';
 import '../../domain/usecases/get_user_followers.dart';
@@ -35,11 +36,10 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserDataModel> getOtherUsersProfiles(
       UserProfileDataGetParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.users + params.userId,
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.users + params.userId, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
 
       return OtherUserDataModel.fromJson(response?.data['data']);
     } on DioError catch (e) {
@@ -52,14 +52,12 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserFollowersFollowingDataModel> getUserFollowers(
       OtherUserFollowersFollowingParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.userFollowers(params.uid),
-          query: {
-            'page': params.page
-          },
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.userFollowers(params.uid), query: {
+        'page': params.page
+      }, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
 
       return OtherUserFollowersFollowingDataModel.fromJson(
           response?.data, true);
@@ -73,14 +71,12 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserFollowersFollowingDataModel> getUserFollowing(
       OtherUserFollowersFollowingParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.userFollowing(params.uid),
-          query: {
-            'page': params.page
-          },
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.userFollowing(params.uid), query: {
+        'page': params.page
+      }, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
 
       return OtherUserFollowersFollowingDataModel.fromJson(
           response?.data, false);
@@ -94,14 +90,12 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserPodcastModel> getOtherUserPodcasts(
       OtherUserPodcastParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.getuserPodCast + params.userId,
-          query: {
-            'page': params.page
-          },
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getuserPodCast + params.userId, query: {
+        'page': params.page
+      }, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
 
       return OtherUserPodcastModel.fromJson(
         response?.data,
@@ -115,11 +109,10 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   @override
   Future<void> followUser(FollowUnfollowUserParams params) async {
     try {
-      await DioHelper.postData(
-          url: EndPoints.userFollowing(params.userId),
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      await servicelocator<DioHelper>()
+          .postData(url: EndPoints.userFollowing(params.userId), headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
@@ -129,11 +122,10 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   @override
   Future<void> unFollowUser(FollowUnfollowUserParams params) async {
     try {
-      await DioHelper.deleteData(
-          url: EndPoints.userFollowing(params.userId),
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      await servicelocator<DioHelper>()
+          .deleteData(url: EndPoints.userFollowing(params.userId), headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
@@ -144,8 +136,8 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserEventsModel> getOtherUserEvents(
       OtherUserEventsParams params) async {
     try {
-      final response =
-          await DioHelper.getData(url: EndPoints.getMyFollowingEvent, headers: {
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getMyFollowingEvent, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'createdBy': params.userId,

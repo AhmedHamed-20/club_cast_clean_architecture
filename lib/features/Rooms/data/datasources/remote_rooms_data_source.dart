@@ -6,6 +6,8 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/all_room
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../core/services/service_locator.dart';
+
 abstract class BaseRemoteRoomsDataSource {
   Future<AllRoomsModel> getAllRooms(AllRoomsGetParams params);
 }
@@ -14,8 +16,8 @@ class RemoteRoomsDataSourceImpl extends BaseRemoteRoomsDataSource {
   @override
   Future<AllRoomsModel> getAllRooms(AllRoomsGetParams params) async {
     try {
-      final response =
-          await DioHelper.getData(url: EndPoints.getAllRooms, headers: {
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getAllRooms, headers: {
         "Authorization": "Bearer ${params.accessToken}",
       });
       return AllRoomsModel.fromJson(response?.data);

@@ -8,6 +8,8 @@ import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/login
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_up.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../core/services/service_locator.dart';
+
 abstract class BaseAuthRemoteDataSource {
   Future<AuthModel> signUp(SignUpParams params);
   Future<AuthModel> login(LoginParams params);
@@ -18,7 +20,8 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
   @override
   Future<AuthModel> signUp(SignUpParams params) async {
     try {
-      final respone = await DioHelper.postData(url: EndPoints.signup, data: {
+      final respone = await servicelocator<DioHelper>()
+          .postData(url: EndPoints.signup, data: {
         'name': params.name,
         'email': params.email,
         'password': params.password,
@@ -38,7 +41,8 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
   @override
   Future<AuthModel> login(LoginParams params) async {
     try {
-      final response = await DioHelper.postData(url: EndPoints.login, data: {
+      final response = await servicelocator<DioHelper>()
+          .postData(url: EndPoints.login, data: {
         'email': params.email,
         'password': params.password,
       });
@@ -53,7 +57,8 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
   @override
   Future<void> forgetPassword(ForgetPasswordParams params) async {
     try {
-      await DioHelper.postData(url: EndPoints.forgotPassword, data: {
+      await servicelocator<DioHelper>()
+          .postData(url: EndPoints.forgotPassword, data: {
         'email': params.email,
       });
     } on DioError catch (error) {

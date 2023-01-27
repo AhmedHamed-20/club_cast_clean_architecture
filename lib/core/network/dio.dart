@@ -1,11 +1,14 @@
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
+import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  static Response? response;
-  static Dio? dio;
-
-  static init() {
+  Response? response;
+  Dio dio;
+  DioHelper(
+    this.dio,
+  );
+  init() {
     dio = Dio(
       BaseOptions(
         baseUrl: EndPoints.baseUrl,
@@ -14,13 +17,13 @@ class DioHelper {
     );
   }
 
-  static Future<Response<dynamic>?> getData({
+  Future<Response<dynamic>?> getData({
     required String url,
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
     ProgressCallback? onReceiveProgress,
   }) async {
-    return response = await dio?.get(
+    return response = await servicelocator<Dio>().get(
       url,
       queryParameters: query,
       onReceiveProgress: onReceiveProgress,
@@ -30,7 +33,7 @@ class DioHelper {
     );
   }
 
-  static Future<Response<dynamic>?> postData({
+  Future<Response<dynamic>?> postData({
     required String url,
     dynamic data,
     Map<String, dynamic>? headers,
@@ -38,7 +41,7 @@ class DioHelper {
     ProgressCallback? onSendProgress,
     CancelToken? cancelToken,
   }) async {
-    return response = await dio?.post(
+    return response = await dio.post(
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       url,
@@ -48,24 +51,24 @@ class DioHelper {
     );
   }
 
-  static Future<dynamic> deleteData(
+  Future<dynamic> deleteData(
       {String? url,
       Map<String, dynamic>? query,
       Map<String, dynamic>? headers}) async {
-    return response = await dio!.delete(
+    return response = await dio.delete(
       url!,
       queryParameters: query,
       options: Options(headers: headers),
     );
   }
 
-  static Future<dynamic> patchData({
+  Future<dynamic> patchData({
     String? url,
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
     dynamic data,
   }) async {
-    return response = await dio!.patch(
+    return response = await dio.patch(
       data: data,
       url!,
       queryParameters: query,
@@ -73,12 +76,12 @@ class DioHelper {
     );
   }
 
-  static Future<Response<dynamic>> downloadData(
+  Future<Response<dynamic>> downloadData(
       {required String url,
       required String savedPath,
       CancelToken? cancelToken,
       void Function(int, int)? onReceive}) async {
-    return response = await dio!.download(
+    return response = await dio.download(
       url,
       savedPath,
       cancelToken: cancelToken,

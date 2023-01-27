@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
+
 import '../../../../core/cache/chache_setup.dart';
 import '../../../../core/error/error_message_model.dart';
 import '../../../../core/error/exception.dart';
@@ -11,8 +13,8 @@ class AuthLocalDataSourceImpl extends BaseAuthLocalDataSource {
   @override
   Future<bool> cacheAccessToken(AccessTokenCacheParams params) async {
     try {
-      final result = await CacheHelper.setData(
-          key: 'accessToken', value: params.accessToken);
+      final result = await servicelocator<CacheHelper>()
+          .setData(key: 'accessToken', value: params.accessToken);
       return result;
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));

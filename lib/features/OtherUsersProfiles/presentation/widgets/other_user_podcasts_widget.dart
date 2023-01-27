@@ -57,8 +57,21 @@ class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
                 ),
               );
             } else {
-              return MainOtherUserPodcastWidget(
-                otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
+              return Column(
+                children: [
+                  Text(
+                    'User Podcasts ${state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie.length}',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(
+                    height: AppHeight.h10,
+                  ),
+                  Expanded(
+                    child: MainOtherUserPodcastWidget(
+                      otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
+                    ),
+                  ),
+                ],
               );
             }
           case UserDataGetRequestStatus.error:

@@ -9,6 +9,8 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../core/services/service_locator.dart';
+
 abstract class BasePodcastRemoteDataSource {
   Future<PodcastModel> getMyFollowingPodcasts(MyFollowingPodcastParams params);
   Future<PodcastModel> getMoreMyFollowingPodcasts(
@@ -23,11 +25,10 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
   Future<PodcastModel> getMyFollowingPodcasts(
       MyFollowingPodcastParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.getMyFollowingPodcasts,
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getMyFollowingPodcasts, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
       return PodcastModel.fromJson(response?.data);
     } on DioError catch (error) {
       throw ServerException(
@@ -39,14 +40,12 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
   @override
   Future<void> addLikeToPodcasts(LikeAddParams params) async {
     try {
-      await DioHelper.postData(
-          url: EndPoints.sendLike(params.podcastId),
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          },
-          data: {
-            'podcastId': params.podcastId
-          });
+      await servicelocator<DioHelper>()
+          .postData(url: EndPoints.sendLike(params.podcastId), headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      }, data: {
+        'podcastId': params.podcastId
+      });
     } on DioError catch (error) {
       throw ServerException(
           serverErrorMessageModel:
@@ -58,7 +57,7 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
   Future<void> removeLikeFromPodcasts(
       LikeRemoveByPodcastIdParams params) async {
     try {
-      await DioHelper.deleteData(
+      await servicelocator<DioHelper>().deleteData(
         url: EndPoints.removeLikeFromPodcastById(params.podcastId),
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -75,14 +74,12 @@ class PodcastRemoteDataSourceImpl implements BasePodcastRemoteDataSource {
   Future<PodcastModel> getMoreMyFollowingPodcasts(
       MoreMyFollowingPodcastParams params) async {
     try {
-      final response = await DioHelper.getData(
-          url: EndPoints.getMyFollowingPodcasts,
-          query: {
-            'page': params.page
-          },
-          headers: {
-            'Authorization': 'Bearer ${params.accessToken}',
-          });
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getMyFollowingPodcasts, query: {
+        'page': params.page
+      }, headers: {
+        'Authorization': 'Bearer ${params.accessToken}',
+      });
 
       return PodcastModel.fromJson(response?.data);
     } on DioError catch (error) {

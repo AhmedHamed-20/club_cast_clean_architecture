@@ -61,7 +61,9 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Auth/domain/usecases/login.dart';
 import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
@@ -71,12 +73,27 @@ import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dar
 import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
+import '../cache/chache_setup.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../network/dio.dart';
 
 final servicelocator = GetIt.instance;
 
 class ServiceLocator {
+  static Future<void> initSharedPref() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    servicelocator
+        .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+    servicelocator.registerLazySingleton<CacheHelper>(
+        () => CacheHelper(sharedPreferences: servicelocator()));
+  }
+
   static void init() {
+    //Dio
+    servicelocator
+        .registerLazySingleton<DioHelper>(() => DioHelper(servicelocator()));
+    servicelocator.registerLazySingleton<Dio>(() => Dio());
+
     ///bloc
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));

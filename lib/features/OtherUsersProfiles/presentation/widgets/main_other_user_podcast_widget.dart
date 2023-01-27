@@ -21,8 +21,6 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p12),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           controller: otherUserPodcastScrollController,
           itemCount:
               otherUserPodcastEntitie.otherUserPodcastDataEntitie.length + 1,

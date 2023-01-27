@@ -25,9 +25,22 @@ class OtherUserEventsWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ));
           } else {
-            return OtherUserEventsMainWidget(
-              otherUserEventsEntitie: state.otherUserEventsEntitie!,
-              userId: state.otherUserDataEntitie!.uid,
+            return Column(
+              children: [
+                Text(
+                  'user events: ${state.otherUserEventsEntitie!.events.length}',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: AppHeight.h10,
+                ),
+                Expanded(
+                  child: OtherUserEventsMainWidget(
+                    otherUserEventsEntitie: state.otherUserEventsEntitie!,
+                    userId: state.otherUserDataEntitie!.uid,
+                  ),
+                ),
+              ],
             );
           }
         case UserDataGetRequestStatus.error:

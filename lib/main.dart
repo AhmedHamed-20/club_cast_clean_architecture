@@ -14,10 +14,11 @@ import 'core/routes/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator.init();
-  await DioHelper.init();
-  await CacheHelper.init();
+  await ServiceLocator.initSharedPref();
+  await servicelocator<DioHelper>().init();
+  await servicelocator<CacheHelper>().init();
   final String accessToken =
-      await CacheHelper.getData(key: 'accessToken') ?? '';
+      await servicelocator<CacheHelper>().getData(key: 'accessToken') ?? '';
   ConstVar.accessToken = accessToken;
   runApp(MyApp(
     appRoutes: AppRoutes(),

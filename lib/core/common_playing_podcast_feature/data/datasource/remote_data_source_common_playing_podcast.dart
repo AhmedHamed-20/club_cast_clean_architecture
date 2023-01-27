@@ -6,6 +6,7 @@ import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:dio/dio.dart';
 
+import '../../../services/service_locator.dart';
 import '../../domain/usecases/add_like.dart';
 import '../../domain/usecases/download_podcast.dart';
 import '../../domain/usecases/remove_like.dart';
@@ -26,7 +27,7 @@ class RemoteCommonPlayingPodcastDataSource
   Future<List<PodcastLikesUsersInfoModel>> getPodcastLikesUsers(
       PodcastLikesUsersparams params) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await servicelocator<DioHelper>().getData(
           url: EndPoints.getPodcastLikesUsers(params.podcastId),
           headers: {
             'Authorization': 'Bearer ${params.accessToken}',
@@ -43,7 +44,7 @@ class RemoteCommonPlayingPodcastDataSource
   @override
   Future<void> downloadPodcast(PodcastDownloadParams params) async {
     try {
-      await DioHelper.downloadData(
+      await servicelocator<DioHelper>().downloadData(
         url: params.podcastUrl,
         savedPath: params.savedPath,
         onReceive: (recieved, total) {
@@ -60,7 +61,7 @@ class RemoteCommonPlayingPodcastDataSource
   @override
   Future<void> addLike(LikeAddMyPodcastsParams params) async {
     try {
-      await DioHelper.postData(
+      await servicelocator<DioHelper>().postData(
         url: EndPoints.sendLike(params.podcastId),
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -75,7 +76,7 @@ class RemoteCommonPlayingPodcastDataSource
   @override
   Future<void> removeLike(LikeRemoveMyPodcastsParams params) async {
     try {
-      await DioHelper.deleteData(
+      await servicelocator<DioHelper>().deleteData(
         url: EndPoints.removeLikeFromPodcastById(params.podcastId),
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
