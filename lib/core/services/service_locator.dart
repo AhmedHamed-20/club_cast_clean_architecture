@@ -1,6 +1,10 @@
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/data/datasource/remote_data_source_common_playing_podcast.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/data/repository/common_playing_podcast_repository_impl.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/repository/base_commo_podcast_repository.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/add_like.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/remove_like.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_local_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/datasources/layout_remote_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/core/layout/data/repositories/layout_repository_impl.dart';
@@ -22,10 +26,8 @@ import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
-import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
-import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/datasources/remote_other_users_data_source.dart';
@@ -41,6 +43,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/repositories/ro
 import 'package:club_cast_clean_architecture/features/Rooms/domain/repositories/base_rooms_repository.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
@@ -48,9 +51,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/get_my_events.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/remove_event.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/update_event.dart';
-import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/get_my_podcasts.dart';
-import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/remove_like.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/podcasts/remove_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/create_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
@@ -101,8 +102,10 @@ class ServiceLocator {
         .registerLazySingleton<DioHelper>(() => DioHelper(servicelocator()));
   }
 
+//socket
   static void init() {
     ///bloc
+    servicelocator.registerFactory<SocketsBloc>(() => SocketsBloc());
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(

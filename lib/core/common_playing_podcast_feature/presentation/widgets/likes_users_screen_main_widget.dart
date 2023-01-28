@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../constants/constants.dart';
+import '../../../routes/app_route_names.dart';
 import '../../../widgets/users_card_widget.dart';
 
 class LikesUsersScreenMainWidget extends StatelessWidget {

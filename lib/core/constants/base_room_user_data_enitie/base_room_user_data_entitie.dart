@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class RoomUserDataEntitie extends Equatable {
+abstract class BaseRoomUserDataEntitie extends Equatable {
   final String id;
   final String name;
   final String photo;
   final int uid;
 
-  const RoomUserDataEntitie(
+  const BaseRoomUserDataEntitie(
       {required this.id,
       required this.name,
       required this.photo,
       required this.uid});
-
-  @override
-  List<Object?> get props => [id, name, photo, uid];
 }

@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/routes/app_route_names.dart';
 import '../../../../../core/widgets/defaults.dart';
 
 class DontHaveAccountWidget extends StatelessWidget {

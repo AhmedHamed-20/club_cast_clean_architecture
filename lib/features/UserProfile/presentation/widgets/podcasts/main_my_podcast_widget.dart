@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/params.dart';
+import '../../../../../core/routes/app_route_names.dart';
 import '../../../../../core/widgets/podcast_card_widget.dart';
 
 class MainMyPodcastWidget extends StatelessWidget {

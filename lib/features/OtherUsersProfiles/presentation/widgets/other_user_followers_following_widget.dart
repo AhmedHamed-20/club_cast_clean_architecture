@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/present
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../../../../core/routes/app_route_names.dart';
 
 class OtherUserFollowersFollowingWidget extends StatelessWidget {
   const OtherUserFollowersFollowingWidget({

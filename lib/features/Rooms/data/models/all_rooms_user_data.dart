@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/base_room_user_data.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_user_data.dart';
 
 class RoomsUserDataModel extends RoomUserDataEntitie {
   const RoomsUserDataModel(

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'base_room_user_data.dart';
+import 'room_user_data.dart';
 
 class AllRoomsDataEntitie extends Equatable {
   final String id;

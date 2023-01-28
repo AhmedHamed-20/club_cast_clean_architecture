@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../layout/presentation/bloc/layout_bloc.dart';
+import '../routes/app_route_names.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen(

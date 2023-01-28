@@ -136,3 +136,18 @@ enum AllRoomsGetRequestStatus {
   success,
   error,
 }
+
+enum ConnectToSocketRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
+enum JoinRoomRequestStatus {
+  idle,
+  loading,
+  success,
+  left,
+  error,
+}

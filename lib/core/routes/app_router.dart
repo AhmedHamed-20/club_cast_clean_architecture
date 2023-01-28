@@ -1,5 +1,4 @@
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/screens/likes_users_screens.dart';
-import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/forget_password_screen.dart';
@@ -13,11 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/screens/signup_screen.dart';
+import '../../features/Rooms/presentation/screens/room_screen.dart';
 import '../../features/UserProfile/presentation/screens/edit_event_screen.dart';
 import '../../features/UserProfile/presentation/screens/upload_podcast_screen.dart';
 import '../../features/UserProfile/presentation/screens/user_profile_screen.dart';
 import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../constants/params.dart';
+import 'app_route_names.dart';
 
 class AppRoutes {
   Route? generateRoutes(RouteSettings routeSettings) {
@@ -119,6 +120,11 @@ class AppRoutes {
                       isFollowers: arguments.isFollwers,
                       userId: arguments.userId),
                 ));
+
+      case AppRoutesNames.roomScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const RoomScreen();
+        });
       default:
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

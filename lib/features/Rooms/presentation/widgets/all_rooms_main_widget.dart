@@ -55,9 +55,12 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
             itemCount: state.allRoomsEntitie!.allRoomsDataEntitie.length + 1,
             itemBuilder: (context, index) {
               if (index < state.allRoomsEntitie!.allRoomsDataEntitie.length) {
-                return RoomsCardWidget(
-                    allRoomsDataEntitie:
-                        state.allRoomsEntitie!.allRoomsDataEntitie[index]);
+                return InkWell(
+                  onTap: () {},
+                  child: RoomsCardWidget(
+                      allRoomsDataEntitie:
+                          state.allRoomsEntitie!.allRoomsDataEntitie[index]),
+                );
               } else {
                 return state.isEndOfRoomsData
                     ? const SizedBox.shrink()
