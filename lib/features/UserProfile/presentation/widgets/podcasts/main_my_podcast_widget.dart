@@ -10,7 +10,7 @@ import '../../../../../core/common_playing_podcast_feature/presentation/bloc/com
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/params.dart';
 import '../../../../../core/routes/app_route_names.dart';
-import '../../../../../core/widgets/podcast_card_widget.dart';
+import '../../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 
 class MainMyPodcastWidget extends StatelessWidget {
   const MainMyPodcastWidget({

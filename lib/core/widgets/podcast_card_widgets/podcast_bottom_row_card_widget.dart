@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
-import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
-import '../constants/constants.dart';
-import '../constants/params.dart';
-import 'cached_network_image_circle_photo.dart';
+import '../../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
+import '../../constants/base_podcast_entitie/base_podcast_entitie.dart';
+import '../../constants/constants.dart';
+import '../../constants/params.dart';
+import '../cached_network_image_circle_photo.dart';
 
 class PodcastCardBottomRowWidget extends StatelessWidget {
   const PodcastCardBottomRowWidget({

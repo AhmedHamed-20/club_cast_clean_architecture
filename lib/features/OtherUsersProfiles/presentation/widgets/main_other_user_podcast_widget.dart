@@ -8,7 +8,7 @@ import '../../../../core/common_playing_podcast_feature/presentation/bloc/common
 import '../../../../core/constants/constants.dart';
 import '../../../../core/constants/params.dart';
 import '../../../../core/routes/app_route_names.dart';
-import '../../../../core/widgets/podcast_card_widget.dart';
+import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import 'other_user_podcasts_widget.dart';
 
 class MainOtherUserPodcastWidget extends StatelessWidget {

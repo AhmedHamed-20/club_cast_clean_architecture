@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
-import '../constants/constants.dart';
-import '../constants/params.dart';
+import '../../constants/base_podcast_entitie/base_podcast_entitie.dart';
+import '../../constants/constants.dart';
+import '../../constants/params.dart';
 
 class PodcastCategoryAndPlayWidget extends StatelessWidget {
   const PodcastCategoryAndPlayWidget({

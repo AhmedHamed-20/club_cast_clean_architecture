@@ -1,12 +1,12 @@
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/core/widgets/podcast_bottom_row_card_widget.dart';
-import 'package:club_cast_clean_architecture/core/widgets/podcast_card_name_play_or_remove_widget.dart';
-import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widget_duration_download_widget.dart';
-import 'package:club_cast_clean_architecture/core/widgets/podcast_category_play_widget.dart';
+import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widgets/podcast_bottom_row_card_widget.dart';
+import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widgets/podcast_card_name_play_or_remove_widget.dart';
+import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widgets/podcast_card_widget_duration_download_widget.dart';
+import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widgets/podcast_category_play_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/params.dart';
+import '../../constants/params.dart';
 
 class PodcastCardWidget extends StatelessWidget {
   const PodcastCardWidget({
