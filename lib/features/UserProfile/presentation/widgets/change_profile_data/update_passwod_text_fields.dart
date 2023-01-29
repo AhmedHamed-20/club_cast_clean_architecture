@@ -4,8 +4,26 @@ import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_passwod_button_widget.dart';
 import 'package:flutter/material.dart';
 
-class UpdatePasswordTextFields extends StatelessWidget {
+class UpdatePasswordTextFields extends StatefulWidget {
   const UpdatePasswordTextFields({super.key});
+
+  @override
+  State<UpdatePasswordTextFields> createState() =>
+      _UpdatePasswordTextFieldsState();
+}
+
+class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,5 +72,20 @@ class UpdatePasswordTextFields extends StatelessWidget {
         const UpdatePasswodButtonWidget(),
       ],
     );
+  }
+
+  void initControllers() {
+    TextEditingControllers.updateMyDataNewPasswordController =
+        TextEditingController();
+    TextEditingControllers.updateMyDataPasswordConfirmController =
+        TextEditingController();
+    TextEditingControllers.updateMyDataPasswordController =
+        TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.updateMyDataNewPasswordController.dispose();
+    TextEditingControllers.updateMyDataPasswordConfirmController.dispose();
+    TextEditingControllers.updateMyDataPasswordController.dispose();
   }
 }

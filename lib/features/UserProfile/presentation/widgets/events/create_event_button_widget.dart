@@ -1,4 +1,3 @@
-import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/create_event_button_widget_design.dart';
@@ -21,8 +20,7 @@ class CreateEventButtonWidget extends StatelessWidget {
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         Navigator.of(context).pop();
-        TextEditingControllers.createEventDescriptionController.clear();
-        TextEditingControllers.createEventTitleController.clear();
+
         eventDate = null;
       } else if (state.eventCreateRequestStatus ==
           EventCreateRequestStatus.error) {
@@ -31,8 +29,6 @@ class CreateEventButtonWidget extends StatelessWidget {
             backgroundColor: AppColors.toastError,
             textColor: AppColors.white);
         Navigator.of(context).pop();
-        TextEditingControllers.createEventDescriptionController.clear();
-        TextEditingControllers.createEventTitleController.clear();
         eventDate = null;
       }
     }, builder: (context, state) {

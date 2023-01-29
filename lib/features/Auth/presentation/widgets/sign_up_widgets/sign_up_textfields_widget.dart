@@ -4,10 +4,27 @@ import 'package:flutter/material.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
 
-class SignUpTextFieldsWidget extends StatelessWidget {
+class SignUpTextFieldsWidget extends StatefulWidget {
   const SignUpTextFieldsWidget({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SignUpTextFieldsWidget> createState() => _SignUpTextFieldsWidgetState();
+}
+
+class _SignUpTextFieldsWidgetState extends State<SignUpTextFieldsWidget> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,5 +65,20 @@ class SignUpTextFieldsWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void initControllers() {
+    TextEditingControllers.signUpNameController = TextEditingController();
+    TextEditingControllers.signUpEmailController = TextEditingController();
+    TextEditingControllers.signUpPasswordController = TextEditingController();
+    TextEditingControllers.signUpPasswordConfirmController =
+        TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.signUpNameController.dispose();
+    TextEditingControllers.signUpEmailController.dispose();
+    TextEditingControllers.signUpPasswordController.dispose();
+    TextEditingControllers.signUpPasswordConfirmController.dispose();
   }
 }

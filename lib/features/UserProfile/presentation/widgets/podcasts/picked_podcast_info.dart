@@ -29,7 +29,6 @@ class PickedPodcastInfoWidget extends StatelessWidget {
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         userProfileBloc.add(const ClearPodcastFileEvent());
-        TextEditingControllers.uploadPodcastNameController.clear();
         uploadProgress.close();
         Navigator.pop(context);
       } else if (state.uploadPodcastRequestStatus ==
@@ -40,7 +39,6 @@ class PickedPodcastInfoWidget extends StatelessWidget {
               backgroundColor: AppColors.toastSuccess,
               textColor: AppColors.white);
           userProfileBloc.add(const ClearPodcastFileEvent());
-          TextEditingControllers.uploadPodcastNameController.clear();
           uploadProgress.close();
         } else {
           flutterToast(
@@ -48,7 +46,6 @@ class PickedPodcastInfoWidget extends StatelessWidget {
               backgroundColor: AppColors.toastError,
               textColor: AppColors.white);
           userProfileBloc.add(const ClearPodcastFileEvent());
-          TextEditingControllers.uploadPodcastNameController.clear();
           uploadProgress.close();
         }
       }

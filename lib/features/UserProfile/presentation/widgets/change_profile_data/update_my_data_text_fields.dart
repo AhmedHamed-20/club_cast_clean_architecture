@@ -6,10 +6,28 @@ import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
 
-class UpdateMyDataTextFields extends StatelessWidget {
+class UpdateMyDataTextFields extends StatefulWidget {
   const UpdateMyDataTextFields({
     super.key,
   });
+
+  @override
+  State<UpdateMyDataTextFields> createState() => _UpdateMyDataTextFieldsState();
+}
+
+class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LayoutBloc, LayoutState>(builder: (context, state) {
@@ -57,5 +75,18 @@ class UpdateMyDataTextFields extends StatelessWidget {
         ],
       );
     });
+  }
+
+  void initControllers() {
+    TextEditingControllers.updateMyDataEmailController =
+        TextEditingController();
+    TextEditingControllers.updateMyDataNameController = TextEditingController();
+    TextEditingControllers.updateMyDataBioController = TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.updateMyDataEmailController.dispose();
+    TextEditingControllers.updateMyDataNameController.dispose();
+    TextEditingControllers.updateMyDataBioController.dispose();
   }
 }

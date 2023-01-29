@@ -12,8 +12,25 @@ import '../widgets/podcasts/podcast_category_widget.dart';
 
 late CancelToken cancelToken;
 
-class UploadPodcastScreen extends StatelessWidget {
+class UploadPodcastScreen extends StatefulWidget {
   const UploadPodcastScreen({super.key});
+
+  @override
+  State<UploadPodcastScreen> createState() => _UploadPodcastScreenState();
+}
+
+class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +38,6 @@ class UploadPodcastScreen extends StatelessWidget {
       onWillPop: () async {
         BlocProvider.of<UserProfileBloc>(context)
             .add(const ClearPodcastFileEvent());
-        TextEditingControllers.uploadPodcastNameController.clear();
         return true;
       },
       child: Scaffold(
@@ -67,5 +83,14 @@ class UploadPodcastScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void initControllers() {
+    TextEditingControllers.uploadPodcastNameController =
+        TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.uploadPodcastNameController.dispose();
   }
 }

@@ -5,8 +5,25 @@ import 'package:flutter/material.dart';
 
 import '../widgets/forget_passwod_widgets/forget_password_button_widget.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,5 +58,13 @@ class ForgetPasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void initControllers() {
+    TextEditingControllers.forgetPasswordController = TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.forgetPasswordController.dispose();
   }
 }

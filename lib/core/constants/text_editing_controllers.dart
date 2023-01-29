@@ -1,49 +1,31 @@
 import 'package:flutter/cupertino.dart';
 
 class TextEditingControllers {
-  static final TextEditingController loginEmailController =
-      TextEditingController();
-  static final TextEditingController loginPasswordController =
-      TextEditingController();
-  static final TextEditingController forgetPasswordController =
-      TextEditingController();
-  static final TextEditingController signUpNameController =
-      TextEditingController();
-  static final TextEditingController signUpEmailController =
-      TextEditingController();
-  static final TextEditingController signUpPasswordController =
-      TextEditingController();
-  static final TextEditingController signUpPasswordConfirmController =
-      TextEditingController();
+  static late TextEditingController loginEmailController;
+  static late TextEditingController loginPasswordController;
+  static late TextEditingController forgetPasswordController;
+  static late TextEditingController signUpNameController;
+  static late TextEditingController signUpEmailController;
+  static late TextEditingController signUpPasswordController;
+  static late TextEditingController signUpPasswordConfirmController;
 
-  static final TextEditingController updateMyDataNameController =
-      TextEditingController();
+  static late TextEditingController updateMyDataNameController;
 
-  static final TextEditingController updateMyDataEmailController =
-      TextEditingController();
+  static late TextEditingController updateMyDataEmailController;
 
-  static final TextEditingController updateMyDataBioController =
-      TextEditingController();
+  static late TextEditingController updateMyDataBioController;
 
-  static final TextEditingController updateMyDataPasswordController =
-      TextEditingController();
+  static late TextEditingController updateMyDataPasswordController;
 
-  static final TextEditingController updateMyDataPasswordConfirmController =
-      TextEditingController();
-  static final TextEditingController updateMyDataNewPasswordController =
-      TextEditingController();
+  static late TextEditingController updateMyDataPasswordConfirmController;
+  static late TextEditingController updateMyDataNewPasswordController;
 
-  static final TextEditingController editEventTitleController =
-      TextEditingController();
+  static late TextEditingController editEventTitleController;
 
-  static final TextEditingController editEventDescriptionController =
-      TextEditingController();
+  static late TextEditingController editEventDescriptionController;
 
-  static final TextEditingController createEventTitleController =
-      TextEditingController();
+  static late TextEditingController createEventTitleController;
 
-  static final TextEditingController createEventDescriptionController =
-      TextEditingController();
-  static final TextEditingController uploadPodcastNameController =
-      TextEditingController();
+  static late TextEditingController createEventDescriptionController;
+  static late TextEditingController uploadPodcastNameController;
 }

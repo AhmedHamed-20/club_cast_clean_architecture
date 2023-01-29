@@ -4,8 +4,25 @@ import 'package:club_cast_clean_architecture/core/constants/text_editing_control
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:flutter/material.dart';
 
-class CreateEventsTextFields extends StatelessWidget {
+class CreateEventsTextFields extends StatefulWidget {
   const CreateEventsTextFields({super.key});
+
+  @override
+  State<CreateEventsTextFields> createState() => _CreateEventsTextFieldsState();
+}
+
+class _CreateEventsTextFieldsState extends State<CreateEventsTextFields> {
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,5 +49,16 @@ class CreateEventsTextFields extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void initControllers() {
+    TextEditingControllers.createEventTitleController = TextEditingController();
+    TextEditingControllers.createEventDescriptionController =
+        TextEditingController();
+  }
+
+  void disposeControllers() {
+    TextEditingControllers.createEventTitleController.dispose();
+    TextEditingControllers.createEventDescriptionController.dispose();
   }
 }
