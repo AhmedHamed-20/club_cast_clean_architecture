@@ -16,7 +16,7 @@ class ConnectToSocketEvent extends SocketsEvent {
 class JoinRoomEvent extends SocketsEvent {
   final String roomName;
 
-  const JoinRoomEvent(this.roomName);
+  const JoinRoomEvent({required this.roomName});
 
   @override
   List<Object> get props => [roomName];

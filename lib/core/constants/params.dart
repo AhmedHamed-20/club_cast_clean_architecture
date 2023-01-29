@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -88,4 +89,13 @@ class OtherUserFollowersFollowingScreenParams extends Equatable {
 
   @override
   List<Object?> get props => [userId, isFollwers, otherUserProfileBloc];
+}
+
+class RoomScreenParams extends Equatable {
+  final SocketsBloc socketsBloc;
+
+  const RoomScreenParams(this.socketsBloc);
+
+  @override
+  List<Object?> get props => [socketsBloc];
 }

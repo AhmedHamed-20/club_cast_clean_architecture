@@ -5,7 +5,7 @@ import 'active_room_user_model.dart';
 class MeModel extends MeEntitie {
   const MeModel(super.me);
 
-  factory MeModel.fromJson(Map<String, dynamic> json) {
+  factory MeModel.fromJson(List<dynamic> json) {
     return MeModel(
       ActiveRoomUserModel.fromJson(json[0]),
     );

@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/brod
 class BrodCasterssModel extends BrodcastersEnitite {
   const BrodCasterssModel(super.audience);
 
-  factory BrodCasterssModel.fromJson(Map<String, dynamic> json) {
+  factory BrodCasterssModel.fromJson(List<dynamic> json) {
     return BrodCasterssModel((json[1]['brodcasters'] as List)
         .map((e) => ActiveRoomUserModel.fromJson(e))
         .toList());

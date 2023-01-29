@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/audi
 class AudiencesModel extends AudienceEntitie {
   const AudiencesModel(super.audience);
 
-  factory AudiencesModel.fromJson(Map<String, dynamic> json) {
+  factory AudiencesModel.fromJson(List<dynamic> json) {
     return AudiencesModel((json[1]['audience'] as List)
         .map((e) => ActiveRoomUserModel.fromJson(e))
         .toList());

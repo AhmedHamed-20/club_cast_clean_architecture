@@ -122,8 +122,10 @@ class AppRoutes {
                 ));
 
       case AppRoutesNames.roomScreen:
+        RoomScreenParams arguments = args as RoomScreenParams;
         return MaterialPageRoute(builder: (context) {
-          return const RoomScreen();
+          return BlocProvider.value(
+              value: arguments.socketsBloc, child: const RoomScreen());
         });
       default:
         return MaterialPageRoute(builder: (context) {

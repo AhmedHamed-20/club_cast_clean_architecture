@@ -1,6 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
+import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
+import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,11 +59,38 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
             itemCount: state.allRoomsEntitie!.allRoomsDataEntitie.length + 1,
             itemBuilder: (context, index) {
               if (index < state.allRoomsEntitie!.allRoomsDataEntitie.length) {
-                return InkWell(
-                  onTap: () {},
-                  child: RoomsCardWidget(
-                      allRoomsDataEntitie:
-                          state.allRoomsEntitie!.allRoomsDataEntitie[index]),
+                return BlocListener<SocketsBloc, SocketsState>(
+                  listener: (context, socketState) {
+                    if (socketState.connectToSocketRequestStatus ==
+                            ConnectToSocketRequestStatus.success &&
+                        socketState.joinRoomRequestStatus ==
+                            JoinRoomRequestStatus.idle) {
+                      BlocProvider.of<SocketsBloc>(context).add(
+                        JoinRoomEvent(
+                          roomName: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index].name,
+                        ),
+                      );
+                    }
+                    if (socketState.joinRoomRequestStatus ==
+                        JoinRoomRequestStatus.success) {
+                      Navigator.pushNamed(context, AppRoutesNames.roomScreen,
+                          arguments: RoomScreenParams(
+                              BlocProvider.of<SocketsBloc>(context)));
+                    }
+                  },
+                  child: InkWell(
+                    onTap: () {
+                      BlocProvider.of<SocketsBloc>(context).add(
+                        ConnectToSocketEvent(
+                          ConstVar.accessToken,
+                        ),
+                      );
+                    },
+                    child: RoomsCardWidget(
+                        allRoomsDataEntitie:
+                            state.allRoomsEntitie!.allRoomsDataEntitie[index]),
+                  ),
                 );
               } else {
                 return state.isEndOfRoomsData

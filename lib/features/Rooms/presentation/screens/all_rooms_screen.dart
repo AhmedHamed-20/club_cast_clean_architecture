@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,9 +14,20 @@ class AllRoomsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => servicelocator<RoomsBloc>()
-        ..add(AllRoomsGetEvent(accessToken: ConstVar.accessToken)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => servicelocator<RoomsBloc>()
+            ..add(
+              AllRoomsGetEvent(
+                accessToken: ConstVar.accessToken,
+              ),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => servicelocator<SocketsBloc>(),
+        ),
+      ],
       child: BlocBuilder<RoomsBloc, RoomsState>(
         builder: (context, state) {
           switch (state.allRoomsGetRequestStatus) {

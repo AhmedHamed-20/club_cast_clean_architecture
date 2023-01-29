@@ -56,9 +56,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     socket.on('connect', (_) {
       add(const ConnectToSocketsSuccessEvent());
     });
-    socket.on('error', (error) {
-      print(error);
-    });
+    socket.on('error', (error) {});
   }
 
   FutureOr<void> _joinRoom(JoinRoomEvent event, Emitter<SocketsState> emit) {
@@ -171,7 +169,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         msg:
             'Admin left the room if he not back in 1 minute the room will be closed',
         backgroundColor: AppColors.toastWarning,
-        textColor: AppColors.toastWarning);
+        textColor: AppColors.black);
   }
 
   FutureOr<void> _roomEnded(RoomEndedEvent event, Emitter<SocketsState> emit) {
