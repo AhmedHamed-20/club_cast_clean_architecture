@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketHelper {
@@ -34,5 +35,29 @@ class SocketHelper {
   static void listenOnRoomEnded(
       {required Socket socket, required dynamic Function(dynamic) handler}) {
     socket.on('roomEnded', handler);
+  }
+
+  static void createRoom(
+      {required Socket socket, required CreateRoomParams createRoomParams}) {
+    socket.emit('createRoom', {
+      'roomName': createRoomParams.roomName,
+      'status': createRoomParams.status,
+      'isRecording': createRoomParams.isRecording,
+      'category': createRoomParams.category,
+    });
+  }
+
+  static void listenOnRoomCreated(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('createRoomSuccess', handler);
+  }
+
+  static void joinRoom({required Socket socket, required String roomName}) {
+    socket.emit('joinRoom', roomName);
+  }
+
+  static void listenOnRoomJoined(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('joinRoomSuccess', handler);
   }
 }

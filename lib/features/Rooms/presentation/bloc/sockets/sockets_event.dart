@@ -92,3 +92,26 @@ class UserAskedToBeBroadcasterEvent extends SocketsEvent {
   @override
   List<Object?> get props => [response];
 }
+
+class CreateRoomEvent extends SocketsEvent {
+  final String roomName;
+  final String category;
+  final bool isRecording;
+  final String status;
+  const CreateRoomEvent(
+      {required this.roomName,
+      required this.category,
+      required this.isRecording,
+      required this.status});
+
+  @override
+  List<Object?> get props => [roomName, category, isRecording, status];
+}
+
+class RoomCreatedSuccessEvent extends SocketsEvent {
+  final dynamic response;
+  const RoomCreatedSuccessEvent(this.response);
+
+  @override
+  List<Object?> get props => [response];
+}

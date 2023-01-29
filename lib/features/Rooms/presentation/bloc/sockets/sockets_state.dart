@@ -5,6 +5,7 @@ class SocketsState extends Equatable {
   final String errorMessage;
   final ConnectToSocketRequestStatus connectToSocketRequestStatus;
   final JoinRoomRequestStatus joinRoomRequestStatus;
+  final CreateRoomRequestStatus createRoomRequestStatus;
   final JoinCreateRoomEntitie? joinCreateRoomEntitie;
   final AudienceEntitie? audienceEntitie;
   final AdminEntitie? adminEntitie;
@@ -12,6 +13,7 @@ class SocketsState extends Equatable {
   final MeEntitie? meEntitie;
   const SocketsState({
     this.errorMessage = '',
+    this.createRoomRequestStatus = CreateRoomRequestStatus.idle,
     this.joinRoomRequestStatus = JoinRoomRequestStatus.idle,
     this.connectToSocketRequestStatus = ConnectToSocketRequestStatus.idle,
     this.adminEntitie,
@@ -22,6 +24,7 @@ class SocketsState extends Equatable {
   });
 
   SocketsState copyWith({
+    CreateRoomRequestStatus? createRoomRequestStatus,
     MeEntitie? meEntitie,
     AudienceEntitie? audienceEntitie,
     BrodcastersEnitite? brodcastersEnitite,
@@ -32,6 +35,8 @@ class SocketsState extends Equatable {
     ConnectToSocketRequestStatus? connectToSocketRequestStatus,
   }) {
     return SocketsState(
+      createRoomRequestStatus:
+          createRoomRequestStatus ?? this.createRoomRequestStatus,
       meEntitie: meEntitie ?? this.meEntitie,
       adminEntitie: adminEntitie ?? this.adminEntitie,
       audienceEntitie: audienceEntitie ?? this.audienceEntitie,
@@ -48,6 +53,7 @@ class SocketsState extends Equatable {
 
   @override
   List<Object?> get props => [
+        createRoomRequestStatus,
         errorMessage,
         connectToSocketRequestStatus,
         joinRoomRequestStatus,

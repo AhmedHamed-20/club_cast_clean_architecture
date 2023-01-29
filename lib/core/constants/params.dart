@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/present
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../features/UserProfile/domain/entities/my_event_entitie.dart';
 
@@ -98,4 +99,50 @@ class RoomScreenParams extends Equatable {
 
   @override
   List<Object?> get props => [socketsBloc];
+}
+
+class CreateRoomParams extends Equatable {
+  final String roomName;
+  final String category;
+  final bool isRecording;
+  final String status;
+
+  const CreateRoomParams(
+      {required this.roomName,
+      required this.category,
+      required this.isRecording,
+      required this.status});
+
+  @override
+  List<Object?> get props => [roomName, category, isRecording, status];
+}
+
+class PodcastCardCallBacksParams extends Equatable {
+  final VoidCallback? onPressedOnRemove;
+  final VoidCallback onPressedOnLikeButton;
+  final VoidCallback onPressedOnCard;
+  final VoidCallback onPressedOnUserPhoto;
+  final VoidCallback onPressedDownload;
+  final VoidCallback onPressedPlay;
+  final VoidCallback onPressedOnLikesCount;
+
+  const PodcastCardCallBacksParams(
+      {this.onPressedOnRemove,
+      required this.onPressedOnLikeButton,
+      required this.onPressedOnCard,
+      required this.onPressedOnUserPhoto,
+      required this.onPressedDownload,
+      required this.onPressedPlay,
+      required this.onPressedOnLikesCount});
+
+  @override
+  List<Object?> get props => [
+        onPressedOnRemove,
+        onPressedOnLikeButton,
+        onPressedOnCard,
+        onPressedOnUserPhoto,
+        onPressedDownload,
+        onPressedPlay,
+        onPressedOnLikesCount
+      ];
 }

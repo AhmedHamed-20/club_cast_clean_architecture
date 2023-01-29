@@ -151,3 +151,11 @@ enum JoinRoomRequestStatus {
   left,
   error,
 }
+
+enum CreateRoomRequestStatus {
+  idle,
+  loading,
+  success,
+  left,
+  error,
+}

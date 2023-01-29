@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
@@ -13,12 +13,10 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/me_model
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-
 import '../../../domain/entities/admin_entitie.dart';
 import '../../../domain/entities/audience_entite.dart';
 import '../../../domain/entities/brodcasters_entitie.dart';
 import '../../../domain/entities/me_entitie.dart';
-
 part 'sockets_event.dart';
 part 'sockets_state.dart';
 
@@ -35,6 +33,8 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     on<UserAskedToBeBroadcasterEvent>(_userAskedToBeBroadcaster);
     on<UserChangedToAudienceEvent>(_userChangedToAudience);
     on<UserChangedToBroadcasterEvent>(_userChangedToBroadcaster);
+    on<CreateRoomEvent>(_createRoom);
+    on<RoomCreatedSuccessEvent>(_roomCreatedSuccess);
   }
 
   late Socket socket;
@@ -61,10 +61,12 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _joinRoom(JoinRoomEvent event, Emitter<SocketsState> emit) {
     emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.loading));
-    socket.emit('joinRoom', event.roomName);
-    socket.on('joinRoomSuccess', (response) {
-      add(JoinRoomSuccessEvent(response));
-    });
+    SocketHelper.joinRoom(socket: socket, roomName: event.roomName);
+    SocketHelper.listenOnRoomJoined(
+        socket: socket,
+        handler: (response) {
+          add(JoinRoomSuccessEvent(response));
+        });
   }
 
   FutureOr<void> _connectToSocketSuccess(
@@ -230,5 +232,34 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     emit(state.copyWith(
         brodcastersEnitite: brodcastersEnitite,
         audienceEntitie: audienceEntitie));
+  }
+
+  FutureOr<void> _createRoom(
+      CreateRoomEvent event, Emitter<SocketsState> emit) {
+    emit(state.copyWith(
+        createRoomRequestStatus: CreateRoomRequestStatus.loading));
+    SocketHelper.createRoom(
+      socket: socket,
+      createRoomParams: CreateRoomParams(
+        roomName: event.roomName,
+        category: event.category,
+        isRecording: event.isRecording,
+        status: event.status,
+      ),
+    );
+    SocketHelper.listenOnRoomCreated(
+        socket: socket,
+        handler: (response) {
+          add(RoomCreatedSuccessEvent(response));
+        });
+  }
+
+  FutureOr<void> _roomCreatedSuccess(
+      RoomCreatedSuccessEvent event, Emitter<SocketsState> emit) {
+    emit(
+      state.copyWith(
+        createRoomRequestStatus: CreateRoomRequestStatus.success,
+      ),
+    );
   }
 }

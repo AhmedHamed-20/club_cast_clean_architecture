@@ -26,71 +26,77 @@ class PodcastCardMainWdget extends StatelessWidget {
         CommonPlayingPodcastBlocState>(
       builder: (context, state) {
         return PodcastCardWidget(
-          podcastId:
-              myFollowingPodcasts.podcastInformationEntitie[index].podcastId,
-          onPressedOnCard: () {
-            Navigator.of(context).pushNamed(AppRoutesNames.podcastInfoScreen,
-                arguments:
-                    myFollowingPodcasts.podcastInformationEntitie[index]);
-          },
-          onPressedOnLikesCount: () {
-            if (myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastLikesCount !=
-                0) {
-              Navigator.pushNamed(
-                  context, AppRoutesNames.podcastUsersLikesScreen,
-                  arguments: LikesUsersScreenParams(
-                      podcastId: myFollowingPodcasts
-                          .podcastInformationEntitie[index].podcastId));
-            }
-          },
-          onPressedDownload: () {
-            if (currentDownloadingPodcastId == '') {
-              downloadProgress = StreamController();
-              commonPlayPodcast.add(PodcastDownloadEvent(
-                  podcastUrl: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                  savedPath: commonPlayPodcast
-                      .getSavedPath(
-                          podcastName: myFollowingPodcasts
-                              .podcastInformationEntitie[index].podcastName)
-                      .path,
+          podcastEntitie: myFollowingPodcasts.podcastInformationEntitie[index],
+          podcastCardCallBacksParams: PodcastCardCallBacksParams(
+            onPressedOnLikeButton: () {
+              commonPlayPodcast.onPressedOnLikeLogic(
                   podcastId: myFollowingPodcasts
                       .podcastInformationEntitie[index].podcastId,
-                  downloadProgress: downloadProgress));
-            }
-          },
-          onPressedPlay: () {
-            commonPlayPodcast.onPressedOnPlay(
-                podcastId: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastId,
-                podcastUrl: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                podcastName: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastName,
-                podcastPhoto: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastUserInfo.userImage,
-                podcastUserName: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastUserInfo.userName);
-          },
-          onPressedOnUserPhoto: () {
-            Navigator.of(context).pushNamed(
-              AppRoutesNames.otherUserProfileScreen,
-              arguments: OtherUserProfileScreenParams(
-                myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastUserInfo.userId,
-              ),
-            );
-          },
-          onPressedOnLikeButton: () {
-            commonPlayPodcast.onPressedOnLikeLogic(
-                podcastId: myFollowingPodcasts
-                    .podcastInformationEntitie[index].podcastId,
-                podcastLocalStatus: state.podcastsLikesStatus,
-                serverLikeStatus: myFollowingPodcasts
-                    .podcastInformationEntitie[index].isLiked);
-          },
-          isLiked: myFollowingPodcasts.podcastInformationEntitie[index].isLiked,
+                  podcastLocalStatus: state.podcastsLikesStatus,
+                  serverLikeStatus: myFollowingPodcasts
+                      .podcastInformationEntitie[index].isLiked);
+            },
+            onPressedOnCard: () {
+              Navigator.of(context).pushNamed(AppRoutesNames.podcastInfoScreen,
+                  arguments:
+                      myFollowingPodcasts.podcastInformationEntitie[index]);
+            },
+            onPressedOnUserPhoto: () {
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.otherUserProfileScreen,
+                arguments: OtherUserProfileScreenParams(
+                  myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastUserInfo.userId,
+                ),
+              );
+            },
+            onPressedDownload: () {
+              if (currentDownloadingPodcastId == '') {
+                downloadProgress = StreamController();
+                commonPlayPodcast.add(PodcastDownloadEvent(
+                    podcastUrl: myFollowingPodcasts
+                        .podcastInformationEntitie[index]
+                        .podcastInfo
+                        .podcastUrl,
+                    savedPath: commonPlayPodcast
+                        .getSavedPath(
+                            podcastName: myFollowingPodcasts
+                                .podcastInformationEntitie[index].podcastName)
+                        .path,
+                    podcastId: myFollowingPodcasts
+                        .podcastInformationEntitie[index].podcastId,
+                    downloadProgress: downloadProgress));
+              }
+            },
+            onPressedPlay: () {
+              commonPlayPodcast.onPressedOnPlay(
+                  podcastId: myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastId,
+                  podcastUrl: myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastInfo.podcastUrl,
+                  podcastName: myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastName,
+                  podcastPhoto: myFollowingPodcasts
+                      .podcastInformationEntitie[index]
+                      .podcastUserInfo
+                      .userImage,
+                  podcastUserName: myFollowingPodcasts
+                      .podcastInformationEntitie[index]
+                      .podcastUserInfo
+                      .userName);
+            },
+            onPressedOnLikesCount: () {
+              if (myFollowingPodcasts
+                      .podcastInformationEntitie[index].podcastLikesCount !=
+                  0) {
+                Navigator.pushNamed(
+                    context, AppRoutesNames.podcastUsersLikesScreen,
+                    arguments: LikesUsersScreenParams(
+                        podcastId: myFollowingPodcasts
+                            .podcastInformationEntitie[index].podcastId));
+              }
+            },
+          ),
           podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
             currentPosition: state.currentPosition,
             podcastId:
@@ -98,14 +104,6 @@ class PodcastCardMainWdget extends StatelessWidget {
             podcastDuration: myFollowingPodcasts
                 .podcastInformationEntitie[index].podcastInfo.podcastDuration,
           ),
-          podcastLikes: myFollowingPodcasts
-              .podcastInformationEntitie[index].podcastLikesCount,
-          podcastName:
-              myFollowingPodcasts.podcastInformationEntitie[index].podcastName,
-          podcastPhoto: myFollowingPodcasts
-              .podcastInformationEntitie[index].podcastUserInfo.userImage,
-          podcastUserName: myFollowingPodcasts
-              .podcastInformationEntitie[index].podcastUserInfo.userName,
         );
       },
     );

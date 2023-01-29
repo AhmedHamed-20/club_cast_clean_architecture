@@ -12,12 +12,14 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/my_following_podcast_screen.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/user_profile_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../features/Rooms/presentation/screens/all_rooms_screen.dart';
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
+import '../../../widgets/cached_network_image_circle_photo.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
 part 'layout_event.dart';
@@ -47,27 +49,39 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final CategoriesGetUsecase categoriesGetUsecase;
   final CachedAccessTokenUpdateUsecase cachedAccessTokenUpdateUsecase;
   final AccessTokenRemoveUsecase accessTokenRemoveUsecase;
-  final List<Widget> bottomNaveIcons = const [
-    NavigationDestination(
-      icon: Icon(Icons.home),
-      label: 'home',
-    ),
-    NavigationDestination(
-      icon: Icon(Icons.add),
-      label: '',
-    ),
-    NavigationDestination(
-      icon: Icon(Icons.headphones),
-      label: 'podCast',
-    ),
-  ];
+  List<Widget> bottomNaveIcons(
+          {required String photoUrl, required double phototRadius}) =>
+      [
+        const NavigationDestination(
+          icon: Icon(Icons.home),
+          label: 'home',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.headphones),
+          label: 'podCast',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.add),
+          label: '',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.search),
+          label: 'search',
+        ),
+        NavigationDestination(
+            icon: CachedNetworkImageCirclePhoto(
+                photoRadius: phototRadius, photoUrl: photoUrl),
+            label: ''),
+      ];
 
-  final appBarTitles = ['Home', '', 'Podcasts'];
+  final appBarTitles = ['Home', 'Podcasts', '', 'Search', 'Your Profile'];
 
   final List<Widget> bottomNaveScreens = [
     const AllRoomsScreen(),
-    Container(),
     const MyFollowingPodcastScreen(),
+    Container(),
+    Container(),
+    const UserProfileScreen(),
   ];
   FutureOr<void> _getActiveUserData(
       ActiveUserDataGetEvent event, Emitter<LayoutState> emit) async {

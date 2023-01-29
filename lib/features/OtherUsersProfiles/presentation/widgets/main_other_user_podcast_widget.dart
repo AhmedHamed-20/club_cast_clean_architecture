@@ -32,30 +32,10 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                   CommonPlayingPodcastBlocState>(
                 builder: (context, commonPlayPodcastBlocState) =>
                     PodcastCardWidget(
-                  isLiked: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index].isLiked,
-                  podcastDurathion:
-                      commonPlayingPodcastBloc.getCurrentPlayingPosition(
-                    currentPosition: commonPlayPodcastBlocState.currentPosition,
-                    podcastId: otherUserPodcastEntitie
-                        .otherUserPodcastDataEntitie[index].podcastId,
-                    podcastDuration: otherUserPodcastEntitie
-                        .otherUserPodcastDataEntitie[index]
-                        .podcastInfo
-                        .podcastDuration,
-                  ),
-                  podcastLikes: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index].podcastLikesCount,
-                  podcastName: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index].podcastName,
-                  onPressedOnCard: () {
-                    Navigator.of(context).pushNamed(
-                        AppRoutesNames.podcastInfoScreen,
-                        arguments: otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index]);
-                  },
-                  onPressedOnUserPhoto: () {},
-                  onPressedOnLikeButton: () {
+                  podcastEntitie: otherUserPodcastEntitie
+                      .otherUserPodcastDataEntitie[index],
+                  podcastCardCallBacksParams:
+                      PodcastCardCallBacksParams(onPressedOnLikeButton: () {
                     commonPlayingPodcastBloc.onPressedOnLikeLogic(
                         podcastId: otherUserPodcastEntitie
                             .otherUserPodcastDataEntitie[index].podcastId,
@@ -63,16 +43,22 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                             commonPlayPodcastBlocState.podcastsLikesStatus,
                         serverLikeStatus: otherUserPodcastEntitie
                             .otherUserPodcastDataEntitie[index].isLiked);
-                  },
-                  podcastPhoto: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index]
-                      .podcastUserInfo
-                      .userImage,
-                  podcastUserName: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index]
-                      .podcastUserInfo
-                      .userName,
-                  onPressedDownload: () {
+                  }, onPressedOnCard: () {
+                    Navigator.of(context).pushNamed(
+                        AppRoutesNames.podcastInfoScreen,
+                        arguments: otherUserPodcastEntitie
+                            .otherUserPodcastDataEntitie[index]);
+                  }, onPressedOnUserPhoto: () {
+                    Navigator.of(context).pushNamed(
+                      AppRoutesNames.otherUserProfileScreen,
+                      arguments: OtherUserProfileScreenParams(
+                        otherUserPodcastEntitie
+                            .otherUserPodcastDataEntitie[index]
+                            .podcastUserInfo
+                            .userId,
+                      ),
+                    );
+                  }, onPressedDownload: () {
                     if (currentDownloadingPodcastId == '') {
                       downloadProgress = StreamController();
 
@@ -94,8 +80,7 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                         ),
                       );
                     }
-                  },
-                  onPressedPlay: () {
+                  }, onPressedPlay: () {
                     commonPlayingPodcastBloc.onPressedOnPlay(
                       podcastId: otherUserPodcastEntitie
                           .otherUserPodcastDataEntitie[index].podcastId,
@@ -114,10 +99,7 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                           .podcastUserInfo
                           .userName,
                     );
-                  },
-                  podcastId: otherUserPodcastEntitie
-                      .otherUserPodcastDataEntitie[index].podcastId,
-                  onPressedOnLikesCount: () {
+                  }, onPressedOnLikesCount: () {
                     if (otherUserPodcastEntitie
                             .otherUserPodcastDataEntitie[index]
                             .podcastLikesCount !=
@@ -130,7 +112,17 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                         ),
                       );
                     }
-                  },
+                  }),
+                  podcastDurathion:
+                      commonPlayingPodcastBloc.getCurrentPlayingPosition(
+                    currentPosition: commonPlayPodcastBlocState.currentPosition,
+                    podcastId: otherUserPodcastEntitie
+                        .otherUserPodcastDataEntitie[index].podcastId,
+                    podcastDuration: otherUserPodcastEntitie
+                        .otherUserPodcastDataEntitie[index]
+                        .podcastInfo
+                        .podcastDuration,
+                  ),
                 ),
               );
             } else {
