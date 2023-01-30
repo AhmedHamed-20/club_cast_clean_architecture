@@ -73,7 +73,7 @@ class MainPodcastInfoWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: AppHeight.h10,
                       ),
                       Text(
@@ -117,7 +117,7 @@ class MainPodcastInfoWidget extends StatelessWidget {
                 max: podcastInformationEntitie.podcastInfo.podcastDuration,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: AppHeight.h6,
             ),
             Row(

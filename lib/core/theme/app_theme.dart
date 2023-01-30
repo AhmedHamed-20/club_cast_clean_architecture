@@ -19,7 +19,7 @@ class AppTheme {
       systemOverlayStyle: const SystemUiOverlayStyle(),
       backgroundColor: AppColors.transparentColor,
       elevation: 0.0,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: TextStyle(
         color: Colors.black,
         fontSize: AppFontSize.s20,
         fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class AppTheme {
       systemOverlayStyle: const SystemUiOverlayStyle(),
       backgroundColor: AppColors.backgroundColorWhite,
       elevation: 0.0,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: TextStyle(
         color: Colors.black,
         fontSize: AppFontSize.s20,
         fontWeight: FontWeight.bold,

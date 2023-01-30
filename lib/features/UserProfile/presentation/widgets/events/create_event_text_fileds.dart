@@ -34,7 +34,7 @@ class _CreateEventsTextFieldsState extends State<CreateEventsTextFields> {
           labelStyle: Theme.of(context).textTheme.titleSmall,
           controller: TextEditingControllers.createEventTitleController,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         SizedBox(

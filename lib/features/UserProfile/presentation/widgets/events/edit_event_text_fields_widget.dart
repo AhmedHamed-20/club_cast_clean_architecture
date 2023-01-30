@@ -40,7 +40,7 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
           labelText: 'Title',
           controller: TextEditingControllers.editEventTitleController,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         SizedBox(

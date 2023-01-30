@@ -62,7 +62,7 @@ class PhotoAndNameWidget extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: AppWidth.w10,
             ),
             Flexible(

@@ -65,15 +65,15 @@ class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
                   labelText: 'Podcast Name',
                   labelStyle: Theme.of(context).textTheme.titleSmall,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: AppHeight.h10,
                 ),
                 const PodcastCategoryWidget(),
-                const SizedBox(
+                SizedBox(
                   height: AppHeight.h10,
                 ),
                 const PickedPodcastInfoWidget(),
-                const SizedBox(
+                SizedBox(
                   height: AppHeight.h10,
                 ),
                 const PickFileButton(),

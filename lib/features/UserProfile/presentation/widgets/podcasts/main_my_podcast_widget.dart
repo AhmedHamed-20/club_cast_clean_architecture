@@ -28,82 +28,86 @@ class MainMyPodcastWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return BlocBuilder<CommonPlayingPodcastBlocBloc,
             CommonPlayingPodcastBlocState>(
-          builder: (context, commonPlayPodcastBlocState) => PodcastCardWidget(
-            podcastEntitie: myPodcastEntite[index],
-            isMyProfile: true,
-            podcastCardCallBacksParams: PodcastCardCallBacksParams(
-              onPressedOnRemove: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return BlocProvider.value(
-                        value: userProfileBloc,
-                        child: RemovePodcastAlertDialogWidget(
-                          podcastId: myPodcastEntite[index].podcastId,
-                          podcastName: myPodcastEntite[index].podcastName,
-                        ),
-                      );
-                    });
-              },
-              onPressedOnLikeButton: () {
-                commonPlayingPodcastBloc.onPressedOnLikeLogic(
-                  podcastId: myPodcastEntite[index].podcastId,
-                  podcastLocalStatus:
-                      commonPlayPodcastBlocState.podcastsLikesStatus,
-                  serverLikeStatus: myPodcastEntite[index].isLiked,
-                );
-              },
-              onPressedOnCard: () {
-                Navigator.of(context).pushNamed(
-                    AppRoutesNames.podcastInfoScreen,
-                    arguments: myPodcastEntite[index]);
-              },
-              onPressedOnUserPhoto: () {},
-              onPressedDownload: () {
-                if (currentDownloadingPodcastId == '') {
-                  downloadProgress = StreamController();
-
-                  commonPlayingPodcastBloc.add(
-                    PodcastDownloadEvent(
-                      podcastUrl: myPodcastEntite[index].podcastInfo.podcastUrl,
-                      savedPath: commonPlayingPodcastBloc
-                          .getSavedPath(
-                              podcastName: myPodcastEntite[index].podcastName)
-                          .path,
-                      podcastId: myPodcastEntite[index].podcastId,
-                      downloadProgress: downloadProgress,
-                    ),
+          builder: (context, commonPlayPodcastBlocState) => Padding(
+            padding: const EdgeInsets.only(bottom: AppPadding.p8),
+            child: PodcastCardWidget(
+              podcastEntitie: myPodcastEntite[index],
+              isMyProfile: true,
+              podcastCardCallBacksParams: PodcastCardCallBacksParams(
+                onPressedOnRemove: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: userProfileBloc,
+                          child: RemovePodcastAlertDialogWidget(
+                            podcastId: myPodcastEntite[index].podcastId,
+                            podcastName: myPodcastEntite[index].podcastName,
+                          ),
+                        );
+                      });
+                },
+                onPressedOnLikeButton: () {
+                  commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                    podcastId: myPodcastEntite[index].podcastId,
+                    podcastLocalStatus:
+                        commonPlayPodcastBlocState.podcastsLikesStatus,
+                    serverLikeStatus: myPodcastEntite[index].isLiked,
                   );
-                }
-              },
-              onPressedPlay: () {
-                commonPlayingPodcastBloc.onPressedOnPlay(
-                  podcastId: myPodcastEntite[index].podcastId,
-                  podcastUrl: myPodcastEntite[index].podcastInfo.podcastUrl,
-                  podcastName: myPodcastEntite[index].podcastName,
-                  podcastPhoto:
-                      myPodcastEntite[index].podcastUserInfo.userImage,
-                  podcastUserName:
-                      myPodcastEntite[index].podcastUserInfo.userName,
-                );
-              },
-              onPressedOnLikesCount: () {
-                if (myPodcastEntite[index].podcastLikesCount != 0) {
+                },
+                onPressedOnCard: () {
                   Navigator.of(context).pushNamed(
-                    AppRoutesNames.podcastUsersLikesScreen,
-                    arguments: LikesUsersScreenParams(
-                      podcastId: myPodcastEntite[index].podcastId,
-                    ),
+                      AppRoutesNames.podcastInfoScreen,
+                      arguments: myPodcastEntite[index]);
+                },
+                onPressedOnUserPhoto: () {},
+                onPressedDownload: () {
+                  if (currentDownloadingPodcastId == '') {
+                    downloadProgress = StreamController();
+
+                    commonPlayingPodcastBloc.add(
+                      PodcastDownloadEvent(
+                        podcastUrl:
+                            myPodcastEntite[index].podcastInfo.podcastUrl,
+                        savedPath: commonPlayingPodcastBloc
+                            .getSavedPath(
+                                podcastName: myPodcastEntite[index].podcastName)
+                            .path,
+                        podcastId: myPodcastEntite[index].podcastId,
+                        downloadProgress: downloadProgress,
+                      ),
+                    );
+                  }
+                },
+                onPressedPlay: () {
+                  commonPlayingPodcastBloc.onPressedOnPlay(
+                    podcastId: myPodcastEntite[index].podcastId,
+                    podcastUrl: myPodcastEntite[index].podcastInfo.podcastUrl,
+                    podcastName: myPodcastEntite[index].podcastName,
+                    podcastPhoto:
+                        myPodcastEntite[index].podcastUserInfo.userImage,
+                    podcastUserName:
+                        myPodcastEntite[index].podcastUserInfo.userName,
                   );
-                }
-              },
-            ),
-            podcastDurathion:
-                commonPlayingPodcastBloc.getCurrentPlayingPosition(
-              currentPosition: commonPlayPodcastBlocState.currentPosition,
-              podcastId: myPodcastEntite[index].podcastId,
-              podcastDuration:
-                  myPodcastEntite[index].podcastInfo.podcastDuration,
+                },
+                onPressedOnLikesCount: () {
+                  if (myPodcastEntite[index].podcastLikesCount != 0) {
+                    Navigator.of(context).pushNamed(
+                      AppRoutesNames.podcastUsersLikesScreen,
+                      arguments: LikesUsersScreenParams(
+                        podcastId: myPodcastEntite[index].podcastId,
+                      ),
+                    );
+                  }
+                },
+              ),
+              podcastDurathion:
+                  commonPlayingPodcastBloc.getCurrentPlayingPosition(
+                currentPosition: commonPlayPodcastBlocState.currentPosition,
+                podcastId: myPodcastEntite[index].podcastId,
+                podcastDuration:
+                    myPodcastEntite[index].podcastInfo.podcastDuration,
+              ),
             ),
           ),
         );

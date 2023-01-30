@@ -23,15 +23,15 @@ class SignUpScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               Image.asset('assets/images/signPhoto.png'),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const SignUpTextFieldsWidget(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const SignUpButtonWidget(),

@@ -36,7 +36,7 @@ class _SignUpTextFieldsWidgetState extends State<SignUpTextFieldsWidget> {
           labelText: 'Name',
           labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(
@@ -45,7 +45,7 @@ class _SignUpTextFieldsWidgetState extends State<SignUpTextFieldsWidget> {
           labelText: 'Email',
           labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(
@@ -54,7 +54,7 @@ class _SignUpTextFieldsWidgetState extends State<SignUpTextFieldsWidget> {
           labelText: 'Password',
           labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(

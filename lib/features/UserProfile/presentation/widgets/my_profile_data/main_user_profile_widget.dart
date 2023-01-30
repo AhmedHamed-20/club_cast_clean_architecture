@@ -33,7 +33,7 @@ class MainUserProfileWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const PhotoAndNameWidget(),
-                    const SizedBox(
+                    SizedBox(
                       height: AppHeight.h10,
                     ),
                     BlocBuilder<LayoutBloc, LayoutState>(
@@ -43,11 +43,11 @@ class MainUserProfileWidget extends StatelessWidget {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: AppHeight.h20,
                     ),
                     const FollowersFollowingWidget(),
-                    const SizedBox(
+                    SizedBox(
                       height: AppHeight.h10,
                     ),
                     Defaults.defaultButton(
@@ -60,7 +60,7 @@ class MainUserProfileWidget extends StatelessWidget {
                       context: context,
                       text: 'Edit Profile',
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: AppHeight.h10,
                     ),
                     SizedBox(

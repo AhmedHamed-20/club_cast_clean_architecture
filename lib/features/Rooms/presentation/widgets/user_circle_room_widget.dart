@@ -31,7 +31,7 @@ class UserCircleRoomWidget extends StatelessWidget {
                 Image.asset('assets/images/noImage.jpg'),
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h6,
         ),
         Text(

@@ -18,11 +18,11 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               Image.asset('assets/images/login.png'),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const LoginTextFieldsWidget(),
@@ -42,11 +42,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const LoginButtonWidget(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const DontHaveAccountWidget()

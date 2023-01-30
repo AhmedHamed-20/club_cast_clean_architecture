@@ -31,7 +31,7 @@ class OtherUserEventsWidget extends StatelessWidget {
                   'user events: ${state.otherUserEventsEntitie!.events.length}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: AppHeight.h10,
                 ),
                 Expanded(

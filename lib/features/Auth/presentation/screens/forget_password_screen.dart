@@ -41,7 +41,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           child: Column(
             children: [
               Image.asset('assets/images/forget_password.png'),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               Defaults.defaultTextFormField(
@@ -49,7 +49,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   controller: TextEditingControllers.forgetPasswordController,
                   labelStyle: Theme.of(context).textTheme.titleMedium,
                   labelText: 'Email'),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const ForgetPasswordButtonWidget(),

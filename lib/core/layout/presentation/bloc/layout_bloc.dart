@@ -79,7 +79,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final List<Widget> bottomNaveScreens = [
     const AllRoomsScreen(),
     const MyFollowingPodcastScreen(),
-    Container(),
+    const SizedBox.shrink(),
     Container(),
     const UserProfileScreen(),
   ];

@@ -48,7 +48,7 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
               labelText: 'Name',
               labelStyle: Theme.of(context).textTheme.titleSmall,
               controller: TextEditingControllers.updateMyDataNameController),
-          const SizedBox(
+          SizedBox(
             height: AppHeight.h10,
           ),
           Defaults.defaultTextFormField(
@@ -60,7 +60,7 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
               labelStyle: Theme.of(context).textTheme.titleSmall,
               labelText: 'Email',
               controller: TextEditingControllers.updateMyDataEmailController),
-          const SizedBox(
+          SizedBox(
             height: AppHeight.h10,
           ),
           Defaults.defaultTextFormField(

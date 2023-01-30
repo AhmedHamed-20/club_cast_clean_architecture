@@ -24,7 +24,7 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
                     ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: AppHeight.h10,
             ),
             BlocBuilder<SocketsBloc, SocketsState>(
@@ -51,7 +51,7 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: AppHeight.h10,
             ),
             Center(
@@ -63,7 +63,7 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
                     ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: AppHeight.h10,
             ),
             BlocBuilder<SocketsBloc, SocketsState>(

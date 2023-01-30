@@ -34,7 +34,7 @@ class OtherUserProfilePhotoNameWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(
+          SizedBox(
             width: AppWidth.w10,
           ),
           Flexible(

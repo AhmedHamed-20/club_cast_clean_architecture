@@ -32,13 +32,13 @@ class ErrorScreen extends StatelessWidget {
         child: Column(
           children: [
             //    Image.asset('assets/images/error.gif'),
-            const SizedBox(height: AppHeight.h10),
+            SizedBox(height: AppHeight.h10),
             Text(
               message,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppHeight.h20),
+            SizedBox(height: AppHeight.h20),
             statusCode != null && statusCode == 403 || statusCode == 401
                 ? Defaults.defaultButton(
                     onPressed: () {

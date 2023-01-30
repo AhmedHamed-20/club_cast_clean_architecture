@@ -39,7 +39,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
             color: Theme.of(context).iconTheme.color,
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(
@@ -52,7 +52,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
             color: Theme.of(context).iconTheme.color,
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(
@@ -66,7 +66,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
             color: Theme.of(context).iconTheme.color,
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h20,
         ),
         const UpdatePasswodButtonWidget(),

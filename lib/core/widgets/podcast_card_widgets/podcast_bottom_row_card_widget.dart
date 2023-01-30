@@ -28,7 +28,7 @@ class PodcastCardBottomRowWidget extends StatelessWidget {
             photoRadius: 50,
           ),
         ),
-        const SizedBox(
+        SizedBox(
           width: AppWidth.w6,
         ),
         Text(

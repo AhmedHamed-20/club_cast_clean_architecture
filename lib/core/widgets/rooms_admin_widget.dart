@@ -30,7 +30,7 @@ class AdminRoomsWidget extends StatelessWidget {
             errorWidget: (context, url, error) =>
                 Image.asset('assets/images/noImage.jpg'),
             imageUrl: allRoomsDataEntitie.admin.photo),
-        const SizedBox(
+        SizedBox(
           width: AppWidth.w10,
         ),
         Text(
@@ -42,7 +42,7 @@ class AdminRoomsWidget extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(
+        SizedBox(
           width: AppWidth.w10,
         ),
         Card(

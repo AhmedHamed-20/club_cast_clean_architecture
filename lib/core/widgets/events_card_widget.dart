@@ -47,7 +47,7 @@ class EventsCardWidget extends StatelessWidget {
                 eventsTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h6,
               ),
               eventUserName != null
@@ -56,7 +56,7 @@ class EventsCardWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     )
                   : const SizedBox.shrink(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h6,
               ),
               Text(
@@ -66,7 +66,7 @@ class EventsCardWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h6,
               ),
               Text(

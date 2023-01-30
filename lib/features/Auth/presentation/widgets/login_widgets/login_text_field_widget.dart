@@ -36,7 +36,7 @@ class _LoginTextFieldsWidgetState extends State<LoginTextFieldsWidget> {
           labelText: 'Email',
           labelStyle: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(
+        SizedBox(
           height: AppHeight.h10,
         ),
         Defaults.defaultTextFormField(

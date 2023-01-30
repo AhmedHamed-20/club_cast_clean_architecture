@@ -24,7 +24,7 @@ class ChangePasswodBottomSheetWidget extends StatelessWidget {
               'Update Your Password',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(
+            SizedBox(
               height: AppHeight.h10,
             ),
             const UpdatePasswordTextFields(),

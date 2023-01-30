@@ -63,7 +63,7 @@ class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
                     'User Podcasts ${state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie.length}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: AppHeight.h10,
                   ),
                   Expanded(

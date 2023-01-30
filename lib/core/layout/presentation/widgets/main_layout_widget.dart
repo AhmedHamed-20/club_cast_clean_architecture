@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/create_room_bottom_sheet.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/my_profile_data/logout_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,17 @@ class MainLayoutWidget extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.background,
             selectedIndex: state.currentBottomNavIndex,
             onDestinationSelected: (value) {
-              layoutBloc.add(BottomNavIndexChangeEvent(value));
+              if (value == 2) {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    isDismissible: true,
+                    context: context,
+                    builder: (context) => const CreateRoomBottomSheet());
+                return;
+              }
+              layoutBloc.add(
+                BottomNavIndexChangeEvent(value),
+              );
             },
           ),
         ),

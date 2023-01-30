@@ -51,7 +51,7 @@ class CreateEventScreen extends StatelessWidget {
                   ),
                 );
               }),
-              const SizedBox(height: AppHeight.h20),
+              SizedBox(height: AppHeight.h20),
               const CreateEventButtonWidget(),
             ],
           ),

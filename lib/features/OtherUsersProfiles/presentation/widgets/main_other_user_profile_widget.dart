@@ -30,19 +30,19 @@ class MainOtherUserProfileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const OtherUserProfilePhotoNameWidget(),
-                      const SizedBox(
+                      SizedBox(
                         height: AppHeight.h10,
                       ),
                       const BioWidget(),
-                      const SizedBox(
+                      SizedBox(
                         height: AppHeight.h10,
                       ),
                       const OtherUserFollowersFollowingWidget(),
-                      const SizedBox(
+                      SizedBox(
                         height: AppHeight.h10,
                       ),
                       const FollowUnFollowButton(),
-                      const SizedBox(
+                      SizedBox(
                         height: AppHeight.h10,
                       ),
                       SizedBox(

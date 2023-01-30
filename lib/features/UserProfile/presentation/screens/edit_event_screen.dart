@@ -69,13 +69,13 @@ class _EditEventScreenState extends State<EditEventScreen> {
           child: Column(
             children: [
               const EditEventTextFieldsWidget(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               EditDateEditEventScreenWidget(
                 eventDate: widget.myEventEntitie.eventDate,
               ),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h20,
               ),
               ApplyChangesButtonWidget(

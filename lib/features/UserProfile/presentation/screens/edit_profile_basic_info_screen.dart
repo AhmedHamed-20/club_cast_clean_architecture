@@ -31,15 +31,15 @@ class EditUserProfileBasicDataScreen extends StatelessWidget {
           child: Column(
             children: [
               const EditUserScreenUserImageWidget(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               const UpdateMyDataTextFields(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h20,
               ),
               const UpdateDataButtonWidget(),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               Defaults.defaultButton(

@@ -31,7 +31,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
                 'Do you want to change your profile image?',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              const SizedBox(
+              SizedBox(
                 height: AppHeight.h10,
               ),
               state.pickedUserProfileImageFilePath != ''

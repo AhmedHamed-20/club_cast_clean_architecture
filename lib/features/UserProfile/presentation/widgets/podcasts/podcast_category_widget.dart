@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/constants.dart';
 import '../../../../../core/layout/domain/entities/category_info_entitie.dart';
 import '../../../../../core/layout/presentation/bloc/layout_bloc.dart';
 
@@ -25,7 +26,10 @@ class PodcastCategoryWidget extends StatelessWidget {
             podcastCategoryValue = state.categoryEntitie!.categories.first.name;
             return StatefulBuilder(
               builder: (context, setState) => DropdownButton<String>(
-                  style: Theme.of(context).textTheme.titleSmall,
+                  underline: const SizedBox.shrink(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  alignment: Alignment.center,
+                  borderRadius: BorderRadius.circular(AppRadius.r22),
                   dropdownColor: Theme.of(context).colorScheme.background,
                   value: podcastCategoryValue,
                   items: state.categoryEntitie!.categories

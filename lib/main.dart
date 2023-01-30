@@ -6,6 +6,7 @@ import 'package:club_cast_clean_architecture/core/theme/app_theme.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'core/routes/app_route_names.dart';
@@ -40,15 +41,20 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 servicelocator<CommonPlayingPodcastBlocBloc>()),
       ],
-      child: MaterialApp(
-        title: 'Club Cast',
-        theme: Material3Colors.light,
-        darkTheme: Material3Colors.dark,
-        themeMode: ThemeMode.dark,
-        onGenerateRoute: appRoutes.generateRoutes,
-        initialRoute: accessToken == ''
-            ? AppRoutesNames.loginScreen
-            : AppRoutesNames.layoutScreen,
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) => MaterialApp(
+          title: 'Club Cast',
+          theme: Material3Colors.light,
+          darkTheme: Material3Colors.dark,
+          themeMode: ThemeMode.dark,
+          onGenerateRoute: appRoutes.generateRoutes,
+          initialRoute: accessToken == ''
+              ? AppRoutesNames.loginScreen
+              : AppRoutesNames.layoutScreen,
+        ),
       ),
     );
   }
