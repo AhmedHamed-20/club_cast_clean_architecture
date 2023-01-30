@@ -35,6 +35,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     on<UserChangedToBroadcasterEvent>(_userChangedToBroadcaster);
     on<CreateRoomEvent>(_createRoom);
     on<RoomCreatedSuccessEvent>(_roomCreatedSuccess);
+    on<LeaveRoomEvent>(_leaveRoom);
   }
 
   late Socket socket;
@@ -79,6 +80,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       JoinRoomSuccessEvent event, Emitter<SocketsState> emit) {
     emit(
       state.copyWith(
+        isCreateRoom: false,
         adminEntitie: AdminModel.fromJson(event.response),
         audienceEntitie: AudiencesModel.fromJson(event.response),
         brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
@@ -130,6 +132,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         handler: (response) {
           add(UserLeftEvent(response));
         });
+    SocketHelper.lisenOnErrors(socket: socket, handler: (response) {});
   }
 
   FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {
@@ -159,11 +162,12 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _userJoined(
       UserJoinedEvent event, Emitter<SocketsState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie;
+    AudienceEntitie? audienceEntitie = state.copyWith().audienceEntitie;
     if (audienceEntitie != null) {
       audienceEntitie.audience
           .add(ActiveRoomUserModel.fromJson(event.response));
     }
+    emit(state.copyWith(audienceEntitie: audienceEntitie));
   }
 
   FutureOr<void> _adminLeft(AdminLeftEvent event, Emitter<SocketsState> emit) {
@@ -258,8 +262,30 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       RoomCreatedSuccessEvent event, Emitter<SocketsState> emit) {
     emit(
       state.copyWith(
+        isCreateRoom: true,
         createRoomRequestStatus: CreateRoomRequestStatus.success,
+        //  adminEntitie: AdminModel.fromJson(event.response),
+        audienceEntitie: AudiencesModel.fromJson(event.response),
+        brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
+        meEntitie: MeModel.fromJson(event.response),
+        joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
       ),
     );
+    listenOnSocketEvents();
+  }
+
+  FutureOr<void> _leaveRoom(LeaveRoomEvent event, Emitter<SocketsState> emit) {
+    if (state.isCreateRoom == true) {
+      SocketHelper.adminEndRoom(socket: socket);
+      emit(state.copyWith(
+          createRoomRequestStatus: CreateRoomRequestStatus.left,
+          isCreateRoom: false));
+      socket.disconnect();
+    } else {
+      emit(state.copyWith(
+          joinRoomRequestStatus: JoinRoomRequestStatus.left,
+          isCreateRoom: false));
+      socket.disconnect();
+    }
   }
 }

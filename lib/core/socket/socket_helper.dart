@@ -40,7 +40,7 @@ class SocketHelper {
   static void createRoom(
       {required Socket socket, required CreateRoomParams createRoomParams}) {
     socket.emit('createRoom', {
-      'roomName': createRoomParams.roomName,
+      'name': createRoomParams.roomName,
       'status': createRoomParams.status,
       'isRecording': createRoomParams.isRecording,
       'category': createRoomParams.category,
@@ -59,5 +59,14 @@ class SocketHelper {
   static void listenOnRoomJoined(
       {required Socket socket, required dynamic Function(dynamic) handler}) {
     socket.on('joinRoomSuccess', handler);
+  }
+
+  static void lisenOnErrors(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('errorMessage', handler);
+  }
+
+  static void adminEndRoom({required Socket socket}) {
+    socket.emit('endRoom');
   }
 }

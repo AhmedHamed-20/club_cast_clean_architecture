@@ -115,3 +115,10 @@ class RoomCreatedSuccessEvent extends SocketsEvent {
   @override
   List<Object?> get props => [response];
 }
+
+class LeaveRoomEvent extends SocketsEvent {
+  const LeaveRoomEvent();
+
+  @override
+  List<Object?> get props => [];
+}

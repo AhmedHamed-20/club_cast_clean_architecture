@@ -78,6 +78,10 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                           arguments: RoomScreenParams(
                               BlocProvider.of<SocketsBloc>(context)));
                     }
+                    if (socketState.joinRoomRequestStatus ==
+                        JoinRoomRequestStatus.left) {
+                      Navigator.of(context).pop();
+                    }
                   },
                   child: InkWell(
                     onTap: () {

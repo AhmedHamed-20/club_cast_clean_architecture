@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-bool isRecording = false;
+bool isRecordingRoom = false;
 
 class IsRecordingWidget extends StatelessWidget {
   const IsRecordingWidget({
@@ -14,7 +14,7 @@ class IsRecordingWidget extends StatelessWidget {
       builder: (context, setState) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          isRecording
+          isRecordingRoom
               ? Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,10 +54,10 @@ class IsRecordingWidget extends StatelessWidget {
                   ),
                 ),
           Switch(
-              value: isRecording,
+              value: isRecordingRoom,
               onChanged: (value) {
                 setState(() {
-                  isRecording = value;
+                  isRecordingRoom = value;
                 });
               }),
         ],

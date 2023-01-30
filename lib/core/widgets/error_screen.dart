@@ -30,6 +30,7 @@ class ErrorScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p12),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //    Image.asset('assets/images/error.gif'),
             SizedBox(height: AppHeight.h10),

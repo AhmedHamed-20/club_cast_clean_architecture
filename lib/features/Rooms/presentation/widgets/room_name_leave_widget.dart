@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/widgets/defaults.dart';
+import '../bloc/sockets/sockets_bloc.dart';
+import 'leave_room_alert_dialog.dart';
+
+class RoomNameAndLeaveWidget extends StatelessWidget {
+  const RoomNameAndLeaveWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final socketBloc = BlocProvider.of<SocketsBloc>(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12),
+      child: BlocBuilder<SocketsBloc, SocketsState>(
+        builder: (context, state) => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Center(
+              child: Text(
+                state.joinCreateRoomEntitie!.roomName,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+              ),
+            ),
+            Defaults.defaultTextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return BlocProvider.value(
+                            value: socketBloc,
+                            child: const LeaveRoomAlertDialog());
+                      });
+                },
+                child: Text(
+                  'Leave',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+}

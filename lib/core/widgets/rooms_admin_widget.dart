@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/Rooms/domain/entities/all_rooms_entitie_data.dart';
@@ -14,24 +14,10 @@ class AdminRoomsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CachedNetworkImage(
-            imageBuilder: (context, imageProvider) {
-              return Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image:
-                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                ),
-              );
-            },
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) =>
-                Image.asset('assets/images/noImage.jpg'),
-            imageUrl: allRoomsDataEntitie.admin.photo),
+        CachedNetworkImageCirclePhoto(
+            photoUrl: allRoomsDataEntitie.admin.photo, photoRadius: 50),
         SizedBox(
-          width: AppWidth.w10,
+          width: AppWidth.w6,
         ),
         Text(
           allRoomsDataEntitie.admin.name,
@@ -43,7 +29,7 @@ class AdminRoomsWidget extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         SizedBox(
-          width: AppWidth.w10,
+          width: AppWidth.w6,
         ),
         Card(
           color: Theme.of(context).colorScheme.background,
@@ -58,15 +44,14 @@ class AdminRoomsWidget extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Padding(
-          padding: const EdgeInsets.all(AppPadding.p12),
-          child: Text(
-            'Recording : ${allRoomsDataEntitie.isRecording ? 'ON' : 'OFF'}',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
-          ),
+        Text(
+          'Recording : ${allRoomsDataEntitie.isRecording ? 'ON' : 'OFF'}',
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

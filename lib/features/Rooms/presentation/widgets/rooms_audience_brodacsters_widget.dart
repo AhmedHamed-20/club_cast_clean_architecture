@@ -34,9 +34,13 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
                 itemCount: state.brodcastersEnitite!.brodcasters.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return UserCircleRoomWidget(
-                      baseRoomUserDataEntitie: state.adminEntitie!.admin,
-                    );
+                    return state.isCreateRoom
+                        ? UserCircleRoomWidget(
+                            baseRoomUserDataEntitie: state.meEntitie!.me,
+                          )
+                        : UserCircleRoomWidget(
+                            baseRoomUserDataEntitie: state.adminEntitie!.admin,
+                          );
                   } else {
                     return UserCircleRoomWidget(
                       baseRoomUserDataEntitie:
