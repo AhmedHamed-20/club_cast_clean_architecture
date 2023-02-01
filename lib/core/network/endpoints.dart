@@ -1,6 +1,8 @@
 class EndPoints {
   static const String baseUrl =
       "https://audiocomms-podcast-api.onrender.com/api";
+  static const String socketBaseUrl =
+      'https://audiocomms-podcast-api.onrender.com/';
   static const String getMe = '$baseUrl/v1/users/me';
   static const String login = "$baseUrl/v1/users/login";
   static const String signup = "$baseUrl/v1/users/signup";
@@ -53,4 +55,7 @@ class EndPoints {
     required String signature,
   }) =>
       'https://api.cloudinary.com/v1_1/$cloudName/video/upload?api_key=$apiKey&timestamp=$timestamp&signature=$signature';
+
+  static String getRoomMessages(String roomId) =>
+      '$baseUrl/v1/rooms/$roomId/chat/';
 }

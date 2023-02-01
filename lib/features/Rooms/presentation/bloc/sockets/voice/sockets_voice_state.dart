@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'sockets_bloc.dart';
+part of 'sockets_voice_bloc.dart';
 
 class SocketsState extends Equatable {
   final String errorMessage;

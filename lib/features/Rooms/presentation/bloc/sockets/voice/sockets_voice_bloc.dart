@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
@@ -13,12 +14,15 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/me_model
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import '../../../domain/entities/admin_entitie.dart';
-import '../../../domain/entities/audience_entite.dart';
-import '../../../domain/entities/brodcasters_entitie.dart';
-import '../../../domain/entities/me_entitie.dart';
-part 'sockets_event.dart';
-part 'sockets_state.dart';
+
+import '../../../../../../core/network/endpoints.dart';
+import '../../../../domain/entities/admin_entitie.dart';
+import '../../../../domain/entities/audience_entite.dart';
+import '../../../../domain/entities/brodcasters_entitie.dart';
+import '../../../../domain/entities/me_entitie.dart';
+
+part 'sockets_event_voice.dart';
+part 'sockets_voice_state.dart';
 
 class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   SocketsBloc() : super(const SocketsState()) {
@@ -38,33 +42,32 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     on<LeaveRoomEvent>(_leaveRoom);
   }
 
-  late Socket socket;
-
   FutureOr<void> _connectToSocket(
       ConnectToSocketEvent event, Emitter<SocketsState> emit) async {
     emit(state.copyWith(
         connectToSocketRequestStatus: ConnectToSocketRequestStatus.loading));
-
-    socket = io(
-      'https://audiocomms-podcast-api.onrender.com/',
+    ConstVar.socket = io(
+      EndPoints.socketBaseUrl,
       <String, dynamic>{
-        'auth': {'token': event.accessToken},
+        'auth': {
+          'token': event.accessToken,
+        },
         'transports': ['websocket'],
       },
     );
 
-    socket.connect();
-    socket.on('connect', (_) {
+    ConstVar.socket.connect();
+    ConstVar.socket.on('connect', (_) {
       add(const ConnectToSocketsSuccessEvent());
     });
-    socket.on('error', (error) {});
+    ConstVar.socket.on('error', (error) {});
   }
 
   FutureOr<void> _joinRoom(JoinRoomEvent event, Emitter<SocketsState> emit) {
     emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.loading));
-    SocketHelper.joinRoom(socket: socket, roomName: event.roomName);
+    SocketHelper.joinRoom(socket: ConstVar.socket, roomName: event.roomName);
     SocketHelper.listenOnRoomJoined(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(JoinRoomSuccessEvent(response));
         });
@@ -94,45 +97,45 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   void listenOnSocketEvents() {
     SocketHelper.lisentOnUserAskedToTalk(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(UserAskedToBeBroadcasterEvent(response));
         });
     SocketHelper.listenOnAdminLeft(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (resposne) {
           add(AdminLeftEvent(resposne));
         });
 
     SocketHelper.listenOnRoomEnded(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(RoomEndedEvent(response));
         });
 
     SocketHelper.listenOnUserChangedToAudience(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(UserChangedToAudienceEvent(response));
         });
     SocketHelper.listenOnUserChangedToBrodcaster(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(UserChangedToBroadcasterEvent(response));
         });
 
     SocketHelper.listenOnUserJoin(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(UserJoinedEvent(response));
         });
 
     SocketHelper.listenOnUserLeft(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(UserLeftEvent(response));
         });
-    SocketHelper.lisenOnErrors(socket: socket, handler: (response) {});
+    SocketHelper.lisenOnErrors(socket: ConstVar.socket, handler: (response) {});
   }
 
   FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {
@@ -179,7 +182,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _roomEnded(RoomEndedEvent event, Emitter<SocketsState> emit) {
-    socket.disconnect();
+    ConstVar.socket.disconnect();
     emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.left));
   }
 
@@ -243,7 +246,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     emit(state.copyWith(
         createRoomRequestStatus: CreateRoomRequestStatus.loading));
     SocketHelper.createRoom(
-      socket: socket,
+      socket: ConstVar.socket,
       createRoomParams: CreateRoomParams(
         roomName: event.roomName,
         category: event.category,
@@ -252,7 +255,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       ),
     );
     SocketHelper.listenOnRoomCreated(
-        socket: socket,
+        socket: ConstVar.socket,
         handler: (response) {
           add(RoomCreatedSuccessEvent(response));
         });
@@ -276,16 +279,16 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _leaveRoom(LeaveRoomEvent event, Emitter<SocketsState> emit) {
     if (state.isCreateRoom == true) {
-      SocketHelper.adminEndRoom(socket: socket);
+      SocketHelper.endRoomAdmin(socket: ConstVar.socket);
       emit(state.copyWith(
           createRoomRequestStatus: CreateRoomRequestStatus.left,
           isCreateRoom: false));
-      socket.disconnect();
+      ConstVar.socket.disconnect();
     } else {
       emit(state.copyWith(
           joinRoomRequestStatus: JoinRoomRequestStatus.left,
           isCreateRoom: false));
-      socket.disconnect();
+      ConstVar.socket.disconnect();
     }
   }
 }

@@ -1,4 +1,4 @@
-part of 'sockets_bloc.dart';
+part of 'sockets_voice_bloc.dart';
 
 abstract class SocketsEvent extends Equatable {
   const SocketsEvent();

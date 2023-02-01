@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -80,7 +80,8 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                     }
                     if (socketState.joinRoomRequestStatus ==
                         JoinRoomRequestStatus.left) {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRoutesNames.layoutScreen, (route) => false);
                     }
                   },
                   child: InkWell(

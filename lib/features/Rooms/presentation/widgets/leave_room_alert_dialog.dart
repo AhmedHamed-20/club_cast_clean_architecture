@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/sockets/sockets_bloc.dart';
+import '../bloc/sockets/voice/sockets_voice_bloc.dart';
 
 class LeaveRoomAlertDialog extends StatelessWidget {
   const LeaveRoomAlertDialog({

@@ -159,3 +159,10 @@ enum CreateRoomRequestStatus {
   left,
   error,
 }
+
+enum RoomMessagesGetRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}

@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/create_room_button_design.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/create_room_category.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/is_recording_widget.dart';

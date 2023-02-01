@@ -43,7 +43,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/repositories/ro
 import 'package:club_cast_clean_architecture/features/Rooms/domain/repositories/base_rooms_repository.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';

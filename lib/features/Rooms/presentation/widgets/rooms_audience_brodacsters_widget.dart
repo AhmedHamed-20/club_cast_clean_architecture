@@ -1,5 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/sockets_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/user_circle_room_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

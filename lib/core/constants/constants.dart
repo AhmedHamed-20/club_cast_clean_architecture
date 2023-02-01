@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/constants/base_user_info_entit
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class AppFontSize {
   static double s10 = 10.sp;
@@ -199,6 +200,7 @@ void navigatePushAndRemove(
 class ConstVar {
   static String accessToken = '';
   static late BaseUserDataEntitie baseUserDataEntitie;
+  static late Socket socket;
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

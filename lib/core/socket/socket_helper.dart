@@ -66,7 +66,42 @@ class SocketHelper {
     socket.on('errorMessage', handler);
   }
 
-  static void adminEndRoom({required Socket socket}) {
+  static void endRoomAdmin({required Socket socket}) {
     socket.emit('endRoom');
+  }
+
+  static void sendMessage({
+    required Socket socket,
+    required Map<String, dynamic> messageData,
+  }) {
+    socket.emit(
+      'sendMessage',
+      messageData,
+    );
+  }
+
+  static void removeMessage(
+      {required Socket socket, required String messageId}) {
+    socket.emit('removeMessage', messageId);
+  }
+
+  static void listenOnMessageRemoveSuccess(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('removeMessageSuccess', handler);
+  }
+
+  static void listenOnMessageSentSuccess(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('sendMessageSuccess', handler);
+  }
+
+  static void listenOnMessageReceived(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('message', handler);
+  }
+
+  static void listenOnMessageRemoved(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('messageRemoved', handler);
   }
 }
