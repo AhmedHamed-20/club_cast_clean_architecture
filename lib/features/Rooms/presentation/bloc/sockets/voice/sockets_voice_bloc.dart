@@ -96,7 +96,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   void listenOnSocketEvents() {
-    SocketHelper.lisentOnUserAskedToTalk(
+    SocketHelper.lisenOnUserAskedToTalk(
         socket: ConstVar.socket,
         handler: (response) {
           add(UserAskedToBeBroadcasterEvent(response));
@@ -135,7 +135,8 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         handler: (response) {
           add(UserLeftEvent(response));
         });
-    SocketHelper.lisenOnErrors(socket: ConstVar.socket, handler: (response) {});
+    SocketHelper.listenOnErrors(
+        socket: ConstVar.socket, handler: (response) {});
   }
 
   FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {

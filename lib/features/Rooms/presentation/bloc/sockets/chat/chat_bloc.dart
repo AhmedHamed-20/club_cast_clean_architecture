@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_room_messages.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../data/models/room_message_data_model.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -13,6 +17,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc(this.roomMessagesGetUsecase) : super(const ChatState()) {
     on<RoomMessagesGetEvent>(_getRoomMessages);
     on<RoomMessagesGetMoreEvent>(_roomMessagesGetMore);
+    on<ListenOnChatEventsEvent>(_listenOnChatEventsEvent);
+    on<ListenOnMessageRemovedEvent>(_listenOnMessageRemovedEvent);
+    on<ListenOnNewMessagesEvent>(_listenOnNewMessages);
+    on<ListenOnMessageSentSuccessEvent>(_listenOnMessageSentSuccessEvent);
+    on<LisenOnMessageRemoveSuccessEvent>(_listenOnMessageRemovedSuccessEvent);
+    on<MessageSendEvent>(_sendMessage);
+    on<MessageRemoveEvent>(_removeMessage);
   }
   final RoomMessagesGetUsecase roomMessagesGetUsecase;
   FutureOr<void> _getRoomMessages(
@@ -103,5 +114,57 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       },
     );
+  }
+
+  FutureOr<void> _listenOnChatEventsEvent(
+      ListenOnChatEventsEvent event, Emitter<ChatState> emit) {
+    SocketHelper.listenOnMessageSentSuccess(
+        socket: ConstVar.socket,
+        handler: (response) {
+          add(ListenOnMessageSentSuccessEvent(response));
+        });
+    SocketHelper.listenOnMessageRemoved(
+        socket: ConstVar.socket,
+        handler: (response) {
+          add(ListenOnMessageRemovedEvent(response));
+        });
+    SocketHelper.listenOnMessageReceived(
+        socket: ConstVar.socket,
+        handler: (response) {
+          add(ListenOnNewMessagesEvent(response));
+        });
+    SocketHelper.listenOnMessageRemoveSuccess(
+        socket: ConstVar.socket,
+        handler: (response) {
+          add(LisenOnMessageRemoveSuccessEvent(response));
+        });
+  }
+
+  FutureOr<void> _listenOnMessageRemovedEvent(
+      ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {}
+
+  FutureOr<void> _listenOnNewMessages(
+      ListenOnNewMessagesEvent event, Emitter<ChatState> emit) {}
+
+  FutureOr<void> _listenOnMessageSentSuccessEvent(
+      ListenOnMessageSentSuccessEvent event, Emitter<ChatState> emit) {}
+
+  FutureOr<void> _listenOnMessageRemovedSuccessEvent(
+      LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {}
+
+  FutureOr<void> _sendMessage(MessageSendEvent event, Emitter<ChatState> emit) {
+    SocketHelper.sendMessage(
+        socket: ConstVar.socket,
+        messageData: RoomMessageDataModel(
+          isPublic: event.isPublic,
+          message: event.message,
+          toUserId: event.toUserId,
+        ).toJsonPublicByDefault());
+  }
+
+  FutureOr<void> _removeMessage(
+      MessageRemoveEvent event, Emitter<ChatState> emit) {
+    SocketHelper.removeMessage(
+        socket: ConstVar.socket, messageId: event.messageId);
   }
 }

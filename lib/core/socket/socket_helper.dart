@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketHelper {
-  static void lisentOnUserAskedToTalk(
+  static void lisenOnUserAskedToTalk(
       {required Socket socket, required dynamic Function(dynamic) handler}) {
     socket.on('userAskedForPerms', handler);
   }
@@ -61,7 +61,7 @@ class SocketHelper {
     socket.on('joinRoomSuccess', handler);
   }
 
-  static void lisenOnErrors(
+  static void listenOnErrors(
       {required Socket socket, required dynamic Function(dynamic) handler}) {
     socket.on('errorMessage', handler);
   }
