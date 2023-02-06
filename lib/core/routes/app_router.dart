@@ -107,7 +107,7 @@ class AppRoutes {
             args as OtherUserProfileScreenParams;
         return MaterialPageRoute(
             builder: (context) => OtherUserProfileScreen(
-                  userId: arguments.userId,
+                  otherUserProfileScreenParams: arguments,
                 ));
 
       case AppRoutesNames.otherUserFollowersFollowingScreen:

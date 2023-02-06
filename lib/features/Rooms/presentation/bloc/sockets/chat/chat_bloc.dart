@@ -130,6 +130,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         socket: ConstVar.socket,
         handler: (response) {
           add(ListenOnMessageRemovedEvent(response));
+          print(response);
         });
     SocketHelper.listenOnMessageReceived(
         socket: ConstVar.socket,
@@ -144,7 +145,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   FutureOr<void> _listenOnMessageRemovedEvent(
-      ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {}
+      ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {
+    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+    emit(
+      state.copyWith(
+        roomMessageEntitie: roomMessages.copyWith(
+          roomMessages: roomMessages.roomMessages
+              .where((element) => element.messageId != event.response['_id'])
+              .toList(),
+        ),
+      ),
+    );
+  }
 
   FutureOr<void> _listenOnNewMessages(
       ListenOnNewMessagesEvent event, Emitter<ChatState> emit) {
@@ -179,7 +191,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   FutureOr<void> _listenOnMessageRemovedSuccessEvent(
-      LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {}
+      LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {
+    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+    emit(
+      state.copyWith(
+        roomMessageEntitie: roomMessages.copyWith(
+          roomMessages: roomMessages.roomMessages
+              .where((element) => element.messageId != event.response['_id'])
+              .toList(),
+        ),
+      ),
+    );
+  }
 
   FutureOr<void> _sendMessage(MessageSendEvent event, Emitter<ChatState> emit) {
     SocketHelper.sendMessage(

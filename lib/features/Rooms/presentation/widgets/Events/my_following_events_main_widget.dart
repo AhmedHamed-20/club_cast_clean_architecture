@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../../../../../core/constants/constants.dart';
 
 bool isEndOfMyFollowingEventsData = false;
 int myFollowingEventsPage = 2;

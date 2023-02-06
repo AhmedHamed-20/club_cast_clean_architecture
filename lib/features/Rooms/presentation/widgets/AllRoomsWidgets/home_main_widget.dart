@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'all_rooms_main_widget.dart';
-import 'my_following_events_widget.dart';
+import '../Events/my_following_events_widget.dart';
 
 class HomeMainWidget extends StatelessWidget {
   const HomeMainWidget({

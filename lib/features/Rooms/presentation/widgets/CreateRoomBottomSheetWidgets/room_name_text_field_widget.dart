@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/text_editing_controllers.dart';
-import '../../../../core/widgets/defaults.dart';
+import '../../../../../core/constants/text_editing_controllers.dart';
+import '../../../../../core/widgets/defaults.dart';
 
 class RoomNameTextFieldWidget extends StatefulWidget {
   const RoomNameTextFieldWidget({super.key});

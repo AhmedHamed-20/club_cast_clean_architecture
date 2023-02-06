@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/widgets/defaults.dart';
-import '../bloc/sockets/voice/sockets_voice_bloc.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/widgets/defaults.dart';
+import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'leave_room_alert_dialog.dart';
 
 class RoomNameAndLeaveWidget extends StatelessWidget {

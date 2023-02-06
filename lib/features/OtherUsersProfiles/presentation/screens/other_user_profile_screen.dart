@@ -5,12 +5,14 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/present
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/params.dart';
 import '../../../../core/utl/utls.dart';
 import '../widgets/main_other_user_profile_widget.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  const OtherUserProfileScreen({super.key, required this.userId});
-  final String userId;
+  const OtherUserProfileScreen(
+      {super.key, required this.otherUserProfileScreenParams});
+  final OtherUserProfileScreenParams otherUserProfileScreenParams;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -18,11 +20,12 @@ class OtherUserProfileScreen extends StatelessWidget {
         ..add(
           OtherUserProfileGetEvent(
             accessToken: ConstVar.accessToken,
-            userId: userId,
+            userId: otherUserProfileScreenParams.userId,
           ),
         )
         ..add(OtherUserPodcastsGetEvent(
-            accessToken: ConstVar.accessToken, userId: userId)),
+            accessToken: ConstVar.accessToken,
+            userId: otherUserProfileScreenParams.userId)),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.transparentColor,
@@ -42,7 +45,7 @@ class OtherUserProfileScreen extends StatelessWidget {
                 );
               case UserDataGetRequestStatus.success:
                 return MainOtherUserProfileWidget(
-                  userId: userId,
+                  userId: otherUserProfileScreenParams.userId,
                 );
               case UserDataGetRequestStatus.error:
                 if (state.statusCode == 403 || state.statusCode == 401) {
@@ -57,7 +60,7 @@ class OtherUserProfileScreen extends StatelessWidget {
                       BlocProvider.of<OtherUserProfileBloc>(context).add(
                           OtherUserProfileGetEvent(
                               accessToken: ConstVar.accessToken,
-                              userId: userId));
+                              userId: otherUserProfileScreenParams.userId));
                     },
                   );
                 }

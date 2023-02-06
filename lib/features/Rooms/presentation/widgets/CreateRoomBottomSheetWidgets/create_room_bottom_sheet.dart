@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/room_name_text_field_widget.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/room_status_widget.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/room_name_text_field_widget.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/room_status_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'create_room_button_widget.dart';

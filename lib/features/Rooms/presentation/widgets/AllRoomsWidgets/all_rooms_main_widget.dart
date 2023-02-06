@@ -8,7 +8,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/room_card_widget.dart';
+import '../../../../../core/widgets/room_card_widget.dart';
 
 bool isEndOfRoomsData = false;
 int roomsPage = 2;

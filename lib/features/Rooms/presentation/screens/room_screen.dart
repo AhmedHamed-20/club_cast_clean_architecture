@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/live_voice_room_widget.dart';
-import '../widgets/room_chat_widget.dart';
+import '../widgets/LiveVoicRoomWidgets/live_voice_room_widget.dart';
+import '../widgets/RoomChatWidgets/room_chat_widget.dart';
 
 PageController pageViewScrollController = PageController();
 int currentPageIndex = 0;

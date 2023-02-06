@@ -1,7 +1,7 @@
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/chat_room_text_field.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/RoomChatWidgets/chat_room_text_field.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../../../../../core/constants/constants.dart';
 import 'chat_widget.dart';
 
 class RoomChatWidget extends StatelessWidget {

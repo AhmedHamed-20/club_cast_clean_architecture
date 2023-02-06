@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layou
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/layout/domain/entities/category_info_entitie.dart';
+import '../../../../../core/layout/domain/entities/category_info_entitie.dart';
 
 String roomCategoryValue = '';
 

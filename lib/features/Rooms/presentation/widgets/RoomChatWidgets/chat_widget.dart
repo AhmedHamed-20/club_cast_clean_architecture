@@ -22,14 +22,3 @@ class ChatWidget extends StatelessWidget {
     );
   }
 }
-
-List chatFake = [
-  {'message': 'hamed', 'isMe': false},
-  {'message': 'hamed', 'isMe': true},
-  {'message': 'hamed', 'isMe': false},
-  {'message': 'hamed', 'isMe': true},
-  {'message': 'hamed', 'isMe': false},
-  {'message': 'hamed', 'isMe': false},
-  {'message': 'hamed', 'isMe': false},
-  {'message': 'hamed', 'isMe': false},
-];

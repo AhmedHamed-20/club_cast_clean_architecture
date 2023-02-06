@@ -2,10 +2,10 @@ import 'package:club_cast_clean_architecture/core/constants/media_query_of_metho
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/layout/presentation/bloc/layout_bloc.dart';
-import '../../../../core/utl/utls.dart';
-import '../../../../core/widgets/error_screen.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../../../core/layout/presentation/bloc/layout_bloc.dart';
+import '../../../../../core/utl/utls.dart';
+import '../../../../../core/widgets/error_screen.dart';
 import 'my_following_events_main_widget.dart';
 
 class MyFollowingEventsWidget extends StatelessWidget {

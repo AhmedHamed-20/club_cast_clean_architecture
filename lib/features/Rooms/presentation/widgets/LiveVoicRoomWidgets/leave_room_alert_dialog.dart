@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/sockets/voice/sockets_voice_bloc.dart';
+import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
 
 class LeaveRoomAlertDialog extends StatelessWidget {
   const LeaveRoomAlertDialog({

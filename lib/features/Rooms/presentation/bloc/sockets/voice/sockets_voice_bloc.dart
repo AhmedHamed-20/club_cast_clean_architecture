@@ -52,20 +52,25 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     );
     ConstVar.socket = io(
       EndPoints.socketBaseUrl,
-      <String, dynamic>{
-        'auth': {
-          'token': event.accessToken,
-        },
-        'transports': ['websocket'],
-      },
+      OptionBuilder()
+          .setAuth({'token': event.accessToken})
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build(),
     );
 
     ConstVar.socket.connect();
-
+    print(ConstVar.socket.io.options);
+    ConstVar.socket.onDisconnect((data) {
+      print(data);
+    });
+    //  ConstVar.socket.ondisconnect();
     ConstVar.socket.on('connect', (_) {
       add(const ConnectToSocketsSuccessEvent());
     });
-    ConstVar.socket.on('error', (error) {});
+    ConstVar.socket.on('error', (error) {
+      print(error);
+    });
   }
 
   FutureOr<void> _joinRoom(JoinRoomEvent event, Emitter<SocketsState> emit) {
@@ -109,6 +114,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     SocketHelper.listenOnAdminLeft(
         socket: ConstVar.socket,
         handler: (resposne) {
+          print(resposne);
           add(AdminLeftEvent(resposne));
         });
 
@@ -141,7 +147,10 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
           add(UserLeftEvent(response));
         });
     SocketHelper.listenOnErrors(
-        socket: ConstVar.socket, handler: (response) {});
+        socket: ConstVar.socket,
+        handler: (response) {
+          print(response);
+        });
   }
 
   FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {
