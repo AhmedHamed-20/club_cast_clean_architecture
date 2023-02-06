@@ -37,6 +37,7 @@ class ChatState extends Equatable {
         roomMessageEntitie,
         isEndOfMessages,
         errorMessage,
-        roomMessagesGetRequestStatus
+        roomMessagesGetRequestStatus,
+        identityHashCode(this),
       ];
 }

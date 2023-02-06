@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,6 +36,8 @@ class LeaveRoomAlertDialog extends StatelessWidget {
         TextButton(
             onPressed: () {
               BlocProvider.of<SocketsBloc>(context).add(const LeaveRoomEvent());
+              BlocProvider.of<ChatBloc>(context)
+                  .add(const LeaveChatRoomEvent());
               Navigator.of(context).pop();
             },
             child: Text(

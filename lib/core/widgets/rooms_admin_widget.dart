@@ -12,46 +12,46 @@ class AdminRoomsWidget extends StatelessWidget {
   final AllRoomsDataEntitie allRoomsDataEntitie;
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CachedNetworkImageCirclePhoto(
-            photoUrl: allRoomsDataEntitie.admin.photo, photoRadius: 50),
-        SizedBox(
-          width: AppWidth.w6,
-        ),
-        Text(
-          allRoomsDataEntitie.admin.name,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        SizedBox(
-          width: AppWidth.w6,
-        ),
-        Card(
-          color: Theme.of(context).colorScheme.background,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.r5)),
-          child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p4),
-            child: Text(
-              'Host',
-              style: Theme.of(context).textTheme.titleSmall,
+        Row(
+          children: [
+            CachedNetworkImageCirclePhoto(
+                photoUrl: allRoomsDataEntitie.admin.photo, photoRadius: 50),
+            SizedBox(
+              width: AppWidth.w6,
             ),
-          ),
-        ),
-        const Spacer(),
-        Text(
-          'Recording : ${allRoomsDataEntitie.isRecording ? 'ON' : 'OFF'}',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+            Text(
+              allRoomsDataEntitie.admin.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Theme.of(context).secondaryHeaderColor),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(
+              width: AppWidth.w6,
+            ),
+            Card(
+              color: Theme.of(context).colorScheme.background,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.r5)),
+              child: Padding(
+                padding: const EdgeInsets.all(AppPadding.p4),
+                child: Text(
+                  'Host',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+            ),
+            const Spacer(),
+            allRoomsDataEntitie.isRecording
+                ? Image.asset('assets/images/recording.gif',
+                    width: AppWidth.w44, height: AppHeight.h46)
+                : const SizedBox.shrink(),
+          ],
         ),
       ],
     );

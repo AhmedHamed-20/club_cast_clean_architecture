@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie.dart';
@@ -24,6 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<LisenOnMessageRemoveSuccessEvent>(_listenOnMessageRemovedSuccessEvent);
     on<MessageSendEvent>(_sendMessage);
     on<MessageRemoveEvent>(_removeMessage);
+    on<LeaveChatRoomEvent>(_leaveRoom);
   }
   final RoomMessagesGetUsecase roomMessagesGetUsecase;
   FutureOr<void> _getRoomMessages(
@@ -66,6 +68,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           ),
         );
       }
+      add(const ListenOnChatEventsEvent());
     });
   }
 
@@ -144,10 +147,36 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {}
 
   FutureOr<void> _listenOnNewMessages(
-      ListenOnNewMessagesEvent event, Emitter<ChatState> emit) {}
+      ListenOnNewMessagesEvent event, Emitter<ChatState> emit) {
+    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+
+    emit(
+      state.copyWith(
+        roomMessageEntitie: roomMessages.copyWith(
+          roomMessages: [
+            ...roomMessages.roomMessages,
+            RoomMessageDataModel.fromJson(event.response, false),
+          ],
+        ),
+      ),
+    );
+  }
 
   FutureOr<void> _listenOnMessageSentSuccessEvent(
-      ListenOnMessageSentSuccessEvent event, Emitter<ChatState> emit) {}
+      ListenOnMessageSentSuccessEvent event, Emitter<ChatState> emit) {
+    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+    emit(
+      state.copyWith(
+        roomMessageEntitie: roomMessages.copyWith(
+          roomMessages: [
+            ...roomMessages.roomMessages,
+            RoomMessageDataModel.fromJson(event.response, true),
+          ],
+        ),
+      ),
+    );
+    TextEditingControllers.roomChatMessageController.clear();
+  }
 
   FutureOr<void> _listenOnMessageRemovedSuccessEvent(
       LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {}
@@ -166,5 +195,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       MessageRemoveEvent event, Emitter<ChatState> emit) {
     SocketHelper.removeMessage(
         socket: ConstVar.socket, messageId: event.messageId);
+  }
+
+  FutureOr<void> _leaveRoom(LeaveChatRoomEvent event, Emitter<ChatState> emit) {
+    emit(
+      state.copyWith(
+        roomMessageEntitie:
+            const RoomMessageEntitie(results: 0, roomMessages: []),
+        roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.idle,
+      ),
+    );
   }
 }

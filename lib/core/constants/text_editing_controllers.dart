@@ -29,4 +29,5 @@ class TextEditingControllers {
   static late TextEditingController createEventDescriptionController;
   static late TextEditingController uploadPodcastNameController;
   static late TextEditingController createRoomNameController;
+  static late TextEditingController roomChatMessageController;
 }

@@ -2,7 +2,7 @@ class EndPoints {
   static const String baseUrl =
       "https://audiocomms-podcast-api.onrender.com/api";
   static const String socketBaseUrl =
-      'https://audiocomms-podcast-api.onrender.com/';
+      'https://audiocomms-podcast-api.onrender.com';
   static const String getMe = '$baseUrl/v1/users/me';
   static const String login = "$baseUrl/v1/users/login";
   static const String signup = "$baseUrl/v1/users/signup";

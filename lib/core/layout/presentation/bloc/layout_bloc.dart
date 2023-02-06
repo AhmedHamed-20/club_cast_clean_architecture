@@ -104,6 +104,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
           userDataGetRequestStatus: UserDataGetRequestStatus.success,
         ),
       );
+      ConstVar.userId = r.uid;
     });
   }
 

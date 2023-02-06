@@ -1,9 +1,9 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
-import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ import '../../../../core/widgets/room_card_widget.dart';
 
 bool isEndOfRoomsData = false;
 int roomsPage = 2;
+bool isInRoom = false;
 
 class AllRoomsMainWidget extends StatefulWidget {
   const AllRoomsMainWidget({super.key});
@@ -71,12 +72,23 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                               .allRoomsEntitie!.allRoomsDataEntitie[index].name,
                         ),
                       );
+                      isInRoom = false;
                     }
                     if (socketState.joinRoomRequestStatus ==
-                        JoinRoomRequestStatus.success) {
-                      Navigator.pushNamed(context, AppRoutesNames.roomScreen,
-                          arguments: RoomScreenParams(
-                              BlocProvider.of<SocketsBloc>(context)));
+                            JoinRoomRequestStatus.success &&
+                        isInRoom == false) {
+                      BlocProvider.of<ChatBloc>(context).add(
+                        RoomMessagesGetEvent(
+                          accessToken: ConstVar.accessToken,
+                          roomId: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index].id,
+                        ),
+                      );
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutesNames.roomScreen,
+                      );
+                      isInRoom = true;
                     }
                     if (socketState.joinRoomRequestStatus ==
                         JoinRoomRequestStatus.left) {

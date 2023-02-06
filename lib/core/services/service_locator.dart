@@ -43,6 +43,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/repositories/ro
 import 'package:club_cast_clean_architecture/features/Rooms/domain/repositories/base_rooms_repository.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
@@ -72,6 +73,7 @@ import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.
 import '../../features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
+import '../../features/Rooms/domain/usecases/get_room_messages.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import '../cache/cache_setup.dart';
@@ -105,6 +107,8 @@ class ServiceLocator {
 //socket
   static void init() {
     ///bloc
+    servicelocator.registerFactory<ChatBloc>(() => ChatBloc(servicelocator()));
+
     servicelocator.registerFactory<SocketsBloc>(() => SocketsBloc());
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
@@ -187,67 +191,69 @@ class ServiceLocator {
         () => MyPodcastsGetUseCase(servicelocator()));
     servicelocator.registerLazySingleton<PasswordUpdateUseCase>(
         () => PasswordUpdateUseCase(servicelocator()));
-    servicelocator.registerFactory<EventCreateUseCase>(
+    servicelocator.registerLazySingleton<EventCreateUseCase>(
         () => EventCreateUseCase(servicelocator()));
-    servicelocator.registerFactory<MyEventsGetUsecase>(
+    servicelocator.registerLazySingleton<MyEventsGetUsecase>(
         () => MyEventsGetUsecase(servicelocator()));
-    servicelocator.registerFactory<AccessTokenCacheUsecase>(
+    servicelocator.registerLazySingleton<AccessTokenCacheUsecase>(
         () => AccessTokenCacheUsecase(servicelocator()));
-    servicelocator.registerFactory<CachedAccessTokenGetUsecase>(
+    servicelocator.registerLazySingleton<CachedAccessTokenGetUsecase>(
         () => CachedAccessTokenGetUsecase(servicelocator()));
-    servicelocator.registerFactory<MyFollowingEventsUsecase>(
+    servicelocator.registerLazySingleton<MyFollowingEventsUsecase>(
         () => MyFollowingEventsUsecase(servicelocator()));
-    servicelocator.registerFactory<MoreMyFollowingPodcastsUsecase>(
+    servicelocator.registerLazySingleton<MoreMyFollowingPodcastsUsecase>(
         () => MoreMyFollowingPodcastsUsecase(servicelocator()));
-    servicelocator.registerFactory<PodcastDownloadUsecase>(
+    servicelocator.registerLazySingleton<PodcastDownloadUsecase>(
         () => PodcastDownloadUsecase(servicelocator()));
-    servicelocator.registerFactory<LikeAddMyPodcastsUsecast>(
+    servicelocator.registerLazySingleton<LikeAddMyPodcastsUsecast>(
         () => LikeAddMyPodcastsUsecast(servicelocator()));
-    servicelocator.registerFactory<LikeRemoveMyPodcastsUsecast>(
+    servicelocator.registerLazySingleton<LikeRemoveMyPodcastsUsecast>(
         () => LikeRemoveMyPodcastsUsecast(servicelocator()));
 
-    servicelocator.registerFactory<MyFollowingGetUseCase>(
+    servicelocator.registerLazySingleton<MyFollowingGetUseCase>(
         () => MyFollowingGetUseCase(servicelocator()));
-    servicelocator.registerFactory<MyFollowersGetUseCase>(
+    servicelocator.registerLazySingleton<MyFollowersGetUseCase>(
         () => MyFollowersGetUseCase(servicelocator()));
-    servicelocator.registerFactory<MoreFollowersGetUsecase>(
+    servicelocator.registerLazySingleton<MoreFollowersGetUsecase>(
         () => MoreFollowersGetUsecase(servicelocator()));
-    servicelocator.registerFactory<MoreFollowingGetUsecase>(
+    servicelocator.registerLazySingleton<MoreFollowingGetUsecase>(
         () => MoreFollowingGetUsecase(servicelocator()));
-    servicelocator.registerFactory<PodcastRemoveUsecase>(
+    servicelocator.registerLazySingleton<PodcastRemoveUsecase>(
         () => PodcastRemoveUsecase(servicelocator()));
 
-    servicelocator.registerFactory<EventRemoveUsecase>(
+    servicelocator.registerLazySingleton<EventRemoveUsecase>(
         () => EventRemoveUsecase(servicelocator()));
-    servicelocator.registerFactory<EventUpdateUsecase>(
+    servicelocator.registerLazySingleton<EventUpdateUsecase>(
         () => EventUpdateUsecase(servicelocator()));
-    servicelocator.registerFactory<CategoriesGetUsecase>(
+    servicelocator.registerLazySingleton<CategoriesGetUsecase>(
         () => CategoriesGetUsecase(servicelocator()));
-    servicelocator.registerFactory<UpdateUserImageUsecase>(
+    servicelocator.registerLazySingleton<UpdateUserImageUsecase>(
         () => UpdateUserImageUsecase(servicelocator()));
-    servicelocator.registerFactory<CachedAccessTokenUpdateUsecase>(
+    servicelocator.registerLazySingleton<CachedAccessTokenUpdateUsecase>(
         () => CachedAccessTokenUpdateUsecase(servicelocator()));
-    servicelocator.registerFactory<AccessTokenRemoveUsecase>(
+    servicelocator.registerLazySingleton<AccessTokenRemoveUsecase>(
         () => AccessTokenRemoveUsecase(servicelocator()));
-    servicelocator.registerFactory<OtherUserProfileDataGetUsecase>(
+    servicelocator.registerLazySingleton<OtherUserProfileDataGetUsecase>(
         () => OtherUserProfileDataGetUsecase(servicelocator()));
 
-    servicelocator.registerFactory<OtherUserFollowersUsecase>(
+    servicelocator.registerLazySingleton<OtherUserFollowersUsecase>(
         () => OtherUserFollowersUsecase(servicelocator()));
-    servicelocator.registerFactory<OtherUserFollowingUsecase>(
+    servicelocator.registerLazySingleton<OtherUserFollowingUsecase>(
         () => OtherUserFollowingUsecase(servicelocator()));
-    servicelocator.registerFactory<OtherUserPodcastUsecase>(
+    servicelocator.registerLazySingleton<OtherUserPodcastUsecase>(
         () => OtherUserPodcastUsecase(servicelocator()));
 
-    servicelocator.registerFactory<OtherUserFollowUsecase>(
+    servicelocator.registerLazySingleton<OtherUserFollowUsecase>(
         () => OtherUserFollowUsecase(servicelocator()));
 
-    servicelocator.registerFactory<OtherUserUnFollowUsecase>(
+    servicelocator.registerLazySingleton<OtherUserUnFollowUsecase>(
         () => OtherUserUnFollowUsecase(servicelocator()));
-    servicelocator.registerFactory<OtherUserEventsUsecase>(
+    servicelocator.registerLazySingleton<OtherUserEventsUsecase>(
         () => OtherUserEventsUsecase(servicelocator()));
-    servicelocator.registerFactory<AllRoomsGetUsecase>(
+    servicelocator.registerLazySingleton<AllRoomsGetUsecase>(
         () => AllRoomsGetUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<RoomMessagesGetUsecase>(
+        () => RoomMessagesGetUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

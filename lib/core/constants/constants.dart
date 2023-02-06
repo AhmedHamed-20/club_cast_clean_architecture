@@ -199,6 +199,7 @@ void navigatePushAndRemove(
 
 class ConstVar {
   static String accessToken = '';
+  static String userId = '';
   static late BaseUserDataEntitie baseUserDataEntitie;
   static late Socket socket;
 }

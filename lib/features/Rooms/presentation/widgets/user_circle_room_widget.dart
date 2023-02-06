@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/base_room_user_data_enitie/base_room_user_data_entitie.dart';
@@ -15,20 +15,9 @@ class UserCircleRoomWidget extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: CachedNetworkImage(
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            imageUrl: baseRoomUserDataEntitie.photo,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) =>
-                Image.asset('assets/images/noImage.jpg'),
+          child: CachedNetworkImageCirclePhoto(
+            photoUrl: baseRoomUserDataEntitie.photo,
+            photoRadius: 50,
           ),
         ),
         SizedBox(

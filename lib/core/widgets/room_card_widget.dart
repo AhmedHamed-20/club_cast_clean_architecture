@@ -54,7 +54,6 @@ class RoomsCardWidget extends StatelessWidget {
                 ),
           Container(
             width: double.infinity,
-            height: 80,
             padding: const EdgeInsets.all(AppPadding.p12),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,

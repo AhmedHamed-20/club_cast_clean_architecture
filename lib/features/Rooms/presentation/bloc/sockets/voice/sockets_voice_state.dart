@@ -57,7 +57,6 @@ class SocketsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        identityHashCode(this),
         createRoomRequestStatus,
         errorMessage,
         connectToSocketRequestStatus,
@@ -68,5 +67,6 @@ class SocketsState extends Equatable {
         audienceEntitie,
         brodcastersEnitite,
         meEntitie,
+        identityHashCode(this),
       ];
 }

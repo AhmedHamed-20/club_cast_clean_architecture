@@ -4,6 +4,8 @@ import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layou
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/core/theme/app_theme.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 servicelocator<CommonPlayingPodcastBlocBloc>()),
+        BlocProvider(create: (context) => servicelocator<SocketsBloc>()),
+        BlocProvider(create: (context) => servicelocator<ChatBloc>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),

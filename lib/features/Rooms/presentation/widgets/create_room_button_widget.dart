@@ -1,5 +1,5 @@
-import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/create_room_button_design.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/create_room_category.dart';
@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/text_editing_controllers.dart';
 import '../../../../core/utl/utls.dart';
+
+bool? isInRoom;
 
 class CreateRoomButtonWidget extends StatelessWidget {
   const CreateRoomButtonWidget({super.key});
@@ -28,11 +30,17 @@ class CreateRoomButtonWidget extends StatelessWidget {
             status: isPublic ? 'public' : 'private',
           ),
         );
+        isInRoom = false;
       }
 
-      if (state.createRoomRequestStatus == CreateRoomRequestStatus.success) {
-        Navigator.of(context).pushNamed(AppRoutesNames.roomScreen,
-            arguments: RoomScreenParams(BlocProvider.of<SocketsBloc>(context)));
+      if (state.createRoomRequestStatus == CreateRoomRequestStatus.success &&
+          isInRoom == false) {
+        BlocProvider.of<ChatBloc>(context).add(const ListenOnChatEventsEvent());
+        Navigator.of(context).pushNamed(
+          AppRoutesNames.roomScreen,
+        );
+        //to prevent always pushing to room screen when state changes
+        isInRoom = true;
       }
       if (state.createRoomRequestStatus == CreateRoomRequestStatus.left) {
         Navigator.of(context).pushNamedAndRemoveUntil(

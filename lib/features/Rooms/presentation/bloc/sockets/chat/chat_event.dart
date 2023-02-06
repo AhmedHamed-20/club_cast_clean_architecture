@@ -82,3 +82,9 @@ class ListenOnNewMessagesEvent extends ChatEvent {
   @override
   List<Object?> get props => [response];
 }
+
+class LeaveChatRoomEvent extends ChatEvent {
+  const LeaveChatRoomEvent();
+  @override
+  List<Object?> get props => [];
+}
