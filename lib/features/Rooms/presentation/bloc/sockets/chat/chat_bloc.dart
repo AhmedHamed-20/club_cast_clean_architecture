@@ -10,25 +10,28 @@ import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_
 import 'package:equatable/equatable.dart';
 
 import '../../../../data/models/room_message_data_model.dart';
+import '../../../../domain/entities/room_message_entitie_data.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc(this.roomMessagesGetUsecase) : super(const ChatState()) {
-    on<RoomMessagesGetEvent>(_getRoomMessages);
-    on<RoomMessagesGetMoreEvent>(_roomMessagesGetMore);
+    on<RoomMessagesGetEvent>(_getRoomMessagesEvent);
+    on<RoomMessagesGetMoreEvent>(_roomMessagesGetMoreEvent);
     on<ListenOnChatEventsEvent>(_listenOnChatEventsEvent);
     on<ListenOnMessageRemovedEvent>(_listenOnMessageRemovedEvent);
-    on<ListenOnNewMessagesEvent>(_listenOnNewMessages);
+    on<ListenOnNewMessagesEvent>(_listenOnNewMessagesEvent);
     on<ListenOnMessageSentSuccessEvent>(_listenOnMessageSentSuccessEvent);
     on<LisenOnMessageRemoveSuccessEvent>(_listenOnMessageRemovedSuccessEvent);
-    on<MessageSendEvent>(_sendMessage);
-    on<MessageRemoveEvent>(_removeMessage);
-    on<LeaveChatRoomEvent>(_leaveRoom);
+    on<MessageSendEvent>(_sendMessageEvent);
+    on<MessageRemoveEvent>(_removeMessageEvent);
+    on<LeaveChatRoomEvent>(_leaveRoomEvent);
+    on<ListenOnPrivateChatMessagesEvent>(_listenOnPrivateChatMessagesEvent);
+    on<PrivateMessageSendEvent>(_sendPrivateMessageEvent);
   }
   final RoomMessagesGetUsecase roomMessagesGetUsecase;
-  FutureOr<void> _getRoomMessages(
+  FutureOr<void> _getRoomMessagesEvent(
       RoomMessagesGetEvent event, Emitter<ChatState> emit) async {
     emit(state.copyWith(
         roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.loading));
@@ -48,12 +51,30 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.error)),
         (r) {
       if (r.results <= 10) {
+        Map<String, List<RoomMessageDataEntitie>> privateChatMessages = {};
+        for (var element in r.roomMessages) {
+          if (element.isPublic == false) {
+            if (privateChatMessages.containsKey(element.user!.id)) {
+              privateChatMessages[element.user!.id]!.add(element);
+            } else {
+              privateChatMessages[element.user!.id] = [element];
+            }
+          }
+        }
+        print(privateChatMessages);
         emit(
           state.copyWith(
             errorMessage: '',
             statusCode: 0,
+            privateChatMessages: privateChatMessages,
             isEndOfMessages: true,
-            roomMessageEntitie: r,
+            roomMessageEntitie: RoomMessageEntitie(
+                results: r.results,
+                roomMessages: r.roomMessages
+                    .where(
+                      (element) => element.isPublic,
+                    )
+                    .toList()),
             roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.success,
           ),
         );
@@ -63,7 +84,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             errorMessage: '',
             statusCode: 0,
             isEndOfMessages: false,
-            roomMessageEntitie: r,
+            roomMessageEntitie: RoomMessageEntitie(
+                results: r.results,
+                roomMessages: r.roomMessages
+                    .where(
+                      (element) => element.isPublic,
+                    )
+                    .toList()),
             roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.success,
           ),
         );
@@ -72,7 +99,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     });
   }
 
-  FutureOr<void> _roomMessagesGetMore(
+  FutureOr<void> _roomMessagesGetMoreEvent(
       RoomMessagesGetMoreEvent event, Emitter<ChatState> emit) async {
     final result = await roomMessagesGetUsecase(
       RoomMessagesGetParams(
@@ -135,7 +162,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     SocketHelper.listenOnMessageReceived(
         socket: ConstVar.socket,
         handler: (response) {
-          add(ListenOnNewMessagesEvent(response));
+          if (response['status'] == 'public') {
+            add(
+              ListenOnNewMessagesEvent(response),
+            );
+          } else {
+            add(
+              ListenOnPrivateChatMessagesEvent(
+                  response: response,
+                  isMine: false,
+                  userId: response['user']['_id']),
+            );
+          }
         });
     SocketHelper.listenOnMessageRemoveSuccess(
         socket: ConstVar.socket,
@@ -158,10 +196,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
-  FutureOr<void> _listenOnNewMessages(
+  FutureOr<void> _listenOnNewMessagesEvent(
       ListenOnNewMessagesEvent event, Emitter<ChatState> emit) {
     RoomMessageEntitie roomMessages = state.roomMessageEntitie;
-
     emit(
       state.copyWith(
         roomMessageEntitie: roomMessages.copyWith(
@@ -176,18 +213,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   FutureOr<void> _listenOnMessageSentSuccessEvent(
       ListenOnMessageSentSuccessEvent event, Emitter<ChatState> emit) {
-    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
-    emit(
-      state.copyWith(
-        roomMessageEntitie: roomMessages.copyWith(
-          roomMessages: [
-            ...roomMessages.roomMessages,
-            RoomMessageDataModel.fromJson(event.response, true),
-          ],
+    if (event.response['status'] == 'private') {
+      add(ListenOnPrivateChatMessagesEvent(
+          isMine: true,
+          response: event.response,
+          userId: state.currentTalkingToUserId));
+    } else {
+      RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+
+      emit(
+        state.copyWith(
+          roomMessageEntitie: roomMessages.copyWith(
+            roomMessages: [
+              ...roomMessages.roomMessages,
+              RoomMessageDataModel.fromJson(event.response, true),
+            ],
+          ),
         ),
-      ),
-    );
-    TextEditingControllers.roomChatMessageController.clear();
+      );
+      TextEditingControllers.roomChatMessageController.clear();
+    }
   }
 
   FutureOr<void> _listenOnMessageRemovedSuccessEvent(
@@ -204,23 +249,25 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
-  FutureOr<void> _sendMessage(MessageSendEvent event, Emitter<ChatState> emit) {
+  FutureOr<void> _sendMessageEvent(
+      MessageSendEvent event, Emitter<ChatState> emit) {
     SocketHelper.sendMessage(
         socket: ConstVar.socket,
         messageData: RoomMessageDataModel(
           isPublic: event.isPublic,
           message: event.message,
           toUserId: event.toUserId,
-        ).toJsonPublicByDefault());
+        ).toJsonPublicByDefault(isPublic: event.isPublic));
   }
 
-  FutureOr<void> _removeMessage(
+  FutureOr<void> _removeMessageEvent(
       MessageRemoveEvent event, Emitter<ChatState> emit) {
     SocketHelper.removeMessage(
         socket: ConstVar.socket, messageId: event.messageId);
   }
 
-  FutureOr<void> _leaveRoom(LeaveChatRoomEvent event, Emitter<ChatState> emit) {
+  FutureOr<void> _leaveRoomEvent(
+      LeaveChatRoomEvent event, Emitter<ChatState> emit) {
     emit(
       state.copyWith(
         roomMessageEntitie:
@@ -228,5 +275,43 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.idle,
       ),
     );
+  }
+
+  FutureOr<void> _listenOnPrivateChatMessagesEvent(
+      ListenOnPrivateChatMessagesEvent event, Emitter<ChatState> emit) {
+    Map<String, List<RoomMessageDataEntitie>> privateRoomMessages =
+        Map.from(state.privateChatMessages ?? {});
+    if (privateRoomMessages == {}) {
+      privateRoomMessages = {
+        event.userId: [
+          RoomMessageDataModel.fromJson(event.response, event.isMine)
+        ]
+      };
+    } else if (privateRoomMessages.containsKey(event.userId)) {
+      privateRoomMessages[event.userId]!
+          .add(RoomMessageDataModel.fromJson(event.response, event.isMine));
+    } else {
+      privateRoomMessages[event.userId] = [
+        RoomMessageDataModel.fromJson(event.response, event.isMine)
+      ];
+    }
+    emit(
+      state.copyWith(
+        privateChatMessages: privateRoomMessages,
+      ),
+    );
+    TextEditingControllers.roomChatPrivateMessageController.clear();
+  }
+
+  FutureOr<void> _sendPrivateMessageEvent(
+      PrivateMessageSendEvent event, Emitter<ChatState> emit) {
+    SocketHelper.sendMessage(
+        socket: ConstVar.socket,
+        messageData: RoomMessageDataModel(
+          isPublic: false,
+          message: event.message,
+          toUserId: event.toUserId,
+        ).toJsonPublicByDefault(isPublic: false));
+    emit(state.copyWith(currentTalkingToUserId: event.toUserId));
   }
 }

@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/b
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/Rooms/domain/entities/room_user_data.dart';
 import '../../features/UserProfile/domain/entities/my_event_entitie.dart';
 
 class LikesUsersScreenParams extends Equatable {
@@ -145,4 +146,13 @@ class PodcastCardCallBacksParams extends Equatable {
         onPressedPlay,
         onPressedOnLikesCount
       ];
+}
+
+class PrivateChatRoomScreenParams extends Equatable {
+  final RoomUserDataEntitie roomUserDataEntitie;
+
+  const PrivateChatRoomScreenParams({required this.roomUserDataEntitie});
+
+  @override
+  List<Object?> get props => [roomUserDataEntitie];
 }

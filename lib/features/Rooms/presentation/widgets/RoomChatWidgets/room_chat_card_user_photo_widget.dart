@@ -36,7 +36,16 @@ class RoomChatCardUserPhotoWidget extends StatelessWidget {
           ),
         ),
         PopupMenuItem(
-          onTap: () {},
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 10), () {
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.privateChatRoomScreen,
+                arguments: PrivateChatRoomScreenParams(
+                  roomUserDataEntitie: roomMessageDataEntitie.user!,
+                ),
+              );
+            });
+          },
           value: 2,
           child: Text(
             'Chat with ${roomMessageDataEntitie.user!.name} in private',

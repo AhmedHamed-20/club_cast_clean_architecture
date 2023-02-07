@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/screens/signup_screen.dart';
+import '../../features/Rooms/presentation/screens/private_chat_room_screen.dart';
 import '../../features/Rooms/presentation/screens/room_screen.dart';
 import '../../features/UserProfile/presentation/screens/edit_event_screen.dart';
 import '../../features/UserProfile/presentation/screens/upload_podcast_screen.dart';
@@ -124,6 +125,14 @@ class AppRoutes {
       case AppRoutesNames.roomScreen:
         return MaterialPageRoute(builder: (context) {
           return const RoomScreen();
+        });
+      case AppRoutesNames.privateChatRoomScreen:
+        PrivateChatRoomScreenParams arguments =
+            args as PrivateChatRoomScreenParams;
+        return MaterialPageRoute(builder: (context) {
+          return PrivateChatRoomScreen(
+            params: arguments,
+          );
         });
       default:
         return MaterialPageRoute(builder: (context) {

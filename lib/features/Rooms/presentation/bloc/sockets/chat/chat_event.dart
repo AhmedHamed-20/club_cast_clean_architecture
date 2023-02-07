@@ -88,3 +88,24 @@ class LeaveChatRoomEvent extends ChatEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ListenOnPrivateChatMessagesEvent extends ChatEvent {
+  final dynamic response;
+  final String userId;
+  final bool isMine;
+  const ListenOnPrivateChatMessagesEvent(
+      {required this.response, required this.userId, required this.isMine});
+  @override
+  List<Object?> get props => [response, userId, isMine];
+}
+
+class PrivateMessageSendEvent extends ChatEvent {
+  final String message;
+  final String toUserId;
+
+  const PrivateMessageSendEvent(
+      {required this.message, required this.toUserId});
+
+  @override
+  List<Object?> get props => [message, toUserId];
+}

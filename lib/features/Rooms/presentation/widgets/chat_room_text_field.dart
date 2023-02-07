@@ -2,9 +2,9 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/constants/text_editing_controllers.dart';
-import '../../../../../core/widgets/defaults.dart';
-import '../../bloc/sockets/chat/chat_bloc.dart';
+import '../../../../core/constants/text_editing_controllers.dart';
+import '../../../../core/widgets/defaults.dart';
+import '../bloc/sockets/chat/chat_bloc.dart';
 
 class ChatRoomTextField extends StatefulWidget {
   const ChatRoomTextField({super.key});

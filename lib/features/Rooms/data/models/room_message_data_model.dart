@@ -44,10 +44,10 @@ class RoomMessageDataModel extends RoomMessageDataEntitie {
   }
 
   Map<String, dynamic> toJsonPublicByDefault({
-    bool? isPublic = true,
+    required bool isPublic,
     String? userId,
   }) {
-    if (isPublic!) {
+    if (isPublic) {
       return {
         'message': message,
         'status': 'public',

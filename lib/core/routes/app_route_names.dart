@@ -26,4 +26,7 @@ class AppRoutesNames {
       '/layout_screen/other_user_profile_screen/other_user_followers_following_screen';
 
   static const String roomScreen = '/layout_screen/room_screen';
+
+  static const String privateChatRoomScreen =
+      '/layout_screen/room_screen/private_chat_room_screen';
 }

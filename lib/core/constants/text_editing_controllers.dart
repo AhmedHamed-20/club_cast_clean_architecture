@@ -30,4 +30,6 @@ class TextEditingControllers {
   static late TextEditingController uploadPodcastNameController;
   static late TextEditingController createRoomNameController;
   static late TextEditingController roomChatMessageController;
+
+  static late TextEditingController roomChatPrivateMessageController;
 }
