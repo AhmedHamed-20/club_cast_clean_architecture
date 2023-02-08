@@ -20,11 +20,67 @@ class AudienceWidget extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            return UserCircleRoomWidget(
-              baseRoomUserDataEntitie: state.audienceEntitie!.audience[index],
-            );
+            if (state.isCreateRoom) {
+              return Stack(alignment: Alignment.center, children: [
+                UserCircleRoomWidget(
+                  baseRoomUserDataEntitie:
+                      state.audienceEntitie!.audience[index],
+                ),
+                state.audienceEntitie!.audience[index].askedToSpeak
+                    ? Positioned(
+                        top: 0,
+                        right: 10,
+                        child: Icon(
+                          Icons.back_hand,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ]);
+            } else {
+              if (index < state.audienceEntitie!.audience.length &&
+                  state.audienceEntitie!.audience.isNotEmpty) {
+                return Stack(alignment: Alignment.center, children: [
+                  UserCircleRoomWidget(
+                    baseRoomUserDataEntitie:
+                        state.audienceEntitie!.audience[index],
+                  ),
+                  state.audienceEntitie!.audience[index].askedToSpeak
+                      ? Positioned(
+                          top: 0,
+                          right: 10,
+                          child: Icon(
+                            Icons.back_hand,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ]);
+              } else {
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    UserCircleRoomWidget(
+                      baseRoomUserDataEntitie: state.meEntitie!.me,
+                    ),
+                    state.meEntitie!.me.askedToSpeak
+                        ? Positioned(
+                            top: 0,
+                            right: 10,
+                            child: Icon(
+                              Icons.back_hand,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
+                );
+              }
+            }
           },
-          childCount: state.audienceEntitie!.audience.length,
+          childCount: state.isCreateRoom
+              ? state.audienceEntitie!.audience.length
+              : state.audienceEntitie!.audience.length + 1,
         ),
       ),
     );

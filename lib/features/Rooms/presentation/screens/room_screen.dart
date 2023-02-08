@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/LiveVoicRoomWidgets/live_voice_room_widget.dart';
+import '../widgets/LiveVoicRoomWidgets/room_name_leave_widget.dart';
 import '../widgets/RoomChatWidgets/room_chat_widget.dart';
 
 PageController pageViewScrollController = PageController();
@@ -14,10 +19,10 @@ class RoomScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        //   floatingActionButton: FloatingActionButton(onPressed: () {}),
-        //   resizeToAvoidBottomInset: false,
         appBar: AppBar(
           bottom: TabBar(
+            indicatorColor: Theme.of(context).primaryColor,
+            indicatorSize: TabBarIndicatorSize.label,
             tabs: const [
               Tab(
                 text: 'Live Voice Room',
@@ -29,16 +34,19 @@ class RoomScreen extends StatelessWidget {
             labelStyle: Theme.of(context).textTheme.titleLarge,
           ),
           centerTitle: true,
-          title: Text(
-            'Room',
-            style: Theme.of(context).textTheme.titleLarge,
+          title: BlocBuilder<SocketsBloc, SocketsState>(
+            builder: (context, state) => Text(
+              state.joinCreateRoomEntitie!.roomName,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
+          actions: const [
+            LeaveRoomButtonWidget(),
+          ],
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
         body: const TabBarView(
           children: [
-            //height: MediaQueryOfMethods.getAppHeight(context) * 0.8,
-
             LiveVoiceRoomWidget(),
             RoomChatWidget(),
           ],

@@ -13,22 +13,26 @@ class BroadcastersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SocketsBloc, SocketsState>(
       builder: (context, state) => SliverGrid(
-        delegate: SliverChildBuilderDelegate((context, index) {
-          if (index == 0) {
-            return state.isCreateRoom
-                ? UserCircleRoomWidget(
-                    baseRoomUserDataEntitie: state.meEntitie!.me,
-                  )
-                : UserCircleRoomWidget(
-                    baseRoomUserDataEntitie: state.adminEntitie!.admin,
-                  );
-          } else {
-            return UserCircleRoomWidget(
-              baseRoomUserDataEntitie:
-                  state.brodcastersEnitite!.brodcasters[index],
-            );
-          }
-        }, childCount: state.brodcastersEnitite!.brodcasters.length + 1),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            print(state.brodcastersEnitite!.brodcasters.length);
+            if (index <= 0) {
+              return state.isCreateRoom
+                  ? UserCircleRoomWidget(
+                      baseRoomUserDataEntitie: state.meEntitie!.me,
+                    )
+                  : UserCircleRoomWidget(
+                      baseRoomUserDataEntitie: state.adminEntitie!.admin,
+                    );
+            } else {
+              return UserCircleRoomWidget(
+                baseRoomUserDataEntitie:
+                    state.brodcastersEnitite!.brodcasters[index - 1],
+              );
+            }
+          },
+          childCount: state.brodcastersEnitite!.brodcasters.length + 1,
+        ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
           mainAxisSpacing: 5,

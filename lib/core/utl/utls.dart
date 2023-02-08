@@ -166,3 +166,9 @@ enum RoomMessagesGetRequestStatus {
   success,
   error,
 }
+
+enum LiveVoiceRoomFloatingButtonStatus {
+  askToTalk,
+  mute,
+  unmute,
+}

@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/base_room_user_data_enitie/base_room_user_data_entitie.dart';
 
-class ActiveRoomUserDataEntitie extends BaseRoomUserDataEntitie {
+abstract class ActiveRoomUserDataEntitie extends BaseRoomUserDataEntitie {
   final bool askedToSpeak;
   final bool isMutted;
   final bool iMuteHim;
@@ -23,20 +23,5 @@ class ActiveRoomUserDataEntitie extends BaseRoomUserDataEntitie {
       bool? askedToSpeak,
       bool? isMutted,
       bool? iMuteHim,
-      bool? isSpeaking}) {
-    return ActiveRoomUserDataEntitie(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      photo: photo ?? this.photo,
-      uid: uid ?? this.uid,
-      askedToSpeak: askedToSpeak ?? this.askedToSpeak,
-      isMutted: isMutted ?? this.isMutted,
-      iMuteHim: iMuteHim ?? this.iMuteHim,
-      isSpeaking: isSpeaking ?? this.isSpeaking,
-    );
-  }
-
-  @override
-  List<Object?> get props =>
-      [id, name, photo, uid, askedToSpeak, isMutted, iMuteHim, isSpeaking];
+      bool? isSpeaking});
 }

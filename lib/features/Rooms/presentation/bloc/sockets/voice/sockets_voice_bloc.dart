@@ -16,6 +16,7 @@ import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../../../core/network/endpoints.dart';
+import '../../../../domain/entities/active_room_user_data_enitie.dart';
 import '../../../../domain/entities/admin_entitie.dart';
 import '../../../../domain/entities/audience_entite.dart';
 import '../../../../domain/entities/brodcasters_entitie.dart';
@@ -40,6 +41,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     on<CreateRoomEvent>(_createRoom);
     on<RoomCreatedSuccessEvent>(_roomCreatedSuccess);
     on<LeaveRoomEvent>(_leaveRoom);
+    on<AskToTalkEvent>(_askToTalk);
   }
 
   FutureOr<void> _connectToSocket(
@@ -91,11 +93,14 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _joinRoomSuccess(
       JoinRoomSuccessEvent event, Emitter<SocketsState> emit) {
+    print(event.response);
     emit(
       state.copyWith(
         isCreateRoom: false,
+        liveVoiceRoomFloatingButtonStatus:
+            LiveVoiceRoomFloatingButtonStatus.askToTalk,
         adminEntitie: AdminModel.fromJson(event.response),
-        audienceEntitie: AudiencesModel.fromJson(event.response),
+        audienceEntitie: AudiencesModel.fromJson(event.response, false),
         brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
         meEntitie: MeModel.fromJson(event.response),
         joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
@@ -204,24 +209,28 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _userAskedToBeBroadcaster(
       UserAskedToBeBroadcasterEvent event, Emitter<SocketsState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie;
-    if (state.audienceEntitie != null) {
-      for (int i = 0; i < state.audienceEntitie!.audience.length; i++) {
-        if (state.audienceEntitie!.audience[i].id == event.response['id']) {
-          audienceEntitie!.audience[i] = audienceEntitie.audience[i].copyWith(
-            askedToSpeak: true,
-          );
-          break;
-        }
+    List<ActiveRoomUserDataEntitie> audience = state.audienceEntitie!.audience;
+    for (int i = 0; i < audience.length; i++) {
+      if (state.audienceEntitie!.audience[i].id == event.response['_id']) {
+        audience[i] = audience[i].copyWith(
+          askedToSpeak: !audience[i].askedToSpeak,
+        );
+        break;
       }
     }
-    emit(state.copyWith(audienceEntitie: audienceEntitie));
+
+    emit(state.copyWith(audienceEntitie: AudienceEntitie(audience)));
   }
 
   FutureOr<void> _userChangedToAudience(
       UserChangedToAudienceEvent event, Emitter<SocketsState> emit) {
     BrodcastersEnitite? brodcastersEnitite = state.brodcastersEnitite;
-    AudienceEntitie? audienceEntitie = state.audienceEntitie;
+    late List<ActiveRoomUserDataEntitie> audience;
+    if (state.audienceEntitie == null) {
+      audience = [];
+    } else {
+      audience = state.audienceEntitie!.audience;
+    }
     for (int i = 0; i < state.brodcastersEnitite!.brodcasters.length; i++) {
       if (state.brodcastersEnitite!.brodcasters[i].id ==
           event.response['_id']) {
@@ -229,31 +238,30 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         break;
       }
     }
-    if (audienceEntitie != null) {
-      audienceEntitie.audience
-          .add(ActiveRoomUserModel.fromJson(event.response));
-    }
+    audience.add(ActiveRoomUserModel.fromJson(event.response));
     emit(state.copyWith(
         brodcastersEnitite: brodcastersEnitite,
-        audienceEntitie: audienceEntitie));
+        audienceEntitie: AudienceEntitie(audience)));
   }
 
   FutureOr<void> _userChangedToBroadcaster(
       UserChangedToBroadcasterEvent event, Emitter<SocketsState> emit) {
-    BrodcastersEnitite? brodcastersEnitite = state.brodcastersEnitite;
     AudienceEntitie? audienceEntitie = state.audienceEntitie;
+    late List<ActiveRoomUserDataEntitie> brodcasters;
+    if (state.brodcastersEnitite == null) {
+      brodcasters = [];
+    } else {
+      brodcasters = state.brodcastersEnitite!.brodcasters;
+    }
     for (int i = 0; i < state.audienceEntitie!.audience.length; i++) {
       if (state.audienceEntitie!.audience[i].id == event.response['_id']) {
         audienceEntitie!.audience.removeAt(i);
         break;
       }
     }
-    if (brodcastersEnitite != null) {
-      brodcastersEnitite.brodcasters
-          .add(ActiveRoomUserModel.fromJson(event.response));
-    }
+    brodcasters.add(ActiveRoomUserModel.fromJson(event.response));
     emit(state.copyWith(
-        brodcastersEnitite: brodcastersEnitite,
+        brodcastersEnitite: BrodcastersEnitite(brodcasters),
         audienceEntitie: audienceEntitie));
   }
 
@@ -283,8 +291,9 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       state.copyWith(
         isCreateRoom: true,
         createRoomRequestStatus: CreateRoomRequestStatus.success,
-        //  adminEntitie: AdminModel.fromJson(event.response),
-        audienceEntitie: AudiencesModel.fromJson(event.response),
+        liveVoiceRoomFloatingButtonStatus:
+            LiveVoiceRoomFloatingButtonStatus.mute,
+        audienceEntitie: AudiencesModel.fromJson(event.response, true),
         brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
         meEntitie: MeModel.fromJson(event.response),
         joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
@@ -324,5 +333,16 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       ConstVar.socket.io.disconnect();
       ConstVar.socket.dispose();
     }
+  }
+
+  FutureOr<void> _askToTalk(AskToTalkEvent event, Emitter<SocketsState> emit) {
+    SocketHelper.askToTalk(socket: ConstVar.socket);
+    ActiveRoomUserDataEntitie activeRoomUserDataEntitie = state.meEntitie!.me
+        .copyWith(askedToSpeak: !state.meEntitie!.me.askedToSpeak);
+    emit(state.copyWith(
+      meEntitie: MeEntitie(
+        activeRoomUserDataEntitie,
+      ),
+    ));
   }
 }

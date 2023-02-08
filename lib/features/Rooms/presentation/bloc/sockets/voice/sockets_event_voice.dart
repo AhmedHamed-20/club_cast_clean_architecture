@@ -122,3 +122,10 @@ class LeaveRoomEvent extends SocketsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AskToTalkEvent extends SocketsEvent {
+  const AskToTalkEvent();
+
+  @override
+  List<Object?> get props => [];
+}

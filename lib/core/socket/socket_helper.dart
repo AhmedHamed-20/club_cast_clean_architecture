@@ -80,6 +80,19 @@ class SocketHelper {
     );
   }
 
+  static void listenOnBroadCasterToken(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('brodcasterToken', handler);
+  }
+
+  static void askToTalk({
+    required Socket socket,
+  }) {
+    socket.emit(
+      'askForPerms',
+    );
+  }
+
   static void removeMessage(
       {required Socket socket, required String messageId}) {
     socket.emit('removeMessage', messageId);

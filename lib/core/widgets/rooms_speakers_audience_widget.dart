@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/all_rooms_entitie_data.dart';
 import 'package:flutter/material.dart';
 
@@ -13,45 +13,17 @@ class RoomsAudienceSpeakersWidget extends StatelessWidget {
         return Row(
           children: List.generate(
               allRoomsDataEntitie.audience.length,
-              (index) => CachedNetworkImage(
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      width: 30,
-                      height: 0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/noImage.jpg'),
-                  imageUrl: allRoomsDataEntitie.audience[index].photo)),
+              (index) => CachedNetworkImageCirclePhoto(
+                  photoUrl: allRoomsDataEntitie.audience[index].photo,
+                  photoRadius: 30)),
         );
       } else {
         return Row(
           children: List.generate(
               3,
-              (index) => CachedNetworkImage(
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      width: 30,
-                      height: 0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/noImage.jpg'),
-                  imageUrl: allRoomsDataEntitie.audience[index].photo)),
+              (index) => CachedNetworkImageCirclePhoto(
+                  photoUrl: allRoomsDataEntitie.audience[index].photo,
+                  photoRadius: 30)),
         );
       }
     } else {
@@ -59,45 +31,17 @@ class RoomsAudienceSpeakersWidget extends StatelessWidget {
         return Row(
           children: List.generate(
               allRoomsDataEntitie.brodcasters.length,
-              (index) => CachedNetworkImage(
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      width: 30,
-                      height: 0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/noImage.jpg'),
-                  imageUrl: allRoomsDataEntitie.brodcasters[index].photo)),
+              (index) => CachedNetworkImageCirclePhoto(
+                  photoUrl: allRoomsDataEntitie.brodcasters[index].photo,
+                  photoRadius: 30)),
         );
       } else {
         return Row(
           children: List.generate(
               3,
-              (index) => CachedNetworkImage(
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      width: 30,
-                      height: 0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/noImage.jpg'),
-                  imageUrl: allRoomsDataEntitie.brodcasters[index].photo)),
+              (index) => CachedNetworkImageCirclePhoto(
+                  photoUrl: allRoomsDataEntitie.brodcasters[index].photo,
+                  photoRadius: 30)),
         );
       }
     }

@@ -12,6 +12,7 @@ class SocketsState extends Equatable {
   final BrodcastersEnitite? brodcastersEnitite;
   final MeEntitie? meEntitie;
   final bool isCreateRoom;
+  final LiveVoiceRoomFloatingButtonStatus liveVoiceRoomFloatingButtonStatus;
   const SocketsState({
     this.errorMessage = '',
     this.isCreateRoom = false,
@@ -22,10 +23,13 @@ class SocketsState extends Equatable {
     this.audienceEntitie,
     this.brodcastersEnitite,
     this.meEntitie,
+    this.liveVoiceRoomFloatingButtonStatus =
+        LiveVoiceRoomFloatingButtonStatus.askToTalk,
     this.joinCreateRoomEntitie,
   });
 
   SocketsState copyWith({
+    LiveVoiceRoomFloatingButtonStatus? liveVoiceRoomFloatingButtonStatus,
     CreateRoomRequestStatus? createRoomRequestStatus,
     MeEntitie? meEntitie,
     bool? isCreateRoom,
@@ -38,6 +42,8 @@ class SocketsState extends Equatable {
     ConnectToSocketRequestStatus? connectToSocketRequestStatus,
   }) {
     return SocketsState(
+      liveVoiceRoomFloatingButtonStatus: liveVoiceRoomFloatingButtonStatus ??
+          this.liveVoiceRoomFloatingButtonStatus,
       isCreateRoom: isCreateRoom ?? this.isCreateRoom,
       createRoomRequestStatus:
           createRoomRequestStatus ?? this.createRoomRequestStatus,
@@ -57,6 +63,7 @@ class SocketsState extends Equatable {
 
   @override
   List<Object?> get props => [
+        liveVoiceRoomFloatingButtonStatus,
         createRoomRequestStatus,
         errorMessage,
         connectToSocketRequestStatus,
