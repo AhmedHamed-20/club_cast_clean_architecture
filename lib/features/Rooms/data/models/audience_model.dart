@@ -12,7 +12,6 @@ class AudiencesModel extends AudienceEntitie {
     } else {
       List audience = json[1]['audience'] as List;
       audience.removeLast();
-      print(audience);
 
       return AudiencesModel(
           (audience).map((e) => ActiveRoomUserModel.fromJson(e)).toList());

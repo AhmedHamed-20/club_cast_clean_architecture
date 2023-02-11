@@ -61,16 +61,18 @@ class ListenOnChatEventsEvent extends ChatEvent {
 
 class ListenOnMessageRemovedEvent extends ChatEvent {
   final dynamic response;
-
-  const ListenOnMessageRemovedEvent(this.response);
+  final bool isPrivate;
+  const ListenOnMessageRemovedEvent(
+      {required this.response, required this.isPrivate});
   @override
   List<Object?> get props => [response];
 }
 
 class LisenOnMessageRemoveSuccessEvent extends ChatEvent {
   final dynamic response;
-
-  const LisenOnMessageRemoveSuccessEvent(this.response);
+  final bool isPrivate;
+  const LisenOnMessageRemoveSuccessEvent(
+      {required this.response, required this.isPrivate});
   @override
   List<Object?> get props => [response];
 }

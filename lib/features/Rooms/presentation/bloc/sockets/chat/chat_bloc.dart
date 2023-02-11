@@ -61,7 +61,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             }
           }
         }
-        print(privateChatMessages);
         emit(
           state.copyWith(
             errorMessage: '',
@@ -156,8 +155,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     SocketHelper.listenOnMessageRemoved(
         socket: ConstVar.socket,
         handler: (response) {
-          add(ListenOnMessageRemovedEvent(response));
-          print(response);
+          if (response['status'] == 'public') {
+            add(ListenOnMessageRemovedEvent(
+                response: response, isPrivate: false));
+          } else {
+            add(ListenOnMessageRemovedEvent(
+                response: response, isPrivate: true));
+          }
         });
     SocketHelper.listenOnMessageReceived(
         socket: ConstVar.socket,
@@ -178,22 +182,41 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     SocketHelper.listenOnMessageRemoveSuccess(
         socket: ConstVar.socket,
         handler: (response) {
-          add(LisenOnMessageRemoveSuccessEvent(response));
+          if (response['status'] == 'public') {
+            add(LisenOnMessageRemoveSuccessEvent(
+                response: response, isPrivate: false));
+          } else {
+            add(LisenOnMessageRemoveSuccessEvent(
+                response: response, isPrivate: true));
+          }
         });
   }
 
   FutureOr<void> _listenOnMessageRemovedEvent(
       ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {
     RoomMessageEntitie roomMessages = state.roomMessageEntitie;
-    emit(
-      state.copyWith(
-        roomMessageEntitie: roomMessages.copyWith(
-          roomMessages: roomMessages.roomMessages
-              .where((element) => element.messageId != event.response['_id'])
-              .toList(),
+    if (event.isPrivate) {
+      Map<String, List<RoomMessageDataEntitie>>
+          privateMessagesAfterRemoveMyMessage =
+          Map.from(state.privateChatMessages!);
+      privateMessagesAfterRemoveMyMessage[event.response['user']['_id']]!
+          .removeWhere((element) => element.messageId == event.response['_id']);
+      emit(
+        state.copyWith(
+          privateChatMessages: privateMessagesAfterRemoveMyMessage,
         ),
-      ),
-    );
+      );
+    } else {
+      emit(
+        state.copyWith(
+          roomMessageEntitie: roomMessages.copyWith(
+            roomMessages: roomMessages.roomMessages
+                .where((element) => element.messageId != event.response['_id'])
+                .toList(),
+          ),
+        ),
+      );
+    }
   }
 
   FutureOr<void> _listenOnNewMessagesEvent(
@@ -217,7 +240,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       add(ListenOnPrivateChatMessagesEvent(
           isMine: true,
           response: event.response,
-          userId: state.currentTalkingToUserId));
+          userId: event.response['to']['_id']));
     } else {
       RoomMessageEntitie roomMessages = state.roomMessageEntitie;
 
@@ -237,16 +260,29 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   FutureOr<void> _listenOnMessageRemovedSuccessEvent(
       LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {
-    RoomMessageEntitie roomMessages = state.roomMessageEntitie;
-    emit(
-      state.copyWith(
-        roomMessageEntitie: roomMessages.copyWith(
-          roomMessages: roomMessages.roomMessages
-              .where((element) => element.messageId != event.response['_id'])
-              .toList(),
+    if (event.isPrivate) {
+      Map<String, List<RoomMessageDataEntitie>>
+          privateMessagesAfterRemoveMyMessage =
+          Map.from(state.privateChatMessages!);
+      privateMessagesAfterRemoveMyMessage[event.response['to']['_id']]!
+          .removeWhere((element) => element.messageId == event.response['_id']);
+      emit(
+        state.copyWith(
+          privateChatMessages: privateMessagesAfterRemoveMyMessage,
         ),
-      ),
-    );
+      );
+    } else {
+      RoomMessageEntitie roomMessages = state.roomMessageEntitie;
+      emit(
+        state.copyWith(
+          roomMessageEntitie: roomMessages.copyWith(
+            roomMessages: roomMessages.roomMessages
+                .where((element) => element.messageId != event.response['_id'])
+                .toList(),
+          ),
+        ),
+      );
+    }
   }
 
   FutureOr<void> _sendMessageEvent(
@@ -311,7 +347,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           isPublic: false,
           message: event.message,
           toUserId: event.toUserId,
-        ).toJsonPublicByDefault(isPublic: false));
+        ).toJsonPublicByDefault(isPublic: false, userId: event.toUserId));
     emit(state.copyWith(currentTalkingToUserId: event.toUserId));
   }
 }

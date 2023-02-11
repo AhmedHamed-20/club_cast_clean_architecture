@@ -62,7 +62,6 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     );
 
     ConstVar.socket.connect();
-    print(ConstVar.socket.io.options);
     ConstVar.socket.onDisconnect((data) {
       print(data);
     });
@@ -93,7 +92,6 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
 
   FutureOr<void> _joinRoomSuccess(
       JoinRoomSuccessEvent event, Emitter<SocketsState> emit) {
-    print(event.response);
     emit(
       state.copyWith(
         isCreateRoom: false,
@@ -119,7 +117,6 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     SocketHelper.listenOnAdminLeft(
         socket: ConstVar.socket,
         handler: (resposne) {
-          print(resposne);
           add(AdminLeftEvent(resposne));
         });
 
@@ -152,10 +149,7 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
           add(UserLeftEvent(response));
         });
     SocketHelper.listenOnErrors(
-        socket: ConstVar.socket,
-        handler: (response) {
-          print(response);
-        });
+        socket: ConstVar.socket, handler: (response) {});
   }
 
   FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {

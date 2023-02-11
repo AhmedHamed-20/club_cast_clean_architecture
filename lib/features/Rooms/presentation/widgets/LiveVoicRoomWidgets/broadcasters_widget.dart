@@ -15,7 +15,6 @@ class BroadcastersWidget extends StatelessWidget {
       builder: (context, state) => SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            print(state.brodcastersEnitite!.brodcasters.length);
             if (index <= 0) {
               return state.isCreateRoom
                   ? UserCircleRoomWidget(

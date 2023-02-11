@@ -11,7 +11,9 @@ class RoomsUserDataModel extends RoomUserDataEntitie {
     return RoomsUserDataModel(
       id: json['_id'],
       name: json['name'],
-      photo: EndPoints.socketBaseUrl + json['photo'],
+      photo: (json['photo'] as String).contains('https')
+          ? json['photo']
+          : EndPoints.socketBaseUrl + json['photo'],
       uid: json['uid'],
     );
   }
