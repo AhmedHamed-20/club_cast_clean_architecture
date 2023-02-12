@@ -4,7 +4,7 @@ part of 'chat_bloc.dart';
 class ChatState extends Equatable {
   final RoomMessageEntitie roomMessageEntitie;
   final Map<String, List<RoomMessageDataEntitie>>? privateChatMessages;
-
+  final List<RoomMessageDataEntitie> inComingPrivateChatMessages;
   final bool isEndOfMessages;
   final String errorMessage;
   final int statusCode;
@@ -14,6 +14,7 @@ class ChatState extends Equatable {
       {this.roomMessageEntitie =
           const RoomMessageEntitie(results: 0, roomMessages: []),
       this.isEndOfMessages = false,
+      this.inComingPrivateChatMessages = const [],
       this.errorMessage = '',
       this.statusCode = 0,
       this.currentTalkingToUserId = '',
@@ -21,6 +22,7 @@ class ChatState extends Equatable {
       this.privateChatMessages});
 
   ChatState copyWith({
+    List<RoomMessageDataEntitie>? inComingPrivateChatMessages,
     String? currentTalkingToUserId,
     RoomMessageEntitie? roomMessageEntitie,
     bool? isEndOfMessages,
@@ -30,6 +32,8 @@ class ChatState extends Equatable {
     RoomMessagesGetRequestStatus? roomMessagesGetRequestStatus,
   }) {
     return ChatState(
+        inComingPrivateChatMessages:
+            inComingPrivateChatMessages ?? this.inComingPrivateChatMessages,
         currentTalkingToUserId:
             currentTalkingToUserId ?? this.currentTalkingToUserId,
         statusCode: statusCode ?? this.statusCode,
@@ -43,6 +47,7 @@ class ChatState extends Equatable {
 
   @override
   List<Object?> get props => [
+        inComingPrivateChatMessages,
         statusCode,
         roomMessageEntitie,
         isEndOfMessages,

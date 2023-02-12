@@ -8,6 +8,7 @@ import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_room_messages.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../data/models/room_message_data_model.dart';
 import '../../../../domain/entities/room_message_entitie_data.dart';
@@ -331,12 +332,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         RoomMessageDataModel.fromJson(event.response, event.isMine)
       ];
     }
+    List<RoomMessageDataEntitie> incommingPrivateChatMessages =
+        List.from(state.inComingPrivateChatMessages);
+    incommingPrivateChatMessages
+        .add(RoomMessageDataModel.fromJson(event.response, event.isMine));
     emit(
       state.copyWith(
+        inComingPrivateChatMessages: incommingPrivateChatMessages,
         privateChatMessages: privateRoomMessages,
       ),
     );
-    TextEditingControllers.roomChatPrivateMessageController.clear();
   }
 
   FutureOr<void> _sendPrivateMessageEvent(
@@ -349,5 +354,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           toUserId: event.toUserId,
         ).toJsonPublicByDefault(isPublic: false, userId: event.toUserId));
     emit(state.copyWith(currentTalkingToUserId: event.toUserId));
+  }
+
+  void removeOverlayWidget(OverlayEntry overlayEntry) {
+    overlayEntry.remove();
   }
 }
