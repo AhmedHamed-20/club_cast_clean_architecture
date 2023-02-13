@@ -89,6 +89,10 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                         AppRoutesNames.roomScreen,
                       );
                       isInRoom = true;
+                      flutterToast(
+                          msg: 'Joining Room...',
+                          backgroundColor: AppColors.toastWarning,
+                          textColor: AppColors.black);
                     }
                     if (socketState.joinRoomRequestStatus ==
                         JoinRoomRequestStatus.left) {
@@ -100,7 +104,8 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                     onTap: () {
                       BlocProvider.of<SocketsBloc>(context).add(
                         ConnectToSocketEvent(
-                          ConstVar.accessToken,
+                          accessToken: ConstVar.accessToken,
+                          isCreateRoom: false,
                         ),
                       );
                     },

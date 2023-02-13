@@ -30,6 +30,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<LeaveChatRoomEvent>(_leaveRoomEvent);
     on<ListenOnPrivateChatMessagesEvent>(_listenOnPrivateChatMessagesEvent);
     on<PrivateMessageSendEvent>(_sendPrivateMessageEvent);
+    on<IncomingMessagesListClearEvent>(_clearIcomingMessagesListEvent);
   }
   final RoomMessagesGetUsecase roomMessagesGetUsecase;
   FutureOr<void> _getRoomMessagesEvent(
@@ -307,8 +308,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       LeaveChatRoomEvent event, Emitter<ChatState> emit) {
     emit(
       state.copyWith(
-        roomMessageEntitie:
-            const RoomMessageEntitie(results: 0, roomMessages: []),
+        currentTalkingToUserId: '',
+        inComingPrivateChatMessages: const [],
+        privateChatMessages: {},
+        roomMessageEntitie: const RoomMessageEntitie(
+          results: 0,
+          roomMessages: [],
+        ),
         roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.idle,
       ),
     );
@@ -332,16 +338,24 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         RoomMessageDataModel.fromJson(event.response, event.isMine)
       ];
     }
-    List<RoomMessageDataEntitie> incommingPrivateChatMessages =
-        List.from(state.inComingPrivateChatMessages);
-    incommingPrivateChatMessages
-        .add(RoomMessageDataModel.fromJson(event.response, event.isMine));
-    emit(
-      state.copyWith(
-        inComingPrivateChatMessages: incommingPrivateChatMessages,
-        privateChatMessages: privateRoomMessages,
-      ),
-    );
+    if (event.isMine == false) {
+      List<RoomMessageDataEntitie> incommingPrivateChatMessages =
+          List.from(state.inComingPrivateChatMessages);
+      incommingPrivateChatMessages
+          .add(RoomMessageDataModel.fromJson(event.response, event.isMine));
+      emit(
+        state.copyWith(
+          inComingPrivateChatMessages: incommingPrivateChatMessages,
+          privateChatMessages: privateRoomMessages,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          privateChatMessages: privateRoomMessages,
+        ),
+      );
+    }
   }
 
   FutureOr<void> _sendPrivateMessageEvent(
@@ -358,5 +372,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void removeOverlayWidget(OverlayEntry overlayEntry) {
     overlayEntry.remove();
+  }
+
+  FutureOr<void> _clearIcomingMessagesListEvent(
+      IncomingMessagesListClearEvent event, Emitter<ChatState> emit) {
+    emit(state.copyWith(inComingPrivateChatMessages: const []));
   }
 }

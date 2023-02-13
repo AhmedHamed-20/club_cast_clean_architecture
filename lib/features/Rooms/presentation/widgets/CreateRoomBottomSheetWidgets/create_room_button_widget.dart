@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
@@ -31,6 +32,10 @@ class CreateRoomButtonWidget extends StatelessWidget {
           ),
         );
         isInRoom = false;
+        flutterToast(
+            msg: 'Creating Room...',
+            backgroundColor: AppColors.toastWarning,
+            textColor: AppColors.black);
       }
 
       if (state.createRoomRequestStatus == CreateRoomRequestStatus.success &&

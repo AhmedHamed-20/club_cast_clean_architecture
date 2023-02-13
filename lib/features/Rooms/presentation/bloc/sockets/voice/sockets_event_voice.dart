@@ -6,8 +6,9 @@ abstract class SocketsEvent extends Equatable {
 
 class ConnectToSocketEvent extends SocketsEvent {
   final String accessToken;
-
-  const ConnectToSocketEvent(this.accessToken);
+  final bool isCreateRoom;
+  const ConnectToSocketEvent(
+      {required this.accessToken, required this.isCreateRoom});
 
   @override
   List<Object> get props => [accessToken];

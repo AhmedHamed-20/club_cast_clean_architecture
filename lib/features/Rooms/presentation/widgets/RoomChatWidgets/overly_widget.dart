@@ -19,18 +19,20 @@ class OverLayWidget extends StatelessWidget {
         if (state.createRoomRequestStatus == CreateRoomRequestStatus.left ||
             state.joinRoomRequestStatus == JoinRoomRequestStatus.left) {
           overLayEntery.remove();
+          overLayEntery.dispose();
         }
       },
       child: Positioned(
-          left: offset.dx,
-          top: offset.dy,
-          child: GestureDetector(
-              onPanUpdate: (details) {
-                offset += details.delta;
-                overLayEntery.markNeedsBuild();
-              },
-              child:
-                  const RoomChatIncomingMessagesFloatingActionButtonWidget())),
+        left: offset.dx,
+        top: offset.dy,
+        child: GestureDetector(
+          onPanUpdate: (details) {
+            offset += details.delta;
+            overLayEntery.markNeedsBuild();
+          },
+          child: const RoomChatIncomingMessagesFloatingActionButtonWidget(),
+        ),
+      ),
     );
   }
 }

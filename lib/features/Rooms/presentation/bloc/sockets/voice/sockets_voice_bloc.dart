@@ -52,6 +52,10 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
           createRoomRequestStatus: CreateRoomRequestStatus.idle,
           joinRoomRequestStatus: JoinRoomRequestStatus.idle),
     );
+    flutterToast(
+        msg: 'Connecting to our server...',
+        backgroundColor: AppColors.toastWarning,
+        textColor: AppColors.black);
     ConstVar.socket = io(
       EndPoints.socketBaseUrl,
       OptionBuilder()
@@ -62,6 +66,25 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     );
 
     ConstVar.socket.connect();
+    ConstVar.socket.onConnectError((data) {
+      flutterToast(
+          msg: data.toString(),
+          backgroundColor: AppColors.toastError,
+          textColor: AppColors.white);
+      if (event.isCreateRoom) {
+        emit(
+          state.copyWith(
+              connectToSocketRequestStatus: ConnectToSocketRequestStatus.error,
+              createRoomRequestStatus: CreateRoomRequestStatus.error),
+        );
+      } else {
+        emit(
+          state.copyWith(
+              connectToSocketRequestStatus: ConnectToSocketRequestStatus.error,
+              joinRoomRequestStatus: JoinRoomRequestStatus.error),
+        );
+      }
+    });
     ConstVar.socket.onDisconnect((data) {
       print(data);
     });

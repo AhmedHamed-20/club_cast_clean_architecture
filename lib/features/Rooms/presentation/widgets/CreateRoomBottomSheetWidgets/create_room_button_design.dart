@@ -11,8 +11,8 @@ class CreateRoomButtonDesign extends StatelessWidget {
   Widget build(BuildContext context) {
     return Defaults.defaultButton(
         onPressed: () {
-          BlocProvider.of<SocketsBloc>(context)
-              .add(ConnectToSocketEvent(ConstVar.accessToken));
+          BlocProvider.of<SocketsBloc>(context).add(ConnectToSocketEvent(
+              accessToken: ConstVar.accessToken, isCreateRoom: true));
         },
         context: context,
         text: 'Create Room');

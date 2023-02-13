@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'incoming_bottom_sheet_private_messages.dart';
 
+bool isBottomSheetOpen = false;
+
 class RoomChatIncomingMessagesFloatingActionButtonWidget
     extends StatelessWidget {
   const RoomChatIncomingMessagesFloatingActionButtonWidget({
@@ -26,16 +28,22 @@ class RoomChatIncomingMessagesFloatingActionButtonWidget
         ),
         child: ElevatedButton(
           style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              const CircleBorder(),
+            ),
             backgroundColor: MaterialStateProperty.all(
               Theme.of(context).colorScheme.primary,
             ),
           ),
           onPressed: () {
+            if (isBottomSheetOpen) return;
             showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return const IncomingPrivateMessagesBottomSheet();
-                });
+              context: context,
+              builder: (context) {
+                return const IncomingPrivateMessagesBottomSheet();
+              },
+            );
+            isBottomSheetOpen = true;
           },
           child: Icon(
             Icons.message,
