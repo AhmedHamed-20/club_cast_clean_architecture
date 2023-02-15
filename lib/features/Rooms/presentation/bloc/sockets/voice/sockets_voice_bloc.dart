@@ -44,6 +44,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<LeaveRoomEvent>(_leaveRoom);
     on<AskToTalkEvent>(_askToTalk);
     on<GivePermsToUserToTalkEvent>(_givePermsToUserToTalk);
+    on<ReturnUserToAudience>(_returnUserToAudience);
   }
 
   FutureOr<void> _connectToSocket(
@@ -210,6 +211,10 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
           add(UserLeftEvent(response));
         });
     SocketHelper.listenOnErrors(
+        socket: ConstVar.socket, handler: (response) {});
+    SocketHelper.listenOnAudienceToken(
+        socket: ConstVar.socket, handler: (response) {});
+    SocketHelper.listenOnBroadCasterToken(
         socket: ConstVar.socket, handler: (response) {});
   }
 
@@ -414,6 +419,12 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   FutureOr<void> _givePermsToUserToTalk(
       GivePermsToUserToTalkEvent event, Emitter<SocketsVoiceState> emit) {
     SocketHelper.givePermsToUser(
+        socket: ConstVar.socket, user: event.activeRoomUserModel.toJson());
+  }
+
+  FutureOr<void> _returnUserToAudience(
+      ReturnUserToAudience event, Emitter<SocketsVoiceState> emit) {
+    SocketHelper.returnUserToAudience(
         socket: ConstVar.socket, user: event.activeRoomUserModel.toJson());
   }
 }

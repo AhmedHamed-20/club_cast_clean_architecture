@@ -85,6 +85,11 @@ class SocketHelper {
     socket.on('brodcasterToken', handler);
   }
 
+  static void listenOnAudienceToken(
+      {required Socket socket, required dynamic Function(dynamic) handler}) {
+    socket.on('audienceToken', handler);
+  }
+
   static void askToTalk({
     required Socket socket,
   }) {
@@ -121,5 +126,10 @@ class SocketHelper {
   static void givePermsToUser(
       {required Socket socket, required Map<String, dynamic> user}) {
     socket.emit('givePermsTo', user);
+  }
+
+  static void returnUserToAudience(
+      {required Socket socket, required Map<String, dynamic> user}) {
+    socket.emit('takeAwayPermsFrom', user);
   }
 }

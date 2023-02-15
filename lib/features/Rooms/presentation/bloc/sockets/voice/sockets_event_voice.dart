@@ -147,3 +147,11 @@ class GivePermsToUserToTalkEvent extends SocketsEvent {
   @override
   List<Object?> get props => [activeRoomUserModel];
 }
+
+class ReturnUserToAudience extends SocketsEvent {
+  final ActiveRoomUserModel activeRoomUserModel;
+  const ReturnUserToAudience({required this.activeRoomUserModel});
+
+  @override
+  List<Object?> get props => [activeRoomUserModel];
+}
