@@ -1,47 +1,48 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'sockets_voice_bloc.dart';
 
-class SocketsState extends Equatable {
+class SocketsVoiceState extends Equatable {
   final String errorMessage;
   final ConnectToSocketRequestStatus connectToSocketRequestStatus;
   final JoinRoomRequestStatus joinRoomRequestStatus;
   final CreateRoomRequestStatus createRoomRequestStatus;
-  final JoinCreateRoomEntitie? joinCreateRoomEntitie;
-  final AudienceEntitie? audienceEntitie;
-  final AdminEntitie? adminEntitie;
-  final BrodcastersEnitite? brodcastersEnitite;
-  final MeEntitie? meEntitie;
+  final JoinCreateRoomEntitie joinCreateRoomEntitie;
+  final AudienceEntitie audienceEntitie;
+  final AdminEntitie adminEntitie;
+  final BrodcastersEntitie brodcastersEnitite;
+  final MeEntitie meEntitie;
   final bool isCreateRoom;
   final LiveVoiceRoomFloatingButtonStatus liveVoiceRoomFloatingButtonStatus;
-  const SocketsState({
+
+  const SocketsVoiceState({
     this.errorMessage = '',
     this.isCreateRoom = false,
     this.createRoomRequestStatus = CreateRoomRequestStatus.idle,
     this.joinRoomRequestStatus = JoinRoomRequestStatus.idle,
     this.connectToSocketRequestStatus = ConnectToSocketRequestStatus.idle,
-    this.adminEntitie,
-    this.audienceEntitie,
-    this.brodcastersEnitite,
-    this.meEntitie,
+    this.adminEntitie = DefaultsValues.adminEntitieDefault,
+    this.audienceEntitie = DefaultsValues.audienceEntitieDefault,
+    this.brodcastersEnitite = DefaultsValues.broadCastersEntitieDefault,
+    this.meEntitie = DefaultsValues.meEntitieDefault,
     this.liveVoiceRoomFloatingButtonStatus =
         LiveVoiceRoomFloatingButtonStatus.askToTalk,
-    this.joinCreateRoomEntitie,
+    this.joinCreateRoomEntitie = DefaultsValues.joinCreateRoomEntitieDefault,
   });
 
-  SocketsState copyWith({
+  SocketsVoiceState copyWith({
     LiveVoiceRoomFloatingButtonStatus? liveVoiceRoomFloatingButtonStatus,
     CreateRoomRequestStatus? createRoomRequestStatus,
     MeEntitie? meEntitie,
     bool? isCreateRoom,
     AudienceEntitie? audienceEntitie,
-    BrodcastersEnitite? brodcastersEnitite,
+    BrodcastersEntitie? brodcastersEnitite,
     AdminEntitie? adminEntitie,
     JoinCreateRoomEntitie? joinCreateRoomEntitie,
     JoinRoomRequestStatus? joinRoomRequestStatus,
     String? errorMessage,
     ConnectToSocketRequestStatus? connectToSocketRequestStatus,
   }) {
-    return SocketsState(
+    return SocketsVoiceState(
       liveVoiceRoomFloatingButtonStatus: liveVoiceRoomFloatingButtonStatus ??
           this.liveVoiceRoomFloatingButtonStatus,
       isCreateRoom: isCreateRoom ?? this.isCreateRoom,

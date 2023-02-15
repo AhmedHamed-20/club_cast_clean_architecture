@@ -11,8 +11,9 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final socketBloc = BlocProvider.of<SocketsBloc>(context);
-    return BlocBuilder<SocketsBloc, SocketsState>(builder: (context, state) {
+    final socketBloc = BlocProvider.of<SocketsVoiceBloc>(context);
+    return BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
+        builder: (context, state) {
       switch (state.liveVoiceRoomFloatingButtonStatus) {
         case LiveVoiceRoomFloatingButtonStatus.askToTalk:
           return FloatingActionButton(

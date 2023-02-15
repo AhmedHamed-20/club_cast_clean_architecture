@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/brodcasters_entitie.dart';
 
-class BrodCasterssModel extends BrodcastersEnitite {
+class BrodCasterssModel extends BrodcastersEntitie {
   const BrodCasterssModel(super.audience);
 
   factory BrodCasterssModel.fromJson(List<dynamic> json) {

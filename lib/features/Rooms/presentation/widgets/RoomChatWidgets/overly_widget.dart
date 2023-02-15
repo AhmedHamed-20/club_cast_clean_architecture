@@ -14,7 +14,7 @@ class OverLayWidget extends StatelessWidget {
   final OverlayEntry overLayEntery;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SocketsBloc, SocketsState>(
+    return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
       listener: (context, state) {
         if (state.createRoomRequestStatus == CreateRoomRequestStatus.left ||
             state.joinRoomRequestStatus == JoinRoomRequestStatus.left) {

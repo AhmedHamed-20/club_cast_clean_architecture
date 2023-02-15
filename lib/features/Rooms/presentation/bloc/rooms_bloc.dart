@@ -4,7 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/all_rooms_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/constants/default_values.dart';
+import '../../../../core/routes/app_route_names.dart';
+import '../../domain/entities/join_create_room_entitie.dart';
 
 part 'rooms_event.dart';
 part 'rooms_state.dart';
@@ -85,5 +93,62 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         ));
       }
     });
+  }
+
+  void checkOnTabOnRoomCardLogic({
+    JoinCreateRoomEntitie? joinCreateRoomEntitie,
+    required String tabedCardRoomId,
+    required BuildContext context,
+    required bool isCreateRoom,
+    required ChatBloc chatBloc,
+    required SocketsVoiceBloc socketsVoiceBloc,
+    required String accessToken,
+    required String roomName,
+  }) {
+    print(joinCreateRoomEntitie);
+
+    if (joinCreateRoomEntitie == null ||
+        joinCreateRoomEntitie == DefaultsValues.joinCreateRoomEntitieDefault) {
+      socketsVoiceBloc.add(
+        ConnectToSocketEvent(
+          accessToken: accessToken,
+          isCreateRoom: false,
+          roomName: roomName,
+        ),
+      );
+      flutterToast(
+        msg: 'Joining room ...',
+        backgroundColor: AppColors.toastWarning,
+        textColor: AppColors.black,
+      );
+    } else if (tabedCardRoomId == joinCreateRoomEntitie.roomId) {
+      Navigator.pushNamed(
+        context,
+        AppRoutesNames.roomScreen,
+      );
+    } else {
+      if (isCreateRoom == true) {
+        flutterToast(
+          msg: 'You are admin in another room please leave it first',
+          backgroundColor: AppColors.toastWarning,
+          textColor: AppColors.black,
+        );
+      } else {
+        socketsVoiceBloc.add(const LeaveRoomEvent());
+        chatBloc.add(const LeaveChatRoomEvent());
+        flutterToast(
+          msg: 'Joining another room ...',
+          backgroundColor: AppColors.toastWarning,
+          textColor: AppColors.black,
+        );
+        socketsVoiceBloc.add(
+          ConnectToSocketEvent(
+            accessToken: ConstVar.accessToken,
+            isCreateRoom: false,
+            roomName: roomName,
+          ),
+        );
+      }
+    }
   }
 }

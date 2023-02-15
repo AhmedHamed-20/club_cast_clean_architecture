@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 servicelocator<CommonPlayingPodcastBlocBloc>()),
-        BlocProvider(create: (context) => servicelocator<SocketsBloc>()),
+        BlocProvider(create: (context) => servicelocator<SocketsVoiceBloc>()),
         BlocProvider(create: (context) => servicelocator<ChatBloc>()),
       ],
       child: ScreenUtilInit(

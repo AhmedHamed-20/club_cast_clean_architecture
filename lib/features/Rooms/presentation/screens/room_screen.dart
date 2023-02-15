@@ -48,9 +48,9 @@ class RoomScreen extends StatelessWidget {
               labelStyle: Theme.of(context).textTheme.titleLarge,
             ),
             centerTitle: true,
-            title: BlocBuilder<SocketsBloc, SocketsState>(
+            title: BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
               builder: (context, state) => Text(
-                state.joinCreateRoomEntitie!.roomName,
+                state.joinCreateRoomEntitie.roomName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),

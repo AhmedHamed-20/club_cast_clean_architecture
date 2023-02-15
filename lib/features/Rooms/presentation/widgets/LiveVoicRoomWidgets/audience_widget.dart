@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'listeners_popup_menu_buttons.dart';
 
 class AudienceWidget extends StatelessWidget {
   const AudienceWidget({
@@ -11,7 +12,7 @@ class AudienceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SocketsBloc, SocketsState>(
+    return BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
       builder: (context, state) => SliverGrid(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
@@ -20,13 +21,22 @@ class AudienceWidget extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            if (state.isCreateRoom) {
-              return Stack(alignment: Alignment.center, children: [
+            return PopupMenuButton(
+              itemBuilder: (context) {
+                return popupMenuListenersButtons(
+                  context: context,
+                  iamAdmin: state.isCreateRoom,
+                  activeRoomUserDataEntitie:
+                      state.audienceEntitie.audience[index],
+                  iMuteHim: state.audienceEntitie.audience[index].iMuteHim,
+                );
+              },
+              child: Stack(alignment: Alignment.center, children: [
                 UserCircleRoomWidget(
                   baseRoomUserDataEntitie:
-                      state.audienceEntitie!.audience[index],
+                      state.audienceEntitie.audience[index],
                 ),
-                state.audienceEntitie!.audience[index].askedToSpeak
+                state.audienceEntitie.audience[index].askedToSpeak
                     ? Positioned(
                         top: 0,
                         right: 10,
@@ -36,51 +46,10 @@ class AudienceWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox.shrink(),
-              ]);
-            } else {
-              if (index < state.audienceEntitie!.audience.length &&
-                  state.audienceEntitie!.audience.isNotEmpty) {
-                return Stack(alignment: Alignment.center, children: [
-                  UserCircleRoomWidget(
-                    baseRoomUserDataEntitie:
-                        state.audienceEntitie!.audience[index],
-                  ),
-                  state.audienceEntitie!.audience[index].askedToSpeak
-                      ? Positioned(
-                          top: 0,
-                          right: 10,
-                          child: Icon(
-                            Icons.back_hand,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ]);
-              } else {
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    UserCircleRoomWidget(
-                      baseRoomUserDataEntitie: state.meEntitie!.me,
-                    ),
-                    state.meEntitie!.me.askedToSpeak
-                        ? Positioned(
-                            top: 0,
-                            right: 10,
-                            child: Icon(
-                              Icons.back_hand,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ],
-                );
-              }
-            }
+              ]),
+            );
           },
-          childCount: state.isCreateRoom
-              ? state.audienceEntitie!.audience.length
-              : state.audienceEntitie!.audience.length + 1,
+          childCount: state.audienceEntitie.audience.length,
         ),
       ),
     );

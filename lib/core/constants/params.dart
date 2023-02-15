@@ -94,7 +94,7 @@ class OtherUserFollowersFollowingScreenParams extends Equatable {
 }
 
 class RoomScreenParams extends Equatable {
-  final SocketsBloc socketsBloc;
+  final SocketsVoiceBloc socketsBloc;
 
   const RoomScreenParams(this.socketsBloc);
 

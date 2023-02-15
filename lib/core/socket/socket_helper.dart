@@ -117,4 +117,9 @@ class SocketHelper {
       {required Socket socket, required dynamic Function(dynamic) handler}) {
     socket.on('messageRemoved', handler);
   }
+
+  static void givePermsToUser(
+      {required Socket socket, required Map<String, dynamic> user}) {
+    socket.emit('givePermsTo', user);
+  }
 }

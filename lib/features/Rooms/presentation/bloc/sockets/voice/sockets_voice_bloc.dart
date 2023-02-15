@@ -15,6 +15,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../../../../../core/constants/default_values.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../../../../domain/entities/active_room_user_data_enitie.dart';
 import '../../../../domain/entities/admin_entitie.dart';
@@ -25,8 +26,8 @@ import '../../../../domain/entities/me_entitie.dart';
 part 'sockets_event_voice.dart';
 part 'sockets_voice_state.dart';
 
-class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
-  SocketsBloc() : super(const SocketsState()) {
+class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
+  SocketsVoiceBloc() : super(const SocketsVoiceState()) {
     on<ConnectToSocketEvent>(_connectToSocket);
     on<JoinRoomEvent>(_joinRoom);
     on<ConnectToSocketsSuccessEvent>(_connectToSocketSuccess);
@@ -42,10 +43,11 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     on<RoomCreatedSuccessEvent>(_roomCreatedSuccess);
     on<LeaveRoomEvent>(_leaveRoom);
     on<AskToTalkEvent>(_askToTalk);
+    on<GivePermsToUserToTalkEvent>(_givePermsToUserToTalk);
   }
 
   FutureOr<void> _connectToSocket(
-      ConnectToSocketEvent event, Emitter<SocketsState> emit) async {
+      ConnectToSocketEvent event, Emitter<SocketsVoiceState> emit) async {
     emit(
       state.copyWith(
           connectToSocketRequestStatus: ConnectToSocketRequestStatus.loading,
@@ -90,14 +92,29 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     });
     //  ConstVar.socket.ondisconnect();
     ConstVar.socket.on('connect', (_) {
-      add(const ConnectToSocketsSuccessEvent());
+      if (event.isCreateRoom) {
+        add(
+          ConnectToSocketsSuccessEvent(
+            isCreateRoom: event.isCreateRoom,
+            createRoomParams: event.createRoomParams,
+          ),
+        );
+      } else {
+        add(
+          ConnectToSocketsSuccessEvent(
+            isCreateRoom: event.isCreateRoom,
+            roomName: event.roomName,
+          ),
+        );
+      }
     });
     ConstVar.socket.on('error', (error) {
       print(error);
     });
   }
 
-  FutureOr<void> _joinRoom(JoinRoomEvent event, Emitter<SocketsState> emit) {
+  FutureOr<void> _joinRoom(
+      JoinRoomEvent event, Emitter<SocketsVoiceState> emit) {
     emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.loading));
     SocketHelper.joinRoom(socket: ConstVar.socket, roomName: event.roomName);
     SocketHelper.listenOnRoomJoined(
@@ -108,20 +125,41 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _connectToSocketSuccess(
-      ConnectToSocketsSuccessEvent event, Emitter<SocketsState> emit) {
-    emit(state.copyWith(
-        connectToSocketRequestStatus: ConnectToSocketRequestStatus.success));
+      ConnectToSocketsSuccessEvent event, Emitter<SocketsVoiceState> emit) {
+    emit(
+      state.copyWith(
+        connectToSocketRequestStatus: ConnectToSocketRequestStatus.success,
+      ),
+    );
+    if (event.isCreateRoom) {
+      add(
+        CreateRoomEvent(
+          category: event.createRoomParams!.category,
+          isRecording: event.createRoomParams!.isRecording,
+          roomName: event.createRoomParams!.roomName,
+          status: event.createRoomParams!.status,
+        ),
+      );
+    } else {
+      add(
+        JoinRoomEvent(
+          roomName: event.roomName!,
+        ),
+      );
+    }
   }
 
   FutureOr<void> _joinRoomSuccess(
-      JoinRoomSuccessEvent event, Emitter<SocketsState> emit) {
+      JoinRoomSuccessEvent event, Emitter<SocketsVoiceState> emit) {
     emit(
       state.copyWith(
         isCreateRoom: false,
         liveVoiceRoomFloatingButtonStatus:
             LiveVoiceRoomFloatingButtonStatus.askToTalk,
         adminEntitie: AdminModel.fromJson(event.response),
-        audienceEntitie: AudiencesModel.fromJson(event.response, false),
+        audienceEntitie: AudiencesModel.fromJson(
+          event.response,
+        ),
         brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
         meEntitie: MeModel.fromJson(event.response),
         joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
@@ -175,24 +213,25 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         socket: ConstVar.socket, handler: (response) {});
   }
 
-  FutureOr<void> _userLeft(UserLeftEvent event, Emitter<SocketsState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie?.copyWith();
+  FutureOr<void> _userLeft(
+      UserLeftEvent event, Emitter<SocketsVoiceState> emit) {
+    AudienceEntitie? audienceEntitie = state.audienceEntitie.copyWith();
     bool isFound = false;
-    for (int i = 0; i < state.audienceEntitie!.audience.length; i++) {
-      if (state.audienceEntitie!.audience[i].id == event.response['_id']) {
-        audienceEntitie!.audience.removeAt(i);
+    for (int i = 0; i < state.audienceEntitie.audience.length; i++) {
+      if (state.audienceEntitie.audience[i].id == event.response['_id']) {
+        audienceEntitie.audience.removeAt(i);
         isFound = true;
         emit(state.copyWith(audienceEntitie: audienceEntitie));
         break;
       }
     }
     if (isFound == false) {
-      BrodcastersEnitite? brodcastersEnitite =
-          state.brodcastersEnitite?.copyWith();
-      for (int i = 0; i < state.brodcastersEnitite!.brodcasters.length; i++) {
-        if (state.brodcastersEnitite!.brodcasters[i].id ==
+      BrodcastersEntitie? brodcastersEnitite =
+          state.brodcastersEnitite.copyWith();
+      for (int i = 0; i < state.brodcastersEnitite.brodcasters.length; i++) {
+        if (state.brodcastersEnitite.brodcasters[i].id ==
             event.response['_id']) {
-          brodcastersEnitite!.brodcasters.removeAt(i);
+          brodcastersEnitite.brodcasters.removeAt(i);
           isFound = true;
           emit(state.copyWith(brodcastersEnitite: brodcastersEnitite));
           break;
@@ -202,16 +241,16 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _userJoined(
-      UserJoinedEvent event, Emitter<SocketsState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie?.copyWith();
-    if (audienceEntitie != null) {
-      audienceEntitie.audience
-          .add(ActiveRoomUserModel.fromJson(event.response));
-    }
+      UserJoinedEvent event, Emitter<SocketsVoiceState> emit) {
+    AudienceEntitie? audienceEntitie = state.audienceEntitie.copyWith();
+
+    audienceEntitie.audience.add(ActiveRoomUserModel.fromJson(event.response));
+
     emit(state.copyWith(audienceEntitie: audienceEntitie));
   }
 
-  FutureOr<void> _adminLeft(AdminLeftEvent event, Emitter<SocketsState> emit) {
+  FutureOr<void> _adminLeft(
+      AdminLeftEvent event, Emitter<SocketsVoiceState> emit) {
     flutterToast(
         msg:
             'Admin left the room if he not back in 1 minute the room will be closed',
@@ -219,16 +258,17 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
         textColor: AppColors.black);
   }
 
-  FutureOr<void> _roomEnded(RoomEndedEvent event, Emitter<SocketsState> emit) {
+  FutureOr<void> _roomEnded(
+      RoomEndedEvent event, Emitter<SocketsVoiceState> emit) {
     ConstVar.socket.disconnect();
     emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.left));
   }
 
   FutureOr<void> _userAskedToBeBroadcaster(
-      UserAskedToBeBroadcasterEvent event, Emitter<SocketsState> emit) {
-    List<ActiveRoomUserDataEntitie> audience = state.audienceEntitie!.audience;
+      UserAskedToBeBroadcasterEvent event, Emitter<SocketsVoiceState> emit) {
+    List<ActiveRoomUserDataEntitie> audience = state.audienceEntitie.audience;
     for (int i = 0; i < audience.length; i++) {
-      if (state.audienceEntitie!.audience[i].id == event.response['_id']) {
+      if (state.audienceEntitie.audience[i].id == event.response['_id']) {
         audience[i] = audience[i].copyWith(
           askedToSpeak: !audience[i].askedToSpeak,
         );
@@ -240,18 +280,15 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _userChangedToAudience(
-      UserChangedToAudienceEvent event, Emitter<SocketsState> emit) {
-    BrodcastersEnitite? brodcastersEnitite = state.brodcastersEnitite;
+      UserChangedToAudienceEvent event, Emitter<SocketsVoiceState> emit) {
+    BrodcastersEntitie? brodcastersEnitite = state.brodcastersEnitite;
     late List<ActiveRoomUserDataEntitie> audience;
-    if (state.audienceEntitie == null) {
-      audience = [];
-    } else {
-      audience = state.audienceEntitie!.audience;
-    }
-    for (int i = 0; i < state.brodcastersEnitite!.brodcasters.length; i++) {
-      if (state.brodcastersEnitite!.brodcasters[i].id ==
-          event.response['_id']) {
-        brodcastersEnitite!.brodcasters.removeAt(i);
+
+    audience = state.audienceEntitie.audience;
+
+    for (int i = 0; i < state.brodcastersEnitite.brodcasters.length; i++) {
+      if (state.brodcastersEnitite.brodcasters[i].id == event.response['_id']) {
+        brodcastersEnitite.brodcasters.removeAt(i);
         break;
       }
     }
@@ -262,28 +299,39 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _userChangedToBroadcaster(
-      UserChangedToBroadcasterEvent event, Emitter<SocketsState> emit) {
+      UserChangedToBroadcasterEvent event, Emitter<SocketsVoiceState> emit) {
     AudienceEntitie? audienceEntitie = state.audienceEntitie;
     late List<ActiveRoomUserDataEntitie> brodcasters;
-    if (state.brodcastersEnitite == null) {
-      brodcasters = [];
-    } else {
-      brodcasters = state.brodcastersEnitite!.brodcasters;
-    }
-    for (int i = 0; i < state.audienceEntitie!.audience.length; i++) {
-      if (state.audienceEntitie!.audience[i].id == event.response['_id']) {
-        audienceEntitie!.audience.removeAt(i);
+
+    brodcasters = state.brodcastersEnitite.brodcasters;
+
+    for (int i = 0; i < state.audienceEntitie.audience.length; i++) {
+      if (state.audienceEntitie.audience[i].id == event.response['_id']) {
+        audienceEntitie.audience.removeAt(i);
         break;
       }
     }
     brodcasters.add(ActiveRoomUserModel.fromJson(event.response));
-    emit(state.copyWith(
-        brodcastersEnitite: BrodcastersEnitite(brodcasters),
-        audienceEntitie: audienceEntitie));
+    if (event.response['_id'] == state.meEntitie.me.id) {
+      emit(
+        state.copyWith(
+            brodcastersEnitite: BrodcastersEntitie(brodcasters),
+            audienceEntitie: audienceEntitie,
+            liveVoiceRoomFloatingButtonStatus:
+                LiveVoiceRoomFloatingButtonStatus.mute),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          brodcastersEnitite: BrodcastersEntitie(brodcasters),
+          audienceEntitie: audienceEntitie,
+        ),
+      );
+    }
   }
 
   FutureOr<void> _createRoom(
-      CreateRoomEvent event, Emitter<SocketsState> emit) {
+      CreateRoomEvent event, Emitter<SocketsVoiceState> emit) {
     emit(state.copyWith(
         createRoomRequestStatus: CreateRoomRequestStatus.loading));
     SocketHelper.createRoom(
@@ -303,14 +351,16 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
   }
 
   FutureOr<void> _roomCreatedSuccess(
-      RoomCreatedSuccessEvent event, Emitter<SocketsState> emit) {
+      RoomCreatedSuccessEvent event, Emitter<SocketsVoiceState> emit) {
     emit(
       state.copyWith(
         isCreateRoom: true,
         createRoomRequestStatus: CreateRoomRequestStatus.success,
         liveVoiceRoomFloatingButtonStatus:
             LiveVoiceRoomFloatingButtonStatus.mute,
-        audienceEntitie: AudiencesModel.fromJson(event.response, true),
+        audienceEntitie: AudiencesModel.fromJson(
+          event.response,
+        ),
         brodcastersEnitite: BrodCasterssModel.fromJson(event.response),
         meEntitie: MeModel.fromJson(event.response),
         joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
@@ -319,17 +369,19 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     listenOnSocketEvents();
   }
 
-  FutureOr<void> _leaveRoom(LeaveRoomEvent event, Emitter<SocketsState> emit) {
+  FutureOr<void> _leaveRoom(
+      LeaveRoomEvent event, Emitter<SocketsVoiceState> emit) {
     if (state.isCreateRoom == true) {
       SocketHelper.endRoomAdmin(socket: ConstVar.socket);
       emit(
         state.copyWith(
           createRoomRequestStatus: CreateRoomRequestStatus.left,
-          adminEntitie: null,
-          audienceEntitie: null,
-          brodcastersEnitite: null,
-          meEntitie: null,
-          joinCreateRoomEntitie: null,
+          adminEntitie: DefaultsValues.adminEntitieDefault,
+          audienceEntitie: DefaultsValues.audienceEntitieDefault,
+          brodcastersEnitite: DefaultsValues.broadCastersEntitieDefault,
+          meEntitie: DefaultsValues.meEntitieDefault,
+          joinCreateRoomEntitie: DefaultsValues.joinCreateRoomEntitieDefault,
+          isCreateRoom: false,
           connectToSocketRequestStatus: ConnectToSocketRequestStatus.idle,
         ),
       );
@@ -339,11 +391,12 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
       emit(
         state.copyWith(
           joinRoomRequestStatus: JoinRoomRequestStatus.left,
-          adminEntitie: null,
-          audienceEntitie: null,
-          brodcastersEnitite: null,
-          meEntitie: null,
-          joinCreateRoomEntitie: null,
+          adminEntitie: DefaultsValues.adminEntitieDefault,
+          audienceEntitie: DefaultsValues.audienceEntitieDefault,
+          brodcastersEnitite: DefaultsValues.broadCastersEntitieDefault,
+          meEntitie: DefaultsValues.meEntitieDefault,
+          joinCreateRoomEntitie: DefaultsValues.joinCreateRoomEntitieDefault,
+          isCreateRoom: false,
           connectToSocketRequestStatus: ConnectToSocketRequestStatus.idle,
         ),
       );
@@ -352,14 +405,15 @@ class SocketsBloc extends Bloc<SocketsEvent, SocketsState> {
     }
   }
 
-  FutureOr<void> _askToTalk(AskToTalkEvent event, Emitter<SocketsState> emit) {
+  FutureOr<void> _askToTalk(
+      AskToTalkEvent event, Emitter<SocketsVoiceState> emit) {
     SocketHelper.askToTalk(socket: ConstVar.socket);
-    ActiveRoomUserDataEntitie activeRoomUserDataEntitie = state.meEntitie!.me
-        .copyWith(askedToSpeak: !state.meEntitie!.me.askedToSpeak);
-    emit(state.copyWith(
-      meEntitie: MeEntitie(
-        activeRoomUserDataEntitie,
-      ),
-    ));
+    add(UserAskedToBeBroadcasterEvent({'_id': state.meEntitie.me.id}));
+  }
+
+  FutureOr<void> _givePermsToUserToTalk(
+      GivePermsToUserToTalkEvent event, Emitter<SocketsVoiceState> emit) {
+    SocketHelper.givePermsToUser(
+        socket: ConstVar.socket, user: event.activeRoomUserModel.toJson());
   }
 }

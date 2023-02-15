@@ -7,8 +7,13 @@ abstract class SocketsEvent extends Equatable {
 class ConnectToSocketEvent extends SocketsEvent {
   final String accessToken;
   final bool isCreateRoom;
+  final CreateRoomParams? createRoomParams;
+  final String? roomName;
   const ConnectToSocketEvent(
-      {required this.accessToken, required this.isCreateRoom});
+      {required this.accessToken,
+      required this.isCreateRoom,
+      this.createRoomParams,
+      this.roomName});
 
   @override
   List<Object> get props => [accessToken];
@@ -24,7 +29,11 @@ class JoinRoomEvent extends SocketsEvent {
 }
 
 class ConnectToSocketsSuccessEvent extends SocketsEvent {
-  const ConnectToSocketsSuccessEvent();
+  final bool isCreateRoom;
+  final CreateRoomParams? createRoomParams;
+  final String? roomName;
+  const ConnectToSocketsSuccessEvent(
+      {required this.isCreateRoom, this.createRoomParams, this.roomName});
 
   @override
   List<Object?> get props => [];
@@ -129,4 +138,12 @@ class AskToTalkEvent extends SocketsEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class GivePermsToUserToTalkEvent extends SocketsEvent {
+  final ActiveRoomUserModel activeRoomUserModel;
+  const GivePermsToUserToTalkEvent({required this.activeRoomUserModel});
+
+  @override
+  List<Object?> get props => [activeRoomUserModel];
 }

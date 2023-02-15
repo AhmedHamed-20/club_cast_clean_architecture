@@ -3,15 +3,15 @@ import 'package:equatable/equatable.dart';
 
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
 
-class BrodcastersEnitite extends Equatable {
+class BrodcastersEntitie extends Equatable {
   final List<ActiveRoomUserDataEntitie> brodcasters;
 
-  const BrodcastersEnitite(this.brodcasters);
+  const BrodcastersEntitie(this.brodcasters);
 
-  BrodcastersEnitite copyWith({
+  BrodcastersEntitie copyWith({
     List<ActiveRoomUserDataEntitie>? brodcasters,
   }) {
-    return BrodcastersEnitite(
+    return BrodcastersEntitie(
       brodcasters ?? this.brodcasters,
     );
   }

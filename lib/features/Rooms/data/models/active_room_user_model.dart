@@ -45,6 +45,15 @@ class ActiveRoomUserModel extends ActiveRoomUserDataEntitie {
         isSpeaking: isSpeaking ?? this.isSpeaking);
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'photo': photo,
+      'uid': uid,
+    };
+  }
+
   @override
   List<Object?> get props =>
       [id, name, photo, uid, askedToSpeak, isMutted, iMuteHim, isSpeaking];

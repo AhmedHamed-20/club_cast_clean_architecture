@@ -68,7 +68,6 @@ class _IncomingPrivateMessagesBottomSheetState
                 child: ListView.builder(
                   itemCount: state.inComingPrivateChatMessages.length,
                   itemBuilder: (context, index) {
-                    print(state.inComingPrivateChatMessages);
                     return IncomingMessageListTileWidget(
                       userName:
                           state.inComingPrivateChatMessages[index].user!.name,

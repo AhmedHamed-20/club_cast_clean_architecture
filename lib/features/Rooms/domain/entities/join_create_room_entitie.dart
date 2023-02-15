@@ -8,7 +8,7 @@ class JoinCreateRoomEntitie extends Equatable {
   final String createdAt;
   final String userToken;
   final bool isRecording;
-
+  final String roomId;
   const JoinCreateRoomEntitie(
       {required this.roomName,
       required this.roomType,
@@ -16,13 +16,15 @@ class JoinCreateRoomEntitie extends Equatable {
       required this.roomCategory,
       required this.appId,
       required this.createdAt,
-      required this.userToken});
+      required this.userToken,
+      required this.roomId});
 
   @override
   List<Object?> get props => [
         roomName,
         roomType,
         roomCategory,
+        roomId,
         appId,
         createdAt,
         userToken,

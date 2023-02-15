@@ -12,7 +12,7 @@ import '../../../../../core/widgets/room_card_widget.dart';
 
 bool isEndOfRoomsData = false;
 int roomsPage = 2;
-bool isInRoom = false;
+bool isIuserInRoom = false;
 
 class AllRoomsMainWidget extends StatefulWidget {
   const AllRoomsMainWidget({super.key});
@@ -40,6 +40,9 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final roomsBloc = BlocProvider.of<RoomsBloc>(context);
+    final socketsVoiceBloc = BlocProvider.of<SocketsVoiceBloc>(context);
+    final chatBloc = BlocProvider.of<ChatBloc>(context);
     return BlocConsumer<RoomsBloc, RoomsState>(listener: (context, state) {
       isEndOfRoomsData = state.isEndOfRoomsData;
     }, builder: (context, state) {
@@ -60,59 +63,55 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
             itemCount: state.allRoomsEntitie!.allRoomsDataEntitie.length + 1,
             itemBuilder: (context, index) {
               if (index < state.allRoomsEntitie!.allRoomsDataEntitie.length) {
-                return BlocListener<SocketsBloc, SocketsState>(
+                return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
                   listener: (context, socketState) {
                     if (socketState.connectToSocketRequestStatus ==
                             ConnectToSocketRequestStatus.success &&
                         socketState.joinRoomRequestStatus ==
                             JoinRoomRequestStatus.idle) {
-                      BlocProvider.of<SocketsBloc>(context).add(
-                        JoinRoomEvent(
-                          roomName: state
-                              .allRoomsEntitie!.allRoomsDataEntitie[index].name,
-                        ),
-                      );
-                      isInRoom = false;
+                      isIuserInRoom = false;
                     }
                     if (socketState.joinRoomRequestStatus ==
                             JoinRoomRequestStatus.success &&
-                        isInRoom == false) {
-                      BlocProvider.of<ChatBloc>(context).add(
-                        RoomMessagesGetEvent(
-                          accessToken: ConstVar.accessToken,
-                          roomId: state
-                              .allRoomsEntitie!.allRoomsDataEntitie[index].id,
-                        ),
-                      );
-                      Navigator.pushNamed(
-                        context,
+                        isIuserInRoom == false) {
+                      BlocProvider.of<ChatBloc>(context)
+                          .add(const ListenOnChatEventsEvent());
+                      //    print('joinAdmin');
+                      Navigator.of(context).pushNamed(
                         AppRoutesNames.roomScreen,
                       );
-                      isInRoom = true;
-                      flutterToast(
-                          msg: 'Joining Room...',
-                          backgroundColor: AppColors.toastWarning,
-                          textColor: AppColors.black);
+                      //to prevent always pushing to room screen when state changes
+                      isIuserInRoom = true;
                     }
+
                     if (socketState.joinRoomRequestStatus ==
                         JoinRoomRequestStatus.left) {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          AppRoutesNames.layoutScreen, (route) => false);
+                      isIuserInRoom = false;
                     }
                   },
-                  child: InkWell(
-                    onTap: () {
-                      BlocProvider.of<SocketsBloc>(context).add(
-                        ConnectToSocketEvent(
+                  child: BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
+                      builder: (context, socketVoiceState) {
+                    return InkWell(
+                      onTap: () {
+                        roomsBloc.checkOnTabOnRoomCardLogic(
+                          joinCreateRoomEntitie:
+                              socketVoiceState.joinCreateRoomEntitie,
+                          tabedCardRoomId: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index].id,
+                          context: context,
+                          isCreateRoom: socketVoiceState.isCreateRoom,
+                          chatBloc: chatBloc,
+                          socketsVoiceBloc: socketsVoiceBloc,
                           accessToken: ConstVar.accessToken,
-                          isCreateRoom: false,
-                        ),
-                      );
-                    },
-                    child: RoomsCardWidget(
-                        allRoomsDataEntitie:
-                            state.allRoomsEntitie!.allRoomsDataEntitie[index]),
-                  ),
+                          roomName: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index].name,
+                        );
+                      },
+                      child: RoomsCardWidget(
+                          allRoomsDataEntitie: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index]),
+                    );
+                  }),
                 );
               } else {
                 return state.isEndOfRoomsData

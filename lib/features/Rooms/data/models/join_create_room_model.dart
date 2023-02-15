@@ -8,11 +8,13 @@ class JoinCreateRooModel extends JoinCreateRoomEntitie {
       required super.appId,
       required super.createdAt,
       required super.isRecording,
+      required super.roomId,
       required super.userToken});
 
   factory JoinCreateRooModel.fromJson(List<dynamic> json) {
     return JoinCreateRooModel(
       roomName: json[1]['name'],
+      roomId: json[1]['_id'],
       roomType: json[1]['status'],
       isRecording: json[1]['isRecording'],
       roomCategory: json[1]['category'],

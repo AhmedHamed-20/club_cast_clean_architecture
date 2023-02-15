@@ -13,7 +13,7 @@ class LeaveRoomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final socketBloc = BlocProvider.of<SocketsBloc>(context);
+    final socketBloc = BlocProvider.of<SocketsVoiceBloc>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12),
       child: Defaults.defaultTextButton(

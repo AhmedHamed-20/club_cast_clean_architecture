@@ -109,7 +109,7 @@ class ServiceLocator {
     ///bloc
     servicelocator.registerFactory<ChatBloc>(() => ChatBloc(servicelocator()));
 
-    servicelocator.registerFactory<SocketsBloc>(() => SocketsBloc());
+    servicelocator.registerFactory<SocketsVoiceBloc>(() => SocketsVoiceBloc());
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
