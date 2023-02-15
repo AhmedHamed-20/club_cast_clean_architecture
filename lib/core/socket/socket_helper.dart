@@ -132,4 +132,8 @@ class SocketHelper {
       {required Socket socket, required Map<String, dynamic> user}) {
     socket.emit('takeAwayPermsFrom', user);
   }
+
+  static void returnToAudience({required Socket socket}) {
+    socket.emit('weHaveToGoBack');
+  }
 }

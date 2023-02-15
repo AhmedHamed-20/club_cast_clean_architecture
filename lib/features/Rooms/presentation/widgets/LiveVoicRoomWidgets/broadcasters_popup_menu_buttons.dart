@@ -62,7 +62,18 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
       ),
     ];
   } else if (activeRoomUserDataEntitie.id == ConstVar.userId) {
-    return [];
+    return [
+      PopupMenuItem(
+        child: Text(
+          'Return To Listeners',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        onTap: () {
+          BlocProvider.of<SocketsVoiceBloc>(context)
+              .add(const ReturnToAudience());
+        },
+      ),
+    ];
   } else {
     return [
       PopupMenuItem(

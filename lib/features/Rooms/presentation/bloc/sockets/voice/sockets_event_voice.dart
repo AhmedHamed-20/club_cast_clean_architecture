@@ -155,3 +155,10 @@ class ReturnUserToAudience extends SocketsEvent {
   @override
   List<Object?> get props => [activeRoomUserModel];
 }
+
+class ReturnToAudience extends SocketsEvent {
+  const ReturnToAudience();
+
+  @override
+  List<Object?> get props => [];
+}

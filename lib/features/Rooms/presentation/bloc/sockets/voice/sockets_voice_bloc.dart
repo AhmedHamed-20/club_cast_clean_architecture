@@ -45,6 +45,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<AskToTalkEvent>(_askToTalk);
     on<GivePermsToUserToTalkEvent>(_givePermsToUserToTalk);
     on<ReturnUserToAudience>(_returnUserToAudience);
+    on<ReturnToAudience>(_returnToAudience);
   }
 
   FutureOr<void> _connectToSocket(
@@ -298,9 +299,17 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       }
     }
     audience.add(ActiveRoomUserModel.fromJson(event.response));
-    emit(state.copyWith(
-        brodcastersEnitite: brodcastersEnitite,
-        audienceEntitie: AudienceEntitie(audience)));
+    if (event.response['_id'] == state.meEntitie.me.id) {
+      emit(state.copyWith(
+          brodcastersEnitite: brodcastersEnitite,
+          audienceEntitie: AudienceEntitie(audience),
+          liveVoiceRoomFloatingButtonStatus:
+              LiveVoiceRoomFloatingButtonStatus.askToTalk));
+    } else {
+      emit(state.copyWith(
+          brodcastersEnitite: brodcastersEnitite,
+          audienceEntitie: AudienceEntitie(audience)));
+    }
   }
 
   FutureOr<void> _userChangedToBroadcaster(
@@ -426,5 +435,10 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       ReturnUserToAudience event, Emitter<SocketsVoiceState> emit) {
     SocketHelper.returnUserToAudience(
         socket: ConstVar.socket, user: event.activeRoomUserModel.toJson());
+  }
+
+  FutureOr<void> _returnToAudience(
+      ReturnToAudience event, Emitter<SocketsVoiceState> emit) {
+    SocketHelper.returnToAudience(socket: ConstVar.socket);
   }
 }
