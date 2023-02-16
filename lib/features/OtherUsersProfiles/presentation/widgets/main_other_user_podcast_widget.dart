@@ -82,22 +82,8 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                     }
                   }, onPressedPlay: () {
                     commonPlayingPodcastBloc.onPressedOnPlay(
-                      podcastId: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index].podcastId,
-                      podcastUrl: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index]
-                          .podcastInfo
-                          .podcastUrl,
-                      podcastName: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index].podcastName,
-                      podcastPhoto: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index]
-                          .podcastUserInfo
-                          .userImage,
-                      podcastUserName: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index]
-                          .podcastUserInfo
-                          .userName,
+                      basePodcastEntitie: otherUserPodcastEntitie
+                          .otherUserPodcastDataEntitie[index],
                     );
                   }, onPressedOnLikesCount: () {
                     if (otherUserPodcastEntitie

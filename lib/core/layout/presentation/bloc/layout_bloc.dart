@@ -42,6 +42,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<CategoriesGetEvent>(_getCategories);
     on<CachedAccessTokenUpdateEvent>(_updateCachedAccessToken);
     on<AccessTokenRemoveEvent>(_removeAccessToken);
+    on<BottomSheetStatusEvent>(_bottomSheetStatus);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
@@ -262,5 +263,14 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         ));
       }
     });
+  }
+
+  FutureOr<void> _bottomSheetStatus(
+      BottomSheetStatusEvent event, Emitter<LayoutState> emit) {
+    emit(
+      state.copyWith(
+        layoutBottomSheetStatus: event.layoutBottomSheetStatus,
+      ),
+    );
   }
 }

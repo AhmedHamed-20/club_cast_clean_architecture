@@ -70,20 +70,8 @@ class PodcastCardMainWdget extends StatelessWidget {
             },
             onPressedPlay: () {
               commonPlayPodcast.onPressedOnPlay(
-                  podcastId: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastId,
-                  podcastUrl: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastInfo.podcastUrl,
-                  podcastName: myFollowingPodcasts
-                      .podcastInformationEntitie[index].podcastName,
-                  podcastPhoto: myFollowingPodcasts
-                      .podcastInformationEntitie[index]
-                      .podcastUserInfo
-                      .userImage,
-                  podcastUserName: myFollowingPodcasts
-                      .podcastInformationEntitie[index]
-                      .podcastUserInfo
-                      .userName);
+                  basePodcastEntitie:
+                      myFollowingPodcasts.podcastInformationEntitie[index]);
             },
             onPressedOnLikesCount: () {
               if (myFollowingPodcasts

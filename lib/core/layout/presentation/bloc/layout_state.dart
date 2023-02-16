@@ -3,6 +3,7 @@ part of 'layout_bloc.dart';
 class LayoutState extends Equatable {
   final UserDataEntitie? userDataEntitie;
   final String errorMessage;
+  final LayoutBottomSheetStatus layoutBottomSheetStatus;
   final UserDataGetRequestStatus userDataGetRequestStatus;
   final UserDataGetRequestStatus getAccessTokenRequestStatus;
   final MyFollowingEventsEntitie? myFollowingEventsEntitie;
@@ -18,6 +19,7 @@ class LayoutState extends Equatable {
       {this.userDataEntitie,
       this.errorMessage = '',
       this.categoryEntitie,
+      this.layoutBottomSheetStatus = LayoutBottomSheetStatus.idle,
       this.isEndOfEvents = false,
       this.statusCode = 0,
       this.logoutRequestStatus = LogoutRequestStatus.idle,
@@ -32,6 +34,7 @@ class LayoutState extends Equatable {
   LayoutState copyWith({
     bool? isEndOfEvents,
     int? statusCode,
+    LayoutBottomSheetStatus? layoutBottomSheetStatus,
     AccessTokenUpdateRequestStatus? accessTokenUpdateRequestStatus,
     CategoryEntitie? categoryEntitie,
     UserDataGetRequestStatus? categoriesRequestStatus,
@@ -45,6 +48,8 @@ class LayoutState extends Equatable {
     UserDataGetRequestStatus? userDataGetRequestStatus,
   }) {
     return LayoutState(
+      layoutBottomSheetStatus:
+          layoutBottomSheetStatus ?? this.layoutBottomSheetStatus,
       isEndOfEvents: isEndOfEvents ?? this.isEndOfEvents,
       logoutRequestStatus: logoutRequestStatus ?? this.logoutRequestStatus,
       statusCode: statusCode ?? this.statusCode,
@@ -72,6 +77,7 @@ class LayoutState extends Equatable {
   List<Object?> get props => [
         isEndOfEvents,
         statusCode,
+        layoutBottomSheetStatus,
         categoriesRequestStatus,
         categoryEntitie,
         accessTokenUpdateRequestStatus,

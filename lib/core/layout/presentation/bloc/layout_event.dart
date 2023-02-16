@@ -91,3 +91,14 @@ class CachedAccessTokenUpdateEvent extends LayoutEvent {
   @override
   List<Object?> get props => [key, value];
 }
+
+class BottomSheetStatusEvent extends LayoutEvent {
+  final LayoutBottomSheetStatus layoutBottomSheetStatus;
+
+  const BottomSheetStatusEvent({
+    required this.layoutBottomSheetStatus,
+  });
+
+  @override
+  List<Object?> get props => [layoutBottomSheetStatus];
+}

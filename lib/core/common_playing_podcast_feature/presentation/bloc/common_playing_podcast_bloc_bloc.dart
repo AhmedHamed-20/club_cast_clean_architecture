@@ -5,6 +5,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
+import 'package:club_cast_clean_architecture/core/constants/default_values.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/painting.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../../../constants/constants.dart';
 import '../../../utl/utls.dart';
 import '../../domain/entities/podcast_likes_users_entitie.dart';
@@ -26,6 +29,7 @@ class CommonPlayingPodcastBlocBloc
   CommonPlayingPodcastBlocBloc(
       this.podcastLikesUsersUsecase,
       this.podcastDownloadUsecase,
+      this.layoutBloc,
       this.likeAddMyPodcastsUsecast,
       this.likeRemoveMyPodcastsUsecast)
       : super(const CommonPlayingPodcastBlocState()) {
@@ -48,11 +52,14 @@ class CommonPlayingPodcastBlocBloc
   final PodcastDownloadUsecase podcastDownloadUsecase;
   final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
   final LikeRemoveMyPodcastsUsecast likeRemoveMyPodcastsUsecast;
+  final LayoutBloc layoutBloc;
   FutureOr<void> _playPodcast(PodcastPlayEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     try {
       if (myAssetAudioPlayer.isPlaying.value) {
-        add(PodcastStopPlaying(event.podcastId));
+        add(PodcastStopPlaying(
+          event.basePodcastEntitie.podcastId,
+        ));
       }
     } catch (e) {
       myAssetAudioPlayer = AssetsAudioPlayer();
@@ -60,12 +67,12 @@ class CommonPlayingPodcastBlocBloc
 
     await myAssetAudioPlayer.open(
       Audio.network(
-        event.podcastUrl,
+        event.basePodcastEntitie.podcastInfo.podcastUrl,
         metas: Metas(
-          title: event.podcastName,
-          artist: event.podcastUserName,
+          title: event.basePodcastEntitie.podcastName,
+          artist: event.basePodcastEntitie.podcastUserInfo.userName,
           image: MetasImage(
-            path: event.podcastPhoto,
+            path: event.basePodcastEntitie.podcastUserInfo.userImage,
             type: ImageType.network,
           ),
         ),
@@ -83,22 +90,32 @@ class CommonPlayingPodcastBlocBloc
         },
         customPlayPauseAction: (player) {
           if (player.isPlaying.value) {
-            add(PodcastPausePlaying(event.podcastId));
+            add(PodcastPausePlaying(event.basePodcastEntitie.podcastId));
           } else {
-            add(PodcastPlayPaused(event.podcastId));
+            add(PodcastPlayPaused(event.basePodcastEntitie.podcastId));
           }
         },
         customStopAction: (player) {
-          add(PodcastStopPlaying(event.podcastId));
+          add(PodcastStopPlaying(
+            event.basePodcastEntitie.podcastId,
+          ));
         },
         seekBarEnabled: true,
       ),
     );
     if (myAssetAudioPlayer.isPlaying.value) {
-      currentPlayingPodcastsId = event.podcastId;
+      currentPlayingPodcastsId = event.basePodcastEntitie.podcastId;
       currentPausePodcastsId = '';
 
-      emit(state.copyWith(isPlaying: true));
+      emit(
+        state.copyWith(
+          isPlaying: true,
+          playPodcastRequestStatus: PlayPodcastRequestStatus.playing,
+          currentPlayingPodcastEntitie: event.basePodcastEntitie,
+        ),
+      );
+      layoutBloc.add(const BottomSheetStatusEvent(
+          layoutBottomSheetStatus: LayoutBottomSheetStatus.playingPodcast));
     }
     myAssetAudioPlayer.currentPosition.listen(
       (event) {
@@ -113,7 +130,9 @@ class CommonPlayingPodcastBlocBloc
     if (myAssetAudioPlayer.isPlaying.value) {
       currentPlayingPodcastsId = event.podcastId;
       currentPausePodcastsId = '';
-      emit(state.copyWith(isPlaying: true));
+      emit(state.copyWith(
+          isPlaying: true,
+          playPodcastRequestStatus: PlayPodcastRequestStatus.playing));
     }
   }
 
@@ -123,7 +142,9 @@ class CommonPlayingPodcastBlocBloc
     if (myAssetAudioPlayer.isPlaying.value == false) {
       currentPlayingPodcastsId = '';
       currentPausePodcastsId = event.podcastId;
-      emit(state.copyWith(isPlaying: false));
+      emit(state.copyWith(
+          isPlaying: false,
+          playPodcastRequestStatus: PlayPodcastRequestStatus.paused));
     }
   }
 
@@ -133,8 +154,17 @@ class CommonPlayingPodcastBlocBloc
     if (myAssetAudioPlayer.isPlaying.value == false) {
       currentPlayingPodcastsId = '';
       currentPausePodcastsId = '';
-      emit(state.copyWith(isPlaying: false));
+      emit(state.copyWith(
+          isPlaying: false,
+          playPodcastRequestStatus: PlayPodcastRequestStatus.stoped,
+          currentPlayingPodcastEntitie:
+              DefaultsValues.basePodcastEntitieDefaultValues));
     }
+    layoutBloc.add(
+      const BottomSheetStatusEvent(
+        layoutBottomSheetStatus: LayoutBottomSheetStatus.idle,
+      ),
+    );
   }
 
   FutureOr<void> _changeCurrentPositionValue(
@@ -168,25 +198,14 @@ class CommonPlayingPodcastBlocBloc
     }
   }
 
-  void onPressedOnPlay(
-      {required String podcastId,
-      required String podcastUrl,
-      required String podcastName,
-      required String podcastPhoto,
-      required String podcastUserName}) {
-    if (currentPlayingPodcastsId == podcastId) {
-      add(PodcastPausePlaying(podcastId));
-    } else if (currentPausePodcastsId == podcastId) {
-      add(PodcastPlayPaused(podcastId));
+  void onPressedOnPlay({required BasePodcastEntitie basePodcastEntitie}) {
+    if (currentPlayingPodcastsId == basePodcastEntitie.podcastId) {
+      add(PodcastPausePlaying(basePodcastEntitie.podcastId));
+    } else if (currentPausePodcastsId == basePodcastEntitie.podcastId) {
+      add(PodcastPlayPaused(basePodcastEntitie.podcastId));
     } else {
       add(
-        PodcastPlayEvent(
-          podcastUrl: podcastUrl,
-          podcastId: podcastId,
-          podcastName: podcastName,
-          podcastPhoto: podcastPhoto,
-          podcastUserName: podcastUserName,
-        ),
+        PodcastPlayEvent(basePodcastEntitie: basePodcastEntitie),
       );
     }
   }
@@ -300,7 +319,7 @@ class CommonPlayingPodcastBlocBloc
   }
 
   File getSavedPath({required String podcastName}) {
-    final directory = Directory('/storage/emulated/0/Youtube Downloader');
+    final directory = Directory('/storage/emulated/0/Club Cast');
     final removeOrSymbole = podcastName.replaceAll('|', '');
     final fileName = removeOrSymbole.replaceAll('/', '');
     final file = File('${directory.path}/($fileName).mp3');

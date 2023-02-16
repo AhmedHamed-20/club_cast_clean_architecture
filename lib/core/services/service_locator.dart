@@ -109,7 +109,6 @@ class ServiceLocator {
     ///bloc
     servicelocator.registerFactory<ChatBloc>(() => ChatBloc(servicelocator()));
 
-    servicelocator.registerFactory<SocketsVoiceBloc>(() => SocketsVoiceBloc());
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
@@ -119,16 +118,18 @@ class ServiceLocator {
           servicelocator(),
         ));
 
-    servicelocator.registerFactory<LayoutBloc>(() => LayoutBloc(
+    servicelocator.registerLazySingleton<LayoutBloc>(() => LayoutBloc(
         servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator()));
+    servicelocator.registerFactory<SocketsVoiceBloc>(
+        () => SocketsVoiceBloc(servicelocator()));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(() =>
         CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator(),
-            servicelocator(), servicelocator()));
+            servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
           servicelocator(),
           servicelocator(),

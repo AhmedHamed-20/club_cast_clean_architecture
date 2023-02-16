@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
@@ -27,7 +28,7 @@ part 'sockets_event_voice.dart';
 part 'sockets_voice_state.dart';
 
 class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
-  SocketsVoiceBloc() : super(const SocketsVoiceState()) {
+  SocketsVoiceBloc(this.layoutBloc) : super(const SocketsVoiceState()) {
     on<ConnectToSocketEvent>(_connectToSocket);
     on<JoinRoomEvent>(_joinRoom);
     on<ConnectToSocketsSuccessEvent>(_connectToSocketSuccess);
@@ -47,7 +48,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<ReturnUserToAudience>(_returnUserToAudience);
     on<ReturnToAudience>(_returnToAudience);
   }
-
+  final LayoutBloc layoutBloc;
   FutureOr<void> _connectToSocket(
       ConnectToSocketEvent event, Emitter<SocketsVoiceState> emit) async {
     emit(
@@ -168,6 +169,8 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         joinRoomRequestStatus: JoinRoomRequestStatus.success,
       ),
     );
+    layoutBloc.add(const BottomSheetStatusEvent(
+        layoutBottomSheetStatus: LayoutBottomSheetStatus.playingLiveVoiceRoom));
     listenOnSocketEvents();
   }
 
@@ -380,6 +383,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         joinCreateRoomEntitie: JoinCreateRooModel.fromJson(event.response),
       ),
     );
+
+    layoutBloc.add(const BottomSheetStatusEvent(
+        layoutBottomSheetStatus: LayoutBottomSheetStatus.playingLiveVoiceRoom));
     listenOnSocketEvents();
   }
 
@@ -417,6 +423,8 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       ConstVar.socket.io.disconnect();
       ConstVar.socket.dispose();
     }
+    layoutBloc.add(const BottomSheetStatusEvent(
+        layoutBottomSheetStatus: LayoutBottomSheetStatus.idle));
   }
 
   FutureOr<void> _askToTalk(

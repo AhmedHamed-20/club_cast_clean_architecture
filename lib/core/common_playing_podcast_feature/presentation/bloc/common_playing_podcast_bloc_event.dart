@@ -5,21 +5,13 @@ abstract class CommonPlayingPodcastBlocEvent extends Equatable {
 }
 
 class PodcastPlayEvent extends CommonPlayingPodcastBlocEvent {
-  final String podcastName;
-  final String podcastUserName;
-  final String podcastUrl;
-  final String podcastId;
-  final String podcastPhoto;
-  const PodcastPlayEvent(
-      {required this.podcastUrl,
-      required this.podcastId,
-      required this.podcastName,
-      required this.podcastPhoto,
-      required this.podcastUserName});
+  final BasePodcastEntitie basePodcastEntitie;
+  const PodcastPlayEvent({
+    required this.basePodcastEntitie,
+  });
 
   @override
-  List<Object?> get props =>
-      [podcastUrl, podcastId, podcastName, podcastUserName, podcastPhoto];
+  List<Object?> get props => [basePodcastEntitie];
 }
 
 class PodcastPausePlaying extends CommonPlayingPodcastBlocEvent {
@@ -28,24 +20,30 @@ class PodcastPausePlaying extends CommonPlayingPodcastBlocEvent {
   const PodcastPausePlaying(this.podcastId);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [podcastId];
 }
 
 class PodcastPlayPaused extends CommonPlayingPodcastBlocEvent {
   final String podcastId;
-
-  const PodcastPlayPaused(this.podcastId);
+  const PodcastPlayPaused(
+    this.podcastId,
+  );
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        podcastId,
+      ];
 }
 
 class PodcastStopPlaying extends CommonPlayingPodcastBlocEvent {
   final String podcastId;
-
-  const PodcastStopPlaying(this.podcastId);
+  const PodcastStopPlaying(
+    this.podcastId,
+  );
   @override
-  List<Object?> get props => [podcastId];
+  List<Object?> get props => [
+        podcastId,
+      ];
 }
 
 class CurrentPositionChangeValueEvent extends CommonPlayingPodcastBlocEvent {

@@ -13,10 +13,13 @@ class CommonPlayingPodcastBlocState extends Equatable {
       podcastInfoScreenColorsGenerateRequestStatus;
   final PodcastDownloadRequestStatus podcastDownloadRequestStatus;
   final Map<String, bool>? podcastsLikesStatus;
+  final BasePodcastEntitie currentPlayingPodcastEntitie;
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
       this.podcastsLikesStatus,
+      this.currentPlayingPodcastEntitie =
+          DefaultsValues.basePodcastEntitieDefaultValues,
       this.podcastLikesUsersEntitie = const [],
       this.podcastsUsersLikesRequestStatus =
           PodcastsUsersLikesRequestStatus.loading,
@@ -39,8 +42,11 @@ class CommonPlayingPodcastBlocState extends Equatable {
     PlayPodcastRequestStatus? playPodcastRequestStatus,
     String? errorMessage,
     bool? isPlaying,
+    BasePodcastEntitie? currentPlayingPodcastEntitie,
   }) {
     return CommonPlayingPodcastBlocState(
+      currentPlayingPodcastEntitie:
+          currentPlayingPodcastEntitie ?? this.currentPlayingPodcastEntitie,
       podcastsLikesStatus: podcastsLikesStatus ?? this.podcastsLikesStatus,
       podcastDownloadRequestStatus:
           podcastDownloadRequestStatus ?? this.podcastDownloadRequestStatus,
@@ -64,6 +70,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
   List<Object?> get props => [
         currentPosition,
         errorMessage,
+        currentPlayingPodcastEntitie,
         podcastsLikesStatus,
         backGroundColors,
         podcastDownloadRequestStatus,

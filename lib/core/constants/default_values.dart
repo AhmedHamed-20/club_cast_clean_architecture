@@ -1,12 +1,16 @@
+import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/admin_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../features/Rooms/domain/entities/audience_entite.dart';
 import '../../features/Rooms/domain/entities/brodcasters_entitie.dart';
 import '../../features/Rooms/domain/entities/me_entitie.dart';
+import 'base_podcast_entitie/base_podcast_audio_info.dart';
 
 class DefaultsValues extends Equatable {
   static const JoinCreateRoomEntitie joinCreateRoomEntitieDefault =
@@ -37,6 +41,19 @@ class DefaultsValues extends Equatable {
   static const AudienceEntitie audienceEntitieDefault = AudienceEntitie([]);
   static const BrodcastersEntitie broadCastersEntitieDefault =
       BrodcastersEntitie([]);
+  static const BasePodcastEntitie basePodcastEntitieDefaultValues =
+      MyPodcastEntite(
+          podcastId: '',
+          podcastName: '',
+          podcastLikesCount: 0,
+          category: '',
+          createdAt: '',
+          isLiked: false,
+          podcastUserInfo: PodcastUserInfoEntitie('', '', ''),
+          podcastInfo: PodcastAudioInoEntitie(
+            0,
+            '',
+          ));
   @override
   List<Object?> get props => [
         joinCreateRoomEntitieDefault,
@@ -45,5 +62,6 @@ class DefaultsValues extends Equatable {
         audienceEntitieDefault,
         broadCastersEntitieDefault,
         activeRoomUserDataEntitieDefault,
+        basePodcastEntitieDefaultValues,
       ];
 }

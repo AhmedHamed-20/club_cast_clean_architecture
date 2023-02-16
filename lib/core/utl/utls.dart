@@ -33,6 +33,12 @@ enum PodcastDownloadRequestStatus {
   error,
 }
 
+enum LayoutBottomSheetStatus {
+  idle,
+  playingPodcast,
+  playingLiveVoiceRoom,
+}
+
 enum PlayPodcastRequestStatus {
   idle,
   loading,

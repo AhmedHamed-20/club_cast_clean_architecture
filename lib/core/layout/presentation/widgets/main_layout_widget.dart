@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/media_query_of_methods.dart';
+import 'bottom_sheet_widget.dart';
 
 class MainLayoutWidget extends StatelessWidget {
   const MainLayoutWidget({super.key});
@@ -13,8 +14,11 @@ class MainLayoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layoutBloc = BlocProvider.of<LayoutBloc>(context);
-    return BlocBuilder<LayoutBloc, LayoutState>(
-      builder: (context, state) => Scaffold(
+    return BlocBuilder<LayoutBloc, LayoutState>(builder: (context, state) {
+      return Scaffold(
+        bottomSheet: MainLayoutBottomSheetWidget(
+          layoutBottomSheetStatus: state.layoutBottomSheetStatus,
+        ),
         appBar: AppBar(
           leading: const SizedBox(),
           centerTitle: true,
@@ -71,7 +75,7 @@ class MainLayoutWidget extends StatelessWidget {
           ),
         ),
         body: layoutBloc.bottomNaveScreens[state.currentBottomNavIndex],
-      ),
-    );
+      );
+    });
   }
 }

@@ -81,13 +81,7 @@ class MainMyPodcastWidget extends StatelessWidget {
                 },
                 onPressedPlay: () {
                   commonPlayingPodcastBloc.onPressedOnPlay(
-                    podcastId: myPodcastEntite[index].podcastId,
-                    podcastUrl: myPodcastEntite[index].podcastInfo.podcastUrl,
-                    podcastName: myPodcastEntite[index].podcastName,
-                    podcastPhoto:
-                        myPodcastEntite[index].podcastUserInfo.userImage,
-                    podcastUserName:
-                        myPodcastEntite[index].podcastUserInfo.userName,
+                    basePodcastEntitie: myPodcastEntite[index],
                   );
                 },
                 onPressedOnLikesCount: () {
