@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../../../../core/constants/params.dart';
+import '../../../../core/constants/storage_permission_download_path.dart';
 import '../../../../core/routes/app_route_names.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 
@@ -58,9 +59,8 @@ class PodcastCardMainWdget extends StatelessWidget {
                         .podcastInformationEntitie[index]
                         .podcastInfo
                         .podcastUrl,
-                    savedPath: commonPlayPodcast
-                        .getSavedPath(
-                            podcastName: myFollowingPodcasts
+                    savedPath: StoragePermissionDownloadPath.getSavedPath(
+                            fileName: myFollowingPodcasts
                                 .podcastInformationEntitie[index].podcastName)
                         .path,
                     podcastId: myFollowingPodcasts

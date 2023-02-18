@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../utl/utls.dart';
+
 class AppFontSize {
   static double s10 = 10.sp;
   static double s12 = 12.sp;
@@ -148,18 +150,6 @@ class AppColors {
   static Color changeNameGreenColor = const Color(0xff1D592C);
 }
 
-void navigatePushTo(
-    {required Widget navigateTO, required BuildContext context}) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (BuildContext context) {
-        return navigateTO;
-      },
-    ),
-  );
-}
-
 void flutterToast({
   required String msg,
   required Color backgroundColor,
@@ -184,24 +174,13 @@ String covertDurationTime(double duration) {
   return convertedTime;
 }
 
-void navigatePushAndRemove(
-    {required Widget navigateTO, required BuildContext context}) {
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (BuildContext context) {
-        return navigateTO;
-      },
-    ),
-    (route) => false,
-  );
-}
-
 class ConstVar {
   static String accessToken = '';
   static String userId = '';
   static late BaseUserDataEntitie baseUserDataEntitie;
   static late Socket socket;
+  static LayoutBottomSheetStatus layoutBottomSheetStatus =
+      LayoutBottomSheetStatus.idle;
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;

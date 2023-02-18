@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
@@ -7,15 +6,14 @@ import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/core/constants/default_values.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../../../constants/constants.dart';
+import '../../../constants/storage_permission_download_path.dart';
 import '../../../utl/utls.dart';
 import '../../domain/entities/podcast_likes_users_entitie.dart';
 import '../../domain/usecases/add_like.dart';
@@ -55,73 +53,81 @@ class CommonPlayingPodcastBlocBloc
   final LayoutBloc layoutBloc;
   FutureOr<void> _playPodcast(PodcastPlayEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
-    try {
-      if (myAssetAudioPlayer.isPlaying.value) {
-        add(PodcastStopPlaying(
-          event.basePodcastEntitie.podcastId,
-        ));
-      }
-    } catch (e) {
-      myAssetAudioPlayer = AssetsAudioPlayer();
-    }
-
-    await myAssetAudioPlayer.open(
-      Audio.network(
-        event.basePodcastEntitie.podcastInfo.podcastUrl,
-        metas: Metas(
-          title: event.basePodcastEntitie.podcastName,
-          artist: event.basePodcastEntitie.podcastUserInfo.userName,
-          image: MetasImage(
-            path: event.basePodcastEntitie.podcastUserInfo.userImage,
-            type: ImageType.network,
-          ),
-        ),
-      ),
-      showNotification: true,
-      notificationSettings: NotificationSettings(
-        nextEnabled: true,
-        customNextIcon: AndroidResDrawable(name: 'ic_next_custom'),
-        customPreviousIcon: AndroidResDrawable(name: 'ic_prev_custom'),
-        customNextAction: (player) {
-          add(const SeekByEvent(10));
-        },
-        customPrevAction: (player) {
-          add(const SeekByEvent(-10));
-        },
-        customPlayPauseAction: (player) {
-          if (player.isPlaying.value) {
-            add(PodcastPausePlaying(event.basePodcastEntitie.podcastId));
-          } else {
-            add(PodcastPlayPaused(event.basePodcastEntitie.podcastId));
-          }
-        },
-        customStopAction: (player) {
+    if (ConstVar.layoutBottomSheetStatus !=
+        LayoutBottomSheetStatus.playingLiveVoiceRoom) {
+      try {
+        if (myAssetAudioPlayer.isPlaying.value) {
           add(PodcastStopPlaying(
             event.basePodcastEntitie.podcastId,
           ));
-        },
-        seekBarEnabled: true,
-      ),
-    );
-    if (myAssetAudioPlayer.isPlaying.value) {
-      currentPlayingPodcastsId = event.basePodcastEntitie.podcastId;
-      currentPausePodcastsId = '';
+        }
+      } catch (e) {
+        myAssetAudioPlayer = AssetsAudioPlayer();
+      }
 
-      emit(
-        state.copyWith(
-          isPlaying: true,
-          playPodcastRequestStatus: PlayPodcastRequestStatus.playing,
-          currentPlayingPodcastEntitie: event.basePodcastEntitie,
+      await myAssetAudioPlayer.open(
+        Audio.network(
+          event.basePodcastEntitie.podcastInfo.podcastUrl,
+          metas: Metas(
+            title: event.basePodcastEntitie.podcastName,
+            artist: event.basePodcastEntitie.podcastUserInfo.userName,
+            image: MetasImage(
+              path: event.basePodcastEntitie.podcastUserInfo.userImage,
+              type: ImageType.network,
+            ),
+          ),
+        ),
+        showNotification: true,
+        notificationSettings: NotificationSettings(
+          nextEnabled: true,
+          customNextIcon: AndroidResDrawable(name: 'ic_next_custom'),
+          customPreviousIcon: AndroidResDrawable(name: 'ic_prev_custom'),
+          customNextAction: (player) {
+            add(const SeekByEvent(10));
+          },
+          customPrevAction: (player) {
+            add(const SeekByEvent(-10));
+          },
+          customPlayPauseAction: (player) {
+            if (player.isPlaying.value) {
+              add(PodcastPausePlaying(event.basePodcastEntitie.podcastId));
+            } else {
+              add(PodcastPlayPaused(event.basePodcastEntitie.podcastId));
+            }
+          },
+          customStopAction: (player) {
+            add(PodcastStopPlaying(
+              event.basePodcastEntitie.podcastId,
+            ));
+          },
+          seekBarEnabled: true,
         ),
       );
-      layoutBloc.add(const BottomSheetStatusEvent(
-          layoutBottomSheetStatus: LayoutBottomSheetStatus.playingPodcast));
+      if (myAssetAudioPlayer.isPlaying.value) {
+        currentPlayingPodcastsId = event.basePodcastEntitie.podcastId;
+        currentPausePodcastsId = '';
+
+        emit(
+          state.copyWith(
+            isPlaying: true,
+            playPodcastRequestStatus: PlayPodcastRequestStatus.playing,
+            currentPlayingPodcastEntitie: event.basePodcastEntitie,
+          ),
+        );
+        layoutBloc.add(const BottomSheetStatusEvent(
+            layoutBottomSheetStatus: LayoutBottomSheetStatus.playingPodcast));
+      }
+      myAssetAudioPlayer.currentPosition.listen(
+        (event) {
+          add(CurrentPositionChangeValueEvent(event.inSeconds));
+        },
+      );
+    } else {
+      flutterToast(
+          msg: 'you can not play podcast while you are in live voice room',
+          backgroundColor: AppColors.toastWarning,
+          textColor: AppColors.black);
     }
-    myAssetAudioPlayer.currentPosition.listen(
-      (event) {
-        add(CurrentPositionChangeValueEvent(event.inSeconds));
-      },
-    );
   }
 
   FutureOr<void> _playPaused(PodcastPlayPaused event,
@@ -254,7 +260,7 @@ class CommonPlayingPodcastBlocBloc
 
   FutureOr<void> _downloadPodcast(PodcastDownloadEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
-    if (await checkPermissions()) {
+    if (await StoragePermissionDownloadPath.checkPermissions()) {
       emit(state.copyWith(
           podcastDownloadRequestStatus: PodcastDownloadRequestStatus.loading));
       currentDownloadingPodcastId = event.podcastId;
@@ -279,51 +285,13 @@ class CommonPlayingPodcastBlocBloc
         currentDownloadingPodcastId = '';
         downloadProgress.close();
       });
-    } else if (await checkPermissions() == false) {
+    } else if (await StoragePermissionDownloadPath.checkPermissions() ==
+        false) {
       flutterToast(
           msg: 'Please Accept All Permissions',
           backgroundColor: AppColors.toastError,
           textColor: AppColors.white);
     }
-  }
-
-  Future<int> getAndroidVersion() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    return androidInfo.version.sdkInt;
-  }
-
-  Future<bool> checkPermissions() async {
-    bool isPermissionGranted = false;
-    if (await getAndroidVersion() > 29) {
-      if (await Permission.storage.isGranted &&
-          await Permission.accessMediaLocation.isGranted &&
-          await Permission.manageExternalStorage.isGranted) {
-        isPermissionGranted = true;
-      } else {
-        await Permission.storage.request();
-        await Permission.accessMediaLocation.request();
-        await Permission.manageExternalStorage.request();
-      }
-    } else {
-      if (await Permission.storage.isGranted &&
-          await Permission.accessMediaLocation.isGranted) {
-        isPermissionGranted = true;
-      } else {
-        await Permission.storage.request();
-        await Permission.accessMediaLocation.request();
-      }
-    }
-    return isPermissionGranted;
-  }
-
-  File getSavedPath({required String podcastName}) {
-    final directory = Directory('/storage/emulated/0/Club Cast');
-    final removeOrSymbole = podcastName.replaceAll('|', '');
-    final fileName = removeOrSymbole.replaceAll('/', '');
-    final file = File('${directory.path}/($fileName).mp3');
-    return file;
   }
 
   FutureOr<void> _addLike(LikeAddMyPodcastEvent event,

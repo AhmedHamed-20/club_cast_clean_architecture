@@ -125,8 +125,10 @@ class ServiceLocator {
         servicelocator(),
         servicelocator(),
         servicelocator()));
-    servicelocator.registerFactory<SocketsVoiceBloc>(
-        () => SocketsVoiceBloc(servicelocator()));
+
+    servicelocator.registerFactory<SocketsVoiceBloc>(() => SocketsVoiceBloc(
+          servicelocator(),
+        ));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(() =>
         CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator(),
             servicelocator(), servicelocator(), servicelocator()));

@@ -272,5 +272,6 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         layoutBottomSheetStatus: event.layoutBottomSheetStatus,
       ),
     );
+    ConstVar.layoutBottomSheetStatus = event.layoutBottomSheetStatus;
   }
 }
