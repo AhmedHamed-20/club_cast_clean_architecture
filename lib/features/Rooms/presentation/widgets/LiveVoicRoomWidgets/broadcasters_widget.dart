@@ -30,8 +30,18 @@ class BroadcastersWidget extends StatelessWidget {
                           iMuteHim: state.adminEntitie.admin.iMuteHim,
                         );
                       },
-                      child: UserCircleRoomWidget(
-                        baseRoomUserDataEntitie: state.adminEntitie.admin,
+                      child: Badge(
+                        largeSize: 22,
+                        isLabelVisible: state.adminEntitie.admin.isMutted,
+                        label: Icon(
+                          Icons.mic_off,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          size: 18,
+                        ),
+                        child: UserCircleRoomWidget(
+                          baseRoomUserDataEntitie: state.adminEntitie.admin,
+                        ),
                       ),
                     );
             } else {
@@ -46,9 +56,19 @@ class BroadcastersWidget extends StatelessWidget {
                         .brodcastersEnitite.brodcasters[index - 1].iMuteHim,
                   );
                 },
-                child: UserCircleRoomWidget(
-                  baseRoomUserDataEntitie:
-                      state.brodcastersEnitite.brodcasters[index - 1],
+                child: Badge(
+                  largeSize: 22,
+                  isLabelVisible:
+                      state.brodcastersEnitite.brodcasters[index - 1].isMutted,
+                  label: Icon(
+                    Icons.mic_off,
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    size: 18,
+                  ),
+                  child: UserCircleRoomWidget(
+                    baseRoomUserDataEntitie:
+                        state.brodcastersEnitite.brodcasters[index - 1],
+                  ),
                 ),
               );
             }

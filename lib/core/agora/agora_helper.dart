@@ -47,19 +47,11 @@ class AgoraHelper {
       uid: uid,
       options: const ChannelMediaOptions(),
     );
-    listenOnAgoraEvents();
   }
 
-  listenOnAgoraEvents() {
+  listenOnAgoraEvents({required RtcEngineEventHandler rtcEngineEventHandler}) {
     _engine.registerEventHandler(
-      RtcEngineEventHandler(
-        onAudioVolumeIndication:
-            (rtcConnection, listOfActiveSpeakers, _, volume) {
-          print(listOfActiveSpeakers);
-        },
-        onJoinChannelSuccess: (connection, elapsed) {},
-        onUserMuteAudio: (connection, remoteUid, muted) {},
-      ),
+      rtcEngineEventHandler,
     );
   }
 

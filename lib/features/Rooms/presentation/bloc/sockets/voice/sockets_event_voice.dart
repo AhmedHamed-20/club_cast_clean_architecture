@@ -162,3 +162,12 @@ class ReturnToAudience extends SocketsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class RemoteUserMuteStateEvent extends SocketsEvent {
+  final int uid;
+  final bool isMuted;
+  const RemoteUserMuteStateEvent({required this.uid, required this.isMuted});
+
+  @override
+  List<Object?> get props => [uid, isMuted];
+}

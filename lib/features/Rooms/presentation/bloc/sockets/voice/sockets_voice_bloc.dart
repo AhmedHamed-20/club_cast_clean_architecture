@@ -49,6 +49,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<GivePermsToUserToTalkEvent>(_givePermsToUserToTalk);
     on<ReturnUserToAudience>(_returnUserToAudience);
     on<ReturnToAudience>(_returnToAudience);
+    on<RemoteUserMuteStateEvent>(_remoteUserMuteState);
   }
   final LayoutBloc layoutBloc;
   final AgoraHelper agoraHelper = AgoraHelper();
@@ -195,6 +196,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       token: event.response[2],
       uid: event.response[0]['uid'],
     );
+    listenOnAgoraEvents();
     listenOnSocketEvents();
   }
 
@@ -417,6 +419,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       token: event.response[2],
       uid: event.response[0]['uid'],
     );
+    listenOnAgoraEvents();
     listenOnSocketEvents();
   }
 
@@ -480,5 +483,38 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   FutureOr<void> _returnToAudience(
       ReturnToAudience event, Emitter<SocketsVoiceState> emit) {
     SocketHelper.returnToAudience(socket: ConstVar.socket);
+  }
+
+  void listenOnAgoraEvents() {
+    agoraHelper.listenOnAgoraEvents(
+        rtcEngineEventHandler: RtcEngineEventHandler(
+      onAudioVolumeIndication:
+          (connection, speakers, speakerNumber, totalVolume) {},
+      onUserMuteAudio: (connection, remoteUid, muted) {
+        add(RemoteUserMuteStateEvent(uid: remoteUid, isMuted: muted));
+      },
+    ));
+  }
+
+  FutureOr<void> _remoteUserMuteState(
+      RemoteUserMuteStateEvent event, Emitter<SocketsVoiceState> emit) {
+    if (event.uid == state.adminEntitie.admin.uid) {
+      AdminEntitie admin = AdminEntitie(
+          state.adminEntitie.admin.copyWith(isMutted: event.isMuted));
+      emit(state.copyWith(adminEntitie: admin));
+    } else {
+      List<ActiveRoomUserDataEntitie> broadCasters =
+          state.brodcastersEnitite.brodcasters;
+      for (int i = 0; i < broadCasters.length; i++) {
+        if (state.brodcastersEnitite.brodcasters[i].uid == event.uid) {
+          broadCasters[i] = broadCasters[i].copyWith(
+            isMutted: event.isMuted,
+          );
+          break;
+        }
+      }
+      emit(
+          state.copyWith(brodcastersEnitite: BrodcastersEntitie(broadCasters)));
+    }
   }
 }
