@@ -171,3 +171,11 @@ class RemoteUserMuteStateEvent extends SocketsEvent {
   @override
   List<Object?> get props => [uid, isMuted];
 }
+
+class ActiveUserTalkingEvent extends SocketsEvent {
+  final List<AudioVolumeInfo> audioInfo;
+  const ActiveUserTalkingEvent({required this.audioInfo});
+
+  @override
+  List<Object?> get props => [audioInfo];
+}

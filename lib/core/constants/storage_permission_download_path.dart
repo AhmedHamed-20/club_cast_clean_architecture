@@ -12,7 +12,7 @@ class StoragePermissionDownloadPath {
   }
 
   static Future<bool> checkPermissions() async {
-    bool isPermissionGranted = false;
+    late bool isPermissionGranted;
     if (await getAndroidVersion() > 29) {
       if (await Permission.storage.isGranted &&
           await Permission.accessMediaLocation.isGranted &&
@@ -22,6 +22,11 @@ class StoragePermissionDownloadPath {
         await Permission.storage.request();
         await Permission.accessMediaLocation.request();
         await Permission.manageExternalStorage.request();
+        if (await Permission.storage.isGranted &&
+            await Permission.accessMediaLocation.isGranted &&
+            await Permission.manageExternalStorage.isGranted) {
+          isPermissionGranted = true;
+        }
       }
     } else {
       if (await Permission.storage.isGranted &&
@@ -30,6 +35,10 @@ class StoragePermissionDownloadPath {
       } else {
         await Permission.storage.request();
         await Permission.accessMediaLocation.request();
+        if (await Permission.storage.isGranted &&
+            await Permission.accessMediaLocation.isGranted) {
+          isPermissionGranted = true;
+        }
       }
     }
     return isPermissionGranted;

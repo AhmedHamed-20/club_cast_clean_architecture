@@ -105,8 +105,6 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
     required String accessToken,
     required String roomName,
   }) {
-    print(joinCreateRoomEntitie);
-
     if (joinCreateRoomEntitie == null ||
         joinCreateRoomEntitie == DefaultsValues.joinCreateRoomEntitieDefault) {
       socketsVoiceBloc.add(

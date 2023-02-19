@@ -50,6 +50,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<ReturnUserToAudience>(_returnUserToAudience);
     on<ReturnToAudience>(_returnToAudience);
     on<RemoteUserMuteStateEvent>(_remoteUserMuteState);
+    on<ActiveUserTalkingEvent>(_activeUserTalking);
   }
   final LayoutBloc layoutBloc;
   final AgoraHelper agoraHelper = AgoraHelper();
@@ -243,9 +244,20 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     SocketHelper.listenOnErrors(
         socket: ConstVar.socket, handler: (response) {});
     SocketHelper.listenOnAudienceToken(
-        socket: ConstVar.socket, handler: (response) {});
+        socket: ConstVar.socket,
+        handler: (response) {
+          agoraHelper.changeRole(
+              clientRoleType: ClientRoleType.clientRoleAudience,
+              token: response);
+        });
     SocketHelper.listenOnBroadCasterToken(
-        socket: ConstVar.socket, handler: (response) {});
+      socket: ConstVar.socket,
+      handler: (response) {
+        agoraHelper.changeRole(
+            clientRoleType: ClientRoleType.clientRoleBroadcaster,
+            token: response);
+      },
+    );
   }
 
   FutureOr<void> _userLeft(
@@ -419,6 +431,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       token: event.response[2],
       uid: event.response[0]['uid'],
     );
+    if (event.response[1]['isRecording']) {
+      await agoraHelper.recording(roomName: event.response[1]['name']);
+    }
     listenOnAgoraEvents();
     listenOnSocketEvents();
   }
@@ -489,7 +504,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     agoraHelper.listenOnAgoraEvents(
         rtcEngineEventHandler: RtcEngineEventHandler(
       onAudioVolumeIndication:
-          (connection, speakers, speakerNumber, totalVolume) {},
+          (connection, speakers, speakerNumber, totalVolume) {
+        add(ActiveUserTalkingEvent(audioInfo: speakers));
+      },
       onUserMuteAudio: (connection, remoteUid, muted) {
         add(RemoteUserMuteStateEvent(uid: remoteUid, isMuted: muted));
       },
@@ -515,6 +532,48 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       }
       emit(
           state.copyWith(brodcastersEnitite: BrodcastersEntitie(broadCasters)));
+    }
+  }
+
+  FutureOr<void> _activeUserTalking(
+      ActiveUserTalkingEvent event, Emitter<SocketsVoiceState> emit) {
+    List<ActiveRoomUserDataEntitie> broadCasters =
+        state.brodcastersEnitite.brodcasters;
+    AdminEntitie admin = state.adminEntitie;
+
+    if (state.brodcastersEnitite.brodcasters.isEmpty) {
+      if (state.adminEntitie.admin.uid == event.audioInfo[0].uid) {
+        admin = AdminEntitie(state.adminEntitie.admin
+            .copyWith(isSpeaking: event.audioInfo[0].volume! > 3));
+      } else {
+        admin =
+            AdminEntitie(state.adminEntitie.admin.copyWith(isSpeaking: false));
+      }
+      emit(state.copyWith(adminEntitie: admin));
+    } else {
+      for (int i = 0; i < broadCasters.length; i++) {
+        for (int j = 0; j < event.audioInfo.length; j++) {
+          if (state.brodcastersEnitite.brodcasters[i].uid ==
+              event.audioInfo[j].uid) {
+            broadCasters[i] = broadCasters[i].copyWith(
+              isSpeaking: event.audioInfo[j].volume! > 3,
+            );
+          } else if (event.audioInfo[j].uid == state.adminEntitie.admin.uid) {
+            admin = AdminEntitie(state.adminEntitie.admin
+                .copyWith(isSpeaking: event.audioInfo[j].volume! > 3));
+          } else {
+            admin = AdminEntitie(
+                state.adminEntitie.admin.copyWith(isSpeaking: false));
+            broadCasters[i] = broadCasters[i].copyWith(isSpeaking: false);
+          }
+        }
+      }
+      emit(
+        state.copyWith(
+          brodcastersEnitite: BrodcastersEntitie(broadCasters),
+          adminEntitie: admin,
+        ),
+      );
     }
   }
 }

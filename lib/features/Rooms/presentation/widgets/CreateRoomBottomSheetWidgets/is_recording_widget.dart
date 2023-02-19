@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/storage_permission_download_path.dart';
 import 'package:flutter/material.dart';
 
 bool isRecordingRoom = false;
@@ -55,10 +56,23 @@ class IsRecordingWidget extends StatelessWidget {
                 ),
           Switch(
               value: isRecordingRoom,
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   isRecordingRoom = value;
                 });
+                if (value == true) {
+                  if (await StoragePermissionDownloadPath.checkPermissions() ==
+                      false) {
+                    setState(() {
+                      isRecordingRoom = false;
+                    });
+                    flutterToast(
+                      msg: 'Please grant storage permission to record',
+                      backgroundColor: AppColors.toastWarning,
+                      textColor: AppColors.black,
+                    );
+                  }
+                }
               }),
         ],
       ),

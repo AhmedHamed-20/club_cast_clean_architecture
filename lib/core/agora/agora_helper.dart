@@ -55,6 +55,14 @@ class AgoraHelper {
     );
   }
 
+  Future<void> changeRole(
+      {required ClientRoleType clientRoleType, required String token}) async {
+    await _engine.renewToken(token);
+    await _engine.setClientRole(
+      role: clientRoleType,
+    );
+  }
+
   Future<void> muteMyVoice({required bool mute}) async {
     await _engine.muteLocalAudioStream(mute);
   }
