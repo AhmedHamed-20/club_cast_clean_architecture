@@ -143,6 +143,13 @@ enum AllRoomsGetRequestStatus {
   error,
 }
 
+enum PrivateRoomsGetRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
 enum ConnectToSocketRequestStatus {
   idle,
   loading,
@@ -163,6 +170,7 @@ enum CreateRoomRequestStatus {
   loading,
   success,
   left,
+
   error,
 }
 

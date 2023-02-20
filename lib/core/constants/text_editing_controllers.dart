@@ -32,4 +32,6 @@ class TextEditingControllers {
   static late TextEditingController roomChatMessageController;
 
   static late TextEditingController roomChatPrivateMessageController;
+
+  static late TextEditingController joinPrivateRoomController;
 }

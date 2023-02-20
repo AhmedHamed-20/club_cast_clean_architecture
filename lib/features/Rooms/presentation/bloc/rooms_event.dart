@@ -22,3 +22,18 @@ class AllRoomsGetMoreEvent extends RoomsEvent {
   @override
   List<Object?> get props => [accessToken, page];
 }
+
+class RoomGetByRoomIdEvent extends RoomsEvent {
+  final String accessToken;
+  final String roomId;
+  final SocketsVoiceBloc socketsVoiceBloc;
+  final ChatBloc chatBloc;
+  const RoomGetByRoomIdEvent(
+      {required this.accessToken,
+      required this.roomId,
+      required this.socketsVoiceBloc,
+      required this.chatBloc});
+
+  @override
+  List<Object?> get props => [accessToken, roomId, socketsVoiceBloc, chatBloc];
+}

@@ -472,9 +472,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       ConstVar.socket.io.disconnect();
       ConstVar.socket.dispose();
     }
-    await agoraHelper.leaveRoom();
     layoutBloc.add(const BottomSheetStatusEvent(
         layoutBottomSheetStatus: LayoutBottomSheetStatus.idle));
+    await agoraHelper.leaveRoom();
   }
 
   FutureOr<void> _askToTalk(

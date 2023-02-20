@@ -2,9 +2,9 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../widgets/LiveVoicRoomWidgets/live_voice_room_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/room_name_leave_widget.dart';
+import '../widgets/LiveVoicRoomWidgets/share_room_id_widget.dart';
 import '../widgets/RoomChatWidgets/overly_widget.dart';
 import '../widgets/RoomChatWidgets/room_chat_widget.dart';
 
@@ -22,11 +22,13 @@ class RoomScreen extends StatelessWidget {
       listener: (context, state) {
         if (state.inComingPrivateChatMessages.length == 1) {
           final overLay = Overlay.of(context);
-          overLayEntery = OverlayEntry(builder: (context) {
-            return OverLayWidget(
-              overLayEntery: overLayEntery!,
-            );
-          });
+          overLayEntery = OverlayEntry(
+            builder: (context) {
+              return OverLayWidget(
+                overLayEntery: overLayEntery!,
+              );
+            },
+          );
           overLay.insert(overLayEntery!);
         }
       },
@@ -55,6 +57,7 @@ class RoomScreen extends StatelessWidget {
               ),
             ),
             actions: const [
+              CopyRoomIdWidgetIfPrivate(),
               LeaveRoomButtonWidget(),
             ],
           ),

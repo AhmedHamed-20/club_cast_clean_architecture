@@ -13,16 +13,20 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/constants/default_values.dart';
 import '../../../../core/routes/app_route_names.dart';
 import '../../domain/entities/join_create_room_entitie.dart';
+import '../../domain/usecases/get_room_by_room_id.dart';
 
 part 'rooms_event.dart';
 part 'rooms_state.dart';
 
 class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
-  RoomsBloc(this.allRoomsGetUsecase) : super(const RoomsState()) {
+  RoomsBloc(this.allRoomsGetUsecase, this.roomGetByRoomIdUseCase)
+      : super(const RoomsState()) {
     on<AllRoomsGetEvent>(_getAllRooms);
     on<AllRoomsGetMoreEvent>(_getMoreRooms);
+    on<RoomGetByRoomIdEvent>(_getRoomByRoomId);
   }
   final AllRoomsGetUsecase allRoomsGetUsecase;
+  final RoomGetByRoomIdUseCase roomGetByRoomIdUseCase;
   FutureOr<void> _getAllRooms(
       AllRoomsGetEvent event, Emitter<RoomsState> emit) async {
     if (state.allRoomsGetRequestStatus != AllRoomsGetRequestStatus.loading) {
@@ -148,5 +152,41 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         );
       }
     }
+  }
+
+  FutureOr<void> _getRoomByRoomId(
+      RoomGetByRoomIdEvent event, Emitter<RoomsState> emit) async {
+    emit(
+      state.copyWith(
+        privateRoomsGetRequestStatus: PrivateRoomsGetRequestStatus.loading,
+      ),
+    );
+    final result = await roomGetByRoomIdUseCase(
+      RoomGetByRoomIdParams(
+        accessToken: event.accessToken,
+        roomId: event.roomId,
+      ),
+    );
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            statusCode: l.statusCode,
+            privateRoomsGetRequestStatus: PrivateRoomsGetRequestStatus.error)),
+        (r) {
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          privateRoomsGetRequestStatus: PrivateRoomsGetRequestStatus.success,
+        ),
+      );
+      event.socketsVoiceBloc.add(
+        ConnectToSocketEvent(
+            accessToken: event.accessToken,
+            isCreateRoom: false,
+            roomName: r.name),
+      );
+    });
   }
 }

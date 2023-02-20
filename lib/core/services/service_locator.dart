@@ -42,6 +42,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/datasources/rem
 import 'package:club_cast_clean_architecture/features/Rooms/data/repositories/rooms_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/repositories/base_rooms_repository.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_all_rooms.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_room_by_room_id.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
@@ -162,6 +163,7 @@ class ServiceLocator {
             ));
     servicelocator.registerFactory<RoomsBloc>(() => RoomsBloc(
           servicelocator(),
+          servicelocator(),
         ));
 
     ///usecase
@@ -257,6 +259,8 @@ class ServiceLocator {
         () => AllRoomsGetUsecase(servicelocator()));
     servicelocator.registerLazySingleton<RoomMessagesGetUsecase>(
         () => RoomMessagesGetUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<RoomGetByRoomIdUseCase>(
+        () => RoomGetByRoomIdUseCase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
