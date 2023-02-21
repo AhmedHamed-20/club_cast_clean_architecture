@@ -11,7 +11,7 @@ class StoragePermissionDownloadPath {
     return androidInfo.version.sdkInt;
   }
 
-  static Future<bool> checkPermissions() async {
+  static Future<bool> checkStoragePermissions() async {
     late bool isPermissionGranted;
     if (await getAndroidVersion() > 29) {
       if (await Permission.storage.isGranted &&

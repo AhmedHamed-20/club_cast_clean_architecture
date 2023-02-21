@@ -18,8 +18,18 @@ class BroadcastersWidget extends StatelessWidget {
           (context, index) {
             if (index <= 0) {
               return state.isCreateRoom
-                  ? UserCircleRoomWidget(
-                      baseRoomUserDataEntitie: state.meEntitie.me,
+                  ? Badge(
+                      largeSize: 22,
+                      alignment: AlignmentDirectional.topEnd,
+                      isLabelVisible: state.meEntitie.me.isMutted,
+                      label: Icon(
+                        Icons.mic_off,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        size: 18,
+                      ),
+                      child: UserCircleRoomWidget(
+                        baseRoomUserDataEntitie: state.meEntitie.me,
+                      ),
                     )
                   : PopupMenuButton(
                       itemBuilder: (context) {
@@ -32,6 +42,7 @@ class BroadcastersWidget extends StatelessWidget {
                       },
                       child: Badge(
                         largeSize: 22,
+                        alignment: AlignmentDirectional.topEnd,
                         isLabelVisible: state.adminEntitie.admin.isMutted,
                         label: Icon(
                           Icons.mic_off,
@@ -58,6 +69,7 @@ class BroadcastersWidget extends StatelessWidget {
                 },
                 child: Badge(
                   largeSize: 22,
+                  alignment: AlignmentDirectional.topEnd,
                   isLabelVisible:
                       state.brodcastersEnitite.brodcasters[index - 1].isMutted,
                   label: Icon(

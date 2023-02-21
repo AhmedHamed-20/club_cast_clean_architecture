@@ -179,3 +179,11 @@ class ActiveUserTalkingEvent extends SocketsEvent {
   @override
   List<Object?> get props => [audioInfo];
 }
+
+class MuteUnMuteLocalAudioEvent extends SocketsEvent {
+  final bool isMuted;
+  const MuteUnMuteLocalAudioEvent(this.isMuted);
+
+  @override
+  List<Object?> get props => [isMuted];
+}

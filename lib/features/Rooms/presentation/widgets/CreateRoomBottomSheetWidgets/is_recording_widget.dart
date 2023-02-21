@@ -61,7 +61,8 @@ class IsRecordingWidget extends StatelessWidget {
                   isRecordingRoom = value;
                 });
                 if (value == true) {
-                  if (await StoragePermissionDownloadPath.checkPermissions() ==
+                  if (await StoragePermissionDownloadPath
+                          .checkStoragePermissions() ==
                       false) {
                     setState(() {
                       isRecordingRoom = false;

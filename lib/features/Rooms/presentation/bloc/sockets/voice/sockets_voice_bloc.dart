@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/constants/check_mic_permission.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
@@ -51,13 +52,15 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<ReturnToAudience>(_returnToAudience);
     on<RemoteUserMuteStateEvent>(_remoteUserMuteState);
     on<ActiveUserTalkingEvent>(_activeUserTalking);
+    on<MuteUnMuteLocalAudioEvent>(_muteLocalAudio);
   }
   final LayoutBloc layoutBloc;
   final AgoraHelper agoraHelper = AgoraHelper();
   FutureOr<void> _connectToSocket(
       ConnectToSocketEvent event, Emitter<SocketsVoiceState> emit) async {
     if (ConstVar.layoutBottomSheetStatus !=
-        LayoutBottomSheetStatus.playingPodcast) {
+            LayoutBottomSheetStatus.playingPodcast &&
+        await CheckMicPermission.checkMicPermission() == true) {
       emit(
         state.copyWith(
             connectToSocketRequestStatus: ConnectToSocketRequestStatus.loading,
@@ -124,11 +127,14 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         print(error);
       });
     } else {
-      flutterToast(
-        msg: 'you can\'t join or create room while playing podcast',
-        backgroundColor: AppColors.toastWarning,
-        textColor: AppColors.black,
-      );
+      if (ConstVar.layoutBottomSheetStatus !=
+          LayoutBottomSheetStatus.playingPodcast) {
+        flutterToast(
+          msg: 'you can\'t join or create room while playing podcast',
+          backgroundColor: AppColors.toastWarning,
+          textColor: AppColors.black,
+        );
+      }
     }
   }
 
@@ -572,6 +578,37 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         state.copyWith(
           brodcastersEnitite: BrodcastersEntitie(broadCasters),
           adminEntitie: admin,
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _muteLocalAudio(
+      MuteUnMuteLocalAudioEvent event, Emitter<SocketsVoiceState> emit) async {
+    agoraHelper.muteMyVoice(mute: event.isMuted);
+    if (state.isCreateRoom) {
+      emit(
+        state.copyWith(
+          meEntitie:
+              MeEntitie(state.meEntitie.me.copyWith(isMutted: event.isMuted)),
+          liveVoiceRoomFloatingButtonStatus: event.isMuted
+              ? LiveVoiceRoomFloatingButtonStatus.unmute
+              : LiveVoiceRoomFloatingButtonStatus.mute,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          brodcastersEnitite: state.brodcastersEnitite.copyWith(
+            brodcasters: state.brodcastersEnitite.brodcasters
+                .map((e) => e.uid == state.meEntitie.me.uid
+                    ? e.copyWith(isMutted: event.isMuted)
+                    : e)
+                .toList(),
+          ),
+          liveVoiceRoomFloatingButtonStatus: event.isMuted
+              ? LiveVoiceRoomFloatingButtonStatus.unmute
+              : LiveVoiceRoomFloatingButtonStatus.mute,
         ),
       );
     }

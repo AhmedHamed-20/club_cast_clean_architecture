@@ -260,7 +260,7 @@ class CommonPlayingPodcastBlocBloc
 
   FutureOr<void> _downloadPodcast(PodcastDownloadEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
-    if (await StoragePermissionDownloadPath.checkPermissions()) {
+    if (await StoragePermissionDownloadPath.checkStoragePermissions()) {
       emit(state.copyWith(
           podcastDownloadRequestStatus: PodcastDownloadRequestStatus.loading));
       currentDownloadingPodcastId = event.podcastId;
@@ -285,7 +285,7 @@ class CommonPlayingPodcastBlocBloc
         currentDownloadingPodcastId = '';
         downloadProgress.close();
       });
-    } else if (await StoragePermissionDownloadPath.checkPermissions() ==
+    } else if (await StoragePermissionDownloadPath.checkStoragePermissions() ==
         false) {
       flutterToast(
           msg: 'Please Accept All Permissions',

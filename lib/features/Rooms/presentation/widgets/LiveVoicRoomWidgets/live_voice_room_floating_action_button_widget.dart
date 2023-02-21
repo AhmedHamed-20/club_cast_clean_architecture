@@ -27,7 +27,9 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
           );
         case LiveVoiceRoomFloatingButtonStatus.mute:
           return FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              socketBloc.add(const MuteUnMuteLocalAudioEvent(true));
+            },
             child: Icon(
               Icons.mic,
               color: Theme.of(context).colorScheme.primary,
@@ -35,7 +37,9 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
           );
         case LiveVoiceRoomFloatingButtonStatus.unmute:
           return FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              socketBloc.add(const MuteUnMuteLocalAudioEvent(false));
+            },
             child: Icon(
               Icons.mic_off,
               color: Theme.of(context).colorScheme.primary,
