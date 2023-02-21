@@ -545,39 +545,49 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       ActiveUserTalkingEvent event, Emitter<SocketsVoiceState> emit) {
     List<ActiveRoomUserDataEntitie> broadCasters =
         state.brodcastersEnitite.brodcasters;
-    AdminEntitie admin = state.adminEntitie;
+    ActiveRoomUserDataEntitie admin = state.adminEntitie.admin;
+    ActiveRoomUserDataEntitie me = state.meEntitie.me;
+    bool isAdminChanged = false;
+    bool isMeChanged = false;
+    bool isBroadCastersChanged = false;
 
-    if (state.brodcastersEnitite.brodcasters.isEmpty) {
-      if (state.adminEntitie.admin.uid == event.audioInfo[0].uid) {
-        admin = AdminEntitie(state.adminEntitie.admin
-            .copyWith(isSpeaking: event.audioInfo[0].volume! > 3));
+    for (int j = 0; j < event.audioInfo.length; j++) {
+      if (state.adminEntitie.admin.uid == event.audioInfo[j].uid) {
+        admin = state.adminEntitie.admin
+            .copyWith(isSpeaking: event.audioInfo[j].volume! > 3);
+        isAdminChanged = event.audioInfo[j].volume! > 3;
       } else {
-        admin =
-            AdminEntitie(state.adminEntitie.admin.copyWith(isSpeaking: false));
+        admin = state.adminEntitie.admin.copyWith(isSpeaking: false);
       }
-      emit(state.copyWith(adminEntitie: admin));
-    } else {
-      for (int i = 0; i < broadCasters.length; i++) {
-        for (int j = 0; j < event.audioInfo.length; j++) {
+      if (state.meEntitie.me.uid == event.audioInfo[j].uid) {
+        me = state.meEntitie.me
+            .copyWith(isSpeaking: event.audioInfo[j].volume! > 3);
+        isMeChanged = event.audioInfo[j].volume! > 3;
+      } else {
+        me = state.meEntitie.me.copyWith(isSpeaking: false);
+      }
+      if (state.brodcastersEnitite.brodcasters.isNotEmpty) {
+        for (int i = 0; i < broadCasters.length; i++) {
           if (state.brodcastersEnitite.brodcasters[i].uid ==
               event.audioInfo[j].uid) {
             broadCasters[i] = broadCasters[i].copyWith(
               isSpeaking: event.audioInfo[j].volume! > 3,
             );
-          } else if (event.audioInfo[j].uid == state.adminEntitie.admin.uid) {
-            admin = AdminEntitie(state.adminEntitie.admin
-                .copyWith(isSpeaking: event.audioInfo[j].volume! > 3));
+            isBroadCastersChanged = event.audioInfo[j].volume! > 3;
           } else {
-            admin = AdminEntitie(
-                state.adminEntitie.admin.copyWith(isSpeaking: false));
-            broadCasters[i] = broadCasters[i].copyWith(isSpeaking: false);
+            broadCasters[i] = broadCasters[i].copyWith(
+              isSpeaking: false,
+            );
           }
         }
       }
+    }
+    if (isAdminChanged || isMeChanged || isBroadCastersChanged) {
       emit(
         state.copyWith(
           brodcastersEnitite: BrodcastersEntitie(broadCasters),
-          adminEntitie: admin,
+          adminEntitie: AdminEntitie(admin),
+          meEntitie: MeEntitie(me),
         ),
       );
     }
