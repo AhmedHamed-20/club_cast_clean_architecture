@@ -79,7 +79,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }, (r) {
       emit(
         state.copyWith(
-          roomsSearchRequestStatus: SearchRequestStatus.success,
+          usersSearchRequestStatus: SearchRequestStatus.success,
           usersSearchEntitie: r,
         ),
       );

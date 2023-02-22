@@ -14,7 +14,7 @@ class RoomsUserDataModel extends RoomUserDataEntitie {
       photo: (json['photo'] as String).contains('https')
           ? json['photo']
           : EndPoints.socketBaseUrl + json['photo'],
-      uid: json['uid'],
+      uid: json['uid'] ?? 0,
     );
   }
 }

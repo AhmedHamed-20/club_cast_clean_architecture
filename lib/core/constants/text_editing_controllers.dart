@@ -34,4 +34,5 @@ class TextEditingControllers {
   static late TextEditingController roomChatPrivateMessageController;
 
   static late TextEditingController joinPrivateRoomController;
+  static late TextEditingController searchController;
 }

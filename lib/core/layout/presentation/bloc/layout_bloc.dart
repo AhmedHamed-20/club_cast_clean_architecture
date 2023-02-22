@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
@@ -10,13 +9,17 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cac
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
+import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/my_following_podcast_screen.dart';
+import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/user_profile_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/Rooms/presentation/screens/all_rooms_screen.dart';
+import '../../../../features/Search/presentation/screens/search_screen.dart';
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
 import '../../../widgets/cached_network_image_circle_photo.dart';
@@ -81,7 +84,9 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     const AllRoomsScreen(),
     const MyFollowingPodcastScreen(),
     const SizedBox.shrink(),
-    Container(),
+    BlocProvider(
+        create: (context) => servicelocator<SearchBloc>(),
+        child: const SearchScreen()),
     const UserProfileScreen(),
   ];
   FutureOr<void> _getActiveUserData(

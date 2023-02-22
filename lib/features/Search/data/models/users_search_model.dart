@@ -8,18 +8,10 @@ class SearchUsersModel extends SearchUsersEntite {
       required super.isFollowed});
 
   factory SearchUsersModel.fromJson(Map<String, dynamic> json) {
-    if (json['follower'] != null) {
-      return SearchUsersModel(
-          userName: json['follower']['name'],
-          userPhoto: json['follower']['photo'],
-          userId: json['follower']['_id'],
-          isFollowed: json['follower']['isFollowed']);
-    } else {
-      return SearchUsersModel(
-          userName: json['following']['name'],
-          userPhoto: json['following']['photo'],
-          userId: json['following']['_id'],
-          isFollowed: json['following']['isFollowed']);
-    }
+    return SearchUsersModel(
+        userName: json['name'],
+        userPhoto: json['photo'],
+        userId: json['_id'],
+        isFollowed: json['isFollowed']);
   }
 }

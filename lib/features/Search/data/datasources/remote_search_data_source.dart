@@ -38,7 +38,7 @@ class RemoteSearchDataSource extends BaseRemoteSearchDataSoruce {
           .getData(url: EndPoints.searchAboutRoom + params.query, headers: {
         "Authorization": "Bearer ${params.accessToken}",
       });
-      return (response?.data as List)
+      return (response?.data['data'] as List)
           .map((e) => SearchRoomsModel.fromJson(e))
           .toList();
     } on DioError catch (e) {
@@ -54,7 +54,7 @@ class RemoteSearchDataSource extends BaseRemoteSearchDataSoruce {
           .getData(url: EndPoints.searchUser + params.query, headers: {
         "Authorization": "Bearer ${params.accessToken}",
       });
-      return (response?.data as List)
+      return (response?.data['data'] as List)
           .map((e) => SearchUsersModel.fromJson(e))
           .toList();
     } on DioError catch (e) {
