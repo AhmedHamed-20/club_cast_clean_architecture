@@ -1,7 +1,7 @@
-import '../../../../core/constants/base_all_rooms_data_entite/base_all_rooms_data_entitie.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_all_rooms_data_entite/base_all_rooms_data_entitie.dart';
 
-class AllRoomsDataEntitie extends BaseAllRoomsDataEntitie {
-  const AllRoomsDataEntitie(
+class SearchRoomsEntitie extends BaseAllRoomsDataEntitie {
+  const SearchRoomsEntitie(
       {required super.id,
       required super.name,
       required super.category,

@@ -1,12 +1,12 @@
+import 'package:club_cast_clean_architecture/core/constants/base_all_rooms_data_entite/base_all_rooms_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/rooms_admin_widget.dart';
 import 'package:club_cast_clean_architecture/core/widgets/rooms_speakers_audience_widget.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/all_rooms_entitie_data.dart';
 import 'package:flutter/material.dart';
 
 class RoomsCardWidget extends StatelessWidget {
   const RoomsCardWidget({super.key, required this.allRoomsDataEntitie});
-  final AllRoomsDataEntitie allRoomsDataEntitie;
+  final BaseAllRoomsDataEntitie allRoomsDataEntitie;
   @override
   Widget build(BuildContext context) {
     return Card(

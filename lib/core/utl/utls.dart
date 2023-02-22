@@ -143,6 +143,13 @@ enum AllRoomsGetRequestStatus {
   error,
 }
 
+enum SearchRequestStatus {
+  idle,
+  loading,
+  success,
+  error,
+}
+
 enum PrivateRoomsGetRequestStatus {
   idle,
   loading,

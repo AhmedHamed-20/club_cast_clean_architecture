@@ -46,6 +46,13 @@ import 'package:club_cast_clean_architecture/features/Rooms/domain/usecases/get_
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Search/data/datasources/remote_search_data_source.dart';
+import 'package:club_cast_clean_architecture/features/Search/data/repositories/search_repository_impl.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/repositories/base_search_repository.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/podcast_search.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/rooms_search.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/users_search.dart';
+import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/repositories/user_info_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
@@ -166,6 +173,12 @@ class ServiceLocator {
           servicelocator(),
         ));
 
+    servicelocator.registerFactory<SearchBloc>(() => SearchBloc(
+          servicelocator(),
+          servicelocator(),
+          servicelocator(),
+        ));
+
     ///usecase
     servicelocator.registerLazySingleton<SignUpUsecase>(
         () => SignUpUsecase(servicelocator()));
@@ -261,6 +274,12 @@ class ServiceLocator {
         () => RoomMessagesGetUsecase(servicelocator()));
     servicelocator.registerLazySingleton<RoomGetByRoomIdUseCase>(
         () => RoomGetByRoomIdUseCase(servicelocator()));
+    servicelocator.registerLazySingleton<PodcastSearchUsecase>(
+        () => PodcastSearchUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<RoomsSearchUsecase>(
+        () => RoomsSearchUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<UsersSearchUsecase>(
+        () => UsersSearchUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(
@@ -278,6 +297,8 @@ class ServiceLocator {
         () => OtherUserProfileRepositoryImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseRoomsRepository>(
         () => RoomsRepositoryImpl(servicelocator()));
+    servicelocator.registerLazySingleton<BaseSearchRepository>(
+        () => SearchRepositoryImpl(servicelocator()));
 
     ///datasource
     servicelocator.registerLazySingleton<BaseAuthRemoteDataSource>(
@@ -298,5 +319,7 @@ class ServiceLocator {
         () => RemoteOtherUserDataSourceImpl());
     servicelocator.registerLazySingleton<BaseRemoteRoomsDataSource>(
         () => RemoteRoomsDataSourceImpl());
+    servicelocator.registerLazySingleton<BaseRemoteSearchDataSoruce>(
+        () => RemoteSearchDataSource());
   }
 }
