@@ -1,5 +1,16 @@
+import 'dart:async';
+
+import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../features/UserProfile/presentation/widgets/podcasts/remove_podcast_alert_dialog_widget.dart';
+import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
+import '../constants/params.dart';
+import '../constants/storage_permission_download_path.dart';
+import '../routes/app_route_names.dart';
 
 class Defaults {
   static Widget defaultTextFormField({
@@ -93,6 +104,80 @@ class Defaults {
               ?.copyWith(color: Theme.of(context).primaryColor),
         ),
       ),
+    );
+  }
+}
+
+class DefaultPodcastCallBackParams {
+  final CommonPlayingPodcastBlocBloc commonPlayingPodcastBloc;
+  final BasePodcastEntitie basePodcastEntitie;
+  final CommonPlayingPodcastBlocState state;
+  final BuildContext context;
+  DefaultPodcastCallBackParams(
+      {required this.commonPlayingPodcastBloc,
+      required this.basePodcastEntitie,
+      required this.state,
+      required this.context});
+
+  PodcastCardCallBacksParams defaultPodcastCallBackParams(
+      {UserProfileBloc? userProfileBloc}) {
+    return PodcastCardCallBacksParams(
+      onPressedOnLikeButton: () {
+        commonPlayingPodcastBloc.onPressedOnLikeLogic(
+            podcastId: basePodcastEntitie.podcastId,
+            podcastLocalStatus: state.podcastsLikesStatus,
+            serverLikeStatus: basePodcastEntitie.isLiked);
+      },
+      onPressedOnRemove: userProfileBloc == null
+          ? () {}
+          : () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BlocProvider.value(
+                      value: userProfileBloc,
+                      child: RemovePodcastAlertDialogWidget(
+                        podcastId: basePodcastEntitie.podcastId,
+                        podcastName: basePodcastEntitie.podcastName,
+                      ),
+                    );
+                  });
+            },
+      onPressedOnCard: () {
+        Navigator.of(context).pushNamed(AppRoutesNames.podcastInfoScreen,
+            arguments: basePodcastEntitie);
+      },
+      onPressedOnUserPhoto: () {
+        Navigator.of(context).pushNamed(
+          AppRoutesNames.otherUserProfileScreen,
+          arguments: OtherUserProfileScreenParams(
+            basePodcastEntitie.podcastUserInfo.userId,
+          ),
+        );
+      },
+      onPressedDownload: () {
+        if (currentDownloadingPodcastId == '') {
+          downloadProgress = StreamController();
+          commonPlayingPodcastBloc.add(PodcastDownloadEvent(
+              podcastUrl: basePodcastEntitie.podcastInfo.podcastUrl,
+              savedPath: StoragePermissionDownloadPath.getSavedPath(
+                      fileName: basePodcastEntitie.podcastName)
+                  .path,
+              podcastId: basePodcastEntitie.podcastId,
+              downloadProgress: downloadProgress));
+        }
+      },
+      onPressedPlay: () {
+        commonPlayingPodcastBloc.onPressedOnPlay(
+            basePodcastEntitie: basePodcastEntitie);
+      },
+      onPressedOnLikesCount: () {
+        if (basePodcastEntitie.podcastLikesCount != 0) {
+          Navigator.pushNamed(context, AppRoutesNames.podcastUsersLikesScreen,
+              arguments: LikesUsersScreenParams(
+                  podcastId: basePodcastEntitie.podcastId));
+        }
+      },
     );
   }
 }

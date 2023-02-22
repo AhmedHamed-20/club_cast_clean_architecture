@@ -51,7 +51,7 @@ class _MainMyFollowingPodcastsWidgetState
               padding: const EdgeInsets.all(AppPadding.p12),
               child: PodcastCardMainWdget(
                 index: index,
-                myFollowingPodcasts: state.myFollowingPodcasts!,
+                podcastsEntitie: state.myFollowingPodcasts!,
               ),
             );
           } else {

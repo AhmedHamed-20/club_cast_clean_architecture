@@ -3,13 +3,12 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/routes/app_route_names.dart';
 import '../../../../../core/utl/utls.dart';
 import '../../../../../core/widgets/defaults.dart';
+import '../../../../../core/widgets/joining_room_loading_alert_dialog.dart';
 import '../../bloc/rooms_bloc.dart';
-import '../../bloc/sockets/chat/chat_bloc.dart';
-import 'all_rooms_main_widget.dart';
 import '../Events/my_following_events_widget.dart';
+import 'all_rooms_main_widget.dart';
 import 'join_private_room_dialog.dart';
 
 class HomeMainWidget extends StatelessWidget {
@@ -27,18 +26,9 @@ class HomeMainWidget extends StatelessWidget {
             socketVoiceState.joinRoomRequestStatus ==
                 JoinRoomRequestStatus.idle) {
           isIuserInRoom = false;
-        }
-        if (socketVoiceState.joinRoomRequestStatus ==
-                JoinRoomRequestStatus.success &&
-            isIuserInRoom == false) {
-          BlocProvider.of<ChatBloc>(context)
-              .add(const ListenOnChatEventsEvent());
-          //    print('joinAdmin');
-          Navigator.of(context).pushNamed(
-            AppRoutesNames.roomScreen,
-          );
-          //to prevent always pushing to room screen when state changes
-          isIuserInRoom = true;
+          showDialog(
+              context: context,
+              builder: (context) => const JoiningRoomAlertLoadingDialog());
         }
 
         if (socketVoiceState.joinRoomRequestStatus ==

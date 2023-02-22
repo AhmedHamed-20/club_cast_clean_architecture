@@ -17,7 +17,7 @@ class RoomsSearchWidget extends StatelessWidget {
       switch (state.roomsSearchRequestStatus) {
         case SearchRequestStatus.idle:
           return Center(
-            child: Text('Search for users',
+            child: Text('Search for rooms',
                 style: Theme.of(context).textTheme.titleLarge),
           );
         case SearchRequestStatus.loading:
@@ -30,8 +30,11 @@ class RoomsSearchWidget extends StatelessWidget {
             child: ListView.builder(
               itemCount: state.roomsSearchEntitie.length,
               itemBuilder: (context, index) {
-                return RoomsCardWidget(
-                  allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                return InkWell(
+                  onTap: () {},
+                  child: RoomsCardWidget(
+                    allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                  ),
                 );
               },
             ),

@@ -1,14 +1,10 @@
-import 'dart:async';
-
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/constants/params.dart';
-import '../../../../core/constants/storage_permission_download_path.dart';
-import '../../../../core/routes/app_route_names.dart';
+import '../../../../core/widgets/defaults.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import 'other_user_podcasts_widget.dart';
 
@@ -30,75 +26,21 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
             if (index <
                 otherUserPodcastEntitie.otherUserPodcastDataEntitie.length) {
               return BlocBuilder<CommonPlayingPodcastBlocBloc,
-                  CommonPlayingPodcastBlocState>(
-                builder: (context, commonPlayPodcastBlocState) =>
-                    PodcastCardWidget(
+                      CommonPlayingPodcastBlocState>(
+                  builder: (context, commonPlayPodcastBlocState) {
+                final defaultPodcastCallBackParams =
+                    DefaultPodcastCallBackParams(
+                  basePodcastEntitie: otherUserPodcastEntitie
+                      .otherUserPodcastDataEntitie[index],
+                  commonPlayingPodcastBloc: commonPlayingPodcastBloc,
+                  context: context,
+                  state: commonPlayPodcastBlocState,
+                );
+                return PodcastCardWidget(
                   podcastEntitie: otherUserPodcastEntitie
                       .otherUserPodcastDataEntitie[index],
-                  podcastCardCallBacksParams:
-                      PodcastCardCallBacksParams(onPressedOnLikeButton: () {
-                    commonPlayingPodcastBloc.onPressedOnLikeLogic(
-                        podcastId: otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index].podcastId,
-                        podcastLocalStatus:
-                            commonPlayPodcastBlocState.podcastsLikesStatus,
-                        serverLikeStatus: otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index].isLiked);
-                  }, onPressedOnCard: () {
-                    Navigator.of(context).pushNamed(
-                        AppRoutesNames.podcastInfoScreen,
-                        arguments: otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index]);
-                  }, onPressedOnUserPhoto: () {
-                    Navigator.of(context).pushNamed(
-                      AppRoutesNames.otherUserProfileScreen,
-                      arguments: OtherUserProfileScreenParams(
-                        otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index]
-                            .podcastUserInfo
-                            .userId,
-                      ),
-                    );
-                  }, onPressedDownload: () {
-                    if (currentDownloadingPodcastId == '') {
-                      downloadProgress = StreamController();
-
-                      commonPlayingPodcastBloc.add(
-                        PodcastDownloadEvent(
-                          podcastUrl: otherUserPodcastEntitie
-                              .otherUserPodcastDataEntitie[index]
-                              .podcastInfo
-                              .podcastUrl,
-                          savedPath: StoragePermissionDownloadPath.getSavedPath(
-                                  fileName: otherUserPodcastEntitie
-                                      .otherUserPodcastDataEntitie[index]
-                                      .podcastName)
-                              .path,
-                          podcastId: otherUserPodcastEntitie
-                              .otherUserPodcastDataEntitie[index].podcastId,
-                          downloadProgress: downloadProgress,
-                        ),
-                      );
-                    }
-                  }, onPressedPlay: () {
-                    commonPlayingPodcastBloc.onPressedOnPlay(
-                      basePodcastEntitie: otherUserPodcastEntitie
-                          .otherUserPodcastDataEntitie[index],
-                    );
-                  }, onPressedOnLikesCount: () {
-                    if (otherUserPodcastEntitie
-                            .otherUserPodcastDataEntitie[index]
-                            .podcastLikesCount !=
-                        0) {
-                      Navigator.of(context).pushNamed(
-                        AppRoutesNames.podcastUsersLikesScreen,
-                        arguments: LikesUsersScreenParams(
-                          podcastId: otherUserPodcastEntitie
-                              .otherUserPodcastDataEntitie[index].podcastId,
-                        ),
-                      );
-                    }
-                  }),
+                  podcastCardCallBacksParams: defaultPodcastCallBackParams
+                      .defaultPodcastCallBackParams(),
                   podcastDurathion:
                       commonPlayingPodcastBloc.getCurrentPlayingPosition(
                     currentPosition: commonPlayPodcastBlocState.currentPosition,
@@ -109,8 +51,8 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                         .podcastInfo
                         .podcastDuration,
                   ),
-                ),
-              );
+                );
+              });
             } else {
               return isEndOfOtherUserPodcastData
                   ? const SizedBox.shrink()

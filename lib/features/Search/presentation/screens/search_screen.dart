@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/text_editing_controllers.dart';
 import '../bloc/search_bloc.dart';
+import '../widgets/podcast_search_widget.dart';
 import '../widgets/search_app_bar_widget.dart';
 import '../widgets/search_text_field_widget.dart';
 import '../widgets/users_search_widget.dart';
@@ -55,12 +56,10 @@ class _SearchScreenState extends State<SearchScreen>
               ],
           body: TabBarView(
             controller: searchTabController,
-            children: [
-              const UsersSearchWidget(),
-              const RoomsSearchWidget(),
-              Container(
-                color: Colors.blue,
-              ),
+            children: const [
+              UsersSearchWidget(),
+              RoomsSearchWidget(),
+              PodcastSearchWidget(),
             ],
           )),
     );
