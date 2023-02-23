@@ -7,7 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../features/Rooms/domain/entities/join_create_room_entitie.dart';
+import '../../features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import '../../features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import '../routes/app_route_names.dart';
 import '../utl/utls.dart';
+import 'default_values.dart';
 
 class AppFontSize {
   static double s10 = 10.sp;
@@ -189,3 +194,58 @@ String currentPausePodcastsId = '';
 String currentDownloadingPodcastId = '';
 late StreamController<double> downloadProgress;
 late StreamController<double> uploadProgress;
+
+void checkOnTabOnRoomCardLogic({
+  JoinCreateRoomEntitie? joinCreateRoomEntitie,
+  required String tabedCardRoomId,
+  required BuildContext context,
+  required bool isCreateRoom,
+  required ChatBloc chatBloc,
+  required SocketsVoiceBloc socketsVoiceBloc,
+  required String accessToken,
+  required String roomName,
+}) {
+  if (joinCreateRoomEntitie == null ||
+      joinCreateRoomEntitie == DefaultsValues.joinCreateRoomEntitieDefault) {
+    socketsVoiceBloc.add(
+      ConnectToSocketEvent(
+        accessToken: accessToken,
+        isCreateRoom: false,
+        roomName: roomName,
+      ),
+    );
+    flutterToast(
+      msg: 'Joining room ...',
+      backgroundColor: AppColors.toastWarning,
+      textColor: AppColors.black,
+    );
+  } else if (tabedCardRoomId == joinCreateRoomEntitie.roomId) {
+    Navigator.pushNamed(
+      context,
+      AppRoutesNames.roomScreen,
+    );
+  } else {
+    if (isCreateRoom == true) {
+      flutterToast(
+        msg: 'You are admin in another room please leave it first',
+        backgroundColor: AppColors.toastWarning,
+        textColor: AppColors.black,
+      );
+    } else {
+      socketsVoiceBloc.add(const LeaveRoomEvent());
+      chatBloc.add(const LeaveChatRoomEvent());
+      flutterToast(
+        msg: 'Joining another room ...',
+        backgroundColor: AppColors.toastWarning,
+        textColor: AppColors.black,
+      );
+      socketsVoiceBloc.add(
+        ConnectToSocketEvent(
+          accessToken: ConstVar.accessToken,
+          isCreateRoom: false,
+          roomName: roomName,
+        ),
+      );
+    }
+  }
+}

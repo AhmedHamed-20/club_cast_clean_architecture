@@ -38,7 +38,6 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final roomsBloc = BlocProvider.of<RoomsBloc>(context);
     final socketsVoiceBloc = BlocProvider.of<SocketsVoiceBloc>(context);
     final chatBloc = BlocProvider.of<ChatBloc>(context);
     return BlocConsumer<RoomsBloc, RoomsState>(listener: (context, state) {
@@ -65,7 +64,7 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                     builder: (context, socketVoiceState) {
                   return InkWell(
                     onTap: () {
-                      roomsBloc.checkOnTabOnRoomCardLogic(
+                      checkOnTabOnRoomCardLogic(
                         joinCreateRoomEntitie:
                             socketVoiceState.joinCreateRoomEntitie,
                         tabedCardRoomId: state

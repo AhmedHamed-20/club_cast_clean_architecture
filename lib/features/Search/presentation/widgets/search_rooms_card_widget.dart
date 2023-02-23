@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/room_card_widget.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,12 +8,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/constants/text_editing_controllers.dart';
 import '../../../../core/utl/utls.dart';
+import '../../../../core/widgets/joining_room_loading_alert_dialog.dart';
+import '../../../Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import '../../../Rooms/presentation/widgets/AllRoomsWidgets/all_rooms_main_widget.dart';
 
 class RoomsSearchWidget extends StatelessWidget {
   const RoomsSearchWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final chatBloc = BlocProvider.of<ChatBloc>(context);
+    final socketsVoiceBloc = BlocProvider.of<SocketsVoiceBloc>(context);
     return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
       switch (state.roomsSearchRequestStatus) {
         case SearchRequestStatus.idle:
@@ -30,10 +36,41 @@ class RoomsSearchWidget extends StatelessWidget {
             child: ListView.builder(
               itemCount: state.roomsSearchEntitie.length,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {},
-                  child: RoomsCardWidget(
-                    allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                return BlocConsumer<SocketsVoiceBloc, SocketsVoiceState>(
+                  listener: (context, socketVoiceState) {
+                    if (socketVoiceState.connectToSocketRequestStatus ==
+                            ConnectToSocketRequestStatus.success &&
+                        socketVoiceState.joinRoomRequestStatus ==
+                            JoinRoomRequestStatus.idle) {
+                      isIuserInRoom = false;
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              const JoiningRoomAlertLoadingDialog());
+                    }
+
+                    if (socketVoiceState.joinRoomRequestStatus ==
+                        JoinRoomRequestStatus.left) {
+                      isIuserInRoom = false;
+                    }
+                  },
+                  builder: (context, socketVoiceState) => InkWell(
+                    onTap: () {
+                      checkOnTabOnRoomCardLogic(
+                        joinCreateRoomEntitie:
+                            socketVoiceState.joinCreateRoomEntitie,
+                        tabedCardRoomId: state.roomsSearchEntitie[index].id,
+                        context: context,
+                        isCreateRoom: socketVoiceState.isCreateRoom,
+                        chatBloc: chatBloc,
+                        socketsVoiceBloc: socketsVoiceBloc,
+                        accessToken: ConstVar.accessToken,
+                        roomName: state.roomsSearchEntitie[index].name,
+                      );
+                    },
+                    child: RoomsCardWidget(
+                      allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                    ),
                   ),
                 );
               },
