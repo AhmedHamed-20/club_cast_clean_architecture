@@ -3,6 +3,7 @@ import 'package:club_cast_clean_architecture/features/Search/domain/entities/sea
 import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entitie.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/repositories/base_search_repository.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/all_podcasts.dart';
 import 'package:dartz/dartz.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/podcast_search.dart';
 
@@ -50,6 +51,22 @@ class SearchRepositoryImpl extends BaseSearchRepository {
       return Left(ServerFailure(
           message: e.serverErrorMessageModel.message,
           statusCode: e.serverErrorMessageModel.statusCode));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PodcastSearchEntitie>> getAllPodcasts(
+      AllPodcastsParams params) async {
+    try {
+      final result = await baseRemoteSearchDataSoruce.getAllPodcasts(params);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(
+        ServerFailure(
+          message: e.serverErrorMessageModel.message,
+          statusCode: e.serverErrorMessageModel.statusCode,
+        ),
+      );
     }
   }
 }

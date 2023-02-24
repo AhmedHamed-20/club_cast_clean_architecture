@@ -99,7 +99,7 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             followersFollowingDataGetRequestStatus:
                 FollowersFollowingDataGetRequestStatus.error)), (r) {
-      if (r.results <= 10) {
+      if (r.results < 10) {
         emit(
           state.copyWith(
             errorMessage: '',
@@ -143,7 +143,7 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             followersFollowingDataGetRequestStatus:
                 FollowersFollowingDataGetRequestStatus.error)), (r) {
-      if (r.results <= 10) {
+      if (r.results < 10) {
         emit(
           state.copyWith(
             errorMessage: '',
@@ -287,7 +287,7 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.error)),
         (r) {
-      if (r.results <= 10) {
+      if (r.results < 10) {
         emit(
           state.copyWith(
             errorMessage: '',
@@ -427,7 +427,7 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             otherUserEventsGetRequestStatus: UserDataGetRequestStatus.error)),
         (r) {
-      if (r.results <= 10) {
+      if (r.results < 10) {
         emit(
           state.copyWith(
             errorMessage: '',

@@ -29,4 +29,6 @@ class AppRoutesNames {
 
   static const String privateChatRoomScreen =
       '/layout_screen/room_screen/private_chat_room_screen';
+  static const String allPodcastsScreen =
+      '/layout_screen/search_screen/all_podcasts_screen';
 }

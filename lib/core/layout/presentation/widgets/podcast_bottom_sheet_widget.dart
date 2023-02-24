@@ -20,16 +20,9 @@ class PodcastBottomSheetWidget extends StatelessWidget {
           arguments: basePodcastEntitie,
         );
       },
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.1,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(AppRadius.r22),
-            topRight: Radius.circular(AppRadius.r22),
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(AppPadding.p8),
           child: Row(

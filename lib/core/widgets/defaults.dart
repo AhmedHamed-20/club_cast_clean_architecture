@@ -148,12 +148,14 @@ class DefaultPodcastCallBackParams {
             arguments: basePodcastEntitie);
       },
       onPressedOnUserPhoto: () {
-        Navigator.of(context).pushNamed(
-          AppRoutesNames.otherUserProfileScreen,
-          arguments: OtherUserProfileScreenParams(
-            basePodcastEntitie.podcastUserInfo.userId,
-          ),
-        );
+        if (basePodcastEntitie.podcastUserInfo.userId != ConstVar.userId) {
+          Navigator.of(context).pushNamed(
+            AppRoutesNames.otherUserProfileScreen,
+            arguments: OtherUserProfileScreenParams(
+              basePodcastEntitie.podcastUserInfo.userId,
+            ),
+          );
+        }
       },
       onPressedDownload: () {
         if (currentDownloadingPodcastId == '') {

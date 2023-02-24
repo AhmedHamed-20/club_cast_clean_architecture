@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/Auth/presentation/screens/signup_screen.dart';
 import '../../features/Rooms/presentation/screens/private_chat_room_screen.dart';
 import '../../features/Rooms/presentation/screens/room_screen.dart';
+import '../../features/Search/presentation/screens/all_podcasts_screen.dart';
 import '../../features/UserProfile/presentation/screens/edit_event_screen.dart';
 import '../../features/UserProfile/presentation/screens/upload_podcast_screen.dart';
 import '../../features/UserProfile/presentation/screens/user_profile_screen.dart';
@@ -133,6 +134,12 @@ class AppRoutes {
           return PrivateChatRoomScreen(
             params: arguments,
           );
+        });
+      case AppRoutesNames.allPodcastsScreen:
+        AllPodcastsScreenParams arguments = args as AllPodcastsScreenParams;
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider.value(
+              value: arguments.searchBloc, child: const AllPodcastsScreen());
         });
       default:
         return MaterialPageRoute(builder: (context) {

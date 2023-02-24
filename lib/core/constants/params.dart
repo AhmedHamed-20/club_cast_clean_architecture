@@ -1,5 +1,6 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -155,4 +156,13 @@ class PrivateChatRoomScreenParams extends Equatable {
 
   @override
   List<Object?> get props => [roomUserDataEntitie];
+}
+
+class AllPodcastsScreenParams extends Equatable {
+  final SearchBloc searchBloc;
+
+  const AllPodcastsScreenParams(this.searchBloc);
+
+  @override
+  List<Object?> get props => [searchBloc];
 }

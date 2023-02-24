@@ -49,6 +49,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:club_cast_clean_architecture/features/Search/data/datasources/remote_search_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Search/data/repositories/search_repository_impl.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/repositories/base_search_repository.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/all_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/podcast_search.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/rooms_search.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/users_search.dart';
@@ -177,6 +178,7 @@ class ServiceLocator {
           servicelocator(),
           servicelocator(),
           servicelocator(),
+          servicelocator(),
         ));
 
     ///usecase
@@ -280,6 +282,8 @@ class ServiceLocator {
         () => RoomsSearchUsecase(servicelocator()));
     servicelocator.registerLazySingleton<UsersSearchUsecase>(
         () => UsersSearchUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<AllPodcastsUsecase>(
+        () => AllPodcastsUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

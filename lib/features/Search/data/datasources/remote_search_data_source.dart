@@ -4,6 +4,7 @@ import 'package:club_cast_clean_architecture/core/services/service_locator.dart'
 import 'package:club_cast_clean_architecture/features/Search/data/models/podcast_search_model.dart';
 import 'package:club_cast_clean_architecture/features/Search/data/models/rooms__search_model.dart';
 import 'package:club_cast_clean_architecture/features/Search/data/models/users_search_model.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/usecases/all_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/podcast_search.dart';
 import 'package:dio/dio.dart';
 
@@ -14,6 +15,7 @@ abstract class BaseRemoteSearchDataSoruce {
   Future<List<SearchUsersModel>> userSearch(SearchParams params);
   Future<List<SearchRoomsModel>> roomsSearch(SearchParams params);
   Future<PodcastSearchModel> podcastSearch(SearchParams params);
+  Future<PodcastSearchModel> getAllPodcasts(AllPodcastsParams params);
 }
 
 class RemoteSearchDataSource extends BaseRemoteSearchDataSoruce {
@@ -57,6 +59,22 @@ class RemoteSearchDataSource extends BaseRemoteSearchDataSoruce {
       return (response?.data['data'] as List)
           .map((e) => SearchUsersModel.fromJson(e))
           .toList();
+    } on DioError catch (e) {
+      throw ServerException(
+          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<PodcastSearchModel> getAllPodcasts(AllPodcastsParams params) async {
+    try {
+      final response = await servicelocator<DioHelper>()
+          .getData(url: EndPoints.getAllPodCastWithoutMe, headers: {
+        "Authorization": "Bearer ${params.accessToken}",
+      }, query: {
+        "page": params.page,
+      });
+      return PodcastSearchModel.fromJson(response?.data);
     } on DioError catch (e) {
       throw ServerException(
           serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));

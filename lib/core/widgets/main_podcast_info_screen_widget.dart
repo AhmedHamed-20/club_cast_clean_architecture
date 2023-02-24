@@ -1,3 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
+import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
+
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
@@ -61,15 +64,31 @@ class MainPodcastInfoWidget extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: MediaQueryOfMethods.getAppWidth(context) * 0.6,
-                        height:
-                            MediaQueryOfMethods.getAppHeight(context) * 0.35,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(AppRadius.r10),
-                          child: Image.network(
-                            podcastInformationEntitie.podcastUserInfo.userImage,
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          if (podcastInformationEntitie
+                                  .podcastUserInfo.userId !=
+                              ConstVar.userId) {
+                            Navigator.of(context).pushNamed(
+                              AppRoutesNames.otherUserProfileScreen,
+                              arguments: OtherUserProfileScreenParams(
+                                podcastInformationEntitie
+                                    .podcastUserInfo.userId,
+                              ),
+                            );
+                          }
+                        },
+                        child: SizedBox(
+                          width: MediaQueryOfMethods.getAppWidth(context) * 0.6,
+                          height:
+                              MediaQueryOfMethods.getAppHeight(context) * 0.35,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppRadius.r10),
+                            child: Image.network(
+                              podcastInformationEntitie
+                                  .podcastUserInfo.userImage,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
