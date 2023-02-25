@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/
 import 'package:club_cast_clean_architecture/features/Auth/presentation/screens/login_screen.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/screens/other_user_followers_following_screen.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/screens/other_user_profile_screen.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/screens/all_my_following_events_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/edit_profile_basic_info_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/followers_following_screen.dart';
@@ -140,6 +141,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) {
           return BlocProvider.value(
               value: arguments.searchBloc, child: const AllPodcastsScreen());
+        });
+      case AppRoutesNames.allMyFollowingEventsScreen:
+        return MaterialPageRoute(builder: (context) {
+          return const AllMyFollowingEventsScreen();
         });
       default:
         return MaterialPageRoute(builder: (context) {

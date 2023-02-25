@@ -50,12 +50,9 @@ class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
             itemBuilder: (context, index) {
               if (index < widget.otherUserEventsEntitie.events.length) {
                 return EventsCardWidget(
+                  isHomeScreen: false,
                   isMyProfile: false,
-                  date: widget.otherUserEventsEntitie.events[index].eventDate,
-                  eventDescription: widget
-                      .otherUserEventsEntitie.events[index].eventDescription,
-                  eventsTitle:
-                      widget.otherUserEventsEntitie.events[index].eventName,
+                  eventEntitie: widget.otherUserEventsEntitie.events[index],
                 );
               } else {
                 return BlocBuilder<OtherUserProfileBloc, OtherUserProfileState>(

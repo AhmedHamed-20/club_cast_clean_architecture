@@ -31,4 +31,6 @@ class AppRoutesNames {
       '/layout_screen/room_screen/private_chat_room_screen';
   static const String allPodcastsScreen =
       '/layout_screen/search_screen/all_podcasts_screen';
+  static const String allMyFollowingEventsScreen =
+      '/layout_screen/search_screen/all_my_following_events_screen';
 }

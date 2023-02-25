@@ -19,6 +19,14 @@ class ConnectToSocketEvent extends SocketsEvent {
   List<Object> get props => [accessToken];
 }
 
+class SocketsErrorsEvent extends SocketsEvent {
+  final dynamic error;
+  const SocketsErrorsEvent(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
 class JoinRoomEvent extends SocketsEvent {
   final String roomName;
 

@@ -142,7 +142,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
             isEndOfEvents: true,
             myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
             statusCode: l.statusCode)), (r) {
-      if (r.results <= 10) {
+      if (r.results < 10) {
         emit(
           state.copyWith(
             errorMessage: '',

@@ -18,7 +18,8 @@ class RoomsBottomSheetWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(AppRoutesNames.roomScreen);
       },
-      child: SizedBox(
+      child: Container(
+        color: AppColors.transparentColor,
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.1,
         child: Padding(

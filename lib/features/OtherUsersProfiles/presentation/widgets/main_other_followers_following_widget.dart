@@ -44,13 +44,20 @@ class MainOtherUserFollowersFollowingWidget extends StatelessWidget {
                             .length) {
                       return InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed(
-                              AppRoutesNames.otherUserProfileScreen,
-                              arguments: OtherUserProfileScreenParams(state
+                          if (state
                                   .otherUserFollowersFollowingDataEntitie!
                                   .otherUserFollowersFollowingUserDataEntitie[
                                       index]
-                                  .uid));
+                                  .uid !=
+                              ConstVar.userId) {
+                            Navigator.of(context).pushNamed(
+                                AppRoutesNames.otherUserProfileScreen,
+                                arguments: OtherUserProfileScreenParams(state
+                                    .otherUserFollowersFollowingDataEntitie!
+                                    .otherUserFollowersFollowingUserDataEntitie[
+                                        index]
+                                    .uid));
+                          }
                         },
                         child: UserCardWidget(
                           userName: state

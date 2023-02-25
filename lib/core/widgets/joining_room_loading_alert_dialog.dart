@@ -14,8 +14,9 @@ class JoiningRoomAlertLoadingDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
       listener: (context, state) {
-        if (state.joinRoomRequestStatus == JoinRoomRequestStatus.success &&
-            isIuserInRoom == false) {
+        if (state.joinRoomRequestStatus == JoinRoomRequestStatus.success ||
+            state.createRoomRequestStatus == CreateRoomRequestStatus.success &&
+                isIuserInRoom == false) {
           BlocProvider.of<ChatBloc>(context)
               .add(const ListenOnChatEventsEvent());
           Navigator.of(context).pop();
@@ -24,6 +25,9 @@ class JoiningRoomAlertLoadingDialog extends StatelessWidget {
           );
           //to prevent always pushing to room screen when state changes
           isIuserInRoom = true;
+        } else if (state.joinRoomRequestStatus == JoinRoomRequestStatus.error ||
+            state.createRoomRequestStatus == CreateRoomRequestStatus.error) {
+          Navigator.of(context).pop();
         }
       },
       child: AlertDialog(

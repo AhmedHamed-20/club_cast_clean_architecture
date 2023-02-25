@@ -24,7 +24,7 @@ class HomeMainWidget extends StatelessWidget {
         if (socketVoiceState.connectToSocketRequestStatus ==
                 ConnectToSocketRequestStatus.success &&
             socketVoiceState.joinRoomRequestStatus ==
-                JoinRoomRequestStatus.idle) {
+                JoinRoomRequestStatus.loading) {
           isIuserInRoom = false;
           showDialog(
               context: context,

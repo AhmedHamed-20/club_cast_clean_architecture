@@ -26,12 +26,14 @@ import '../../../../domain/entities/admin_entitie.dart';
 import '../../../../domain/entities/audience_entite.dart';
 import '../../../../domain/entities/brodcasters_entitie.dart';
 import '../../../../domain/entities/me_entitie.dart';
+import '../chat/chat_bloc.dart';
 
 part 'sockets_event_voice.dart';
 part 'sockets_voice_state.dart';
 
 class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
-  SocketsVoiceBloc(this.layoutBloc) : super(const SocketsVoiceState()) {
+  SocketsVoiceBloc(this.layoutBloc, this.roomChatBloc)
+      : super(const SocketsVoiceState()) {
     on<ConnectToSocketEvent>(_connectToSocket);
     on<JoinRoomEvent>(_joinRoom);
     on<ConnectToSocketsSuccessEvent>(_connectToSocketSuccess);
@@ -53,8 +55,10 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<RemoteUserMuteStateEvent>(_remoteUserMuteState);
     on<ActiveUserTalkingEvent>(_activeUserTalking);
     on<MuteUnMuteLocalAudioEvent>(_muteLocalAudio);
+    on<SocketsErrorsEvent>(_socketErrorEvent);
   }
   final LayoutBloc layoutBloc;
+  final ChatBloc roomChatBloc;
   final AgoraHelper agoraHelper = AgoraHelper();
   FutureOr<void> _connectToSocket(
       ConnectToSocketEvent event, Emitter<SocketsVoiceState> emit) async {
@@ -82,25 +86,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
       ConstVar.socket.connect();
       ConstVar.socket.onConnectError((data) {
-        flutterToast(
-            msg: data.toString(),
-            backgroundColor: AppColors.toastError,
-            textColor: AppColors.white);
-        if (event.isCreateRoom) {
-          emit(
-            state.copyWith(
-                connectToSocketRequestStatus:
-                    ConnectToSocketRequestStatus.error,
-                createRoomRequestStatus: CreateRoomRequestStatus.error),
-          );
-        } else {
-          emit(
-            state.copyWith(
-                connectToSocketRequestStatus:
-                    ConnectToSocketRequestStatus.error,
-                joinRoomRequestStatus: JoinRoomRequestStatus.error),
-          );
-        }
+        add(SocketsErrorsEvent(data));
       });
       ConstVar.socket.onDisconnect((data) {
         print(data);
@@ -125,6 +111,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       });
       ConstVar.socket.on('error', (error) {
         print(error);
+        add(SocketsErrorsEvent(error));
       });
     } else {
       if (ConstVar.layoutBottomSheetStatus !=
@@ -621,6 +608,24 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
               : LiveVoiceRoomFloatingButtonStatus.mute,
         ),
       );
+    }
+  }
+
+  FutureOr<void> _socketErrorEvent(
+      SocketsErrorsEvent event, Emitter<SocketsVoiceState> emit) {
+    flutterToast(
+        msg: event.error.toString(),
+        backgroundColor: AppColors.toastError,
+        textColor: AppColors.white);
+    if (event.error.toString() == 'transport closed') {
+      add(const LeaveRoomEvent());
+      roomChatBloc.add(const LeaveChatRoomEvent());
+    }
+    if (state.isCreateRoom) {
+      emit(state.copyWith(
+          createRoomRequestStatus: CreateRoomRequestStatus.error));
+    } else {
+      emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.error));
     }
   }
 }
