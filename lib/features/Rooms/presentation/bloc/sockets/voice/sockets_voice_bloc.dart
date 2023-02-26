@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/check_mic_permission.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
@@ -32,7 +33,7 @@ part 'sockets_event_voice.dart';
 part 'sockets_voice_state.dart';
 
 class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
-  SocketsVoiceBloc(this.layoutBloc, this.roomChatBloc)
+  SocketsVoiceBloc(this.layoutBloc, this.roomChatBloc, this.assetsAudioPlayer)
       : super(const SocketsVoiceState()) {
     on<ConnectToSocketEvent>(_connectToSocket);
     on<JoinRoomEvent>(_joinRoom);
@@ -56,9 +57,12 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<ActiveUserTalkingEvent>(_activeUserTalking);
     on<MuteUnMuteLocalAudioEvent>(_muteLocalAudio);
     on<SocketsErrorsEvent>(_socketErrorEvent);
+    on<PlayRoomSoundEvent>(_playRoomSound);
   }
   final LayoutBloc layoutBloc;
   final ChatBloc roomChatBloc;
+  AssetsAudioPlayer assetsAudioPlayer;
+  late RtcEngineEventHandler rtcEngineEventHandler;
   final AgoraHelper agoraHelper = AgoraHelper();
   FutureOr<void> _connectToSocket(
       ConnectToSocketEvent event, Emitter<SocketsVoiceState> emit) async {
@@ -192,6 +196,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     );
     listenOnAgoraEvents();
     listenOnSocketEvents();
+    add(const PlayRoomSoundEvent(AssetsPath.userEnterAudio));
   }
 
   void listenOnSocketEvents() {
@@ -278,6 +283,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         }
       }
     }
+    add(const PlayRoomSoundEvent(AssetsPath.userLeftAudio));
   }
 
   FutureOr<void> _userJoined(
@@ -285,8 +291,8 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     AudienceEntitie? audienceEntitie = state.audienceEntitie.copyWith();
 
     audienceEntitie.audience.add(ActiveRoomUserModel.fromJson(event.response));
-
     emit(state.copyWith(audienceEntitie: audienceEntitie));
+    add(const PlayRoomSoundEvent('assets/audio/userEnter.wav'));
   }
 
   FutureOr<void> _adminLeft(
@@ -296,6 +302,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
             'Admin left the room if he not back in 1 minute the room will be closed',
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black);
+    add(const PlayRoomSoundEvent('assets/audio/adminLeft.wav'));
   }
 
   FutureOr<void> _roomEnded(
@@ -344,6 +351,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
           brodcastersEnitite: brodcastersEnitite,
           audienceEntitie: AudienceEntitie(audience)));
     }
+    add(const PlayRoomSoundEvent(AssetsPath.userBecomeAudienceAudio));
   }
 
   FutureOr<void> _userChangedToBroadcaster(
@@ -376,6 +384,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         ),
       );
     }
+    add(const PlayRoomSoundEvent(AssetsPath.userBecomeSpeakerAudio));
   }
 
   FutureOr<void> _createRoom(
@@ -429,6 +438,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     }
     listenOnAgoraEvents();
     listenOnSocketEvents();
+    add(const PlayRoomSoundEvent(AssetsPath.userEnterAudio));
   }
 
   FutureOr<void> _leaveRoom(
@@ -467,7 +477,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     }
     layoutBloc.add(const BottomSheetStatusEvent(
         layoutBottomSheetStatus: LayoutBottomSheetStatus.idle));
-    await agoraHelper.leaveRoom();
+    await agoraHelper.leaveRoom(rtcEngineEventHandler);
+
+    await assetsAudioPlayer.dispose();
   }
 
   FutureOr<void> _askToTalk(
@@ -494,8 +506,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   }
 
   void listenOnAgoraEvents() {
-    agoraHelper.listenOnAgoraEvents(
-        rtcEngineEventHandler: RtcEngineEventHandler(
+    rtcEngineEventHandler = RtcEngineEventHandler(
       onAudioVolumeIndication:
           (connection, speakers, speakerNumber, totalVolume) {
         add(ActiveUserTalkingEvent(audioInfo: speakers));
@@ -503,7 +514,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       onUserMuteAudio: (connection, remoteUid, muted) {
         add(RemoteUserMuteStateEvent(uid: remoteUid, isMuted: muted));
       },
-    ));
+    );
+    agoraHelper.listenOnAgoraEvents(
+        rtcEngineEventHandler: rtcEngineEventHandler);
   }
 
   FutureOr<void> _remoteUserMuteState(
@@ -627,5 +640,21 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     } else {
       emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.error));
     }
+  }
+
+  FutureOr<void> _playRoomSound(
+      PlayRoomSoundEvent event, Emitter<SocketsVoiceState> emit) async {
+    try {
+      if (assetsAudioPlayer.isPlaying.value) {
+        await assetsAudioPlayer.stop();
+      }
+    } catch (e) {
+      assetsAudioPlayer = AssetsAudioPlayer();
+    }
+    await assetsAudioPlayer.open(
+      Audio(
+        event.soundPath,
+      ),
+    );
   }
 }

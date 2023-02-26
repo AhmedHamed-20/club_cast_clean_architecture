@@ -195,3 +195,11 @@ class MuteUnMuteLocalAudioEvent extends SocketsEvent {
   @override
   List<Object?> get props => [isMuted];
 }
+
+class PlayRoomSoundEvent extends SocketsEvent {
+  final String soundPath;
+  const PlayRoomSoundEvent(this.soundPath);
+
+  @override
+  List<Object?> get props => [soundPath];
+}

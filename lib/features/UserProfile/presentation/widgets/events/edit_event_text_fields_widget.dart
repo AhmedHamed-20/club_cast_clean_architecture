@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
+import '../../../domain/entities/my_event_entitie.dart';
+import 'edit_date_edit_event_screen_widget.dart';
 
 class EditEventTextFieldsWidget extends StatefulWidget {
-  const EditEventTextFieldsWidget({super.key});
+  const EditEventTextFieldsWidget({super.key, required this.myEventEntitie});
+  final MyEventEntitie myEventEntitie;
 
   @override
   State<EditEventTextFieldsWidget> createState() =>
@@ -17,12 +20,13 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
   @override
   void initState() {
     super.initState();
-    initControllers();
+    initEventsControllers();
   }
 
   @override
   void dispose() {
-    disposeControllers();
+    disposeEventsControllers();
+    newEventDate = '';
     super.dispose();
   }
 
@@ -61,13 +65,18 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
     );
   }
 
-  void initControllers() {
+  void initEventsControllers() {
     TextEditingControllers.editEventTitleController = TextEditingController();
     TextEditingControllers.editEventDescriptionController =
         TextEditingController();
+    TextEditingControllers.editEventTitleController.text =
+        widget.myEventEntitie.eventName;
+    print(TextEditingControllers.editEventTitleController.text);
+    TextEditingControllers.editEventDescriptionController.text =
+        widget.myEventEntitie.eventDescription;
   }
 
-  void disposeControllers() {
+  disposeEventsControllers() {
     TextEditingControllers.editEventTitleController.dispose();
     TextEditingControllers.editEventDescriptionController.dispose();
   }

@@ -2,6 +2,8 @@ import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
+import '../../../../../core/theme/app_theme.dart';
+
 String newEventDate = '';
 
 class EditDateEditEventScreenWidget extends StatelessWidget {
@@ -21,6 +23,7 @@ class EditDateEditEventScreenWidget extends StatelessWidget {
             onTap: () {
               DatePicker.showDateTimePicker(
                 context,
+                theme: AppTheme.datePickerTheme(context),
                 minTime: DateTime.now(),
                 currentTime: DateTime.parse(
                   newEventDate != '' ? newEventDate : eventDate,

@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/data/datasource/remote_data_source_common_playing_podcast.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/data/repository/common_playing_podcast_repository_impl.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/repository/base_commo_podcast_repository.dart';
@@ -115,6 +116,11 @@ class ServiceLocator {
 
 //socket
   static void init() {
+    //assettAudioPlayer
+
+    servicelocator
+        .registerFactory<AssetsAudioPlayer>(() => AssetsAudioPlayer());
+
     ///bloc
     servicelocator.registerFactory<ChatBloc>(() => ChatBloc(servicelocator()));
 
@@ -135,11 +141,16 @@ class ServiceLocator {
         servicelocator(),
         servicelocator()));
 
-    servicelocator.registerFactory<SocketsVoiceBloc>(
-        () => SocketsVoiceBloc(servicelocator(), servicelocator()));
+    servicelocator.registerFactory<SocketsVoiceBloc>(() =>
+        SocketsVoiceBloc(servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<CommonPlayingPodcastBlocBloc>(() =>
-        CommonPlayingPodcastBlocBloc(servicelocator(), servicelocator(),
-            servicelocator(), servicelocator(), servicelocator()));
+        CommonPlayingPodcastBlocBloc(
+            servicelocator(),
+            servicelocator(),
+            servicelocator(),
+            servicelocator(),
+            servicelocator(),
+            servicelocator()));
     servicelocator.registerFactory<UserProfileBloc>(() => UserProfileBloc(
           servicelocator(),
           servicelocator(),

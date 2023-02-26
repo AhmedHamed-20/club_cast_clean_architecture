@@ -249,3 +249,13 @@ void checkOnTabOnRoomCardLogic({
     }
   }
 }
+
+class AssetsPath {
+  static const String userLeftAudio = 'assets/audio/userLeft.wav';
+  static const String userEnterAudio = 'assets/audio/userEnter.wav';
+  static const String userBecomeSpeakerAudio =
+      'assets/audio/userBecomeSpeaker.wav';
+  static const String userBecomeAudienceAudio =
+      'assets/audio/userBecomeAudience.wav';
+  static const String adminLeftAudio = 'assets/audio/adminLeft.wav';
+}

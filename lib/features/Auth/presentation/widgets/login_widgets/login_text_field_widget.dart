@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
@@ -28,6 +30,7 @@ class _LoginTextFieldsWidgetState extends State<LoginTextFieldsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return Column(
       children: [
         Defaults.defaultTextFormField(
@@ -39,11 +42,26 @@ class _LoginTextFieldsWidgetState extends State<LoginTextFieldsWidget> {
         SizedBox(
           height: AppHeight.h10,
         ),
-        Defaults.defaultTextFormField(
-          context: context,
-          controller: TextEditingControllers.loginPasswordController,
-          labelText: 'Password',
-          labelStyle: Theme.of(context).textTheme.titleMedium,
+        BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) => Defaults.defaultTextFormField(
+            context: context,
+            controller: TextEditingControllers.loginPasswordController,
+            labelText: 'Password',
+            labelStyle: Theme.of(context).textTheme.titleMedium,
+            obscureText: state.isLoginPasswordHide,
+            suffixIcon: IconButton(
+              icon: Icon(
+                state.isLoginPasswordHide
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                color: Theme.of(context).primaryColor,
+              ),
+              onPressed: () {
+                authBloc
+                    .add(LoginPasswordHideEvent(!state.isLoginPasswordHide));
+              },
+            ),
+          ),
         ),
       ],
     );

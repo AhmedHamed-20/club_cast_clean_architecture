@@ -67,7 +67,9 @@ class AgoraHelper {
     await _engine.muteLocalAudioStream(mute);
   }
 
-  Future<void> leaveRoom() async {
+  Future<void> leaveRoom(RtcEngineEventHandler rtcEngineEventHandler) async {
+    _engine.unregisterEventHandler(rtcEngineEventHandler);
+
     await _engine.leaveChannel();
   }
 

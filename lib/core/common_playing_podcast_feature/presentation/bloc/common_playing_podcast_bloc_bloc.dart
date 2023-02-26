@@ -29,7 +29,8 @@ class CommonPlayingPodcastBlocBloc
       this.podcastDownloadUsecase,
       this.layoutBloc,
       this.likeAddMyPodcastsUsecast,
-      this.likeRemoveMyPodcastsUsecast)
+      this.likeRemoveMyPodcastsUsecast,
+      this.myAssetAudioPlayer)
       : super(const CommonPlayingPodcastBlocState()) {
     on<PodcastPlayEvent>(_playPodcast);
     on<PodcastPlayPaused>(_playPaused);
@@ -45,7 +46,7 @@ class CommonPlayingPodcastBlocBloc
     on<LikeRemoveMyPodcastEvent>(_removeLike);
     on<AddPodcastLikeIdToMapEvent>(_addPodcastLikeIdToMap);
   }
-  late AssetsAudioPlayer myAssetAudioPlayer;
+  final AssetsAudioPlayer myAssetAudioPlayer;
   final PodcastLikesUsersUsecase podcastLikesUsersUsecase;
   final PodcastDownloadUsecase podcastDownloadUsecase;
   final LikeAddMyPodcastsUsecast likeAddMyPodcastsUsecast;
@@ -55,14 +56,10 @@ class CommonPlayingPodcastBlocBloc
       Emitter<CommonPlayingPodcastBlocState> emit) async {
     if (ConstVar.layoutBottomSheetStatus !=
         LayoutBottomSheetStatus.playingLiveVoiceRoom) {
-      try {
-        if (myAssetAudioPlayer.isPlaying.value) {
-          add(PodcastStopPlaying(
-            event.basePodcastEntitie.podcastId,
-          ));
-        }
-      } catch (e) {
-        myAssetAudioPlayer = AssetsAudioPlayer();
+      if (myAssetAudioPlayer.isPlaying.value) {
+        add(PodcastStopPlaying(
+          event.basePodcastEntitie.podcastId,
+        ));
       }
 
       await myAssetAudioPlayer.open(

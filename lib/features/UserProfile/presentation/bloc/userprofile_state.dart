@@ -3,6 +3,7 @@ part of 'userprofile_bloc.dart';
 class UserProfileState extends Equatable {
   final List<MyPodcastEntite> myPodcastEntite;
   final String errorMessage;
+  final bool isPasswordHide;
   final MyPodCastRequestStatus myPodCastequestStatus;
   final UpdatedUserDataInfoEntitie? updatedUserDataInfoEntitie;
   final UpdateUserDataRequestStatus updateUserDataRequestStatus;
@@ -32,6 +33,7 @@ class UserProfileState extends Equatable {
       {this.myPodcastEntite = const [],
       this.updatedUserDataInfoEntitie,
       this.newToken = '',
+      this.isPasswordHide = true,
       this.statusCode = 0,
       this.backGroundColors = const [],
       this.updateUserPhotoRequestStatus = UpdateUserDataRequestStatus.idle,
@@ -68,6 +70,7 @@ class UserProfileState extends Equatable {
     bool? isEndOfFollowingData,
     String? newToken,
     int? statusCode,
+    bool? isPasswordHide,
     String? pickedUserProfileImageFilePath,
     OtherUsersDataEntitie? followingData,
     UserDataGetRequestStatus? getMyFollowersRequestStatus,
@@ -86,6 +89,7 @@ class UserProfileState extends Equatable {
     MyPodCastRequestStatus? myPodCastequestStatus,
   }) {
     return UserProfileState(
+      isPasswordHide: isPasswordHide ?? this.isPasswordHide,
       statusCode: statusCode ?? this.statusCode,
       newToken: newToken ?? this.newToken,
       updateUserPhotoRequestStatus:
@@ -140,6 +144,7 @@ class UserProfileState extends Equatable {
         myPodCastequestStatus,
         myEventRequestStatus,
         myEvents,
+        isPasswordHide,
         statusCode,
         newToken,
         pickedPodcastFilePath,

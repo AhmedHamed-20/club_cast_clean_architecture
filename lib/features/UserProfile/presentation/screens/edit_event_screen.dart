@@ -10,29 +10,9 @@ import '../../domain/entities/my_event_entitie.dart';
 import '../bloc/userprofile_bloc.dart';
 import '../widgets/events/delete_event_alert_dialog_widget.dart';
 
-class EditEventScreen extends StatefulWidget {
+class EditEventScreen extends StatelessWidget {
   const EditEventScreen({super.key, required this.myEventEntitie});
   final MyEventEntitie myEventEntitie;
-
-  @override
-  State<EditEventScreen> createState() => _EditEventScreenState();
-}
-
-class _EditEventScreenState extends State<EditEventScreen> {
-  @override
-  void initState() {
-    super.initState();
-    TextEditingControllers.editEventTitleController.text =
-        widget.myEventEntitie.eventName;
-    TextEditingControllers.editEventDescriptionController.text =
-        widget.myEventEntitie.eventDescription;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    newEventDate = '';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +35,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                     return BlocProvider.value(
                       value: userProfileBloc,
                       child: DeleteEventAlertDialogWidget(
-                        eventId: widget.myEventEntitie.eventId,
+                        eventId: myEventEntitie.eventId,
                       ),
                     );
                   });
@@ -68,18 +48,18 @@ class _EditEventScreenState extends State<EditEventScreen> {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              const EditEventTextFieldsWidget(),
+              EditEventTextFieldsWidget(myEventEntitie: myEventEntitie),
               SizedBox(
                 height: AppHeight.h10,
               ),
               EditDateEditEventScreenWidget(
-                eventDate: widget.myEventEntitie.eventDate,
+                eventDate: myEventEntitie.eventDate,
               ),
               SizedBox(
                 height: AppHeight.h20,
               ),
               ApplyChangesButtonWidget(
-                myEventEntitie: widget.myEventEntitie,
+                myEventEntitie: myEventEntitie,
               ),
             ],
           ),

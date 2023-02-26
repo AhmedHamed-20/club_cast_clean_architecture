@@ -288,3 +288,11 @@ class UserImageUpdateEvent extends UserprofileEvent {
   @override
   List<Object?> get props => [accessToken, photoUrl];
 }
+
+class PasswordHideEvent extends UserprofileEvent {
+  final bool isHidden;
+  const PasswordHideEvent(this.isHidden);
+
+  @override
+  List<Object?> get props => [isHidden];
+}

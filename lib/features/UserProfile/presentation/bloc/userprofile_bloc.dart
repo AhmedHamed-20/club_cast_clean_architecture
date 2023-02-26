@@ -62,7 +62,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
     on<EventCreateEvent>(_createEvent);
     on<MyEventsGetEvent>(_getMyEvents);
     on<BackGroundColorGenerateEvent>(_generateBackGroundImageColor);
-
+    on<PasswordHideEvent>(_passwordHide);
     on<MyFollowersGetEvent>(_getMyFollwers);
     on<MyFollowingGetEvent>(_getMyFollowing);
     on<MyFollowersGetMoreEvent>(_getMoreFollowers);
@@ -596,5 +596,10 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
             pickedUserProfileImageFilePath: '',
             updateUserPhotoRequestStatus:
                 UpdateUserDataRequestStatus.success)));
+  }
+
+  FutureOr<void> _passwordHide(
+      PasswordHideEvent event, Emitter<UserProfileState> emit) {
+    emit(state.copyWith(isPasswordHide: !state.isPasswordHide));
   }
 }

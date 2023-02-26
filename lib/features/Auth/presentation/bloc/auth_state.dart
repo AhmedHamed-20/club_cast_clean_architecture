@@ -6,7 +6,8 @@ class AuthState extends Equatable {
   final AuthEntitie? loginEntitie;
   final AuthEntitie? signupEtitie;
   final ForgetPasswordRequestStatus forgetPasswordRequestStatus;
-
+  final bool isLoginPasswordHide;
+  final bool isSignupPasswordHide;
   final LoginRequestStatus loginRequestStatus;
   final String errorMessage;
   final SignUpRequestStatus signUpRequestStatus;
@@ -15,6 +16,8 @@ class AuthState extends Equatable {
       this.isEmailSent = false,
       this.loginEntitie,
       this.signupEtitie,
+      this.isLoginPasswordHide = true,
+      this.isSignupPasswordHide = true,
       this.forgetPasswordRequestStatus = ForgetPasswordRequestStatus.idle,
       this.loginRequestStatus = LoginRequestStatus.idle,
       this.signUpRequestStatus = SignUpRequestStatus.idle});
@@ -22,12 +25,16 @@ class AuthState extends Equatable {
   AuthState copyWith(
       {bool? isEmailSent,
       AuthEntitie? loginEntitie,
+      bool? isLoginPasswordHide,
+      bool? isSignupPasswordHide,
       AuthEntitie? signupEtitie,
       LoginRequestStatus? loginRequestStatus,
       SignUpRequestStatus? signUpRequestStatus,
       String? errorMessage,
       ForgetPasswordRequestStatus? forgetPasswordRequestStatus}) {
     return AuthState(
+        isLoginPasswordHide: isLoginPasswordHide ?? this.isLoginPasswordHide,
+        isSignupPasswordHide: isSignupPasswordHide ?? this.isSignupPasswordHide,
         loginEntitie: loginEntitie ?? this.loginEntitie,
         signupEtitie: signupEtitie ?? this.signupEtitie,
         loginRequestStatus: loginRequestStatus ?? this.loginRequestStatus,
@@ -46,6 +53,8 @@ class AuthState extends Equatable {
         forgetPasswordRequestStatus,
         loginRequestStatus,
         errorMessage,
+        isLoginPasswordHide,
+        isSignupPasswordHide,
         signUpRequestStatus
       ];
 }

@@ -23,6 +23,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgetPasswordEvent>(_forgetPassword);
     on<AccessTokenCacheEvent>(_cacheAccessToken);
     on<AuthRequestStatusResset>(_resetAuthRequestStatus);
+    on<LoginPasswordHideEvent>(_loginPasswordHide);
+    on<SignupPasswordHideEvent>(_signUpPasswordHide);
   }
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
@@ -130,5 +132,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         forgetPasswordRequestStatus: ForgetPasswordRequestStatus.idle,
       ),
     );
+  }
+
+  FutureOr<void> _loginPasswordHide(
+      LoginPasswordHideEvent event, Emitter<AuthState> emit) {
+    emit(state.copyWith(isLoginPasswordHide: event.isHide));
+  }
+
+  FutureOr<void> _signUpPasswordHide(
+      SignupPasswordHideEvent event, Emitter<AuthState> emit) {
+    emit(state.copyWith(isSignupPasswordHide: event.isHide));
   }
 }

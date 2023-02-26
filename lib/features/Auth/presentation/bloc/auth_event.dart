@@ -48,3 +48,19 @@ class AuthRequestStatusResset extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LoginPasswordHideEvent extends AuthEvent {
+  final bool isHide;
+  const LoginPasswordHideEvent(this.isHide);
+
+  @override
+  List<Object?> get props => [isHide];
+}
+
+class SignupPasswordHideEvent extends AuthEvent {
+  final bool isHide;
+  const SignupPasswordHideEvent(this.isHide);
+
+  @override
+  List<Object?> get props => [isHide];
+}
