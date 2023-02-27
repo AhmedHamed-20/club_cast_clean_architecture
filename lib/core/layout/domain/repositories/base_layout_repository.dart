@@ -7,7 +7,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../../usecase/usecase.dart';
 import '../entities/category_entitie.dart';
+import '../usecases/cache_active_theme_value.dart';
 import '../usecases/get_active_user_data.dart';
+import '../usecases/get_cached_theme_value.dart';
 import '../usecases/get_my_following_events.dart';
 import '../usecases/update_cached_access_token.dart';
 
@@ -25,4 +27,8 @@ abstract class BaseLayoutRepository {
       CachedAccessTokenUpdateParams params);
   Future<Either<Failure, void>> removeCachedAccessToken(
       AccessTokenRemoveParams params);
+  Future<Either<Failure, void>> cacheThemeDataValue(
+      ThemeDataValueCacheParams params);
+  Future<Either<Failure, bool>> getCachedThemeDataValue(
+      GetThemeDataValueFromCacheParams params);
 }

@@ -193,3 +193,8 @@ enum LiveVoiceRoomFloatingButtonStatus {
   mute,
   unmute,
 }
+
+enum ThemeModeValue {
+  lightMode,
+  darkMode,
+}

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,29 +14,6 @@ class PhotoAndNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, userProfileState) => Container(
-            width: MediaQueryOfMethods.getAppWidth(context),
-            height: MediaQueryOfMethods.getAppHeight(context) * 0.3,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: userProfileState.backGroundColors.first.color,
-                  blurRadius: 50,
-                  spreadRadius: 5,
-                  offset: const Offset(0, -20),
-                ),
-                BoxShadow(
-                  color:
-                      Theme.of(context).colorScheme.background.withOpacity(0.5),
-                  blurRadius: 50,
-                  spreadRadius: 5,
-                  offset: const Offset(0, -20),
-                ),
-              ],
-            ),
-          ),
-        ),
         Row(
           children: [
             ClipRRect(

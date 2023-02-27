@@ -5,7 +5,9 @@ import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_foll
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_active_theme_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_theme_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/update_cached_access_token.dart';
@@ -43,7 +45,7 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(
-          ServerFailure(message: exception.serverErrorMessageModel.message));
+          CacheFailure(message: exception.serverErrorMessageModel.message));
     }
   }
 
@@ -81,9 +83,8 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(
-        ServerFailure(
+        CacheFailure(
           message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode,
         ),
       );
     }
@@ -98,9 +99,39 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
       return Right(result);
     } on ServerException catch (exception) {
       return Left(
-        ServerFailure(
+        CacheFailure(
           message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheThemeDataValue(
+      ThemeDataValueCacheParams params) async {
+    try {
+      final result = await baseLayoutLocalDataSource.cacheThemeValue(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        CacheFailure(
+          message: exception.serverErrorMessageModel.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> getCachedThemeDataValue(
+      GetThemeDataValueFromCacheParams params) async {
+    try {
+      final result =
+          await baseLayoutLocalDataSource.getCachedThemeValue(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        CacheFailure(
+          message: exception.serverErrorMessageModel.message,
         ),
       );
     }

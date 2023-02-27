@@ -23,6 +23,8 @@ import '../../../../features/Search/presentation/screens/search_screen.dart';
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
 import '../../../utl/utls.dart';
 import '../../../widgets/cached_network_image_circle_photo.dart';
+import '../../domain/usecases/cache_active_theme_value.dart';
+import '../../domain/usecases/get_cached_theme_value.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
 part 'layout_event.dart';
@@ -35,6 +37,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       this.myFollowingEventsUsecase,
       this.categoriesGetUsecase,
       this.accessTokenRemoveUsecase,
+      this.getThemeDataValueFromCacheUssecase,
+      this.themeDataValueCacheUssecase,
       this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
@@ -46,6 +50,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<CachedAccessTokenUpdateEvent>(_updateCachedAccessToken);
     on<AccessTokenRemoveEvent>(_removeAccessToken);
     on<BottomSheetStatusEvent>(_bottomSheetStatus);
+    on<CacheThemeValueEvent>(_cacheTheme);
+    on<GetChachedThemeValueEvent>(_getThemeValue);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
@@ -53,6 +59,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final CategoriesGetUsecase categoriesGetUsecase;
   final CachedAccessTokenUpdateUsecase cachedAccessTokenUpdateUsecase;
   final AccessTokenRemoveUsecase accessTokenRemoveUsecase;
+  final ThemeDataValueCacheUssecase themeDataValueCacheUssecase;
+  final GetThemeDataValueFromCacheUssecase getThemeDataValueFromCacheUssecase;
   List<Widget> bottomNaveIcons(
           {required String photoUrl, required double phototRadius}) =>
       [
@@ -278,5 +286,37 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       ),
     );
     ConstVar.layoutBottomSheetStatus = event.layoutBottomSheetStatus;
+  }
+
+  FutureOr<void> _cacheTheme(
+      CacheThemeValueEvent event, Emitter<LayoutState> emit) async {
+    final result = await themeDataValueCacheUssecase(
+      ThemeDataValueCacheParams(
+        key: 'themeValue',
+        isDark: event.isDark,
+      ),
+    );
+    result.fold(
+      (l) => emit(state.copyWith(
+        errorMessage: l.message,
+      )),
+      (r) => add(const GetChachedThemeValueEvent(key: 'themeValue')),
+    );
+  }
+
+  FutureOr<void> _getThemeValue(
+      GetChachedThemeValueEvent event, Emitter<LayoutState> emit) async {
+    final result = await getThemeDataValueFromCacheUssecase(
+      GetThemeDataValueFromCacheParams(
+        key: event.key,
+      ),
+    );
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      if (r) {
+        emit(state.copyWith(themeModeValue: ThemeModeValue.darkMode));
+      } else {
+        emit(state.copyWith(themeModeValue: ThemeModeValue.lightMode));
+      }
+    });
   }
 }

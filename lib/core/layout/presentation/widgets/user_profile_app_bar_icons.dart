@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+
+import '../../../../features/UserProfile/presentation/widgets/my_profile_data/logout_alert_dialog_widget.dart';
+import 'change_theme_bottom_sheet.dart';
+
+class UserProfileAppBarIconsWidget extends StatelessWidget {
+  const UserProfileAppBarIconsWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const ThemeChangeBottomSheetWidget();
+                });
+          },
+          icon: const Icon(Icons.brush),
+        ),
+        IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => const LogoutAlertDialogWidget());
+            },
+            icon: const Icon(Icons.logout)),
+      ],
+    );
+  }
+}

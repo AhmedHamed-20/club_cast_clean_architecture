@@ -50,17 +50,21 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => MaterialApp(
-          title: 'Club Cast',
-          theme: Material3Colors.light,
-          darkTheme: Material3Colors.dark,
-          themeMode: ThemeMode.dark,
-          onGenerateRoute: appRoutes.generateRoutes,
-          routes: {
-            AppRoutesNames.splashScreen: (context) =>
-                SplashScreen(accessToken: accessToken),
-          },
-          initialRoute: AppRoutesNames.splashScreen,
+        builder: (context, child) => BlocBuilder<LayoutBloc, LayoutState>(
+          builder: (context, state) => MaterialApp(
+            title: 'Club Cast',
+            theme: Material3Colors.light,
+            darkTheme: Material3Colors.dark,
+            themeMode: state.themeModeValue.index == 0
+                ? ThemeMode.light
+                : ThemeMode.dark,
+            onGenerateRoute: appRoutes.generateRoutes,
+            routes: {
+              AppRoutesNames.splashScreen: (context) =>
+                  SplashScreen(accessToken: accessToken),
+            },
+            initialRoute: AppRoutesNames.splashScreen,
+          ),
         ),
       ),
     );

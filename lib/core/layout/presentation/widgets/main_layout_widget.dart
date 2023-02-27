@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/widgets/user_profile_app_bar_icons.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/create_room_bottom_sheet.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/my_profile_data/logout_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,14 +28,7 @@ class MainLayoutWidget extends StatelessWidget {
           ),
           actions: [
             state.currentBottomNavIndex == 4
-                ? IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) =>
-                              const LogoutAlertDialogWidget());
-                    },
-                    icon: const Icon(Icons.logout))
+                ? const UserProfileAppBarIconsWidget()
                 : const SizedBox.shrink(),
           ],
         ),

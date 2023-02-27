@@ -102,3 +102,22 @@ class BottomSheetStatusEvent extends LayoutEvent {
   @override
   List<Object?> get props => [layoutBottomSheetStatus];
 }
+
+class CacheThemeValueEvent extends LayoutEvent {
+  final String key;
+  final bool isDark;
+
+  const CacheThemeValueEvent({required this.key, required this.isDark});
+
+  @override
+  List<Object?> get props => [key, isDark];
+}
+
+class GetChachedThemeValueEvent extends LayoutEvent {
+  final String key;
+
+  const GetChachedThemeValueEvent({required this.key});
+
+  @override
+  List<Object?> get props => [key];
+}

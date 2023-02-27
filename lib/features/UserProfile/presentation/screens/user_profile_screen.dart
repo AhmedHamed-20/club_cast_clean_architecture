@@ -6,8 +6,6 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/w
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utl/utls.dart';
-
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({
     super.key,
@@ -18,27 +16,12 @@ class UserProfileScreen extends StatelessWidget {
       builder: (context, layoutState) => BlocProvider(
         create: (context) => servicelocator<UserProfileBloc>()
           ..add(
-            BackGroundColorGenerateEvent(
-              layoutState.userDataEntitie!.userPhoto,
-            ),
-          )
-          ..add(
             MyPodcastsGetEvent(
               ConstVar.accessToken,
             ),
           )
           ..add(MyEventsGetEvent(ConstVar.accessToken)),
-        child: BlocBuilder<UserProfileBloc, UserProfileState>(
-            builder: (context, state) {
-          switch (state.backGroundColorGenerateRequestStatus) {
-            case BackGroundColorGenerateRequestStatus.loading:
-              return const Center(child: CircularProgressIndicator());
-            case BackGroundColorGenerateRequestStatus.generated:
-              return const MainUserProfileWidget();
-            case BackGroundColorGenerateRequestStatus.error:
-              return const MainUserProfileWidget();
-          }
-        }),
+        child: const MainUserProfileWidget(),
       ),
     );
   }
