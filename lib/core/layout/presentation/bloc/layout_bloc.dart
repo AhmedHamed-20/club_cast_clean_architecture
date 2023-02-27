@@ -21,9 +21,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../features/Rooms/presentation/screens/all_rooms_screen.dart';
 import '../../../../features/Search/presentation/screens/search_screen.dart';
 import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
+import '../../../theme/amber_theme.dart';
+import '../../../theme/base_theme_class.dart';
+import '../../../theme/big_stone_theme.dart';
+import '../../../theme/material_baseline_theme.dart';
+import '../../../theme/wasabi_theme.dart';
 import '../../../utl/utls.dart';
 import '../../../widgets/cached_network_image_circle_photo.dart';
+import '../../domain/usecases/cache_active_color_value.dart';
 import '../../domain/usecases/cache_active_theme_value.dart';
+import '../../domain/usecases/get_cached_app_color_value.dart';
 import '../../domain/usecases/get_cached_theme_value.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
@@ -39,6 +46,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       this.accessTokenRemoveUsecase,
       this.getThemeDataValueFromCacheUssecase,
       this.themeDataValueCacheUssecase,
+      this.getCachedAppColorValueFromCacheUssecase,
+      this.cacheAppColorValueUsecase,
       this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
@@ -52,6 +61,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<BottomSheetStatusEvent>(_bottomSheetStatus);
     on<CacheThemeValueEvent>(_cacheTheme);
     on<GetChachedThemeValueEvent>(_getThemeValue);
+    on<GetCachedAppColorsValueEvent>(_getCachedAppColor);
+    on<CacheAppColorsValueEvent>(_cacheAppColor);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
@@ -61,6 +72,16 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final AccessTokenRemoveUsecase accessTokenRemoveUsecase;
   final ThemeDataValueCacheUssecase themeDataValueCacheUssecase;
   final GetThemeDataValueFromCacheUssecase getThemeDataValueFromCacheUssecase;
+  final CacheAppColorValueUsecase cacheAppColorValueUsecase;
+  final GetCachedAppColorValueFromCacheUssecase
+      getCachedAppColorValueFromCacheUssecase;
+  final List<String> availbleAppColors = [
+    'Materia Base Line',
+    'Amber',
+    'Big Stone',
+    'Wasabi'
+  ];
+
   List<Widget> bottomNaveIcons(
           {required String photoUrl, required double phototRadius}) =>
       [
@@ -85,7 +106,6 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
                 photoRadius: phototRadius, photoUrl: photoUrl),
             label: ''),
       ];
-
   final appBarTitles = ['Home', 'Podcasts', '', 'Search', 'Your Profile'];
 
   final List<Widget> bottomNaveScreens = [
@@ -292,7 +312,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       CacheThemeValueEvent event, Emitter<LayoutState> emit) async {
     final result = await themeDataValueCacheUssecase(
       ThemeDataValueCacheParams(
-        key: 'themeValue',
+        key: event.key,
         isDark: event.isDark,
       ),
     );
@@ -300,7 +320,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       (l) => emit(state.copyWith(
         errorMessage: l.message,
       )),
-      (r) => add(const GetChachedThemeValueEvent(key: 'themeValue')),
+      (r) => add(GetChachedThemeValueEvent(key: event.key)),
     );
   }
 
@@ -317,6 +337,42 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       } else {
         emit(state.copyWith(themeModeValue: ThemeModeValue.lightMode));
       }
+    });
+  }
+
+  FutureOr<void> _getCachedAppColor(
+      GetCachedAppColorsValueEvent event, Emitter<LayoutState> emit) async {
+    final result = await getCachedAppColorValueFromCacheUssecase(
+        GetCachedAppColorValueParams(key: event.key));
+
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      if (r == availbleAppColors[0]) {
+        emit(state.copyWith(
+            baseThemeClass: const MaterialBaseline(),
+            appColorsValue: AppColorsValue.materialBaseLine));
+      } else if (r == availbleAppColors[1]) {
+        emit(state.copyWith(
+            baseThemeClass: const AmberTheme(),
+            appColorsValue: AppColorsValue.amber));
+      } else if (r == availbleAppColors[2]) {
+        emit(state.copyWith(
+            baseThemeClass: const BigStone(),
+            appColorsValue: AppColorsValue.bigStone));
+      } else if (r == availbleAppColors[3]) {
+        emit(state.copyWith(
+            baseThemeClass: const WasabiTheme(),
+            appColorsValue: AppColorsValue.wasabi));
+      }
+    });
+  }
+
+  FutureOr<void> _cacheAppColor(
+      CacheAppColorsValueEvent event, Emitter<LayoutState> emit) async {
+    final result = await cacheAppColorValueUsecase(
+        CacheAppColorsParams(color: event.color, key: event.key));
+
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      add(GetCachedAppColorsValueEvent(key: event.key));
     });
   }
 }

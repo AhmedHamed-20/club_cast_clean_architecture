@@ -121,3 +121,20 @@ class GetChachedThemeValueEvent extends LayoutEvent {
   @override
   List<Object?> get props => [key];
 }
+
+class GetCachedAppColorsValueEvent extends LayoutEvent {
+  final String key;
+  const GetCachedAppColorsValueEvent({required this.key});
+
+  @override
+  List<Object?> get props => [key];
+}
+
+class CacheAppColorsValueEvent extends LayoutEvent {
+  final String key;
+  final String color;
+  const CacheAppColorsValueEvent({required this.key, required this.color});
+
+  @override
+  List<Object?> get props => [key, color];
+}

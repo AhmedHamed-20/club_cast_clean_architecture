@@ -24,7 +24,7 @@ class Material3Colors {
 // you use a lower version, some properties may not be supported. In
 // that case you can also remove them after copying the theme to your app.
   static ThemeData light = FlexThemeData.light(
-    scheme: FlexScheme.materialBaseline,
+    scheme: FlexScheme.amber,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
     blendLevel: 9,
     subThemesData: const FlexSubThemesData(
@@ -54,7 +54,7 @@ class Material3Colors {
     // fontFamily: GoogleFonts.notoSans().fontFamily,
   );
   static ThemeData dark = FlexThemeData.dark(
-    scheme: FlexScheme.materialBaseline,
+    scheme: FlexScheme.amber,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
     blendLevel: 15,
     subThemesData: const FlexSubThemesData(

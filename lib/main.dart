@@ -2,7 +2,6 @@ import 'package:club_cast_clean_architecture/core/cache/cache_setup.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
-import 'package:club_cast_clean_architecture/core/theme/app_theme.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
@@ -39,7 +38,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => servicelocator<AuthBloc>()),
-        BlocProvider(create: (context) => servicelocator<LayoutBloc>()),
+        BlocProvider(
+            create: (context) => servicelocator<LayoutBloc>()
+              ..add(GetChachedThemeValueEvent(key: ConstVar.appThemeKey))
+              ..add(GetCachedAppColorsValueEvent(key: ConstVar.appColorKey))),
         BlocProvider(
             create: (context) =>
                 servicelocator<CommonPlayingPodcastBlocBloc>()),
@@ -53,8 +55,8 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => BlocBuilder<LayoutBloc, LayoutState>(
           builder: (context, state) => MaterialApp(
             title: 'Club Cast',
-            theme: Material3Colors.light,
-            darkTheme: Material3Colors.dark,
+            theme: state.baseThemeClass.lightMode(),
+            darkTheme: state.baseThemeClass.darkMode(),
             themeMode: state.themeModeValue.index == 0
                 ? ThemeMode.light
                 : ThemeMode.dark,

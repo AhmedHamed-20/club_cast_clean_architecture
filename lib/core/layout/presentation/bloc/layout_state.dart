@@ -16,10 +16,14 @@ class LayoutState extends Equatable {
   final int statusCode;
   final bool isEndOfEvents;
   final ThemeModeValue themeModeValue;
+  final BaseThemeClass baseThemeClass;
+  final AppColorsValue appColorsValue;
   const LayoutState(
       {this.userDataEntitie,
       this.errorMessage = '',
       this.categoryEntitie,
+      this.baseThemeClass = const MaterialBaseline(),
+      this.appColorsValue = AppColorsValue.materialBaseLine,
       this.themeModeValue = ThemeModeValue.lightMode,
       this.layoutBottomSheetStatus = LayoutBottomSheetStatus.idle,
       this.isEndOfEvents = false,
@@ -49,6 +53,8 @@ class LayoutState extends Equatable {
     LogoutRequestStatus? logoutRequestStatus,
     UserDataGetRequestStatus? userDataGetRequestStatus,
     ThemeModeValue? themeModeValue,
+    BaseThemeClass? baseThemeClass,
+    AppColorsValue? appColorsValue,
   }) {
     return LayoutState(
       layoutBottomSheetStatus:
@@ -74,6 +80,8 @@ class LayoutState extends Equatable {
       userDataGetRequestStatus:
           userDataGetRequestStatus ?? this.userDataGetRequestStatus,
       themeModeValue: themeModeValue ?? this.themeModeValue,
+      baseThemeClass: baseThemeClass ?? this.baseThemeClass,
+      appColorsValue: appColorsValue ?? this.appColorsValue,
     );
   }
 
@@ -94,5 +102,7 @@ class LayoutState extends Equatable {
         myFollowingEventsRequestStatus,
         currentBottomNavIndex,
         themeModeValue,
+        baseThemeClass,
+        appColorsValue,
       ];
 }

@@ -17,6 +17,7 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
       switch (state.liveVoiceRoomFloatingButtonStatus) {
         case LiveVoiceRoomFloatingButtonStatus.askToTalk:
           return FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             onPressed: () {
               socketBloc.add(const AskToTalkEvent());
             },
@@ -27,6 +28,7 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
           );
         case LiveVoiceRoomFloatingButtonStatus.mute:
           return FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             onPressed: () {
               socketBloc.add(const MuteUnMuteLocalAudioEvent(true));
             },
@@ -37,6 +39,7 @@ class RoomVoiceFloatingActionButtonWidget extends StatelessWidget {
           );
         case LiveVoiceRoomFloatingButtonStatus.unmute:
           return FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             onPressed: () {
               socketBloc.add(const MuteUnMuteLocalAudioEvent(false));
             },

@@ -198,3 +198,5 @@ enum ThemeModeValue {
   lightMode,
   darkMode,
 }
+
+enum AppColorsValue { materialBaseLine, amber, bigStone, wasabi }

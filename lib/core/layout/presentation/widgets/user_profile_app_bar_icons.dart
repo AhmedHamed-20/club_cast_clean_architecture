@@ -16,6 +16,7 @@ class UserProfileAppBarIconsWidget extends StatelessWidget {
           onPressed: () {
             showModalBottomSheet(
                 context: context,
+                isScrollControlled: true,
                 builder: (context) {
                   return const ThemeChangeBottomSheetWidget();
                 });

@@ -187,6 +187,9 @@ class ConstVar {
   static late Socket socket;
   static LayoutBottomSheetStatus layoutBottomSheetStatus =
       LayoutBottomSheetStatus.idle;
+
+  static String appThemeKey = 'themeValue';
+  static String appColorKey = 'AppColorsValue';
 }
 
 late AssetsAudioPlayer assetsAudioPlayer;
