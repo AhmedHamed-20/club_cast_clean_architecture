@@ -46,7 +46,7 @@ class EventsCardWidget extends StatelessWidget {
                       icon: const Icon(Icons.edit),
                     )
                   : IconButton(
-                      onPressed: onPressedOnEdit,
+                      onPressed: onPressedOnNotification,
                       icon: const Icon(Icons.notifications),
                     ),
             ],

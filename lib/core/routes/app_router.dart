@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/SplashScreen/splash_screen.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/screens/likes_users_screens.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/screens/layout_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_information_screen.dart';
@@ -30,6 +31,13 @@ class AppRoutes {
       case AppRoutesNames.loginScreen:
         return MaterialPageRoute(builder: (context) {
           return const LoginScreen();
+        });
+      case AppRoutesNames.splashScreen:
+        String argument = args as String;
+        return MaterialPageRoute(builder: (context) {
+          return SplashScreen(
+            accessToken: argument,
+          );
         });
       case AppRoutesNames.layoutScreen:
         return MaterialPageRoute(builder: (context) {

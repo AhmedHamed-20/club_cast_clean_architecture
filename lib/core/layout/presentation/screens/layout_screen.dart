@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/LocalNotification/local_notification_helper.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
@@ -18,11 +19,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LayoutBloc>(context)
-      ..add(
-        ActiveUserDataGetEvent(ConstVar.accessToken),
-      )
-      ..add(MyFollowingEventsGetEvent(ConstVar.accessToken));
+    userDataGet();
+    initLocalNotification();
   }
 
   @override
@@ -59,5 +57,17 @@ class _LayoutScreenState extends State<LayoutScreen> {
           }
       }
     });
+  }
+
+  void userDataGet() {
+    BlocProvider.of<LayoutBloc>(context)
+      ..add(
+        ActiveUserDataGetEvent(ConstVar.accessToken),
+      )
+      ..add(MyFollowingEventsGetEvent(ConstVar.accessToken));
+  }
+
+  void initLocalNotification() async {
+    await LocalNotificationHelper.init();
   }
 }

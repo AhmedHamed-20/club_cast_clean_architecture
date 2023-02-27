@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
+import 'core/SplashScreen/splash_screen.dart';
 import 'core/routes/app_route_names.dart';
 import 'core/routes/app_router.dart';
 
@@ -55,9 +56,11 @@ class MyApp extends StatelessWidget {
           darkTheme: Material3Colors.dark,
           themeMode: ThemeMode.dark,
           onGenerateRoute: appRoutes.generateRoutes,
-          initialRoute: accessToken == ''
-              ? AppRoutesNames.loginScreen
-              : AppRoutesNames.layoutScreen,
+          routes: {
+            AppRoutesNames.splashScreen: (context) =>
+                SplashScreen(accessToken: accessToken),
+          },
+          initialRoute: AppRoutesNames.splashScreen,
         ),
       ),
     );

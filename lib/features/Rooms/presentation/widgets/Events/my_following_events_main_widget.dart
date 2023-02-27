@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:club_cast_clean_architecture/core/LocalNotification/local_notification_helper.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
@@ -30,6 +33,22 @@ class MyFollowingEventsMainWidget extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQueryOfMethods.getAppWidth(context),
                   child: EventsCardWidget(
+                    onPressedOnNotification: () async {
+                      String eventDate = state.myFollowingEventsEntitie!
+                          .myFollowingEventsDataEntitie[index].eventDate;
+                      Duration diffrence =
+                          DateTime.parse(eventDate).difference(DateTime.now());
+                      await LocalNotificationHelper.scheduleNotification(
+                        title: state.myFollowingEventsEntitie!
+                            .myFollowingEventsDataEntitie[index].eventName,
+                        body: state
+                            .myFollowingEventsEntitie!
+                            .myFollowingEventsDataEntitie[index]
+                            .eventDescription,
+                        index: Random().nextInt(200),
+                        eventTime: DateTime.now().add(diffrence),
+                      );
+                    },
                     isHomeScreen: true,
                     eventUserName: state.myFollowingEventsEntitie!
                         .myFollowingEventsDataEntitie[index].userInfo.userName,

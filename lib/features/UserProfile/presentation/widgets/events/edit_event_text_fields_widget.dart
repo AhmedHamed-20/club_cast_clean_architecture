@@ -71,7 +71,6 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
         TextEditingController();
     TextEditingControllers.editEventTitleController.text =
         widget.myEventEntitie.eventName;
-    print(TextEditingControllers.editEventTitleController.text);
     TextEditingControllers.editEventDescriptionController.text =
         widget.myEventEntitie.eventDescription;
   }

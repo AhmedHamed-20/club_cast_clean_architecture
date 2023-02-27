@@ -58,6 +58,7 @@ class AppRadius {
 
   static const double r40 = 40;
   static const double r70 = 70;
+  static const double r100 = 100;
 }
 
 class AppElevation {
@@ -258,4 +259,5 @@ class AssetsPath {
   static const String userBecomeAudienceAudio =
       'assets/audio/userBecomeAudience.wav';
   static const String adminLeftAudio = 'assets/audio/adminLeft.wav';
+  static const String imageLogo = 'assets/images/logo.png';
 }
