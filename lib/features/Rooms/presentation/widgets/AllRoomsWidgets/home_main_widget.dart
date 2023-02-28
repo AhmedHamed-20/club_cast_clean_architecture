@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class HomeMainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final roomsBloc = BlocProvider.of<RoomsBloc>(context);
+    final layoutBloc = BlocProvider.of<LayoutBloc>(context);
     return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
       listener: (context, socketVoiceState) {
         if (socketVoiceState.connectToSocketRequestStatus ==
@@ -36,49 +38,56 @@ class HomeMainWidget extends StatelessWidget {
           isIuserInRoom = false;
         }
       },
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Your Following Events',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(height: AppHeight.h10),
-              const MyFollowingEventsWidget(),
-              SizedBox(height: AppHeight.h10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'All Rooms',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  Defaults.defaultTextButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => BlocProvider.value(
-                            value: roomsBloc,
-                            child: const JoinPrivateRoomDialog()),
-                      );
-                    },
-                    child: Text(
-                      'Join private room',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: Theme.of(context).primaryColor),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          roomsBloc.add(AllRoomsGetEvent(accessToken: ConstVar.accessToken));
+          layoutBloc.add(MyFollowingEventsGetEvent(ConstVar.accessToken));
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.p12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your Following Events',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                SizedBox(height: AppHeight.h10),
+                const MyFollowingEventsWidget(),
+                SizedBox(height: AppHeight.h10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'All Rooms',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: AppHeight.h10),
-              const AllRoomsMainWidget(),
-            ],
+                    Defaults.defaultTextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => BlocProvider.value(
+                              value: roomsBloc,
+                              child: const JoinPrivateRoomDialog()),
+                        );
+                      },
+                      child: Text(
+                        'Join private room',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: AppHeight.h10),
+                const AllRoomsMainWidget(),
+              ],
+            ),
           ),
         ),
       ),

@@ -123,3 +123,24 @@ class ClearPodcastFileEvent extends MyPodcastEvent {
   @override
   List<Object?> get props => [];
 }
+
+class MyPodcastGetMoreEvents extends MyPodcastEvent {
+  final String accessToken;
+  final int page;
+
+  const MyPodcastGetMoreEvents({required this.accessToken, required this.page});
+
+  @override
+  List<Object?> get props => [accessToken, page];
+}
+
+class UpdatePodcastLikesCountEvent extends MyPodcastEvent {
+  final String podcastId;
+  final bool isAdd;
+
+  const UpdatePodcastLikesCountEvent(
+      {required this.podcastId, required this.isAdd});
+
+  @override
+  List<Object?> get props => [podcastId, isAdd];
+}

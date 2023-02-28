@@ -21,6 +21,7 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
     on<EventCreateEvent>(_createEvent);
     on<EventUpdateDataEvent>(_updateEvent);
     on<EventRemoveEvent>(_removeEvent);
+    on<MyEventsGetMoreEvent>(_myEventsGetMore);
   }
   final MyEventsGetUsecase myEventsGetUsecase;
   final EventCreateUseCase eventCreateUseCase;
@@ -112,6 +113,44 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
           errorMessages: '',
           myEventRemoveRequestStatus: MyDataRemoveRequestStatus.removed));
       add(MyEventsGetEvent(accessToken: event.accessToken, page: 1));
+    });
+  }
+
+  FutureOr<void> _myEventsGetMore(
+      MyEventsGetMoreEvent event, Emitter<MyEventsState> emit) async {
+    final result = await myEventsGetUsecase(
+        MyEventsParams(accessToken: event.accessToken, page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
+            errorMessages: l.message,
+            isEndOfMyEventsData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfMyEventsData: true,
+        ));
+      } else if (r.results == 10) {
+        MyEventsEntitie myEventsEntitie;
+        myEventsEntitie = state.myEvents;
+
+        myEventsEntitie.myEventsDataEntitie.addAll(r.myEventsDataEntitie);
+
+        emit(state.copyWith(
+          errorMessages: '',
+          statusCode: 0,
+          myEvents: myEventsEntitie,
+          isEndOfMyEventsData: false,
+        ));
+      } else {
+        MyEventsEntitie myEventsEntitie = state.myEvents;
+        myEventsEntitie.myEventsDataEntitie.addAll(r.myEventsDataEntitie);
+        emit(state.copyWith(
+          errorMessages: '',
+          myEvents: myEventsEntitie,
+          isEndOfMyEventsData: true,
+        ));
+      }
     });
   }
 }

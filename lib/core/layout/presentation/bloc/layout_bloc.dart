@@ -250,6 +250,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
             errorMessage: l.message,
             logoutRequestStatus: LogoutRequestStatus.error)), (r) {
       ConstVar.accessToken = '';
+      ConstVar.userId = '';
       emit(state.copyWith(
           errorMessage: '',
           userDataGetRequestStatus: UserDataGetRequestStatus.loading,

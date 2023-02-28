@@ -21,13 +21,15 @@ class FollowersFollowingWidget extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                AppRoutesNames.myProfileFollowersFollowingScreen,
-                arguments: MyProfileFollowersFollowingScreenParams(
-                    accessToken: ConstVar.accessToken,
-                    isFollowers: true,
-                    userprofileBloc: userProfileBloc),
-              );
+              if (state.userDataEntitie!.followers != 0) {
+                Navigator.of(context).pushNamed(
+                  AppRoutesNames.myProfileFollowersFollowingScreen,
+                  arguments: MyProfileFollowersFollowingScreenParams(
+                      accessToken: ConstVar.accessToken,
+                      isFollowers: true,
+                      userprofileBloc: userProfileBloc),
+                );
+              }
             },
             child: Column(
               children: [
@@ -44,13 +46,15 @@ class FollowersFollowingWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                AppRoutesNames.myProfileFollowersFollowingScreen,
-                arguments: MyProfileFollowersFollowingScreenParams(
-                    accessToken: ConstVar.accessToken,
-                    isFollowers: false,
-                    userprofileBloc: userProfileBloc),
-              );
+              if (state.userDataEntitie!.following != 0) {
+                Navigator.of(context).pushNamed(
+                  AppRoutesNames.myProfileFollowersFollowingScreen,
+                  arguments: MyProfileFollowersFollowingScreenParams(
+                      accessToken: ConstVar.accessToken,
+                      isFollowers: false,
+                      userprofileBloc: userProfileBloc),
+                );
+              }
             },
             child: Column(
               children: [

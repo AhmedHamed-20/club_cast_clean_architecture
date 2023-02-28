@@ -46,11 +46,13 @@ class OtherUserEventsWidget extends StatelessWidget {
         case UserDataGetRequestStatus.error:
           if (state.statusCode == 401 || state.statusCode == 403) {
             return ErrorScreen(
+              isHoleScreen: false,
               message: state.errorMessage,
               statusCode: state.statusCode,
             );
           } else {
             return ErrorScreen(
+              isHoleScreen: false,
               message: state.errorMessage,
               onRetry: () {
                 BlocProvider.of<OtherUserProfileBloc>(context).add(

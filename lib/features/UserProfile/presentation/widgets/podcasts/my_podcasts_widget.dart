@@ -26,7 +26,9 @@ class MyPodcastsWidget extends StatelessWidget {
               padding: const EdgeInsets.all(AppPadding.p12),
               child: Column(children: [
                 Align(
-                  alignment: AlignmentDirectional.centerEnd,
+                  alignment: state.myPodcastEntite.myPodcastDataEntitie.isEmpty
+                      ? AlignmentDirectional.center
+                      : AlignmentDirectional.centerEnd,
                   child: Defaults.defaultTextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(
@@ -42,10 +44,8 @@ class MyPodcastsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: MainMyPodcastWidget(
-                    myPodcastEntite: state.myPodcastEntite.myPodcastDataEntitie,
-                  ),
+                const Expanded(
+                  child: MainMyPodcastWidget(),
                 ),
               ]),
             );
@@ -54,10 +54,12 @@ class MyPodcastsWidget extends StatelessWidget {
               return ErrorScreen(
                 message: state.errorMessage,
                 statusCode: state.statusCode,
+                isHoleScreen: false,
               );
             } else {
               return ErrorScreen(
                 message: state.errorMessage,
+                isHoleScreen: false,
                 onRetry: () {
                   myPodcastBloc.add(MyPodcastsGetEvent(
                       accessToken: ConstVar.accessToken, page: 1));

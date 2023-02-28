@@ -9,10 +9,16 @@ import '../routes/app_route_names.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen(
-      {super.key, required this.message, this.onRetry, this.statusCode});
+      {super.key,
+      required this.message,
+      this.onRetry,
+      this.statusCode,
+      required this.isHoleScreen});
   final String message;
   final VoidCallback? onRetry;
   final int? statusCode;
+  final bool isHoleScreen;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LayoutBloc, LayoutState>(
@@ -32,7 +38,7 @@ class ErrorScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //    Image.asset('assets/images/error.gif'),
+            if (isHoleScreen) Image.asset(AssetsPath.errorImage),
             SizedBox(height: AppHeight.h10),
             Text(
               message,

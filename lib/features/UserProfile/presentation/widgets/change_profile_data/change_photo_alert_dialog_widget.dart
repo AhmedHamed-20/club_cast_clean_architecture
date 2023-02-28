@@ -52,7 +52,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
         BlocBuilder<UserProfileBloc, UserProfileState>(
             builder: (context, state) {
           return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               state.updateUserPhotoRequestStatus ==
                       UpdateUserDataRequestStatus.loading
@@ -71,7 +71,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
                       ),
                     ),
               state.pickedUserProfileImageFilePath != ''
-                  ? const UpdateUserImageButtonWidget()
+                  ? const Flexible(child: UpdateUserImageButtonWidget())
                   : const SizedBox.shrink(),
             ],
           );

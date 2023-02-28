@@ -266,9 +266,10 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
       final pickkImage = await FilePicker.platform.pickFiles(
         type: FileType.image,
       );
+      if (pickkImage == null) return;
       emit(
         state.copyWith(
-          pickedUserProfileImageFilePath: pickkImage!.files.first.path,
+          pickedUserProfileImageFilePath: pickkImage.files.first.path,
         ),
       );
     } on Exception catch (e) {

@@ -255,6 +255,7 @@ void checkOnTabOnRoomCardLogic({
 }
 
 class AssetsPath {
+  static const String errorImage = 'assets/images/error.gif';
   static const String userLeftAudio = 'assets/audio/userLeft.wav';
   static const String userEnterAudio = 'assets/audio/userEnter.wav';
   static const String userBecomeSpeakerAudio =

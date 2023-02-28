@@ -40,6 +40,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           if (state.statusCode == 403 || state.statusCode == 401) {
             return Scaffold(
               body: ErrorScreen(
+                isHoleScreen: true,
                 message: state.errorMessage,
                 statusCode: state.statusCode,
               ),
@@ -47,6 +48,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           } else {
             return Scaffold(
               body: ErrorScreen(
+                isHoleScreen: true,
                 message: state.errorMessage,
                 onRetry: () {
                   BlocProvider.of<LayoutBloc>(context)

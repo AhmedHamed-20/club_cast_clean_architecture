@@ -24,8 +24,8 @@ class _LoginTextFieldsWidgetState extends State<LoginTextFieldsWidget> {
 
   @override
   void dispose() {
-    super.dispose();
     disposeControllers();
+    super.dispose();
   }
 
   @override

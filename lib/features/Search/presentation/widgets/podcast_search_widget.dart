@@ -64,11 +64,13 @@ class PodcastSearchWidget extends StatelessWidget {
         case SearchRequestStatus.error:
           if (state.statusCode == 403 || state.statusCode == 401) {
             return ErrorScreen(
+              isHoleScreen: false,
               message: state.errorMessages,
               statusCode: state.statusCode,
             );
           } else {
             return ErrorScreen(
+              isHoleScreen: false,
               message: state.errorMessages,
               onRetry: () {
                 BlocProvider.of<SearchBloc>(context).add(UsersSearchEvent(

@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,24 +28,9 @@ class EditUserScreenUserImageWidget extends StatelessWidget {
       child: Center(
         child: BlocBuilder<LayoutBloc, LayoutState>(
           builder: (context, layoutState) {
-            return CachedNetworkImage(
-                imageBuilder: (context, imageProvider) => Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                errorWidget: (context, url, error) => Image.asset(
-                      'assets/images/noImage.jpg',
-                      width: 100,
-                      height: 100,
-                    ),
-                imageUrl: layoutState.userDataEntitie!.userPhoto);
+            return CachedNetworkImageCirclePhoto(
+                photoUrl: layoutState.userDataEntitie!.userPhoto,
+                photoRadius: 100);
           },
         ),
       ),

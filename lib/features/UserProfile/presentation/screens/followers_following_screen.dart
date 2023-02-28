@@ -62,12 +62,14 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
                 body: ErrorScreen(
                   message: state.errorMessage,
                   statusCode: state.statusCode,
+                  isHoleScreen: true,
                 ),
               );
             } else {
               return Scaffold(
                 body: ErrorScreen(
                   message: state.errorMessage,
+                  isHoleScreen: true,
                   onRetry: () {
                     widget
                         .myProfileFollowersFollowingScreenParams.userprofileBloc
@@ -93,6 +95,7 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
             if (state.statusCode == 403 || state.statusCode == 401) {
               return Scaffold(
                 body: ErrorScreen(
+                  isHoleScreen: true,
                   message: state.errorMessage,
                   statusCode: state.statusCode,
                 ),
@@ -100,6 +103,7 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
             } else {
               return Scaffold(
                 body: ErrorScreen(
+                  isHoleScreen: true,
                   message: state.errorMessage,
                   onRetry: () {
                     widget

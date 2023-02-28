@@ -1,6 +1,6 @@
 class AppRoutesNames {
   static const String splashScreen = '/splash_screen';
-  static const String loginScreen = '/';
+  static const String loginScreen = '/login_screen';
   static const String signUpScreen = '/sign_up_screen';
   static const String layoutScreen = '/layout_screen';
   static const String homeScreen = '/layout_screen/home_screen';

@@ -25,13 +25,13 @@ part 'common_playing_podcast_bloc_state.dart';
 class CommonPlayingPodcastBlocBloc
     extends Bloc<CommonPlayingPodcastBlocEvent, CommonPlayingPodcastBlocState> {
   CommonPlayingPodcastBlocBloc(
-      this.podcastLikesUsersUsecase,
-      this.podcastDownloadUsecase,
-      this.layoutBloc,
-      this.likeAddMyPodcastsUsecast,
-      this.likeRemoveMyPodcastsUsecast,
-      this.myAssetAudioPlayer)
-      : super(const CommonPlayingPodcastBlocState()) {
+    this.podcastLikesUsersUsecase,
+    this.podcastDownloadUsecase,
+    this.layoutBloc,
+    this.likeAddMyPodcastsUsecast,
+    this.likeRemoveMyPodcastsUsecast,
+    this.myAssetAudioPlayer,
+  ) : super(const CommonPlayingPodcastBlocState()) {
     on<PodcastPlayEvent>(_playPodcast);
     on<PodcastPlayPaused>(_playPaused);
     on<PodcastPausePlaying>(_pausePlayingPodcast);

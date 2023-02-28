@@ -63,3 +63,13 @@ class EventRemoveEvent extends MyEventsEvent {
   @override
   List<Object?> get props => [accessToken, eventId];
 }
+
+class MyEventsGetMoreEvent extends MyEventsEvent {
+  final String accessToken;
+  final int page;
+
+  const MyEventsGetMoreEvent({required this.accessToken, required this.page});
+
+  @override
+  List<Object?> get props => [accessToken, page];
+}

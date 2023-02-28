@@ -92,9 +92,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       ConstVar.socket.onConnectError((data) {
         add(SocketsErrorsEvent(data));
       });
-      ConstVar.socket.onDisconnect((data) {
-        print(data);
-      });
+
       //  ConstVar.socket.ondisconnect();
       ConstVar.socket.on('connect', (_) {
         if (event.isCreateRoom) {
@@ -114,7 +112,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         }
       });
       ConstVar.socket.on('error', (error) {
-        print(error);
         add(SocketsErrorsEvent(error));
       });
     } else {

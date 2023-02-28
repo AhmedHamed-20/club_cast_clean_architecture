@@ -32,6 +32,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
     on<UploadPodcastEvent>(_uploadPodcastToCloud);
     on<PickPodcastFileEvent>(_pickPodcastFile);
     on<ClearPodcastFileEvent>(_clearPodcastFile);
+    on<MyPodcastGetMoreEvents>(_myPodcastsGetMoreEvent);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final PodcastRemoveUsecase podcastRemoveUsecase;
@@ -209,5 +210,43 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
     emit(state.copyWith(
         pickedPodcastFilePath: '',
         uploadPodcastRequestStatus: UploadPodcastRequestStatus.idle));
+  }
+
+  FutureOr<void> _myPodcastsGetMoreEvent(
+      MyPodcastGetMoreEvents event, Emitter<MyPodcastState> emit) async {
+    final result = await myPodcastsGetUseCase(
+        MyPodcastGetParams(accessToken: event.accessToken, page: event.page));
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            statusCode: l.statusCode,
+            errorMessage: l.message,
+            isEndOfMyPodcastsData: true)), (r) {
+      if (r.results == 0) {
+        emit(state.copyWith(
+          isEndOfMyPodcastsData: true,
+        ));
+      } else if (r.results == 10) {
+        MyPodcastEntitie myPodcastEntitie;
+        myPodcastEntitie = state.myPodcastEntite;
+
+        myPodcastEntitie.myPodcastDataEntitie.addAll(r.myPodcastDataEntitie);
+
+        emit(state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          myPodcastEntite: myPodcastEntitie,
+          isEndOfMyPodcastsData: false,
+        ));
+      } else {
+        MyPodcastEntitie myPodcastEntitie = state.myPodcastEntite;
+        myPodcastEntitie.myPodcastDataEntitie.addAll(r.myPodcastDataEntitie);
+        emit(state.copyWith(
+          errorMessage: '',
+          myPodcastEntite: myPodcastEntitie,
+          isEndOfMyPodcastsData: true,
+        ));
+      }
+    });
   }
 }

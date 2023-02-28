@@ -65,10 +65,12 @@ class _AllPodcastsScreenState extends State<AllPodcastsScreen> {
                 return ErrorScreen(
                   message: state.errorMessages,
                   statusCode: state.statusCode,
+                  isHoleScreen: true,
                 );
               } else {
                 return ErrorScreen(
                   message: state.errorMessages,
+                  isHoleScreen: true,
                   onRetry: () {
                     getAllPodcasts();
                   },

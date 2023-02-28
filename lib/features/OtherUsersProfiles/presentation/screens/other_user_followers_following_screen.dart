@@ -66,6 +66,7 @@ class _OtherUserFollowersFollowingScreenState
               if (state.statusCode == 403 || state.statusCode == 401) {
                 return Scaffold(
                   body: ErrorScreen(
+                    isHoleScreen: true,
                     message: state.errorMessage,
                     statusCode: state.statusCode,
                   ),
@@ -73,6 +74,7 @@ class _OtherUserFollowersFollowingScreenState
               } else {
                 return Scaffold(
                   body: ErrorScreen(
+                    isHoleScreen: true,
                     message: state.errorMessage,
                     onRetry: () {
                       BlocProvider.of<OtherUserProfileBloc>(context).add(
@@ -99,6 +101,7 @@ class _OtherUserFollowersFollowingScreenState
               if (state.statusCode == 403 || state.statusCode == 401) {
                 return Scaffold(
                   body: ErrorScreen(
+                    isHoleScreen: true,
                     message: state.errorMessage,
                     statusCode: state.statusCode,
                   ),
@@ -106,6 +109,7 @@ class _OtherUserFollowersFollowingScreenState
               } else {
                 return Scaffold(
                   body: ErrorScreen(
+                    isHoleScreen: true,
                     message: state.errorMessage,
                     onRetry: () {
                       BlocProvider.of<OtherUserProfileBloc>(context).add(

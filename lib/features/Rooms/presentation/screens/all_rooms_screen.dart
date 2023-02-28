@@ -30,11 +30,13 @@ class AllRoomsScreen extends StatelessWidget {
             case AllRoomsGetRequestStatus.error:
               if (state.statusCode == 403 || state.statusCode == 401) {
                 return ErrorScreen(
+                  isHoleScreen: false,
                   message: state.errorMessage,
                   statusCode: state.statusCode,
                 );
               } else {
                 return ErrorScreen(
+                  isHoleScreen: false,
                   message: state.errorMessage,
                   onRetry: () {
                     BlocProvider.of<RoomsBloc>(context).add(

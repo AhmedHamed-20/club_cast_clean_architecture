@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import '../../features/UserProfile/presentation/widgets/podcasts/remove_podcast_alert_dialog_widget.dart';
 import '../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../constants/params.dart';
@@ -120,7 +120,7 @@ class DefaultPodcastCallBackParams {
       required this.context});
 
   PodcastCardCallBacksParams defaultPodcastCallBackParams(
-      {UserProfileBloc? userProfileBloc}) {
+      {MyPodcastBloc? myPodcastBloc}) {
     return PodcastCardCallBacksParams(
       onPressedOnLikeButton: () {
         commonPlayingPodcastBloc.onPressedOnLikeLogic(
@@ -128,14 +128,14 @@ class DefaultPodcastCallBackParams {
             podcastLocalStatus: state.podcastsLikesStatus,
             serverLikeStatus: basePodcastEntitie.isLiked);
       },
-      onPressedOnRemove: userProfileBloc == null
+      onPressedOnRemove: myPodcastBloc == null
           ? () {}
           : () {
               showDialog(
                   context: context,
                   builder: (context) {
                     return BlocProvider.value(
-                      value: userProfileBloc,
+                      value: myPodcastBloc,
                       child: RemovePodcastAlertDialogWidget(
                         podcastId: basePodcastEntitie.podcastId,
                         podcastName: basePodcastEntitie.podcastName,

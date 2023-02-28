@@ -4,6 +4,8 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presen
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'no_my_following_podcasts_widget.dart';
+
 int myFollowingPodcastsPage = 2;
 
 class MainMyFollowingPodcastsWidget extends StatefulWidget {
@@ -36,36 +38,47 @@ class _MainMyFollowingPodcastsWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PodcastBloc, PodcastState>(
-      listener: (constext, state) {
-        isEndOfData = state.isEndOfData;
-      },
-      builder: (context, state) => ListView.builder(
-        controller: scrollController,
-        itemCount:
-            state.myFollowingPodcasts!.podcastInformationEntitie.length + 1,
-        itemBuilder: (context, index) {
-          if (index <
-              state.myFollowingPodcasts!.podcastInformationEntitie.length) {
-            return Padding(
-              padding: const EdgeInsets.all(AppPadding.p12),
-              child: PodcastCardMainWdget(
-                index: index,
-                podcastsEntitie: state.myFollowingPodcasts!,
-              ),
-            );
-          } else {
-            return state.isEndOfData
-                ? const SizedBox.shrink()
-                : const Center(
-                    child: Padding(
-                        padding: EdgeInsets.all(AppPadding.p8),
-                        child: CircularProgressIndicator()),
-                  );
-          }
-        },
-      ),
-    );
+    final myFollowingPodcasts = BlocProvider.of<PodcastBloc>(context);
+    return BlocConsumer<PodcastBloc, PodcastState>(listener: (constext, state) {
+      isEndOfData = state.isEndOfData;
+    }, builder: (context, state) {
+      if (state.myFollowingPodcasts!.podcastInformationEntitie.isEmpty) {
+        return const NoMyFollowingPodcastsWidgets();
+      } else {
+        return RefreshIndicator(
+          onRefresh: () async {
+            myFollowingPodcasts.add(
+                GetMyFollowingPodcastsEvent(accessToken: ConstVar.accessToken));
+          },
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount:
+                state.myFollowingPodcasts!.podcastInformationEntitie.length + 1,
+            itemBuilder: (context, index) {
+              if (index <
+                  state.myFollowingPodcasts!.podcastInformationEntitie.length) {
+                return Padding(
+                  padding: const EdgeInsets.all(AppPadding.p12),
+                  child: PodcastCardMainWdget(
+                    index: index,
+                    podcastsEntitie: state.myFollowingPodcasts!,
+                  ),
+                );
+              } else {
+                return state.isEndOfData
+                    ? const SizedBox.shrink()
+                    : const Center(
+                        child: Padding(
+                            padding: EdgeInsets.all(AppPadding.p8),
+                            child: CircularProgressIndicator()),
+                      );
+              }
+            },
+          ),
+        );
+      }
+    });
   }
 
   void addScrollListener() {
