@@ -31,7 +31,7 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
         BlocProvider.of<UserProfileBloc>(context).add(
           MyFollowingGetMoreEvent(
             ConstVar.accessToken,
-            myFollowingPage.toString(),
+            myFollowingPage,
           ),
         );
         myFollowingPage++;

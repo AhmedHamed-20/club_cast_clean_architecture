@@ -1,5 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,8 +15,8 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
   final String podcastId;
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocConsumer<UserProfileBloc, UserProfileState>(
+    final myPodcastBloc = BlocProvider.of<MyPodcastBloc>(context);
+    return BlocConsumer<MyPodcastBloc, MyPodcastState>(
         listener: (context, state) {
       if (state.myPodCastRemoveRequestStatus ==
           MyDataRemoveRequestStatus.removed) {
@@ -63,7 +63,7 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      userProfileBloc.add(PodcastRemoveEvent(
+                      myPodcastBloc.add(PodcastRemoveEvent(
                           accessToken: ConstVar.accessToken,
                           podcastId: podcastId));
                     },

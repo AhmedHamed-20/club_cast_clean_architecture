@@ -1,12 +1,14 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/Rooms/domain/entities/room_user_data.dart';
-import '../../features/UserProfile/domain/entities/my_event_entitie.dart';
+import '../../features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 
 class LikesUsersScreenParams extends Equatable {
   final String podcastId;
@@ -43,28 +45,28 @@ class UpdateUserProfileBasicDataScreenParams extends Equatable {
 }
 
 class EditEventScreenParams extends Equatable {
-  final MyEventEntitie myEventEntitie;
-  final UserProfileBloc userprofileBloc;
-  const EditEventScreenParams(this.myEventEntitie, this.userprofileBloc);
+  final MyEventsDataEntitie myEventEntitie;
+  final MyEventsBloc myEventsBloc;
+  const EditEventScreenParams(this.myEventEntitie, this.myEventsBloc);
 
   @override
-  List<Object?> get props => [myEventEntitie, userprofileBloc];
+  List<Object?> get props => [myEventEntitie, myEventsBloc];
 }
 
 class CreateEventScreenParams extends Equatable {
-  final UserProfileBloc userprofileBloc;
-  const CreateEventScreenParams(this.userprofileBloc);
+  final MyEventsBloc myEventsBloc;
+  const CreateEventScreenParams(this.myEventsBloc);
 
   @override
-  List<Object?> get props => [userprofileBloc];
+  List<Object?> get props => [myEventsBloc];
 }
 
 class UploadPodcastScreenParams extends Equatable {
-  final UserProfileBloc userprofileBloc;
-  const UploadPodcastScreenParams(this.userprofileBloc);
+  final MyPodcastBloc myPodcastBloc;
+  const UploadPodcastScreenParams(this.myPodcastBloc);
 
   @override
-  List<Object?> get props => [userprofileBloc];
+  List<Object?> get props => [myPodcastBloc];
 }
 
 class OtherUserProfileScreenParams extends Equatable {

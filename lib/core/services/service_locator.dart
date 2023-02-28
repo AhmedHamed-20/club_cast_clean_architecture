@@ -76,6 +76,8 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -88,8 +90,6 @@ import '../../features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
 import '../../features/Rooms/domain/usecases/get_room_messages.dart';
-import '../../features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
-import '../../features/UserProfile/domain/usecases/user_information/get_more_following.dart';
 import '../cache/cache_setup.dart';
 import '../common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../network/dio.dart';
@@ -165,13 +165,15 @@ class ServiceLocator {
           servicelocator(),
           servicelocator(),
           servicelocator(),
+        ));
+    servicelocator.registerFactory<MyPodcastBloc>(() => MyPodcastBloc(
           servicelocator(),
           servicelocator(),
           servicelocator(),
           servicelocator(),
           servicelocator(),
-          servicelocator(),
-          servicelocator(),
+        ));
+    servicelocator.registerFactory<MyEventsBloc>(() => MyEventsBloc(
           servicelocator(),
           servicelocator(),
           servicelocator(),
@@ -252,10 +254,6 @@ class ServiceLocator {
         () => MyFollowingGetUseCase(servicelocator()));
     servicelocator.registerLazySingleton<MyFollowersGetUseCase>(
         () => MyFollowersGetUseCase(servicelocator()));
-    servicelocator.registerLazySingleton<MoreFollowersGetUsecase>(
-        () => MoreFollowersGetUsecase(servicelocator()));
-    servicelocator.registerLazySingleton<MoreFollowingGetUsecase>(
-        () => MoreFollowingGetUsecase(servicelocator()));
     servicelocator.registerLazySingleton<PodcastRemoveUsecase>(
         () => PodcastRemoveUsecase(servicelocator()));
 

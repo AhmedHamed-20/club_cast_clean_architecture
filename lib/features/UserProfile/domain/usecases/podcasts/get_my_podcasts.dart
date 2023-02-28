@@ -1,18 +1,18 @@
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../entities/my_podcast_entite.dart';
 import '../../repositories/base_user_info_repository.dart';
 
 class MyPodcastsGetUseCase
-    extends BaseUsecase<List<MyPodcastEntite>, MyPodcastGetParams> {
+    extends BaseUsecase<MyPodcastEntitie, MyPodcastGetParams> {
   final BaseUserInfoRepository baseUserInfoRepository;
 
   MyPodcastsGetUseCase(this.baseUserInfoRepository);
   @override
-  Future<Either<Failure, List<MyPodcastEntite>>> call(
+  Future<Either<Failure, MyPodcastEntitie>> call(
       MyPodcastGetParams params) async {
     return await baseUserInfoRepository.getMyPodcasts(params);
   }
@@ -20,9 +20,9 @@ class MyPodcastsGetUseCase
 
 class MyPodcastGetParams extends Equatable {
   final String accessToken;
-
-  const MyPodcastGetParams(this.accessToken);
+  final int page;
+  const MyPodcastGetParams({required this.accessToken, required this.page});
 
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken, page];
 }

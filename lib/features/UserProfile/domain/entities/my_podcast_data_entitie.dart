@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_entitie.dart';
 
-class MyPodcastEntite extends BasePodcastEntitie {
-  const MyPodcastEntite(
+class MyPodcastDataEntite extends BasePodcastEntitie {
+  const MyPodcastDataEntite(
       {required super.podcastId,
       required super.podcastName,
       required super.podcastLikesCount,

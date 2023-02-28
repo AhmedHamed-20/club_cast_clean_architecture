@@ -5,7 +5,7 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/userprofile_bloc.dart';
+import '../../bloc/MyEventsBloc/my_events_bloc.dart';
 
 class CreateEventButtonWidgetDesign extends StatelessWidget {
   const CreateEventButtonWidgetDesign({
@@ -13,11 +13,11 @@ class CreateEventButtonWidgetDesign extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
+    final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);
     return Defaults.defaultButton(
       onPressed: () {
         if (eventDate != null) {
-          userProfileBloc.add(EventCreateEvent(
+          myEventsBloc.add(EventCreateEvent(
               accessToken: ConstVar.accessToken,
               eventName: TextEditingControllers.createEventTitleController.text,
               eventDescription:

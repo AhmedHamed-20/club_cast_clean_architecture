@@ -1,9 +1,9 @@
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utl/utls.dart';
 import '../../../../../core/widgets/defaults.dart';
-import '../../bloc/userprofile_bloc.dart';
 
 class PickFileButton extends StatelessWidget {
   const PickFileButton({
@@ -12,14 +12,14 @@ class PickFileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocBuilder<UserProfileBloc, UserProfileState>(
+    final myPodcastBloc = BlocProvider.of<MyPodcastBloc>(context);
+    return BlocBuilder<MyPodcastBloc, MyPodcastState>(
         builder: (context, state) {
       switch (state.uploadPodcastRequestStatus) {
         case UploadPodcastRequestStatus.idle:
           return Defaults.defaultButton(
             onPressed: () {
-              userProfileBloc.add(const PickPodcastFileEvent());
+              myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
             text:
@@ -34,7 +34,7 @@ class PickFileButton extends StatelessWidget {
         case UploadPodcastRequestStatus.podcastCreatedSucess:
           return Defaults.defaultButton(
             onPressed: () {
-              userProfileBloc.add(const PickPodcastFileEvent());
+              myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
             text: 'Pick File',
@@ -42,7 +42,7 @@ class PickFileButton extends StatelessWidget {
         case UploadPodcastRequestStatus.error:
           return Defaults.defaultButton(
             onPressed: () {
-              userProfileBloc.add(const PickPodcastFileEvent());
+              myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
             text: 'Pick File',

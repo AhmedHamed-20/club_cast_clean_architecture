@@ -1,11 +1,11 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/text_editing_controllers.dart';
-import '../bloc/userprofile_bloc.dart';
 import '../widgets/podcasts/pick_file_widget.dart';
 import '../widgets/podcasts/picked_podcast_info.dart';
 import '../widgets/podcasts/podcast_category_widget.dart';
@@ -36,7 +36,7 @@ class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        BlocProvider.of<UserProfileBloc>(context)
+        BlocProvider.of<MyPodcastBloc>(context)
             .add(const ClearPodcastFileEvent());
         return true;
       },

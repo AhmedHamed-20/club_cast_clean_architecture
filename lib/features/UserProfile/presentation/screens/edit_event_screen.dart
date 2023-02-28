@@ -1,21 +1,21 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/apply_event_changes_button_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/edit_date_edit_event_screen_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/edit_event_text_fields_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/my_event_entitie.dart';
-import '../bloc/userprofile_bloc.dart';
 import '../widgets/events/delete_event_alert_dialog_widget.dart';
 
 class EditEventScreen extends StatelessWidget {
   const EditEventScreen({super.key, required this.myEventEntitie});
-  final MyEventEntitie myEventEntitie;
+  final MyEventsDataEntitie myEventEntitie;
 
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
+    final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -32,7 +32,7 @@ class EditEventScreen extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     return BlocProvider.value(
-                      value: userProfileBloc,
+                      value: myEventsBloc,
                       child: DeleteEventAlertDialogWidget(
                         eventId: myEventEntitie.eventId,
                       ),

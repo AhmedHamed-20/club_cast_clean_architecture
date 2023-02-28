@@ -72,7 +72,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
       final result = await servicelocator<CacheHelper>().getData(
         key: params.key,
       );
-      return result;
+      return result ?? false;
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }
@@ -95,7 +95,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
       final result = await servicelocator<CacheHelper>().getData(
         key: params.key,
       );
-      return result;
+      return result ?? '';
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/upload_podcast_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/podcasts/podcast_category_widget.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utl/utls.dart';
 import '../../../../../core/widgets/defaults.dart';
-import '../../bloc/userprofile_bloc.dart';
 
 class PickedPodcastInfoWidget extends StatelessWidget {
   const PickedPodcastInfoWidget({
@@ -19,8 +19,8 @@ class PickedPodcastInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocConsumer<UserProfileBloc, UserProfileState>(
+    final myPodcastBloc = BlocProvider.of<MyPodcastBloc>(context);
+    return BlocConsumer<MyPodcastBloc, MyPodcastState>(
         listener: (context, state) {
       if (state.uploadPodcastRequestStatus ==
           UploadPodcastRequestStatus.podcastCreatedSucess) {
@@ -28,7 +28,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
             msg: 'Podcast Uploaded',
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
-        userProfileBloc.add(const ClearPodcastFileEvent());
+        myPodcastBloc.add(const ClearPodcastFileEvent());
         uploadProgress.close();
         Navigator.pop(context);
       } else if (state.uploadPodcastRequestStatus ==
@@ -38,14 +38,14 @@ class PickedPodcastInfoWidget extends StatelessWidget {
               msg: 'Upload Cancelled',
               backgroundColor: AppColors.toastSuccess,
               textColor: AppColors.white);
-          userProfileBloc.add(const ClearPodcastFileEvent());
+          myPodcastBloc.add(const ClearPodcastFileEvent());
           uploadProgress.close();
         } else {
           flutterToast(
               msg: 'Podcast Upload Failed',
               backgroundColor: AppColors.toastError,
               textColor: AppColors.white);
-          userProfileBloc.add(const ClearPodcastFileEvent());
+          myPodcastBloc.add(const ClearPodcastFileEvent());
           uploadProgress.close();
         }
       }
@@ -70,7 +70,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
                             '') {
                       cancelToken = CancelToken();
                       uploadProgress = StreamController<double>();
-                      userProfileBloc.add(SignatureGenerateEventEvent(
+                      myPodcastBloc.add(SignatureGenerateEventEvent(
                           filePath: state.pickedPodcastFilePath,
                           accessToken: ConstVar.accessToken,
                           podcastCategory: podcastCategoryValue,

@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entite.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
@@ -18,7 +18,6 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/upload_podcast_usecase/upload_podcast.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_more_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_password.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_image.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/update_user_info.dart';
@@ -29,7 +28,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
 
   UserInfoRepositoryImpl(this.baseUserInfoRemoteDataSource);
   @override
-  Future<Either<Failure, List<MyPodcastEntite>>> getMyPodcasts(
+  Future<Either<Failure, MyPodcastEntitie>> getMyPodcasts(
       MyPodcastGetParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyPodcasts(params);
@@ -135,7 +134,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, List<MyEventEntitie>>> getMyEvents(
+  Future<Either<Failure, MyEventsEntitie>> getMyEvents(
       MyEventsParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyEvents(params);
@@ -165,34 +164,6 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
       FollowersFollowingParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getFollowing(params);
-      return Right(result);
-    } on ServerException catch (exception) {
-      return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode));
-    }
-  }
-
-  @override
-  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowers(
-      MoreFollowersFollowingGetParams params) async {
-    try {
-      final result =
-          await baseUserInfoRemoteDataSource.getMoreFollowers(params);
-      return Right(result);
-    } on ServerException catch (exception) {
-      return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode));
-    }
-  }
-
-  @override
-  Future<Either<Failure, OtherUsersDataEntitie>> getMoreFollowing(
-      MoreFollowersFollowingGetParams params) async {
-    try {
-      final result =
-          await baseUserInfoRemoteDataSource.getMoreFollowing(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(ServerFailure(

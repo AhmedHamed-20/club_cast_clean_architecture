@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_data_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +13,7 @@ class MainMyPodcastWidget extends StatelessWidget {
     required this.myPodcastEntite,
     Key? key,
   }) : super(key: key);
-  final List<MyPodcastEntite> myPodcastEntite;
+  final List<MyPodcastDataEntite> myPodcastEntite;
   @override
   Widget build(BuildContext context) {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);

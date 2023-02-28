@@ -92,7 +92,7 @@ class AppRoutes {
         EditEventScreenParams arguments = args as EditEventScreenParams;
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
-                  value: arguments.userprofileBloc,
+                  value: arguments.myEventsBloc,
                   child: EditEventScreen(
                     myEventEntitie: arguments.myEventEntitie,
                   ),
@@ -101,7 +101,7 @@ class AppRoutes {
         CreateEventScreenParams arguments = args as CreateEventScreenParams;
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
-                  value: arguments.userprofileBloc,
+                  value: arguments.myEventsBloc,
                   child: const CreateEventScreen(),
                 ));
 
@@ -110,7 +110,7 @@ class AppRoutes {
 
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
-                  value: arguments.userprofileBloc,
+                  value: arguments.myPodcastBloc,
                   child: const UploadPodcastScreen(),
                 ));
       case AppRoutesNames.otherUserProfileScreen:

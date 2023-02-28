@@ -1,12 +1,14 @@
-import '../../../../core/constants/base_event_entite/base_event_entitie.dart';
+import 'package:equatable/equatable.dart';
 
-class MyEventEntitie extends BaseEventEntitie {
-  const MyEventEntitie(
-      {required super.eventName,
-      required super.eventDescription,
-      required super.eventDate,
-      required super.eventId});
+import 'my_events_data_entitie.dart';
+
+class MyEventsEntitie extends Equatable {
+  final int results;
+  final List<MyEventsDataEntitie> myEventsDataEntitie;
+
+  const MyEventsEntitie(
+      {required this.results, required this.myEventsDataEntitie});
 
   @override
-  List<Object?> get props => [eventDate, eventDate, eventDescription, eventId];
+  List<Object?> get props => [results, myEventsDataEntitie];
 }

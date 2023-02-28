@@ -1,9 +1,9 @@
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/utl/utls.dart';
-import '../../bloc/userprofile_bloc.dart';
 
 class DeleteEventAlertDialogWidget extends StatelessWidget {
   const DeleteEventAlertDialogWidget({
@@ -13,8 +13,8 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
   final String eventId;
   @override
   Widget build(BuildContext context) {
-    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocListener<UserProfileBloc, UserProfileState>(
+    final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);
+    return BlocListener<MyEventsBloc, MyEventsState>(
       listener: (context, state) {
         if (state.myEventRemoveRequestStatus ==
             MyDataRemoveRequestStatus.removed) {
@@ -27,7 +27,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
         } else if (state.myEventRemoveRequestStatus ==
             MyDataRemoveRequestStatus.error) {
           flutterToast(
-              msg: state.errorMessage,
+              msg: state.errorMessages,
               backgroundColor: AppColors.toastError,
               textColor: AppColors.white);
           Navigator.of(context).pop();
@@ -59,7 +59,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              userProfileBloc.add(EventRemoveEvent(
+              myEventsBloc.add(EventRemoveEvent(
                   accessToken: ConstVar.accessToken, eventId: eventId));
             },
             child: Text(

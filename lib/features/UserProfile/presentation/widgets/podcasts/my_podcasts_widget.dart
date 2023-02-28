@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +15,10 @@ class MyPodcastsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocBuilder<UserProfileBloc, UserProfileState>(
+    final myPodcastBloc = BlocProvider.of<MyPodcastBloc>(context);
+    return BlocBuilder<MyPodcastBloc, MyPodcastState>(
       builder: (context, state) {
-        switch (state.myPodCastequestStatus) {
+        switch (state.myPodCastRequestStatus) {
           case MyPodCastRequestStatus.loading:
             return const Center(child: CircularProgressIndicator());
           case MyPodCastRequestStatus.success:
@@ -31,8 +31,7 @@ class MyPodcastsWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                           AppRoutesNames.uploadPodcastScreen,
-                          arguments:
-                              UploadPodcastScreenParams(userprofileBloc));
+                          arguments: UploadPodcastScreenParams(myPodcastBloc));
                     },
                     child: Text(
                       'Upload Podcast',
@@ -45,7 +44,7 @@ class MyPodcastsWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: MainMyPodcastWidget(
-                    myPodcastEntite: state.myPodcastEntite,
+                    myPodcastEntite: state.myPodcastEntite.myPodcastDataEntitie,
                   ),
                 ),
               ]),
@@ -60,7 +59,8 @@ class MyPodcastsWidget extends StatelessWidget {
               return ErrorScreen(
                 message: state.errorMessage,
                 onRetry: () {
-                  userprofileBloc.add(MyPodcastsGetEvent(ConstVar.accessToken));
+                  myPodcastBloc.add(MyPodcastsGetEvent(
+                      accessToken: ConstVar.accessToken, page: 1));
                 },
               );
             }

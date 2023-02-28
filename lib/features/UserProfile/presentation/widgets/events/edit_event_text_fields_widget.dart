@@ -1,15 +1,15 @@
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
-import '../../../domain/entities/my_event_entitie.dart';
 import 'edit_date_edit_event_screen_widget.dart';
 
 class EditEventTextFieldsWidget extends StatefulWidget {
   const EditEventTextFieldsWidget({super.key, required this.myEventEntitie});
-  final MyEventEntitie myEventEntitie;
+  final MyEventsDataEntitie myEventEntitie;
 
   @override
   State<EditEventTextFieldsWidget> createState() =>

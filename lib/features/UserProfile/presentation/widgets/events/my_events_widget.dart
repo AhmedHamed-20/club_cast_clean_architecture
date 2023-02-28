@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,8 +15,8 @@ class MyEventsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return BlocBuilder<UserProfileBloc, UserProfileState>(
+    final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);
+    return BlocBuilder<MyEventsBloc, MyEventsState>(
       builder: (context, state) {
         switch (state.myEventRequestStatus) {
           case UserDataGetRequestStatus.loading:
@@ -38,13 +38,13 @@ class MyEventsWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                           AppRoutesNames.createEventScreen,
-                          arguments: CreateEventScreenParams(userprofileBloc));
+                          arguments: CreateEventScreenParams(myEventsBloc));
                     },
                   ),
                 ),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: state.myEvents.length,
+                      itemCount: state.myEvents.myEventsDataEntitie.length,
                       itemBuilder: (context, index) => EventsCardWidget(
                             isHomeScreen: false,
                             isMyProfile: true,
@@ -52,12 +52,13 @@ class MyEventsWidget extends StatelessWidget {
                               Navigator.of(context).pushNamed(
                                 AppRoutesNames.editEventScreen,
                                 arguments: EditEventScreenParams(
-                                  state.myEvents[index],
-                                  userprofileBloc,
+                                  state.myEvents.myEventsDataEntitie[index],
+                                  myEventsBloc,
                                 ),
                               );
                             },
-                            eventEntitie: state.myEvents[index],
+                            eventEntitie:
+                                state.myEvents.myEventsDataEntitie[index],
                           )),
                 ),
               ],
@@ -65,15 +66,16 @@ class MyEventsWidget extends StatelessWidget {
           case UserDataGetRequestStatus.error:
             if (state.statusCode == 403 || state.statusCode == 401) {
               return ErrorScreen(
-                message: state.errorMessage,
+                message: state.errorMessages,
                 statusCode: state.statusCode,
               );
             } else {
               return ErrorScreen(
-                message: state.errorMessage,
+                message: state.errorMessages,
                 onRetry: () {
-                  userprofileBloc.add(
-                    MyEventsGetEvent(ConstVar.accessToken),
+                  myEventsBloc.add(
+                    MyEventsGetEvent(
+                        accessToken: ConstVar.accessToken, page: 1),
                   );
                 },
               );

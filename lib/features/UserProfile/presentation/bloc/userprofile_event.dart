@@ -4,101 +4,6 @@ abstract class UserprofileEvent extends Equatable {
   const UserprofileEvent();
 }
 
-class MyPodcastsGetEvent extends UserprofileEvent {
-  final String accessToken;
-
-  const MyPodcastsGetEvent(this.accessToken);
-  @override
-  List<Object?> get props => [accessToken];
-}
-
-class SignatureGenerateEventEvent extends UserprofileEvent {
-  final String accessToken;
-  final String filePath;
-  final String podcastName;
-  final String podcastCategory;
-  final CancelToken cancelToken;
-  final StreamController uploadProgress;
-  const SignatureGenerateEventEvent({
-    required this.filePath,
-    required this.accessToken,
-    required this.cancelToken,
-    required this.uploadProgress,
-    required this.podcastName,
-    required this.podcastCategory,
-  });
-  @override
-  List<Object?> get props => [
-        accessToken,
-        filePath,
-        podcastName,
-        cancelToken,
-        uploadProgress,
-        podcastCategory
-      ];
-}
-
-class UploadPodcastEvent extends UserprofileEvent {
-  final String filePath;
-  final String accessToken;
-  final int timestamp;
-  final String podcastCategory;
-  final StreamController uploadProgress;
-  final String podcastName;
-  final CancelToken cancelToken;
-  final String cloudName;
-  final String apiKey;
-  final String signature;
-
-  const UploadPodcastEvent({
-    required this.filePath,
-    required this.podcastCategory,
-    required this.accessToken,
-    required this.cancelToken,
-    required this.uploadProgress,
-    required this.podcastName,
-    required this.timestamp,
-    required this.cloudName,
-    required this.apiKey,
-    required this.signature,
-  });
-
-  @override
-  List<Object?> get props => [
-        filePath,
-        accessToken,
-        timestamp,
-        cloudName,
-        apiKey,
-        podcastCategory,
-        signature,
-        cancelToken,
-        uploadProgress,
-        podcastName,
-      ];
-}
-
-class CreatePodcastEvent extends UserprofileEvent {
-  final String accessToken;
-  final String podcastName;
-  final String category;
-  final String publicId;
-
-  const CreatePodcastEvent(
-      {required this.accessToken,
-      required this.podcastName,
-      required this.category,
-      required this.publicId});
-
-  @override
-  List<Object?> get props => [
-        accessToken,
-        podcastName,
-        category,
-        publicId,
-      ];
-}
-
 class UserDataUpdateEvent extends UserprofileEvent {
   final String accessToken;
   final String name;
@@ -141,31 +46,6 @@ class PasswordUpdateEvent extends UserprofileEvent {
       ];
 }
 
-class EventCreateEvent extends UserprofileEvent {
-  final String eventName;
-  final String eventDescription;
-  final String eventDate;
-  final String accessToken;
-
-  const EventCreateEvent(
-      {required this.eventName,
-      required this.eventDescription,
-      required this.eventDate,
-      required this.accessToken});
-
-  @override
-  List<Object?> get props =>
-      [eventDate, eventDescription, eventName, accessToken];
-}
-
-class MyEventsGetEvent extends UserprofileEvent {
-  final String accessToken;
-
-  const MyEventsGetEvent(this.accessToken);
-  @override
-  List<Object?> get props => [accessToken];
-}
-
 class BackGroundColorGenerateEvent extends UserprofileEvent {
   final String imageUrl;
 
@@ -195,7 +75,7 @@ class MyFollowingGetEvent extends UserprofileEvent {
 
 class MyFollowingGetMoreEvent extends UserprofileEvent {
   final String accessToken;
-  final String page;
+  final int page;
   const MyFollowingGetMoreEvent(this.accessToken, this.page);
 
   @override
@@ -204,71 +84,11 @@ class MyFollowingGetMoreEvent extends UserprofileEvent {
 
 class MyFollowersGetMoreEvent extends UserprofileEvent {
   final String accessToken;
-  final String page;
+  final int page;
   const MyFollowersGetMoreEvent(this.accessToken, this.page);
 
   @override
   List<Object?> get props => [accessToken, page];
-}
-
-class PodcastRemoveEvent extends UserprofileEvent {
-  final String accessToken;
-  final String podcastId;
-
-  const PodcastRemoveEvent(
-      {required this.accessToken, required this.podcastId});
-
-  @override
-  List<Object?> get props => [accessToken, podcastId];
-}
-
-class EventUpdateDataEvent extends UserprofileEvent {
-  final String accessToken;
-  final String eventId;
-  final String eventName;
-  final String eventDescription;
-  final String eventDate;
-
-  const EventUpdateDataEvent({
-    required this.accessToken,
-    required this.eventId,
-    required this.eventName,
-    required this.eventDescription,
-    required this.eventDate,
-  });
-
-  @override
-  List<Object?> get props => [
-        accessToken,
-        eventId,
-        eventName,
-        eventDescription,
-        eventDate,
-      ];
-}
-
-class EventRemoveEvent extends UserprofileEvent {
-  final String accessToken;
-  final String eventId;
-
-  const EventRemoveEvent({required this.accessToken, required this.eventId});
-
-  @override
-  List<Object?> get props => [accessToken, eventId];
-}
-
-class PickPodcastFileEvent extends UserprofileEvent {
-  const PickPodcastFileEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class ClearPodcastFileEvent extends UserprofileEvent {
-  const ClearPodcastFileEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 class PickImageEvent extends UserprofileEvent {

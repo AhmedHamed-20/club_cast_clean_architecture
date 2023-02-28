@@ -1,18 +1,18 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/apply_event_changes_button_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utl/utls.dart';
-import '../../../domain/entities/my_event_entitie.dart';
 
 class ApplyChangesButtonWidget extends StatelessWidget {
   const ApplyChangesButtonWidget({super.key, required this.myEventEntitie});
-  final MyEventEntitie myEventEntitie;
+  final MyEventsDataEntitie myEventEntitie;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserProfileBloc, UserProfileState>(
+    return BlocConsumer<MyEventsBloc, MyEventsState>(
       listener: (context, state) {
         if (state.myEventUpdateRequestStatus ==
             MyDataUpdateRequestStatus.updated) {
@@ -24,7 +24,7 @@ class ApplyChangesButtonWidget extends StatelessWidget {
         } else if (state.myEventUpdateRequestStatus ==
             MyDataUpdateRequestStatus.error) {
           flutterToast(
-              msg: state.errorMessage,
+              msg: state.errorMessages,
               backgroundColor: AppColors.toastError,
               textColor: AppColors.white);
           Navigator.of(context).pop();

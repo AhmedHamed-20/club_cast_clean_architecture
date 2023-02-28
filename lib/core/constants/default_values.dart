@@ -4,7 +4,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_r
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/admin_entitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_data_entitie.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../features/Rooms/domain/entities/audience_entite.dart';
@@ -42,7 +42,7 @@ class DefaultsValues extends Equatable {
   static const BrodcastersEntitie broadCastersEntitieDefault =
       BrodcastersEntitie([]);
   static const BasePodcastEntitie basePodcastEntitieDefaultValues =
-      MyPodcastEntite(
+      MyPodcastDataEntite(
           podcastId: '',
           podcastName: '',
           podcastLikesCount: 0,

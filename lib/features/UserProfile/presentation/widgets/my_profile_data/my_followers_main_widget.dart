@@ -31,7 +31,7 @@ class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
         BlocProvider.of<UserProfileBloc>(context).add(
           MyFollowersGetMoreEvent(
             ConstVar.accessToken,
-            myFollowersPage.toString(),
+            myFollowersPage,
           ),
         );
         myFollowersPage++;

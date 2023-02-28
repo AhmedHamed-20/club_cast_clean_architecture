@@ -19,8 +19,9 @@ class MyFollowersGetUseCase
 
 class FollowersFollowingParams extends Equatable {
   final String accessToken;
-
-  const FollowersFollowingParams(this.accessToken);
+  final int page;
+  const FollowersFollowingParams(
+      {required this.accessToken, required this.page});
 
   @override
   List<Object?> get props => [accessToken];

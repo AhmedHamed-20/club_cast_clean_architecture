@@ -5,23 +5,21 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/reposit
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class MyEventsGetUsecase
-    extends BaseUsecase<List<MyEventEntitie>, MyEventsParams> {
+class MyEventsGetUsecase extends BaseUsecase<MyEventsEntitie, MyEventsParams> {
   final BaseUserInfoRepository baseUserInfoRepository;
 
   MyEventsGetUsecase(this.baseUserInfoRepository);
   @override
-  Future<Either<Failure, List<MyEventEntitie>>> call(
-      MyEventsParams params) async {
+  Future<Either<Failure, MyEventsEntitie>> call(MyEventsParams params) async {
     return await baseUserInfoRepository.getMyEvents(params);
   }
 }
 
 class MyEventsParams extends Equatable {
   final String accessToken;
-
-  const MyEventsParams(this.accessToken);
+  final int page;
+  const MyEventsParams({required this.accessToken, required this.page});
 
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken, page];
 }
