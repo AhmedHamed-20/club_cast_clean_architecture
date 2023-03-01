@@ -34,13 +34,16 @@ class UsersSearchWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutesNames.otherUserProfileScreen,
-                      arguments: OtherUserProfileScreenParams(
-                        state.usersSearchEntitie[index].userId,
-                      ),
-                    );
+                    if (state.usersSearchEntitie[index].userId !=
+                        ConstVar.userId) {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutesNames.otherUserProfileScreen,
+                        arguments: OtherUserProfileScreenParams(
+                          state.usersSearchEntitie[index].userId,
+                        ),
+                      );
+                    }
                   },
                   child: UserCardWidget(
                     userName: state.usersSearchEntitie[index].userName,

@@ -38,33 +38,41 @@ class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final otherUserProfileBloc = BlocProvider.of<OtherUserProfileBloc>(context);
     return BlocListener<OtherUserProfileBloc, OtherUserProfileState>(
       listener: (context, state) {
         isEndOfData = state.isEndOfEventsData;
       },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p12),
-        child: ListView.builder(
-            controller: scrollController,
-            itemCount: widget.otherUserEventsEntitie.events.length + 1,
-            itemBuilder: (context, index) {
-              if (index < widget.otherUserEventsEntitie.events.length) {
-                return EventsCardWidget(
-                  isHomeScreen: false,
-                  isMyProfile: false,
-                  eventEntitie: widget.otherUserEventsEntitie.events[index],
-                );
-              } else {
-                return BlocBuilder<OtherUserProfileBloc, OtherUserProfileState>(
-                    builder: (context, state) {
-                  if (state.isEndOfEventsData == false) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                });
-              }
-            }),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            otherUserProfileBloc.add(OtherUserEventsGetEvent(
+                accessToken: ConstVar.accessToken, userId: widget.userId));
+          },
+          child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: scrollController,
+              itemCount: widget.otherUserEventsEntitie.events.length + 1,
+              itemBuilder: (context, index) {
+                if (index < widget.otherUserEventsEntitie.events.length) {
+                  return EventsCardWidget(
+                    isHomeScreen: false,
+                    isMyProfile: false,
+                    eventEntitie: widget.otherUserEventsEntitie.events[index],
+                  );
+                } else {
+                  return BlocBuilder<OtherUserProfileBloc,
+                      OtherUserProfileState>(builder: (context, state) {
+                    if (state.isEndOfEventsData == false) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  });
+                }
+              }),
+        ),
       ),
     );
   }

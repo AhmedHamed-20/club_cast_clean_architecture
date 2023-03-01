@@ -69,6 +69,7 @@ class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
                   Expanded(
                     child: MainOtherUserPodcastWidget(
                       otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
+                      userId: state.otherUserDataEntitie!.uid,
                     ),
                   ),
                 ],

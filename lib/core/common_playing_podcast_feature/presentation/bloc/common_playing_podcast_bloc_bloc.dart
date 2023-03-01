@@ -261,10 +261,13 @@ class CommonPlayingPodcastBlocBloc
       emit(state.copyWith(
           podcastDownloadRequestStatus: PodcastDownloadRequestStatus.loading));
       currentDownloadingPodcastId = event.podcastId;
-      final result = await podcastDownloadUsecase(PodcastDownloadParams(
+      final result = await podcastDownloadUsecase(
+        PodcastDownloadParams(
           podcastUrl: event.podcastUrl,
           savedPath: event.savedPath,
-          receivedData: event.downloadProgress));
+          receivedData: event.downloadProgress,
+        ),
+      );
       result.fold((l) {
         emit(state.copyWith(
             errorMessage: l.message,
