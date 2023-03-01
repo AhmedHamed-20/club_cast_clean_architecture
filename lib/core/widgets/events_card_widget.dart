@@ -13,12 +13,15 @@ class EventsCardWidget extends StatelessWidget {
       required this.isMyProfile,
       this.onPressedOnNotification,
       required this.isHomeScreen,
+      this.onPressedOnUserPhoto,
       this.eventUserPhoto});
   final BaseEventEntitie eventEntitie;
   final String? eventUserName;
   final String? eventUserPhoto;
   final VoidCallback? onPressedOnEdit;
   final VoidCallback? onPressedOnNotification;
+  final VoidCallback? onPressedOnUserPhoto;
+
   final bool isHomeScreen;
   final bool isMyProfile;
   @override
@@ -79,11 +82,14 @@ class EventsCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 eventUserPhoto != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: AppPadding.p8),
-                        child: CachedNetworkImageCirclePhoto(
-                          photoRadius: 50,
-                          photoUrl: eventUserPhoto!,
+                    ? GestureDetector(
+                        onTap: onPressedOnUserPhoto,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: AppPadding.p8),
+                          child: CachedNetworkImageCirclePhoto(
+                            photoRadius: 50,
+                            photoUrl: eventUserPhoto!,
+                          ),
                         ),
                       )
                     : const SizedBox.shrink(),

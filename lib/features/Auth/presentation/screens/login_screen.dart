@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: AppHeight.h10,
               ),
-              Image.asset('assets/images/login.png'),
+              Image.asset(AssetsPath.loginImage),
               SizedBox(
                 height: AppHeight.h10,
               ),

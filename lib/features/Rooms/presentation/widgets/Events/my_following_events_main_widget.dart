@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:club_cast_clean_architecture/core/LocalNotification/local_notification_helper.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dart';
@@ -50,6 +51,15 @@ class MyFollowingEventsMainWidget extends StatelessWidget {
                       );
                     },
                     isHomeScreen: true,
+                    onPressedOnUserPhoto: () {
+                      Navigator.of(context).pushNamed(
+                          AppRoutesNames.otherUserProfileScreen,
+                          arguments: OtherUserProfileScreenParams(state
+                              .myFollowingEventsEntitie!
+                              .myFollowingEventsDataEntitie[index]
+                              .userInfo
+                              .uid));
+                    },
                     eventUserName: state.myFollowingEventsEntitie!
                         .myFollowingEventsDataEntitie[index].userInfo.userName,
                     eventUserPhoto: state.myFollowingEventsEntitie!

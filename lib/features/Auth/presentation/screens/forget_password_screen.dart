@@ -40,7 +40,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           padding: const EdgeInsets.all(AppPadding.p12),
           child: Column(
             children: [
-              Image.asset('assets/images/forget_password.png'),
+              Image.asset(AssetsPath.forgetPasswordImage),
               SizedBox(
                 height: AppHeight.h10,
               ),

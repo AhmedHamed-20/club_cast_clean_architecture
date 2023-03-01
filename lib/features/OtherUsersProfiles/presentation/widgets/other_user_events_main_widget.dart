@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/LocalNotification/local_notification_helper.dart';
 import '../bloc/otherusersprofiles_bloc.dart';
 
 bool isEndOfData = false;
@@ -57,6 +60,20 @@ class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
               itemBuilder: (context, index) {
                 if (index < widget.otherUserEventsEntitie.events.length) {
                   return EventsCardWidget(
+                    onPressedOnNotification: () async {
+                      String eventDate =
+                          widget.otherUserEventsEntitie.events[index].eventDate;
+                      Duration diffrence =
+                          DateTime.parse(eventDate).difference(DateTime.now());
+                      await LocalNotificationHelper.scheduleNotification(
+                        title: widget
+                            .otherUserEventsEntitie.events[index].eventName,
+                        body: widget.otherUserEventsEntitie.events[index]
+                            .eventDescription,
+                        index: Random().nextInt(200),
+                        eventTime: DateTime.now().add(diffrence),
+                      );
+                    },
                     isHomeScreen: false,
                     isMyProfile: false,
                     eventEntitie: widget.otherUserEventsEntitie.events[index],

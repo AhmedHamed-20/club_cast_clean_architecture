@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/LocalNotification/local_notification_helper.dart';
+import '../../../../core/constants/params.dart';
+import '../../../../core/routes/app_route_names.dart';
 
 bool isEndOfMyFollowingEventsData = false;
 int myFollowingEventsPage = 2;
@@ -76,6 +78,18 @@ class _AllMyFollowingEventsScreenState
                         );
                       },
                       isHomeScreen: false,
+                      onPressedOnUserPhoto: () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutesNames.otherUserProfileScreen,
+                          arguments: OtherUserProfileScreenParams(
+                            state
+                                .myFollowingEventsEntitie!
+                                .myFollowingEventsDataEntitie[index]
+                                .userInfo
+                                .uid,
+                          ),
+                        );
+                      },
                       eventEntitie: state.myFollowingEventsEntitie!
                           .myFollowingEventsDataEntitie[index],
                       isMyProfile: false,

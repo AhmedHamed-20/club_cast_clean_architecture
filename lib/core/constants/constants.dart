@@ -255,6 +255,10 @@ void checkOnTabOnRoomCardLogic({
 }
 
 class AssetsPath {
+  static const String forgetPasswordImage = 'assets/images/forget_password.png';
+  static const String signUpImage = 'assets/images/signPhoto.png';
+  static const String loginImage = 'assets/images/login.png';
+  static const String noUserImage = 'assets/images/noImage.jpg';
   static const String errorImage = 'assets/images/error.gif';
   static const String userLeftAudio = 'assets/audio/userLeft.wav';
   static const String userEnterAudio = 'assets/audio/userEnter.wav';

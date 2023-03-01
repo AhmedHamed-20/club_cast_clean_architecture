@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CachedNetworkImageCirclePhoto extends StatelessWidget {
@@ -45,7 +46,7 @@ class CachedNetworkImageCirclePhoto extends StatelessWidget {
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: AssetImage('assets/images/noImage.jpg'),
+              image: AssetImage(AssetsPath.noUserImage),
               fit: BoxFit.cover,
             ),
           ),

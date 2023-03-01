@@ -23,7 +23,7 @@ class OtherUserProfilePhotoNameWidget extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
               errorWidget: (context, url, error) => Image.asset(
-                'assets/images/noImage.jpg',
+                AssetsPath.noUserImage,
                 width: MediaQueryOfMethods.getAppWidth(context) * 0.5,
                 height: MediaQueryOfMethods.getAppHeight(context) * 0.3,
                 fit: BoxFit.cover,

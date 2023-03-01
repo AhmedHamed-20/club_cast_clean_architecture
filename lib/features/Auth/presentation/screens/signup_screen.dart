@@ -26,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(
                 height: AppHeight.h10,
               ),
-              Image.asset('assets/images/signPhoto.png'),
+              Image.asset(AssetsPath.signUpImage),
               SizedBox(
                 height: AppHeight.h10,
               ),
