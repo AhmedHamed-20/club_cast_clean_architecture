@@ -14,7 +14,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
 
   PodcastRepositoryImple(this.basePodcastRemoteDataSource);
   @override
-  Future<Either<Failure, PodcastEntitie>> getMyFollowingPodcast(
+  Future<Either<Failure, MyFollowingPodcastEntitie>> getMyFollowingPodcast(
       MyFollowingPodcastParams params) async {
     try {
       final result =
@@ -58,7 +58,7 @@ class PodcastRepositoryImple extends BasePodcastRepository {
   }
 
   @override
-  Future<Either<Failure, PodcastEntitie>> getMoreMyFollowingPodcast(
+  Future<Either<Failure, MyFollowingPodcastEntitie>> getMoreMyFollowingPodcast(
       MoreMyFollowingPodcastParams params) async {
     try {
       final result =

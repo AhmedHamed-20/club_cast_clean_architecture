@@ -170,25 +170,14 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
             isEndOfEvents: true,
             myFollowingEventsRequestStatus: UserDataGetRequestStatus.error,
             statusCode: l.statusCode)), (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            isEndOfEvents: true,
-            myFollowingEventsEntitie: r,
-            myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            isEndOfEvents: false,
-            myFollowingEventsEntitie: r,
-            myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          isEndOfEvents: r.results < 10 ? true : false,
+          myFollowingEventsEntitie: r,
+          myFollowingEventsRequestStatus: UserDataGetRequestStatus.success,
+        ),
+      );
     });
   }
 
@@ -282,7 +271,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          myFollowingEventsEntitie: myFollowingEventsEntitie,
+          myFollowingEventsEntitie: myFollowingEventsEntitie.copyWith(),
           isEndOfEvents: false,
         ));
       } else {
@@ -292,7 +281,7 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
             .addAll(r.myFollowingEventsDataEntitie);
         emit(state.copyWith(
           errorMessage: '',
-          myFollowingEventsEntitie: myFollowingEventsEntitie,
+          myFollowingEventsEntitie: myFollowingEventsEntitie.copyWith(),
           isEndOfEvents: true,
         ));
       }

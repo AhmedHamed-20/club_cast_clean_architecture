@@ -7,13 +7,36 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/widgets/defaults.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import '../bloc/otherusersprofiles_bloc.dart';
-import 'other_user_podcasts_widget.dart';
 
-class MainOtherUserPodcastWidget extends StatelessWidget {
+late ScrollController otherUserPodcastScrollController;
+bool isEndOfOtherUserPodcastData = false;
+int otherUserPodcastPage = 2;
+
+class MainOtherUserPodcastWidget extends StatefulWidget {
   const MainOtherUserPodcastWidget(
       {super.key, required this.otherUserPodcastEntitie, required this.userId});
   final OtherUserPodcastEntitie otherUserPodcastEntitie;
   final String userId;
+
+  @override
+  State<MainOtherUserPodcastWidget> createState() =>
+      _MainOtherUserPodcastWidgetState();
+}
+
+class _MainOtherUserPodcastWidgetState
+    extends State<MainOtherUserPodcastWidget> {
+  @override
+  void initState() {
+    super.initState();
+    listenToScrollController();
+  }
+
+  @override
+  void dispose() {
+    disposeOtherUserPodcastScrollController();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final otherUserProfileBloc = BlocProvider.of<OtherUserProfileBloc>(context);
@@ -24,29 +47,31 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
       child: RefreshIndicator(
         onRefresh: () async {
           otherUserProfileBloc.add(OtherUserPodcastsGetEvent(
-              accessToken: ConstVar.accessToken, userId: userId));
+              accessToken: ConstVar.accessToken, userId: widget.userId));
         },
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: otherUserPodcastScrollController,
-            itemCount:
-                otherUserPodcastEntitie.otherUserPodcastDataEntitie.length + 1,
+            itemCount: widget.otherUserPodcastEntitie
+                    .otherUserPodcastDataEntitie.length +
+                1,
             itemBuilder: (context, index) {
               if (index <
-                  otherUserPodcastEntitie.otherUserPodcastDataEntitie.length) {
+                  widget.otherUserPodcastEntitie.otherUserPodcastDataEntitie
+                      .length) {
                 return BlocBuilder<CommonPlayingPodcastBlocBloc,
                         CommonPlayingPodcastBlocState>(
                     builder: (context, commonPlayPodcastBlocState) {
                   final defaultPodcastCallBackParams =
                       DefaultPodcastCallBackParams(
-                    basePodcastEntitie: otherUserPodcastEntitie
+                    basePodcastEntitie: widget.otherUserPodcastEntitie
                         .otherUserPodcastDataEntitie[index],
                     commonPlayingPodcastBloc: commonPlayingPodcastBloc,
                     context: context,
                     state: commonPlayPodcastBlocState,
                   );
                   return PodcastCardWidget(
-                    podcastEntitie: otherUserPodcastEntitie
+                    podcastEntitie: widget.otherUserPodcastEntitie
                         .otherUserPodcastDataEntitie[index],
                     podcastCardCallBacksParams: defaultPodcastCallBackParams
                         .defaultPodcastCallBackParams(),
@@ -54,9 +79,10 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                         commonPlayingPodcastBloc.getCurrentPlayingPosition(
                       currentPosition:
                           commonPlayPodcastBlocState.currentPosition,
-                      podcastId: otherUserPodcastEntitie
+                      podcastId: widget.otherUserPodcastEntitie
                           .otherUserPodcastDataEntitie[index].podcastId,
-                      podcastDuration: otherUserPodcastEntitie
+                      podcastDuration: widget
+                          .otherUserPodcastEntitie
                           .otherUserPodcastDataEntitie[index]
                           .podcastInfo
                           .podcastDuration,
@@ -64,17 +90,43 @@ class MainOtherUserPodcastWidget extends StatelessWidget {
                   );
                 });
               } else {
-                return isEndOfOtherUserPodcastData
-                    ? const SizedBox.shrink()
-                    : const Padding(
-                        padding: EdgeInsets.all(AppPadding.p8),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                return BlocBuilder<OtherUserProfileBloc, OtherUserProfileState>(
+                  builder: (context, state) {
+                    return state.isEndOfPodcastData
+                        ? const SizedBox.shrink()
+                        : const Padding(
+                            padding: EdgeInsets.all(AppPadding.p8),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                  },
+                );
               }
             }),
       ),
     );
+  }
+
+  void listenToScrollController() {
+    final otherUserProfileBloc = BlocProvider.of<OtherUserProfileBloc>(context);
+    otherUserPodcastScrollController = ScrollController();
+    otherUserPodcastScrollController.addListener(() {
+      if (otherUserPodcastScrollController.position.pixels ==
+              otherUserPodcastScrollController.position.maxScrollExtent &&
+          isEndOfOtherUserPodcastData == false) {
+        otherUserProfileBloc.add(OtherUserPodcastsGetMoreEvent(
+            accessToken: ConstVar.accessToken,
+            userId: widget.userId,
+            page: otherUserPodcastPage));
+        otherUserPodcastPage++;
+      }
+    });
+  }
+
+  void disposeOtherUserPodcastScrollController() {
+    otherUserPodcastPage = 2;
+    otherUserPodcastScrollController.dispose();
+    isEndOfOtherUserPodcastData = false;
   }
 }

@@ -8,9 +8,9 @@ import 'package:dartz/dartz.dart';
 import '../usecases/remove_like_by_podcast_id.dart';
 
 abstract class BasePodcastRepository {
-  Future<Either<Failure, PodcastEntitie>> getMyFollowingPodcast(
+  Future<Either<Failure, MyFollowingPodcastEntitie>> getMyFollowingPodcast(
       MyFollowingPodcastParams params);
-  Future<Either<Failure, PodcastEntitie>> getMoreMyFollowingPodcast(
+  Future<Either<Failure, MyFollowingPodcastEntitie>> getMoreMyFollowingPodcast(
       MoreMyFollowingPodcastParams params);
   Future<Either<Failure, void>> addLikeToPodcast(LikeAddParams params);
 

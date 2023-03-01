@@ -20,23 +20,17 @@ class MyFollowersMainWidget extends StatefulWidget {
 }
 
 class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
-  final scrollController = ScrollController();
+  late ScrollController myFollowersScrollerController;
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          isEndOfMyFollowersData == false) {
-        BlocProvider.of<UserProfileBloc>(context).add(
-          MyFollowersGetMoreEvent(
-            ConstVar.accessToken,
-            myFollowersPage,
-          ),
-        );
-        myFollowersPage++;
-      }
-    });
+    initMyFollowersScrollController();
+  }
+
+  @override
+  void dispose() {
+    disposeMyFollowersScrollController();
+    super.dispose();
   }
 
   @override
@@ -44,9 +38,11 @@ class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
+        centerTitle: true,
         title: Text(
           'Followers',
           style: Theme.of(context).textTheme.titleLarge,
+          
         ),
       ),
       body: BlocConsumer<UserProfileBloc, UserProfileState>(
@@ -56,7 +52,7 @@ class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
         builder: (context, state) => Padding(
           padding: const EdgeInsets.all(AppPadding.p12),
           child: ListView.builder(
-              controller: scrollController,
+              controller: myFollowersScrollerController,
               itemCount:
                   state.followersData!.followerFollowigDataEntite.length + 1,
               itemBuilder: (context, index) {
@@ -92,5 +88,29 @@ class _MyFollowersMainWidgetState extends State<MyFollowersMainWidget> {
         ),
       ),
     );
+  }
+
+  void initMyFollowersScrollController() {
+    final userProfileBLoc = BlocProvider.of<UserProfileBloc>(context);
+    myFollowersScrollerController = ScrollController();
+    myFollowersScrollerController.addListener(() {
+      if (myFollowersScrollerController.position.pixels ==
+              myFollowersScrollerController.position.maxScrollExtent &&
+          isEndOfMyFollowersData == false) {
+        userProfileBLoc.add(
+          MyFollowersGetMoreEvent(
+            ConstVar.accessToken,
+            myFollowersPage,
+          ),
+        );
+        myFollowersPage++;
+      }
+    });
+  }
+
+  void disposeMyFollowersScrollController() {
+    myFollowersPage = 2;
+    isEndOfMyFollowersData = false;
+    myFollowersScrollerController.dispose();
   }
 }

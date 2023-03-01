@@ -235,7 +235,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          myPodcastEntite: myPodcastEntitie,
+          myPodcastEntite: myPodcastEntitie.copyWith(),
           isEndOfMyPodcastsData: false,
         ));
       } else {
@@ -243,7 +243,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
         myPodcastEntitie.myPodcastDataEntitie.addAll(r.myPodcastDataEntitie);
         emit(state.copyWith(
           errorMessage: '',
-          myPodcastEntite: myPodcastEntitie,
+          myPodcastEntite: myPodcastEntitie.copyWith(),
           isEndOfMyPodcastsData: true,
         ));
       }

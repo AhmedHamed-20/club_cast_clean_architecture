@@ -133,8 +133,6 @@ class ServiceLocator {
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
           servicelocator(),
           servicelocator(),
-          servicelocator(),
-          servicelocator(),
         ));
 
     servicelocator.registerLazySingleton<LayoutBloc>(() => LayoutBloc(

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_information_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 
-class PodcastModel extends PodcastEntitie {
+class PodcastModel extends MyFollowingPodcastEntitie {
   const PodcastModel(
       {required super.results, required super.podcastInformationEntitie});
 

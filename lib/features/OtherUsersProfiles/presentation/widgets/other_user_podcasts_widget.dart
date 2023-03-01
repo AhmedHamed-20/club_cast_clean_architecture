@@ -7,33 +7,9 @@ import '../../../../core/utl/utls.dart';
 import '../../../../core/widgets/error_screen.dart';
 import 'main_other_user_podcast_widget.dart';
 
-late ScrollController otherUserPodcastScrollController;
-bool isEndOfOtherUserPodcastData = false;
-int otherUserPodcastPage = 2;
-
-class OtherUserPodcastsWidget extends StatefulWidget {
+class OtherUserPodcastsWidget extends StatelessWidget {
   const OtherUserPodcastsWidget({super.key, required this.userId});
   final String userId;
-
-  @override
-  State<OtherUserPodcastsWidget> createState() =>
-      _OtherUserPodcastsWidgetState();
-}
-
-class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    listenToScrollController();
-  }
-
-  @override
-  void dispose() {
-    otherUserPodcastPage = 2;
-    otherUserPodcastScrollController.dispose();
-    isEndOfOtherUserPodcastData = false;
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,30 +64,16 @@ class _OtherUserPodcastsWidgetState extends State<OtherUserPodcastsWidget> {
                 message: state.errorMessage,
                 onRetry: () {
                   BlocProvider.of<OtherUserProfileBloc>(context).add(
-                      OtherUserPodcastsGetEvent(
-                          accessToken: ConstVar.accessToken,
-                          userId: widget.userId));
+                    OtherUserPodcastsGetEvent(
+                      accessToken: ConstVar.accessToken,
+                      userId: userId,
+                    ),
+                  );
                 },
               );
             }
         }
       },
     );
-  }
-
-  void listenToScrollController() {
-    otherUserPodcastScrollController = ScrollController();
-    otherUserPodcastScrollController.addListener(() {
-      if (otherUserPodcastScrollController.position.pixels ==
-              otherUserPodcastScrollController.position.maxScrollExtent &&
-          isEndOfOtherUserPodcastData == false) {
-        BlocProvider.of<OtherUserProfileBloc>(context).add(
-            OtherUserPodcastsGetMoreEvent(
-                accessToken: ConstVar.accessToken,
-                userId: widget.userId,
-                page: otherUserPodcastPage));
-        otherUserPodcastPage++;
-      }
-    });
   }
 }

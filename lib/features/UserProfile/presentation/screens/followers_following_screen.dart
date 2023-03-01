@@ -20,30 +20,14 @@ class FollowersFollowingScreen extends StatefulWidget {
 
 class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
   @override
-  void initState() {
-    super.initState();
-    if (widget.myProfileFollowersFollowingScreenParams.isFollowers) {
-      widget.myProfileFollowersFollowingScreenParams.userprofileBloc.add(
-          MyFollowersGetEvent(
-              widget.myProfileFollowersFollowingScreenParams.accessToken));
-    } else {
-      widget.myProfileFollowersFollowingScreenParams.userprofileBloc.add(
-          MyFollowingGetEvent(
-              widget.myProfileFollowersFollowingScreenParams.accessToken));
-    }
-  }
-
-  @override
-  void dispose() {
-    myFollowersPage = 2;
-    myFollowingPage = 2;
-    isEndOfMyFollowersData = false;
-    isEndOfMyFolloweringData = false;
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getMyData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return BlocBuilder<UserProfileBloc, UserProfileState>(
         builder: (context, state) {
       if (widget.myProfileFollowersFollowingScreenParams.isFollowers) {
@@ -71,11 +55,8 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
                   message: state.errorMessage,
                   isHoleScreen: true,
                   onRetry: () {
-                    widget
-                        .myProfileFollowersFollowingScreenParams.userprofileBloc
-                        .add(MyFollowersGetEvent(widget
-                            .myProfileFollowersFollowingScreenParams
-                            .accessToken));
+                    userProfileBloc.add(MyFollowersGetEvent(widget
+                        .myProfileFollowersFollowingScreenParams.accessToken));
                   },
                 ),
               );
@@ -106,11 +87,8 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
                   isHoleScreen: true,
                   message: state.errorMessage,
                   onRetry: () {
-                    widget
-                        .myProfileFollowersFollowingScreenParams.userprofileBloc
-                        .add(MyFollowingGetEvent(widget
-                            .myProfileFollowersFollowingScreenParams
-                            .accessToken));
+                    userProfileBloc.add(MyFollowingGetEvent(widget
+                        .myProfileFollowersFollowingScreenParams.accessToken));
                   },
                 ),
               );
@@ -118,5 +96,16 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
         }
       }
     });
+  }
+
+  void getMyData() {
+    final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
+    if (widget.myProfileFollowersFollowingScreenParams.isFollowers) {
+      userProfileBloc.add(MyFollowersGetEvent(
+          widget.myProfileFollowersFollowingScreenParams.accessToken));
+    } else {
+      userProfileBloc.add(MyFollowingGetEvent(
+          widget.myProfileFollowersFollowingScreenParams.accessToken));
+    }
   }
 }

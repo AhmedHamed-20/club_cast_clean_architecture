@@ -113,23 +113,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ),
       );
     }, (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            allPodcastsRequestStatus: SearchRequestStatus.success,
-            allPodcastsEntitie: r,
-            isEndOfAllPodcasts: true,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            allPodcastsRequestStatus: SearchRequestStatus.success,
-            allPodcastsEntitie: r,
-            isEndOfAllPodcasts: false,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          allPodcastsRequestStatus: SearchRequestStatus.success,
+          allPodcastsEntitie: r,
+          isEndOfAllPodcasts: r.results < 10 ? true : false,
+        ),
+      );
     });
   }
 
@@ -165,7 +155,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(state.copyWith(
           errorMessages: '',
           statusCode: 0,
-          allPodcastsEntitie: allPodcasts,
+          allPodcastsEntitie: allPodcasts.copyWith(),
           isEndOfAllPodcasts: false,
           allPodcastsGetMorreRequestStatus: SearchRequestStatus.success,
         ));
@@ -175,7 +165,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             .addAll(r.podcastInformationEntitie);
         emit(state.copyWith(
           errorMessages: '',
-          allPodcastsEntitie: allPodcasts,
+          allPodcastsEntitie: allPodcasts.copyWith(),
           isEndOfAllPodcasts: true,
           allPodcastsGetMorreRequestStatus: SearchRequestStatus.success,
         ));

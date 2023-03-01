@@ -12,7 +12,7 @@ class PodcastCardMainWdget extends StatelessWidget {
     required this.podcastsEntitie,
     required this.index,
   }) : super(key: key);
-  final PodcastEntitie podcastsEntitie;
+  final MyFollowingPodcastEntitie podcastsEntitie;
   final int index;
   @override
   Widget build(BuildContext context) {

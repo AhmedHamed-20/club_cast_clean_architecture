@@ -205,7 +205,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          followersData: followersEntitie,
+          followersData: followersEntitie.copyWith(),
           isEndOfFollowersData: false,
         ));
       } else {
@@ -244,7 +244,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          followingData: followingData,
+          followingData: followingData.copyWith(),
           isEndOfFollowingData: false,
         ));
       } else {
@@ -253,7 +253,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
             .addAll(r.followerFollowigDataEntite);
         emit(state.copyWith(
           errorMessage: '',
-          followingData: followingData,
+          followingData: followingData.copyWith(),
           isEndOfFollowingData: true,
         ));
       }

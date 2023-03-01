@@ -5,13 +5,13 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class MoreMyFollowingPodcastsUsecase
-    extends BaseUsecase<PodcastEntitie, MoreMyFollowingPodcastParams> {
+class MoreMyFollowingPodcastsUsecase extends BaseUsecase<
+    MyFollowingPodcastEntitie, MoreMyFollowingPodcastParams> {
   final BasePodcastRepository basePodcastRepository;
 
   MoreMyFollowingPodcastsUsecase(this.basePodcastRepository);
   @override
-  Future<Either<Failure, PodcastEntitie>> call(
+  Future<Either<Failure, MyFollowingPodcastEntitie>> call(
       MoreMyFollowingPodcastParams params) async {
     return await basePodcastRepository.getMoreMyFollowingPodcast(params);
   }

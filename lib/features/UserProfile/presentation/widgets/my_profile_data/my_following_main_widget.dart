@@ -8,7 +8,7 @@ import '../../../../../core/routes/app_route_names.dart';
 import '../../../../../core/widgets/users_card_widget.dart';
 
 int myFollowingPage = 2;
-bool isEndOfMyFolloweringData = false;
+bool isEndOfMyFollowingData = false;
 
 class MyFollowingMainWidget extends StatefulWidget {
   const MyFollowingMainWidget({
@@ -20,29 +20,24 @@ class MyFollowingMainWidget extends StatefulWidget {
 }
 
 class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
-  final scrollController = ScrollController();
+  late ScrollController myFollowingScrollController;
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          isEndOfMyFolloweringData == false) {
-        BlocProvider.of<UserProfileBloc>(context).add(
-          MyFollowingGetMoreEvent(
-            ConstVar.accessToken,
-            myFollowingPage,
-          ),
-        );
-        myFollowingPage++;
-      }
-    });
+    initMyFollowingScrollController();
+  }
+
+  @override
+  void dispose() {
+    disposeMyFollowingScrollController();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
         title: Text(
           'Following',
@@ -51,12 +46,12 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
       ),
       body: BlocConsumer<UserProfileBloc, UserProfileState>(
         listener: (context, state) {
-          isEndOfMyFolloweringData = state.isEndOfFollowingData;
+          isEndOfMyFollowingData = state.isEndOfFollowingData;
         },
         builder: (context, state) => Padding(
           padding: const EdgeInsets.all(AppPadding.p12),
           child: ListView.builder(
-              controller: scrollController,
+              controller: myFollowingScrollController,
               itemCount:
                   state.followingData!.followerFollowigDataEntite.length + 1,
               itemBuilder: (context, index) {
@@ -92,5 +87,30 @@ class _MyFollowingMainWidgetState extends State<MyFollowingMainWidget> {
         ),
       ),
     );
+  }
+
+  void initMyFollowingScrollController() {
+    final userProfileBLoc = BlocProvider.of<UserProfileBloc>(context);
+
+    myFollowingScrollController = ScrollController();
+    myFollowingScrollController.addListener(() {
+      if (myFollowingScrollController.position.pixels ==
+              myFollowingScrollController.position.maxScrollExtent &&
+          isEndOfMyFollowingData == false) {
+        userProfileBLoc.add(
+          MyFollowingGetMoreEvent(
+            ConstVar.accessToken,
+            myFollowingPage,
+          ),
+        );
+        myFollowingPage++;
+      }
+    });
+  }
+
+  void disposeMyFollowingScrollController() {
+    isEndOfMyFollowingData = false;
+    myFollowingPage = 2;
+    myFollowingScrollController.dispose();
   }
 }

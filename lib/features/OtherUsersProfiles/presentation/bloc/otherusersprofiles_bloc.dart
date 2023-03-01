@@ -99,29 +99,16 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             followersFollowingDataGetRequestStatus:
                 FollowersFollowingDataGetRequestStatus.error)), (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfFollowersData: true,
-            followersFollowingDataGetRequestStatus:
-                FollowersFollowingDataGetRequestStatus.success,
-            otherUserFollowersFollowingDataEntitie: r,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfFollowersData: false,
-            followersFollowingDataGetRequestStatus:
-                FollowersFollowingDataGetRequestStatus.success,
-            otherUserFollowersFollowingDataEntitie: r,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          isEndOfFollowersData: r.results < 10 ? true : false,
+          followersFollowingDataGetRequestStatus:
+              FollowersFollowingDataGetRequestStatus.success,
+          otherUserFollowersFollowingDataEntitie: r,
+        ),
+      );
     });
   }
 
@@ -143,29 +130,16 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             followersFollowingDataGetRequestStatus:
                 FollowersFollowingDataGetRequestStatus.error)), (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfFollowingData: true,
-            followersFollowingDataGetRequestStatus:
-                FollowersFollowingDataGetRequestStatus.success,
-            otherUserFollowersFollowingDataEntitie: r,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfFollowingData: false,
-            followersFollowingDataGetRequestStatus:
-                FollowersFollowingDataGetRequestStatus.success,
-            otherUserFollowersFollowingDataEntitie: r,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          isEndOfFollowingData: r.results < 10 ? true : false,
+          followersFollowingDataGetRequestStatus:
+              FollowersFollowingDataGetRequestStatus.success,
+          otherUserFollowersFollowingDataEntitie: r,
+        ),
+      );
     });
   }
 
@@ -200,7 +174,7 @@ class OtherUserProfileBloc
           errorMessage: '',
           statusCode: 0,
           otherUserFollowersFollowingDataEntitie:
-              otherUserFollowersFollowingDataEntitie,
+              otherUserFollowersFollowingDataEntitie.copyWith(),
           isEndOfFollowersData: false,
         ));
       } else {
@@ -213,7 +187,7 @@ class OtherUserProfileBloc
         emit(state.copyWith(
           errorMessage: '',
           otherUserFollowersFollowingDataEntitie:
-              otherUserFollowersFollowingDataEntitie,
+              otherUserFollowersFollowingDataEntitie.copyWith(),
           isEndOfFollowersData: true,
         ));
       }
@@ -251,7 +225,7 @@ class OtherUserProfileBloc
           errorMessage: '',
           statusCode: 0,
           otherUserFollowersFollowingDataEntitie:
-              otherUserFollowersFollowingDataEntitie,
+              otherUserFollowersFollowingDataEntitie.copyWith(),
           isEndOfFollowingData: false,
         ));
       } else {
@@ -264,7 +238,7 @@ class OtherUserProfileBloc
         emit(state.copyWith(
           errorMessage: '',
           otherUserFollowersFollowingDataEntitie:
-              otherUserFollowersFollowingDataEntitie,
+              otherUserFollowersFollowingDataEntitie.copyWith(),
           isEndOfFollowingData: true,
         ));
       }
@@ -287,27 +261,15 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.error)),
         (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfPodcastData: true,
-            otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.success,
-            otherUserPodcastEntitie: r,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfPodcastData: false,
-            otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.success,
-            otherUserPodcastEntitie: r,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          isEndOfPodcastData: r.results < 10 ? true : false,
+          otherUserPodcastGetRequestStatus: UserDataGetRequestStatus.success,
+          otherUserPodcastEntitie: r,
+        ),
+      );
     });
   }
 
@@ -338,7 +300,7 @@ class OtherUserProfileBloc
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          otherUserPodcastEntitie: otherUserPodcastEntitie,
+          otherUserPodcastEntitie: otherUserPodcastEntitie.copyWith(),
           isEndOfPodcastData: false,
         ));
       } else {
@@ -348,7 +310,7 @@ class OtherUserProfileBloc
             .addAll(r.otherUserPodcastDataEntitie);
         emit(state.copyWith(
           errorMessage: '',
-          otherUserPodcastEntitie: otherUserPodcastEntitie,
+          otherUserPodcastEntitie: otherUserPodcastEntitie.copyWith(),
           isEndOfPodcastData: true,
         ));
       }
@@ -427,27 +389,15 @@ class OtherUserProfileBloc
             statusCode: l.statusCode,
             otherUserEventsGetRequestStatus: UserDataGetRequestStatus.error)),
         (r) {
-      if (r.results < 10) {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfEventsData: true,
-            otherUserEventsGetRequestStatus: UserDataGetRequestStatus.success,
-            otherUserEventsEntitie: r,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            errorMessage: '',
-            statusCode: 0,
-            isEndOfEventsData: false,
-            otherUserEventsGetRequestStatus: UserDataGetRequestStatus.success,
-            otherUserEventsEntitie: r,
-          ),
-        );
-      }
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          statusCode: 0,
+          isEndOfEventsData: r.results < 10 ? true : false,
+          otherUserEventsGetRequestStatus: UserDataGetRequestStatus.success,
+          otherUserEventsEntitie: r,
+        ),
+      );
     });
   }
 
@@ -476,7 +426,7 @@ class OtherUserProfileBloc
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          otherUserEventsEntitie: otherUserEventsEntitie,
+          otherUserEventsEntitie: otherUserEventsEntitie.copyWith(),
           isEndOfEventsData: false,
         ));
       } else {
@@ -485,7 +435,7 @@ class OtherUserProfileBloc
         otherUserEventsEntitie.events.addAll(r.events);
         emit(state.copyWith(
           errorMessage: '',
-          otherUserEventsEntitie: otherUserEventsEntitie,
+          otherUserEventsEntitie: otherUserEventsEntitie.copyWith(),
           isEndOfEventsData: true,
         ));
       }

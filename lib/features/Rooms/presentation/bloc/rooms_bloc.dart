@@ -37,21 +37,12 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
             statusCode: l.statusCode,
             isEndOfRoomsData: true,
             allRoomsGetRequestStatus: AllRoomsGetRequestStatus.error)), (r) {
-      if (r.results <= 10) {
-        emit(state.copyWith(
-            isEndOfRoomsData: true,
-            errorMessage: '',
-            statusCode: 0,
-            allRoomsGetRequestStatus: AllRoomsGetRequestStatus.success,
-            allRoomsEntitie: r));
-      } else {
-        emit(state.copyWith(
-            isEndOfRoomsData: false,
-            errorMessage: '',
-            statusCode: 0,
-            allRoomsGetRequestStatus: AllRoomsGetRequestStatus.success,
-            allRoomsEntitie: r));
-      }
+      emit(state.copyWith(
+          isEndOfRoomsData: r.results < 10 ? true : false,
+          errorMessage: '',
+          statusCode: 0,
+          allRoomsGetRequestStatus: AllRoomsGetRequestStatus.success,
+          allRoomsEntitie: r));
     });
   }
 
@@ -79,7 +70,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         emit(state.copyWith(
           errorMessage: '',
           statusCode: 0,
-          allRoomsEntitie: allRoomsEntitie,
+          allRoomsEntitie: allRoomsEntitie.copyWith(),
           isEndOfRoomsData: false,
         ));
       } else {
@@ -87,7 +78,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         allRoomsEntitie.allRoomsDataEntitie.addAll(r.allRoomsDataEntitie);
         emit(state.copyWith(
           errorMessage: '',
-          allRoomsEntitie: allRoomsEntitie,
+          allRoomsEntitie: allRoomsEntitie.copyWith(),
           isEndOfRoomsData: true,
         ));
       }

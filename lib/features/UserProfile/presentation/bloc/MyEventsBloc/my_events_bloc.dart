@@ -139,7 +139,7 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
         emit(state.copyWith(
           errorMessages: '',
           statusCode: 0,
-          myEvents: myEventsEntitie,
+          myEvents: myEventsEntitie.copyWith(),
           isEndOfMyEventsData: false,
         ));
       } else {
@@ -147,7 +147,7 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
         myEventsEntitie.myEventsDataEntitie.addAll(r.myEventsDataEntitie);
         emit(state.copyWith(
           errorMessages: '',
-          myEvents: myEventsEntitie,
+          myEvents: myEventsEntitie.copyWith(),
           isEndOfMyEventsData: true,
         ));
       }

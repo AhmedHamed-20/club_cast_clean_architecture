@@ -23,7 +23,7 @@ class OtherUserEventsMainWidget extends StatefulWidget {
 }
 
 class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
-  ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
 
   @override
   void didChangeDependencies() {
@@ -33,9 +33,7 @@ class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
 
   @override
   void dispose() {
-    scrollController.dispose();
-    isEndOfData = false;
-    otherUserEventsPage = 2;
+    disposeOtherEventsController();
     super.dispose();
   }
 
@@ -95,18 +93,24 @@ class _OtherUserEventsMainWidgetState extends State<OtherUserEventsMainWidget> {
   }
 
   void listenToScrollController() {
+    final otherUserProfileBloc = BlocProvider.of<OtherUserProfileBloc>(context);
     scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent &&
           isEndOfData == false) {
-        BlocProvider.of<OtherUserProfileBloc>(context).add(
-            OtherUserEventsGetMoreEvent(
-                accessToken: ConstVar.accessToken,
-                userId: widget.userId,
-                page: otherUserEventsPage));
+        otherUserProfileBloc.add(OtherUserEventsGetMoreEvent(
+            accessToken: ConstVar.accessToken,
+            userId: widget.userId,
+            page: otherUserEventsPage));
         otherUserEventsPage++;
       }
     });
+  }
+
+  void disposeOtherEventsController() {
+    scrollController.dispose();
+    isEndOfData = false;
+    otherUserEventsPage = 2;
   }
 }
