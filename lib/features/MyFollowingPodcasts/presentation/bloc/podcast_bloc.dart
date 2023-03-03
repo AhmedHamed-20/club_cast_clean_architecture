@@ -7,6 +7,8 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../domain/entities/podcast_information_entitie.dart';
+
 part 'podcast_event.dart';
 part 'podcast_state.dart';
 
@@ -15,6 +17,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
       : super(const PodcastState()) {
     on<GetMyFollowingPodcastsEvent>(_getMyFollowingPodcast);
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
+    on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
   final FollowingPodcastUsecase followingPodcastUsecase;
   final MoreMyFollowingPodcastsUsecase moreMyFollowingPodcastsUsecase;
@@ -88,5 +91,38 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
         ));
       }
     });
+  }
+
+  FutureOr<void> _updatePodcastLikesCount(
+      UpdatePodcastLikesCountEvent event, Emitter<PodcastState> emit) {
+    List<PodcastInformationEntitie> myFollowingPodcastsModel =
+        state.myFollowingPodcasts!.podcastInformationEntitie;
+
+    for (int i = 0;
+        i < state.myFollowingPodcasts!.podcastInformationEntitie.length;
+        i++) {
+      if (state.myFollowingPodcasts!.podcastInformationEntitie[i].podcastId ==
+          event.podcastId) {
+        if (event.isLiked) {
+          myFollowingPodcastsModel[i] = myFollowingPodcastsModel[i].copyWith(
+              podcastLikesCount:
+                  myFollowingPodcastsModel[i].podcastLikesCount - 1,
+              isLiked: false);
+        } else {
+          myFollowingPodcastsModel[i] = myFollowingPodcastsModel[i].copyWith(
+              podcastLikesCount:
+                  myFollowingPodcastsModel[i].podcastLikesCount + 1,
+              isLiked: true);
+        }
+      }
+    }
+    emit(
+      state.copyWith(
+        myFollowingPodcasts: MyFollowingPodcastEntitie(
+                podcastInformationEntitie: myFollowingPodcastsModel,
+                results: state.myFollowingPodcasts!.results)
+            .copyWith(),
+      ),
+    );
   }
 }

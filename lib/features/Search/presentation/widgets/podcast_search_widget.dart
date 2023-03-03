@@ -48,19 +48,10 @@ class PodcastSearchWidget extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         case SearchRequestStatus.success:
-          return Padding(
-            padding: const EdgeInsets.all(AppPadding.p12),
-            child: ListView.builder(
-              itemCount:
-                  state.podcastSearchEntitie.podcastInformationEntitie.length,
-              itemBuilder: (context, index) {
-                return PodcastSearchMainWidget(
-                  basePodcastEntitie: state
-                      .podcastSearchEntitie.podcastInformationEntitie[index],
-                );
-              },
-            ),
-          );
+          return const Padding(
+              padding: EdgeInsets.all(AppPadding.p12),
+              child: PodcastSearchMainWidget());
+
         case SearchRequestStatus.error:
           if (state.statusCode == 403 || state.statusCode == 401) {
             return ErrorScreen(

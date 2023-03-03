@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
 import '../../domain/entities/followers_following_data_entitie.dart';
+import '../../domain/entities/other_user_podcast_data_entitie.dart';
 import '../../domain/usecases/get_user_followers.dart';
 import '../../domain/usecases/get_user_following.dart';
 import '../../domain/usecases/get_user_profile_data.dart';
@@ -41,6 +42,7 @@ class OtherUserProfileBloc
     on<UnFollowUserEvent>(_unFollowUser);
     on<OtherUserEventsGetEvent>(_getOtherUserEvents);
     on<OtherUserEventsGetMoreEvent>(_getOtherUserEventsMore);
+    on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
   final OtherUserProfileDataGetUsecase otherUserProfileDataGetUsecase;
   final OtherUserFollowingUsecase otherUserFollowingUsecase;
@@ -440,5 +442,39 @@ class OtherUserProfileBloc
         ));
       }
     });
+  }
+
+  FutureOr<void> _updatePodcastLikesCount(
+      UpdatePodcastLikesCountEvent event, Emitter<OtherUserProfileState> emit) {
+    List<OtherUserPodcastDataEntitie> otherUserPodcastEntitie =
+        state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie;
+
+    for (int i = 0;
+        i < state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie.length;
+        i++) {
+      if (state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie[i]
+              .podcastId ==
+          event.podcastId) {
+        if (event.isLiked) {
+          otherUserPodcastEntitie[i] = otherUserPodcastEntitie[i].copyWith(
+              podcastLikesCount:
+                  otherUserPodcastEntitie[i].podcastLikesCount - 1,
+              isLiked: false);
+        } else {
+          otherUserPodcastEntitie[i] = otherUserPodcastEntitie[i].copyWith(
+              podcastLikesCount:
+                  otherUserPodcastEntitie[i].podcastLikesCount + 1,
+              isLiked: true);
+        }
+      }
+    }
+    emit(
+      state.copyWith(
+        otherUserPodcastEntitie: OtherUserPodcastEntitie(
+                otherUserPodcastDataEntitie: otherUserPodcastEntitie,
+                results: state.otherUserPodcastEntitie!.results)
+            .copyWith(),
+      ),
+    );
   }
 }

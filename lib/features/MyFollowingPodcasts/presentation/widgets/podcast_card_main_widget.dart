@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,7 @@ class PodcastCardMainWdget extends StatelessWidget {
   Widget build(BuildContext context) {
     final commonPlayPodcast =
         BlocProvider.of<CommonPlayingPodcastBlocBloc>(context);
-
+    final myFollowingPodcastBloc = BlocProvider.of<PodcastBloc>(context);
     return BlocBuilder<CommonPlayingPodcastBlocBloc,
         CommonPlayingPodcastBlocState>(
       builder: (context, state) {
@@ -31,7 +32,13 @@ class PodcastCardMainWdget extends StatelessWidget {
         return PodcastCardWidget(
           podcastEntitie: podcastsEntitie.podcastInformationEntitie[index],
           podcastCardCallBacksParams:
-              defaultPodcastCallBackParams.defaultPodcastCallBackParams(),
+              defaultPodcastCallBackParams.defaultPodcastCallBackParams(
+                  podcastBloc: myFollowingPodcastBloc,
+                  podcastLikeCountChangeEvent: UpdatePodcastLikesCountEvent(
+                      isLiked: podcastsEntitie
+                          .podcastInformationEntitie[index].isLiked,
+                      podcastId: podcastsEntitie
+                          .podcastInformationEntitie[index].podcastId)),
           podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
             currentPosition: state.currentPosition,
             podcastId:

@@ -53,3 +53,14 @@ class AllPodcastGetMoreEvent extends SearchEvent {
   @override
   List<Object> get props => [accessToken, page];
 }
+
+class UpdatePodcastLikesCountEvent extends SearchEvent {
+  final String podcastId;
+  final bool isLiked;
+  final bool isSearch;
+  const UpdatePodcastLikesCountEvent(
+      {required this.podcastId, required this.isLiked, required this.isSearch});
+
+  @override
+  List<Object> get props => [podcastId, isLiked, isSearch];
+}

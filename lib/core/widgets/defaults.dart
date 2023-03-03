@@ -119,14 +119,20 @@ class DefaultPodcastCallBackParams {
       required this.state,
       required this.context});
 
-  PodcastCardCallBacksParams defaultPodcastCallBackParams(
-      {MyPodcastBloc? myPodcastBloc}) {
+  PodcastCardCallBacksParams defaultPodcastCallBackParams({
+    MyPodcastBloc? myPodcastBloc,
+    required Bloc podcastBloc,
+    required dynamic podcastLikeCountChangeEvent,
+  }) {
     return PodcastCardCallBacksParams(
       onPressedOnLikeButton: () {
         commonPlayingPodcastBloc.onPressedOnLikeLogic(
-            podcastId: basePodcastEntitie.podcastId,
-            podcastLocalStatus: state.podcastsLikesStatus,
-            serverLikeStatus: basePodcastEntitie.isLiked);
+          podcastId: basePodcastEntitie.podcastId,
+          podcastLocalStatus: state.podcastsLikesStatus,
+          serverLikeStatus: basePodcastEntitie.isLiked,
+          podcastBloc: podcastBloc,
+          podcastCountEvent: podcastLikeCountChangeEvent,
+        );
       },
       onPressedOnRemove: myPodcastBloc == null
           ? () {}

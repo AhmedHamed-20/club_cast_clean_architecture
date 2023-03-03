@@ -3,7 +3,7 @@ import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie
 import '../../../../core/constants/base_podcast_entitie/base_podcast_audio_info.dart';
 import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
 
-class MyPodcastDataEntite extends BasePodcastEntitie {
+abstract class MyPodcastDataEntite extends BasePodcastEntitie {
   const MyPodcastDataEntite(
       {required super.podcastId,
       required super.podcastName,
@@ -23,18 +23,7 @@ class MyPodcastDataEntite extends BasePodcastEntitie {
     bool? isLiked,
     PodcastUserInfoEntitie? podcastUserInfo,
     PodcastAudioInoEntitie? podcastInfo,
-  }) {
-    return MyPodcastDataEntite(
-      podcastId: podcastId ?? this.podcastId,
-      podcastName: podcastName ?? this.podcastName,
-      podcastLikesCount: podcastLikesCount ?? this.podcastLikesCount,
-      category: category ?? this.category,
-      createdAt: createdAt ?? this.createdAt,
-      isLiked: isLiked ?? this.isLiked,
-      podcastUserInfo: podcastUserInfo ?? this.podcastUserInfo,
-      podcastInfo: podcastInfo ?? this.podcastInfo,
-    );
-  }
+  });
 
   @override
   List<Object?> get props => [

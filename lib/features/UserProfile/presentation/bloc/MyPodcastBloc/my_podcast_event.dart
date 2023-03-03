@@ -136,11 +136,11 @@ class MyPodcastGetMoreEvents extends MyPodcastEvent {
 
 class UpdatePodcastLikesCountEvent extends MyPodcastEvent {
   final String podcastId;
-  final bool isAdd;
+  final bool isLiked;
 
   const UpdatePodcastLikesCountEvent(
-      {required this.podcastId, required this.isAdd});
+      {required this.podcastId, required this.isLiked});
 
   @override
-  List<Object?> get props => [podcastId, isAdd];
+  List<Object?> get props => [podcastId, isLiked];
 }

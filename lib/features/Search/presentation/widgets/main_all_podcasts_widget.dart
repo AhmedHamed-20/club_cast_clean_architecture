@@ -66,7 +66,17 @@ class _MainAllPodcastWidgetState extends State<MainAllPodcastWidget> {
                       podcastEntitie: widget.podcastInformationEntitie
                           .podcastInformationEntitie[index],
                       podcastCardCallBacksParams: defaultPodcastCallBackParams
-                          .defaultPodcastCallBackParams(),
+                          .defaultPodcastCallBackParams(
+                        podcastBloc: searchBloc,
+                        podcastLikeCountChangeEvent:
+                            UpdatePodcastLikesCountEvent(
+                          podcastId: widget.podcastInformationEntitie
+                              .podcastInformationEntitie[index].podcastId,
+                          isLiked: widget.podcastInformationEntitie
+                              .podcastInformationEntitie[index].isLiked,
+                          isSearch: false,
+                        ),
+                      ),
                     ),
                   );
                 } else {

@@ -155,3 +155,19 @@ class OtherUserEventsGetMoreEvent extends OtherUserProfileEvent {
         page,
       ];
 }
+
+class UpdatePodcastLikesCountEvent extends OtherUserProfileEvent {
+  final bool isLiked;
+  final String podcastId;
+
+  const UpdatePodcastLikesCountEvent({
+    required this.isLiked,
+    required this.podcastId,
+  });
+
+  @override
+  List<Object> get props => [
+        isLiked,
+        podcastId,
+      ];
+}

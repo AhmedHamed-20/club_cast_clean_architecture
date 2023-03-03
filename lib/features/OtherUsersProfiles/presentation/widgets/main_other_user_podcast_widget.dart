@@ -74,7 +74,18 @@ class _MainOtherUserPodcastWidgetState
                     podcastEntitie: widget.otherUserPodcastEntitie
                         .otherUserPodcastDataEntitie[index],
                     podcastCardCallBacksParams: defaultPodcastCallBackParams
-                        .defaultPodcastCallBackParams(),
+                        .defaultPodcastCallBackParams(
+                            podcastBloc: otherUserProfileBloc,
+                            podcastLikeCountChangeEvent:
+                                UpdatePodcastLikesCountEvent(
+                                    podcastId: widget
+                                        .otherUserPodcastEntitie
+                                        .otherUserPodcastDataEntitie[index]
+                                        .podcastId,
+                                    isLiked: widget
+                                        .otherUserPodcastEntitie
+                                        .otherUserPodcastDataEntitie[index]
+                                        .isLiked)),
                     podcastDurathion:
                         commonPlayingPodcastBloc.getCurrentPlayingPosition(
                       currentPosition:

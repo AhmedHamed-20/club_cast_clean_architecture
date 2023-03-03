@@ -71,7 +71,14 @@ class _MainMyPodcastWidgetState extends State<MainMyPodcastWidget> {
                     isMyProfile: true,
                     podcastCardCallBacksParams: defaultPodcastCallBackParams
                         .defaultPodcastCallBackParams(
-                            myPodcastBloc: myPodcastBloc),
+                            myPodcastBloc: myPodcastBloc,
+                            podcastBloc: myPodcastBloc,
+                            podcastLikeCountChangeEvent:
+                                UpdatePodcastLikesCountEvent(
+                                    podcastId: state.myPodcastEntite
+                                        .myPodcastDataEntitie[index].podcastId,
+                                    isLiked: state.myPodcastEntite
+                                        .myPodcastDataEntitie[index].isLiked)),
                     podcastDurathion:
                         commonPlayingPodcastBloc.getCurrentPlayingPosition(
                       currentPosition:

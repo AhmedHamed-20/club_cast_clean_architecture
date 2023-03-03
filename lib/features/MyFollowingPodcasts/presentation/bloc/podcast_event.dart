@@ -20,3 +20,14 @@ class MoreMyFollowingPodcastsGetEvent extends PodcastEvent {
   @override
   List<Object?> get props => [page, accessToken];
 }
+
+class UpdatePodcastLikesCountEvent extends PodcastEvent {
+  final bool isLiked;
+  final String podcastId;
+
+  const UpdatePodcastLikesCountEvent(
+      {required this.isLiked, required this.podcastId});
+
+  @override
+  List<Object?> get props => [isLiked, podcastId];
+}

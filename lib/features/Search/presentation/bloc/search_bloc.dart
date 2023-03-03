@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/features/Search/domain/usecases/pod
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
+import '../../domain/entities/podcast_search_information_entitie.dart';
 import '../../domain/entities/search_rooms_entitie.dart';
 import '../../domain/entities/search_users_info_entite.dart';
 import '../../domain/usecases/rooms_search.dart';
@@ -24,6 +25,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<UsersSearchEvent>(_usersSearchEvent);
     on<AllPodcastEvent>(_getAllPodcastEvent);
     on<AllPodcastGetMoreEvent>(_allPodcastGetMoreEvent);
+    on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
   final PodcastSearchUsecase podcastSearchUsecase;
   final RoomsSearchUsecase roomsSearchUsecase;
@@ -171,5 +173,64 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ));
       }
     });
+  }
+
+  FutureOr<void> _updatePodcastLikesCount(
+      UpdatePodcastLikesCountEvent event, Emitter<SearchState> emit) {
+    if (event.isSearch) {
+      List<PodcastSearchInformationDataEntitie> searchPodcasts =
+          state.podcastSearchEntitie.podcastInformationEntitie;
+      for (int i = 0;
+          i < state.podcastSearchEntitie.podcastInformationEntitie.length;
+          i++) {
+        if (state.podcastSearchEntitie.podcastInformationEntitie[i].podcastId ==
+            event.podcastId) {
+          if (event.isLiked) {
+            searchPodcasts[i] = searchPodcasts[i].copyWith(
+                podcastLikesCount: searchPodcasts[i].podcastLikesCount - 1,
+                isLiked: false);
+          } else {
+            searchPodcasts[i] = searchPodcasts[i].copyWith(
+                podcastLikesCount: searchPodcasts[i].podcastLikesCount + 1,
+                isLiked: true);
+          }
+        }
+      }
+      emit(
+        state.copyWith(
+          podcastSearchEntitie: PodcastSearchEntitie(
+                  podcastInformationEntitie: searchPodcasts,
+                  results: state.podcastSearchEntitie.results)
+              .copyWith(),
+        ),
+      );
+    } else {
+      List<PodcastSearchInformationDataEntitie> allPodcastsModel =
+          state.allPodcastsEntitie.podcastInformationEntitie;
+      for (int i = 0;
+          i < state.allPodcastsEntitie.podcastInformationEntitie.length;
+          i++) {
+        if (state.allPodcastsEntitie.podcastInformationEntitie[i].podcastId ==
+            event.podcastId) {
+          if (event.isLiked) {
+            allPodcastsModel[i] = allPodcastsModel[i].copyWith(
+                podcastLikesCount: allPodcastsModel[i].podcastLikesCount - 1,
+                isLiked: false);
+          } else {
+            allPodcastsModel[i] = allPodcastsModel[i].copyWith(
+                podcastLikesCount: allPodcastsModel[i].podcastLikesCount + 1,
+                isLiked: true);
+          }
+        }
+      }
+      emit(
+        state.copyWith(
+          allPodcastsEntitie: PodcastSearchEntitie(
+                  podcastInformationEntitie: allPodcastsModel,
+                  results: state.allPodcastsEntitie.results)
+              .copyWith(),
+        ),
+      );
+    }
   }
 }

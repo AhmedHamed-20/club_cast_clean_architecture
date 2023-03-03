@@ -330,7 +330,9 @@ class CommonPlayingPodcastBlocBloc
   void onPressedOnLikeLogic(
       {required bool serverLikeStatus,
       required Map<String, bool>? podcastLocalStatus,
-      required String podcastId}) {
+      required String podcastId,
+      required Bloc podcastBloc,
+      required dynamic podcastCountEvent}) {
     if ((podcastLocalStatus != null && podcastLocalStatus.isNotEmpty) &&
         podcastLocalStatus.containsKey(podcastId)) {
       if (podcastLocalStatus[podcastId]!) {
@@ -340,6 +342,8 @@ class CommonPlayingPodcastBlocBloc
             podcastId: podcastId,
           ),
         );
+
+        podcastBloc.add(podcastCountEvent);
       } else {
         add(
           LikeAddMyPodcastEvent(
@@ -347,6 +351,7 @@ class CommonPlayingPodcastBlocBloc
             podcastId: podcastId,
           ),
         );
+        podcastBloc.add(podcastCountEvent);
       }
     } else {
       if (serverLikeStatus) {
@@ -356,6 +361,7 @@ class CommonPlayingPodcastBlocBloc
             podcastId: podcastId,
           ),
         );
+        podcastBloc.add(podcastCountEvent);
       } else {
         add(
           LikeAddMyPodcastEvent(
@@ -363,6 +369,7 @@ class CommonPlayingPodcastBlocBloc
             podcastId: podcastId,
           ),
         );
+        podcastBloc.add(podcastCountEvent);
       }
     }
   }

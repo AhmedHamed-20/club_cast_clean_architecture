@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/utl/utls.dart';
+import '../../../domain/entities/my_podcast_data_entitie.dart';
 import '../../../domain/entities/my_podcast_entite.dart';
 import '../../../domain/usecases/podcasts/get_my_podcasts.dart';
 import '../../../domain/usecases/podcasts/remove_podcast.dart';
@@ -33,6 +34,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
     on<PickPodcastFileEvent>(_pickPodcastFile);
     on<ClearPodcastFileEvent>(_clearPodcastFile);
     on<MyPodcastGetMoreEvents>(_myPodcastsGetMoreEvent);
+    on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
   final MyPodcastsGetUseCase myPodcastsGetUseCase;
   final PodcastRemoveUsecase podcastRemoveUsecase;
@@ -248,5 +250,35 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
         ));
       }
     });
+  }
+
+  FutureOr<void> _updatePodcastLikesCount(
+      UpdatePodcastLikesCountEvent event, Emitter<MyPodcastState> emit) {
+    List<MyPodcastDataEntite> myPodcastEntitie =
+        state.myPodcastEntite.myPodcastDataEntitie;
+    for (int i = 0;
+        i < state.myPodcastEntite.myPodcastDataEntitie.length;
+        i++) {
+      if (state.myPodcastEntite.myPodcastDataEntitie[i].podcastId ==
+          event.podcastId) {
+        if (event.isLiked) {
+          myPodcastEntitie[i] = myPodcastEntitie[i].copyWith(
+              podcastLikesCount: myPodcastEntitie[i].podcastLikesCount - 1,
+              isLiked: false);
+        } else {
+          myPodcastEntitie[i] = myPodcastEntitie[i].copyWith(
+              podcastLikesCount: myPodcastEntitie[i].podcastLikesCount + 1,
+              isLiked: true);
+        }
+      }
+    }
+    emit(
+      state.copyWith(
+        myPodcastEntite: MyPodcastEntitie(
+                myPodcastDataEntitie: myPodcastEntitie,
+                results: state.myPodcastEntite.results)
+            .copyWith(),
+      ),
+    );
   }
 }
