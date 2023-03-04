@@ -31,14 +31,14 @@ class RoomChatCardMainWidget extends StatelessWidget {
                 : Theme.of(context).colorScheme.secondaryContainer,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(AppRadius.r8),
-                topRight: const Radius.circular(AppRadius.r8),
+                topLeft: const Radius.circular(AppRadius.r22),
+                topRight: const Radius.circular(AppRadius.r22),
                 bottomLeft: roomMessageDataEntitie.isMine!
-                    ? const Radius.circular(AppRadius.r8)
+                    ? const Radius.circular(AppRadius.r22)
                     : const Radius.circular(0),
                 bottomRight: roomMessageDataEntitie.isMine!
                     ? const Radius.circular(0)
-                    : const Radius.circular(AppRadius.r8),
+                    : const Radius.circular(AppRadius.r22),
               ),
             ),
             child: Padding(

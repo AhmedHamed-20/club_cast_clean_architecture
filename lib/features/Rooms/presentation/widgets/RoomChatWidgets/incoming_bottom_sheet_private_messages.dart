@@ -27,6 +27,7 @@ class _IncomingPrivateMessagesBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final chatBloc = BlocProvider.of<ChatBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p12),
       child: Column(
@@ -45,7 +46,7 @@ class _IncomingPrivateMessagesBottomSheetState
                   IconButton(
                     onPressed: () {
                       BlocProvider.of<ChatBloc>(context)
-                          .add(const IncomingMessagesListClearEvent());
+                          .add(const IncomingMessagesAllListClearEvent());
                     },
                     icon: const Icon(Icons.delete),
                   ),
@@ -80,6 +81,12 @@ class _IncomingPrivateMessagesBottomSheetState
                           arguments: PrivateChatRoomScreenParams(
                             roomUserDataEntitie:
                                 state.inComingPrivateChatMessages[index].user!,
+                          ),
+                        );
+                        chatBloc.add(
+                          IncomingMessagesClearEvent(
+                            userId: state
+                                .inComingPrivateChatMessages[index].user!.id,
                           ),
                         );
                       },

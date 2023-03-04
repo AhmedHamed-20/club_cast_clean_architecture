@@ -30,7 +30,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<LeaveChatRoomEvent>(_leaveRoomEvent);
     on<ListenOnPrivateChatMessagesEvent>(_listenOnPrivateChatMessagesEvent);
     on<PrivateMessageSendEvent>(_sendPrivateMessageEvent);
-    on<IncomingMessagesListClearEvent>(_clearIcomingMessagesListEvent);
+    on<IncomingMessagesAllListClearEvent>(_clearAllIncomingMessagesListEvent);
+    on<IncomingMessagesClearEvent>(_clearIcomingMessagesByUserIdEvent);
   }
   final RoomMessagesGetUsecase roomMessagesGetUsecase;
   FutureOr<void> _getRoomMessagesEvent(
@@ -96,7 +97,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           ),
         );
       }
-      add(const ListenOnChatEventsEvent());
     });
   }
 
@@ -243,6 +243,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           isMine: true,
           response: event.response,
           userId: event.response['to']['_id']));
+      TextEditingControllers.roomChatPrivateMessageController.clear();
     } else {
       RoomMessageEntitie roomMessages = state.roomMessageEntitie;
 
@@ -374,8 +375,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     overlayEntry.remove();
   }
 
-  FutureOr<void> _clearIcomingMessagesListEvent(
-      IncomingMessagesListClearEvent event, Emitter<ChatState> emit) {
+  FutureOr<void> _clearAllIncomingMessagesListEvent(
+      IncomingMessagesAllListClearEvent event, Emitter<ChatState> emit) {
     emit(state.copyWith(inComingPrivateChatMessages: const []));
+  }
+
+  FutureOr<void> _clearIcomingMessagesByUserIdEvent(
+      IncomingMessagesClearEvent event, Emitter<ChatState> emit) {
+    emit(
+      state.copyWith(
+        inComingPrivateChatMessages: List.from(state.inComingPrivateChatMessages
+            .where((element) => element.user!.id != event.userId)
+            .toList()),
+      ),
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,11 +15,17 @@ class JoiningRoomAlertLoadingDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
       listener: (context, state) {
+        final chatBloc = BlocProvider.of<ChatBloc>(context);
         if (state.joinRoomRequestStatus == JoinRoomRequestStatus.success ||
             state.createRoomRequestStatus == CreateRoomRequestStatus.success &&
                 isIuserInRoom == false) {
-          BlocProvider.of<ChatBloc>(context)
-              .add(const ListenOnChatEventsEvent());
+          chatBloc.add(
+            RoomMessagesGetEvent(
+              accessToken: ConstVar.accessToken,
+              roomId: state.joinCreateRoomEntitie.roomId,
+            ),
+          );
+          chatBloc.add(const ListenOnChatEventsEvent());
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed(
             AppRoutesNames.roomScreen,

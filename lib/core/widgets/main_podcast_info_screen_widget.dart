@@ -105,7 +105,7 @@ class MainPodcastInfoWidget extends StatelessWidget {
                       Text(
                         DateTimeFormat.format(
                           DateTime.parse(podcastInformationEntitie.createdAt),
-                          format: 'D, M j, H:i',
+                          format: 'd/M/Y, H:i',
                         ),
                         style: Theme.of(context).textTheme.titleSmall,
                       ),

@@ -35,7 +35,7 @@ class RoomChatCardUserInformationWidget extends StatelessWidget {
           SizedBox(height: AppHeight.h10),
           Text(
             DateTimeFormat.format(
-              DateTime.parse(roomMessageDataEntitie.createdAt!),
+              DateTime.parse(roomMessageDataEntitie.createdAt!).toLocal(),
               format: 'H:i',
             ),
             style: Theme.of(context).textTheme.titleSmall?.copyWith(

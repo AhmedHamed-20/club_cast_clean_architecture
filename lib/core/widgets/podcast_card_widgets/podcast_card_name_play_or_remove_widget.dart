@@ -25,6 +25,8 @@ class PodcastCardNameAndPlayOrRemoveWidget extends StatelessWidget {
           Expanded(
             child: Text(
               podcastEntitie.podcastName,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge

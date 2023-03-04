@@ -112,8 +112,15 @@ class PrivateMessageSendEvent extends ChatEvent {
   List<Object?> get props => [message, toUserId];
 }
 
-class IncomingMessagesListClearEvent extends ChatEvent {
-  const IncomingMessagesListClearEvent();
+class IncomingMessagesAllListClearEvent extends ChatEvent {
+  const IncomingMessagesAllListClearEvent();
   @override
   List<Object?> get props => [];
+}
+
+class IncomingMessagesClearEvent extends ChatEvent {
+  final String userId;
+  const IncomingMessagesClearEvent({required this.userId});
+  @override
+  List<Object?> get props => [userId];
 }

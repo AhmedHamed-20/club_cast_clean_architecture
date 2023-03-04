@@ -34,7 +34,7 @@ class _ChatRoomTextFieldState extends State<ChatRoomTextField> {
         Expanded(
           child: Defaults.defaultTextFormField(
             context: context,
-            labelText: 'Message',
+            labelText: 'Type a message',
             controller: TextEditingControllers.roomChatMessageController,
           ),
         ),
