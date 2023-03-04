@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/core/constants/check_mic_permission
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
@@ -17,6 +18,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/join_cre
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/me_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../../../core/agora/agora_helper.dart';
@@ -27,6 +29,7 @@ import '../../../../domain/entities/admin_entitie.dart';
 import '../../../../domain/entities/audience_entite.dart';
 import '../../../../domain/entities/brodcasters_entitie.dart';
 import '../../../../domain/entities/me_entitie.dart';
+import '../../../screens/room_screen.dart';
 import '../chat/chat_bloc.dart';
 
 part 'sockets_event_voice.dart';
@@ -289,7 +292,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
     audienceEntitie.audience.add(ActiveRoomUserModel.fromJson(event.response));
     emit(state.copyWith(audienceEntitie: audienceEntitie));
-    add(const PlayRoomSoundEvent('assets/audio/userEnter.wav'));
+    add(const PlayRoomSoundEvent(AssetsPath.userEnterAudio));
   }
 
   FutureOr<void> _adminLeft(
@@ -299,13 +302,18 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
             'Admin left the room if he not back in 1 minute the room will be closed',
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black);
-    add(const PlayRoomSoundEvent('assets/audio/adminLeft.wav'));
+    add(const PlayRoomSoundEvent(AssetsPath.adminLeftAudio));
   }
 
   FutureOr<void> _roomEnded(
       RoomEndedEvent event, Emitter<SocketsVoiceState> emit) {
-    ConstVar.socket.disconnect();
-    emit(state.copyWith(joinRoomRequestStatus: JoinRoomRequestStatus.left));
+    Navigator.pushNamedAndRemoveUntil(roomsWidgetKey.currentState!.context,
+        AppRoutesNames.layoutScreen, (route) => false);
+    flutterToast(
+        msg: 'room ended',
+        backgroundColor: AppColors.toastWarning,
+        textColor: AppColors.white);
+    add(const LeaveRoomEvent());
   }
 
   FutureOr<void> _userAskedToBeBroadcaster(
@@ -519,8 +527,8 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   FutureOr<void> _remoteUserMuteState(
       RemoteUserMuteStateEvent event, Emitter<SocketsVoiceState> emit) {
     if (event.uid == state.adminEntitie.admin.uid) {
-      AdminEntitie admin = AdminEntitie(
-          state.adminEntitie.admin.copyWith(isMutted: event.isMuted));
+      AdminEntitie admin = AdminEntitie(state.adminEntitie.admin
+          .copyWith(isMutted: event.isMuted, isSpeaking: false));
       emit(state.copyWith(adminEntitie: admin));
     } else {
       List<ActiveRoomUserDataEntitie> broadCasters =
@@ -529,6 +537,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         if (state.brodcastersEnitite.brodcasters[i].uid == event.uid) {
           broadCasters[i] = broadCasters[i].copyWith(
             isMutted: event.isMuted,
+            isSpeaking: false,
           );
           break;
         }
@@ -546,7 +555,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     ActiveRoomUserDataEntitie me = state.meEntitie.me;
     bool isAdminChanged = false;
     bool isMeChanged = false;
-    bool isBroadCastersChanged = false;
 
     for (int j = 0; j < event.audioInfo.length; j++) {
       if (state.adminEntitie.admin.uid == event.audioInfo[j].uid) {
@@ -570,19 +578,17 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
             broadCasters[i] = broadCasters[i].copyWith(
               isSpeaking: event.audioInfo[j].volume! > 3,
             );
-            isBroadCastersChanged = event.audioInfo[j].volume! > 3;
-          } else {
-            broadCasters[i] = broadCasters[i].copyWith(
-              isSpeaking: false,
-            );
           }
         }
       }
     }
-    if (isAdminChanged || isMeChanged || isBroadCastersChanged) {
+    if (isAdminChanged ||
+        isMeChanged ||
+        state.adminEntitie.admin.isSpeaking ||
+        state.meEntitie.me.isSpeaking) {
       emit(
         state.copyWith(
-          brodcastersEnitite: BrodcastersEntitie(broadCasters),
+          brodcastersEnitite: BrodcastersEntitie(List.from(broadCasters)),
           adminEntitie: AdminEntitie(admin),
           meEntitie: MeEntitie(me),
         ),
@@ -641,13 +647,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
   FutureOr<void> _playRoomSound(
       PlayRoomSoundEvent event, Emitter<SocketsVoiceState> emit) async {
-    try {
-      if (assetsAudioPlayer.isPlaying.value) {
-        await assetsAudioPlayer.stop();
-      }
-    } catch (e) {
-      assetsAudioPlayer = AssetsAudioPlayer();
-    }
+    assetsAudioPlayer = AssetsAudioPlayer();
     await assetsAudioPlayer.open(
       Audio(
         event.soundPath,

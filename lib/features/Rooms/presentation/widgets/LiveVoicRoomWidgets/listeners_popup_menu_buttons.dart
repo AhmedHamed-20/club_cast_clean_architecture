@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/routes/app_route_names.dart';
+import '../../../domain/entities/room_user_data.dart';
 import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
 
 List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
@@ -57,11 +58,59 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
           );
         },
       ),
+      PopupMenuItem(
+        child: Text(
+          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        onTap: () {
+          Future.delayed(
+            const Duration(milliseconds: 10),
+            () {
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.privateChatRoomScreen,
+                arguments: PrivateChatRoomScreenParams(
+                  roomUserDataEntitie: RoomUserDataEntitie(
+                    id: activeRoomUserDataEntitie.id,
+                    name: activeRoomUserDataEntitie.name,
+                    photo: activeRoomUserDataEntitie.photo,
+                    uid: activeRoomUserDataEntitie.uid,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     ];
   } else if (activeRoomUserDataEntitie.id == ConstVar.userId) {
     return [];
   } else {
     return [
+      PopupMenuItem(
+        child: Text(
+          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        onTap: () {
+          Future.delayed(
+            const Duration(milliseconds: 10),
+            () {
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.privateChatRoomScreen,
+                arguments: PrivateChatRoomScreenParams(
+                  roomUserDataEntitie: RoomUserDataEntitie(
+                    id: activeRoomUserDataEntitie.id,
+                    name: activeRoomUserDataEntitie.name,
+                    photo: activeRoomUserDataEntitie.photo,
+                    uid: activeRoomUserDataEntitie.uid,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
       PopupMenuItem(
         child: Text(
           'View Profile',

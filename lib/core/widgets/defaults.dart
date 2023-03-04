@@ -169,8 +169,9 @@ class DefaultPodcastCallBackParams {
           downloadProgress = StreamController();
           commonPlayingPodcastBloc.add(PodcastDownloadEvent(
               podcastUrl: basePodcastEntitie.podcastInfo.podcastUrl,
-              savedPath: StoragePermissionDownloadPath.getSavedPath(
-                      fileName: basePodcastEntitie.podcastName)
+              savedPath: StoragePermissionAndPath.getSavedPath(
+                      fileName: basePodcastEntitie.podcastName,
+                      isDownload: true)
                   .path,
               podcastId: basePodcastEntitie.podcastId,
               downloadProgress: downloadProgress));

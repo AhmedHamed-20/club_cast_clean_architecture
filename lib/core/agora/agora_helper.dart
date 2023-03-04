@@ -74,8 +74,8 @@ class AgoraHelper {
   }
 
   Future<void> recording({required String roomName}) async {
-    File savedPath = StoragePermissionDownloadPath.getSavedPath(
-        fileType: 'AAC', fileName: roomName);
+    File savedPath = StoragePermissionAndPath.getSavedPath(
+        fileType: 'AAC', fileName: roomName, isDownload: false);
     await _engine.startAudioRecording(
       AudioRecordingConfiguration(
         filePath: savedPath.path,

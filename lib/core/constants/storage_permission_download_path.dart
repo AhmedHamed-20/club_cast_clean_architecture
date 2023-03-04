@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class StoragePermissionDownloadPath {
+class StoragePermissionAndPath {
   static Future<int> getAndroidVersion() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
@@ -45,11 +45,18 @@ class StoragePermissionDownloadPath {
   }
 
   static File getSavedPath(
-      {required String fileName, String fileType = 'mp3'}) {
-    final directory = Directory('/storage/emulated/0/Club Cast');
+      {required String fileName,
+      String fileType = 'mp3',
+      required bool isDownload}) {
+    Directory directoryPath;
+    if (isDownload) {
+      directoryPath = Directory('/storage/emulated/0/Club Cast/Downloads');
+    } else {
+      directoryPath = Directory('/storage/emulated/0/Club Cast/Recordings');
+    }
     final removeOrSymbole = fileName.replaceAll('|', '');
     final customizedFileName = removeOrSymbole.replaceAll('/', '');
-    final file = File('${directory.path}/($customizedFileName).$fileType');
+    final file = File('${directoryPath.path}/($customizedFileName).$fileType');
     return file;
   }
 }

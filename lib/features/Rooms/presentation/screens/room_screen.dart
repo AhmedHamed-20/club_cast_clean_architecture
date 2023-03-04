@@ -12,6 +12,7 @@ OverlayEntry? overLayEntery;
 
 PageController pageViewScrollController = PageController();
 int currentPageIndex = 0;
+final GlobalKey roomsWidgetKey = GlobalKey();
 
 class RoomScreen extends StatelessWidget {
   const RoomScreen({super.key});
@@ -35,6 +36,7 @@ class RoomScreen extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          key: roomsWidgetKey,
           appBar: AppBar(
             bottom: TabBar(
               indicatorColor: Theme.of(context).primaryColor,
