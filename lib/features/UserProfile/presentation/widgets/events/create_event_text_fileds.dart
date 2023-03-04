@@ -4,6 +4,10 @@ import 'package:club_cast_clean_architecture/core/constants/text_editing_control
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
+
+final GlobalKey<FormState> createEventFormKey = GlobalKey<FormState>();
+
 class CreateEventsTextFields extends StatefulWidget {
   const CreateEventsTextFields({super.key});
 
@@ -26,28 +30,36 @@ class _CreateEventsTextFieldsState extends State<CreateEventsTextFields> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Defaults.defaultTextFormField(
-          labelText: 'Event Name',
-          context: context,
-          labelStyle: Theme.of(context).textTheme.titleSmall,
-          controller: TextEditingControllers.createEventTitleController,
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        SizedBox(
-          height: MediaQueryOfMethods.getAppHeight(context) * 0.2,
-          child: Defaults.defaultTextFormField(
-            labelText: 'Event Description',
-            maxLine: 4,
+    return Form(
+      key: createEventFormKey,
+      child: Column(
+        children: [
+          Defaults.defaultTextFormField(
+            labelText: 'Event Name',
             context: context,
+            validator: (value) =>
+                ValidationHelper.validateName(value: value, name: 'Event Name'),
             labelStyle: Theme.of(context).textTheme.titleSmall,
-            controller: TextEditingControllers.createEventDescriptionController,
+            controller: TextEditingControllers.createEventTitleController,
           ),
-        ),
-      ],
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          SizedBox(
+            height: MediaQueryOfMethods.getAppHeight(context) * 0.2,
+            child: Defaults.defaultTextFormField(
+              labelText: 'Event Description',
+              maxLine: 4,
+              context: context,
+              validator: (value) => ValidationHelper.validateName(
+                  value: value, name: 'Description'),
+              labelStyle: Theme.of(context).textTheme.titleSmall,
+              controller:
+                  TextEditingControllers.createEventDescriptionController,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

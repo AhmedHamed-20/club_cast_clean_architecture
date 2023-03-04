@@ -60,6 +60,7 @@ class Defaults {
             color: Theme.of(context).primaryColor,
           ),
         ),
+        errorMaxLines: 2,
       ),
       obscureText: obscureText,
       onChanged: onChanged,

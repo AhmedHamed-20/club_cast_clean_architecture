@@ -64,10 +64,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
                 ),
                 Defaults.defaultButton(
                   onPressed: () {
-                    if (state.pickedPodcastFilePath != '' ||
-                        TextEditingControllers
-                                .uploadPodcastNameController.text !=
-                            '') {
+                    if (uploadPodcastFormKey.currentState!.validate()) {
                       cancelToken = CancelToken();
                       uploadProgress = StreamController<double>();
                       myPodcastBloc.add(SignatureGenerateEventEvent(
@@ -78,11 +75,6 @@ class PickedPodcastInfoWidget extends StatelessWidget {
                           uploadProgress: uploadProgress,
                           podcastName: TextEditingControllers
                               .uploadPodcastNameController.text));
-                    } else {
-                      flutterToast(
-                          msg: 'Please fill all the fields',
-                          backgroundColor: AppColors.toastError,
-                          textColor: AppColors.white);
                     }
                   },
                   context: context,

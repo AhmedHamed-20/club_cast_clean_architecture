@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
+
+final GlobalKey<FormState> createRoomFormKey = GlobalKey<FormState>();
 
 class RoomNameTextFieldWidget extends StatefulWidget {
   const RoomNameTextFieldWidget({super.key});
@@ -26,10 +29,16 @@ class _RoomNameTextFieldWidgetState extends State<RoomNameTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Defaults.defaultTextFormField(
-      context: context,
-      controller: TextEditingControllers.createRoomNameController,
-      labelText: 'Room Name',
+    return Form(
+      key: createRoomFormKey,
+      child: Defaults.defaultTextFormField(
+        context: context,
+        validator: (value) => ValidationHelper.validateRoomName(
+          value: value,
+        ),
+        controller: TextEditingControllers.createRoomNameController,
+        labelText: 'Room Name',
+      ),
     );
   }
 

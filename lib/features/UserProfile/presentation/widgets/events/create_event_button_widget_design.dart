@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/create_event_text_fileds.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class CreateEventButtonWidgetDesign extends StatelessWidget {
     final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);
     return Defaults.defaultButton(
       onPressed: () {
-        if (eventDate != null) {
+        if (createEventFormKey.currentState!.validate() && eventDate != null) {
           myEventsBloc.add(EventCreateEvent(
               accessToken: ConstVar.accessToken,
               eventName: TextEditingControllers.createEventTitleController.text,

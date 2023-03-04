@@ -5,12 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../core/constants/text_editing_controllers.dart';
 import '../widgets/podcasts/pick_file_widget.dart';
 import '../widgets/podcasts/picked_podcast_info.dart';
 import '../widgets/podcasts/podcast_category_widget.dart';
 
 late CancelToken cancelToken;
+final GlobalKey<FormState> uploadPodcastFormKey = GlobalKey<FormState>();
 
 class UploadPodcastScreen extends StatefulWidget {
   const UploadPodcastScreen({super.key});
@@ -52,32 +54,39 @@ class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p12),
-            child: Column(
-              children: [
-                Defaults.defaultTextFormField(
-                  controller:
-                      TextEditingControllers.uploadPodcastNameController,
-                  prefixIcon: Icon(
-                    Icons.text_fields,
-                    color: Theme.of(context).iconTheme.color,
+            child: Form(
+              key: uploadPodcastFormKey,
+              child: Column(
+                children: [
+                  Defaults.defaultTextFormField(
+                    controller:
+                        TextEditingControllers.uploadPodcastNameController,
+                    prefixIcon: Icon(
+                      Icons.text_fields,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    context: context,
+                    validator: (value) => ValidationHelper.validateName(
+                      value: value,
+                      name: 'Podcast Name',
+                    ),
+                    labelText: 'Podcast Name',
+                    labelStyle: Theme.of(context).textTheme.titleSmall,
                   ),
-                  context: context,
-                  labelText: 'Podcast Name',
-                  labelStyle: Theme.of(context).textTheme.titleSmall,
-                ),
-                SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const PodcastCategoryWidget(),
-                SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const PickedPodcastInfoWidget(),
-                SizedBox(
-                  height: AppHeight.h10,
-                ),
-                const PickFileButton(),
-              ],
+                  SizedBox(
+                    height: AppHeight.h10,
+                  ),
+                  const PodcastCategoryWidget(),
+                  SizedBox(
+                    height: AppHeight.h10,
+                  ),
+                  const PickedPodcastInfoWidget(),
+                  SizedBox(
+                    height: AppHeight.h10,
+                  ),
+                  const PickFileButton(),
+                ],
+              ),
             ),
           ),
         ),

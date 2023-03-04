@@ -3,8 +3,11 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
+
+final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
 
 class SignUpTextFieldsWidget extends StatefulWidget {
   const SignUpTextFieldsWidget({
@@ -31,72 +34,84 @@ class _SignUpTextFieldsWidgetState extends State<SignUpTextFieldsWidget> {
   @override
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
-    return Column(
-      children: [
-        Defaults.defaultTextFormField(
-          context: context,
-          controller: TextEditingControllers.signUpNameController,
-          labelText: 'Name',
-          labelStyle: Theme.of(context).textTheme.titleMedium,
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        Defaults.defaultTextFormField(
-          context: context,
-          controller: TextEditingControllers.signUpEmailController,
-          labelText: 'Email',
-          labelStyle: Theme.of(context).textTheme.titleMedium,
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
+    return Form(
+      key: signUpFormKey,
+      child: Column(
+        children: [
+          Defaults.defaultTextFormField(
             context: context,
-            controller: TextEditingControllers.signUpPasswordController,
-            labelText: 'Password',
+            validator: (value) => ValidationHelper.validateName(value: value),
+            controller: TextEditingControllers.signUpNameController,
+            labelText: 'Name',
             labelStyle: Theme.of(context).textTheme.titleMedium,
-            obscureText: state.isSignupPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isSignupPasswordHide
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+          ),
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          Defaults.defaultTextFormField(
+            validator: (value) => ValidationHelper.validateEmail(value: value),
+            context: context,
+            controller: TextEditingControllers.signUpEmailController,
+            labelText: 'Email',
+            labelStyle: Theme.of(context).textTheme.titleMedium,
+          ),
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              validator: (value) =>
+                  ValidationHelper.validatePassword(value: value),
+              controller: TextEditingControllers.signUpPasswordController,
+              labelText: 'Password',
+              labelStyle: Theme.of(context).textTheme.titleMedium,
+              obscureText: state.isSignupPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isSignupPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  authBloc.add(
+                      SignupPasswordHideEvent(!state.isSignupPasswordHide));
+                },
               ),
-              onPressed: () {
-                authBloc
-                    .add(SignupPasswordHideEvent(!state.isSignupPasswordHide));
-              },
             ),
           ),
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
-            context: context,
-            controller: TextEditingControllers.signUpPasswordConfirmController,
-            labelText: 'Password Confirm',
-            labelStyle: Theme.of(context).textTheme.titleMedium,
-            obscureText: state.isSignupPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isSignupPasswordHide
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              controller:
+                  TextEditingControllers.signUpPasswordConfirmController,
+              labelText: 'Password Confirm',
+              validator: (value) => ValidationHelper.validatePassowrdConfirm(
+                  confirmPassword: value,
+                  password:
+                      TextEditingControllers.signUpPasswordController.text),
+              labelStyle: Theme.of(context).textTheme.titleMedium,
+              obscureText: state.isSignupPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isSignupPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  authBloc.add(
+                      SignupPasswordHideEvent(!state.isSignupPasswordHide));
+                },
               ),
-              onPressed: () {
-                authBloc
-                    .add(SignupPasswordHideEvent(!state.isSignupPasswordHide));
-              },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

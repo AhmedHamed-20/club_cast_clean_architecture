@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/ValidationHelper/validation_helper.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
+
+final GlobalKey<FormState> updateMyDataFormKey = GlobalKey<FormState>();
 
 class UpdateMyDataTextFields extends StatefulWidget {
   const UpdateMyDataTextFields({
@@ -37,42 +40,51 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
           state.userDataEntitie!.email;
       TextEditingControllers.updateMyDataNameController.text =
           state.userDataEntitie!.userName;
-      return Column(
-        children: [
-          Defaults.defaultTextFormField(
-              prefixIcon: Icon(
-                Icons.text_fields,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              context: context,
-              labelText: 'Name',
-              labelStyle: Theme.of(context).textTheme.titleSmall,
-              controller: TextEditingControllers.updateMyDataNameController),
-          SizedBox(
-            height: AppHeight.h10,
-          ),
-          Defaults.defaultTextFormField(
-              prefixIcon: Icon(
-                Icons.email,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              context: context,
-              labelStyle: Theme.of(context).textTheme.titleSmall,
-              labelText: 'Email',
-              controller: TextEditingControllers.updateMyDataEmailController),
-          SizedBox(
-            height: AppHeight.h10,
-          ),
-          Defaults.defaultTextFormField(
-              prefixIcon: Icon(
-                Icons.text_fields,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              context: context,
-              labelStyle: Theme.of(context).textTheme.titleSmall,
-              labelText: 'Bio',
-              controller: TextEditingControllers.updateMyDataBioController),
-        ],
+      return Form(
+        key: updateMyDataFormKey,
+        child: Column(
+          children: [
+            Defaults.defaultTextFormField(
+                prefixIcon: Icon(
+                  Icons.text_fields,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                context: context,
+                labelText: 'Name',
+                validator: (value) =>
+                    ValidationHelper.validateName(value: value),
+                labelStyle: Theme.of(context).textTheme.titleSmall,
+                controller: TextEditingControllers.updateMyDataNameController),
+            SizedBox(
+              height: AppHeight.h10,
+            ),
+            Defaults.defaultTextFormField(
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                context: context,
+                labelStyle: Theme.of(context).textTheme.titleSmall,
+                labelText: 'Email',
+                validator: (value) =>
+                    ValidationHelper.validateEmail(value: value),
+                controller: TextEditingControllers.updateMyDataEmailController),
+            SizedBox(
+              height: AppHeight.h10,
+            ),
+            Defaults.defaultTextFormField(
+                prefixIcon: Icon(
+                  Icons.text_fields,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                context: context,
+                labelStyle: Theme.of(context).textTheme.titleSmall,
+                labelText: 'Bio',
+                validator: (value) =>
+                    ValidationHelper.validateBio(value: value),
+                controller: TextEditingControllers.updateMyDataBioController),
+          ],
+        ),
       );
     });
   }

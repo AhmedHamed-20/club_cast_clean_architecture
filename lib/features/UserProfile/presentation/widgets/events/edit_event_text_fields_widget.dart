@@ -2,10 +2,13 @@ import 'package:club_cast_clean_architecture/core/constants/media_query_of_metho
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
 import 'edit_date_edit_event_screen_widget.dart';
+
+final GlobalKey<FormState> editEventFormKey = GlobalKey<FormState>();
 
 class EditEventTextFieldsWidget extends StatefulWidget {
   const EditEventTextFieldsWidget({super.key, required this.myEventEntitie});
@@ -32,36 +35,43 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Defaults.defaultTextFormField(
-          labelStyle: Theme.of(context).textTheme.titleSmall,
-          prefixIcon: Icon(
-            Icons.title,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          context: context,
-          labelText: 'Title',
-          controller: TextEditingControllers.editEventTitleController,
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        SizedBox(
-          height: MediaQueryOfMethods.getAppHeight(context) * 0.2,
-          child: Defaults.defaultTextFormField(
-            maxLine: 4,
+    return Form(
+      key: editEventFormKey,
+      child: Column(
+        children: [
+          Defaults.defaultTextFormField(
             labelStyle: Theme.of(context).textTheme.titleSmall,
             prefixIcon: Icon(
               Icons.title,
               color: Theme.of(context).iconTheme.color,
             ),
             context: context,
-            labelText: 'Description',
-            controller: TextEditingControllers.editEventDescriptionController,
+            labelText: 'Title',
+            validator: (value) =>
+                ValidationHelper.validateName(value: value, name: 'Title'),
+            controller: TextEditingControllers.editEventTitleController,
           ),
-        ),
-      ],
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          SizedBox(
+            height: MediaQueryOfMethods.getAppHeight(context) * 0.2,
+            child: Defaults.defaultTextFormField(
+              maxLine: 4,
+              labelStyle: Theme.of(context).textTheme.titleSmall,
+              prefixIcon: Icon(
+                Icons.title,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              context: context,
+              validator: (value) => ValidationHelper.validateName(
+                  value: value, name: 'Description'),
+              labelText: 'Description',
+              controller: TextEditingControllers.editEventDescriptionController,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

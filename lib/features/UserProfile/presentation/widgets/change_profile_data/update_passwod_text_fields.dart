@@ -6,6 +6,10 @@ import 'package:club_cast_clean_architecture/features/UserProfile/presentation/w
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
+
+final GlobalKey<FormState> updatePasswordFormKey = GlobalKey<FormState>();
+
 class UpdatePasswordTextFields extends StatefulWidget {
   const UpdatePasswordTextFields({super.key});
 
@@ -30,87 +34,107 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
   @override
   Widget build(BuildContext context) {
     final userPrfoileBloc = BlocProvider.of<UserProfileBloc>(context);
-    return Column(
-      children: [
-        BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
-            context: context,
-            controller: TextEditingControllers.updateMyDataPasswordController,
-            labelText: 'Old Password',
-            labelStyle: Theme.of(context).textTheme.titleSmall,
-            prefixIcon: Icon(
-              Icons.password,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            obscureText: state.isPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isPasswordHide ? Icons.visibility : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+    return Form(
+      key: updatePasswordFormKey,
+      child: Column(
+        children: [
+          BlocBuilder<UserProfileBloc, UserProfileState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              controller: TextEditingControllers.updateMyDataPasswordController,
+              labelText: 'Old Password',
+              validator: (value) => ValidationHelper.validatePassword(
+                value: value,
               ),
-              onPressed: () {
-                userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
-              },
+              labelStyle: Theme.of(context).textTheme.titleSmall,
+              prefixIcon: Icon(
+                Icons.password,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              obscureText: state.isPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
+                },
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
-            context: context,
-            labelStyle: Theme.of(context).textTheme.titleSmall,
-            controller:
-                TextEditingControllers.updateMyDataNewPasswordController,
-            labelText: 'New Password',
-            prefixIcon: Icon(
-              Icons.password,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            obscureText: state.isPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isPasswordHide ? Icons.visibility : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          BlocBuilder<UserProfileBloc, UserProfileState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              labelStyle: Theme.of(context).textTheme.titleSmall,
+              controller:
+                  TextEditingControllers.updateMyDataNewPasswordController,
+              labelText: 'New Password',
+              validator: (value) => ValidationHelper.validatePassword(
+                value: value,
               ),
-              onPressed: () {
-                userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
-              },
+              prefixIcon: Icon(
+                Icons.password,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              obscureText: state.isPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
+                },
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
-            context: context,
-            labelStyle: Theme.of(context).textTheme.titleSmall,
-            controller:
-                TextEditingControllers.updateMyDataPasswordConfirmController,
-            labelText: 'Confirm Password',
-            prefixIcon: Icon(
-              Icons.password,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            obscureText: state.isPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isPasswordHide ? Icons.visibility : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          BlocBuilder<UserProfileBloc, UserProfileState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              labelStyle: Theme.of(context).textTheme.titleSmall,
+              controller:
+                  TextEditingControllers.updateMyDataPasswordConfirmController,
+              labelText: 'Confirm Password',
+              validator: (value) => ValidationHelper.validatePassowrdConfirm(
+                confirmPassword: value,
+                password: TextEditingControllers
+                    .updateMyDataNewPasswordController.text,
               ),
-              onPressed: () {
-                userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
-              },
+              prefixIcon: Icon(
+                Icons.password,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              obscureText: state.isPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  userPrfoileBloc.add(PasswordHideEvent(!state.isPasswordHide));
+                },
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: AppHeight.h20,
-        ),
-        const UpdatePasswodButtonWidget(),
-      ],
+          SizedBox(
+            height: AppHeight.h20,
+          ),
+          const UpdatePasswodButtonWidget(),
+        ],
+      ),
     );
   }
 

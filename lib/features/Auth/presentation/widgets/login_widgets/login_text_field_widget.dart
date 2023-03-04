@@ -2,9 +2,12 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
+
+final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
 class LoginTextFieldsWidget extends StatefulWidget {
   const LoginTextFieldsWidget({
@@ -31,39 +34,45 @@ class _LoginTextFieldsWidgetState extends State<LoginTextFieldsWidget> {
   @override
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
-    return Column(
-      children: [
-        Defaults.defaultTextFormField(
-          context: context,
-          controller: TextEditingControllers.loginEmailController,
-          labelText: 'Email',
-          labelStyle: Theme.of(context).textTheme.titleMedium,
-        ),
-        SizedBox(
-          height: AppHeight.h10,
-        ),
-        BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) => Defaults.defaultTextFormField(
+    return Form(
+      key: loginFormKey,
+      child: Column(
+        children: [
+          Defaults.defaultTextFormField(
+            validator: (value) => ValidationHelper.validateEmail(value: value),
             context: context,
-            controller: TextEditingControllers.loginPasswordController,
-            labelText: 'Password',
+            controller: TextEditingControllers.loginEmailController,
+            labelText: 'Email',
             labelStyle: Theme.of(context).textTheme.titleMedium,
-            obscureText: state.isLoginPasswordHide,
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.isLoginPasswordHide
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: Theme.of(context).primaryColor,
+          ),
+          SizedBox(
+            height: AppHeight.h10,
+          ),
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) => Defaults.defaultTextFormField(
+              context: context,
+              validator: (value) =>
+                  ValidationHelper.validatePassword(value: value),
+              controller: TextEditingControllers.loginPasswordController,
+              labelText: 'Password',
+              labelStyle: Theme.of(context).textTheme.titleMedium,
+              obscureText: state.isLoginPasswordHide,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  state.isLoginPasswordHide
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  authBloc
+                      .add(LoginPasswordHideEvent(!state.isLoginPasswordHide));
+                },
               ),
-              onPressed: () {
-                authBloc
-                    .add(LoginPasswordHideEvent(!state.isLoginPasswordHide));
-              },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

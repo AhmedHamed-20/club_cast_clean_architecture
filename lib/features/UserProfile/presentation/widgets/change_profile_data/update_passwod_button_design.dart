@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_passwod_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,12 +14,7 @@ class UpdatePasswordButtonDesignWidget extends StatelessWidget {
     final userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return Defaults.defaultButton(
         onPressed: () {
-          if (TextEditingControllers
-                  .updateMyDataNewPasswordController.text.isNotEmpty &&
-              TextEditingControllers
-                  .updateMyDataPasswordController.text.isNotEmpty &&
-              TextEditingControllers
-                  .updateMyDataPasswordConfirmController.text.isNotEmpty) {
+          if (updatePasswordFormKey.currentState!.validate()) {
             userProfileBloc.add(PasswordUpdateEvent(
                 accessToken: ConstVar.accessToken,
                 newPassword: TextEditingControllers
@@ -27,11 +23,6 @@ class UpdatePasswordButtonDesignWidget extends StatelessWidget {
                     TextEditingControllers.updateMyDataPasswordController.text,
                 confirmPassword: TextEditingControllers
                     .updateMyDataPasswordConfirmController.text));
-          } else {
-            flutterToast(
-                msg: 'Please Fill All Data',
-                backgroundColor: AppColors.toastError,
-                textColor: AppColors.white);
           }
         },
         context: context,

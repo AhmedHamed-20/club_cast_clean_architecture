@@ -1,7 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/ValidationHelper/validation_helper.dart';
 import '../../../../../core/widgets/defaults.dart';
+
+final GlobalKey<FormState> joinPrivateRoomFormKey = GlobalKey<FormState>();
 
 class PrivateRoomTextField extends StatefulWidget {
   const PrivateRoomTextField({super.key});
@@ -25,10 +28,14 @@ class _PrivateRoomTextFieldState extends State<PrivateRoomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Defaults.defaultTextFormField(
-      context: context,
-      labelText: 'Room ID',
-      controller: TextEditingControllers.joinPrivateRoomController,
+    return Form(
+      key: joinPrivateRoomFormKey,
+      child: Defaults.defaultTextFormField(
+        context: context,
+        validator: (value) => ValidationHelper.privateRoomId(value: value),
+        labelText: 'Room ID',
+        controller: TextEditingControllers.joinPrivateRoomController,
+      ),
     );
   }
 
