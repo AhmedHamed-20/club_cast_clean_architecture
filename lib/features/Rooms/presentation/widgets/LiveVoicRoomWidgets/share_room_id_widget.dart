@@ -15,7 +15,6 @@ class CopyRoomIdWidgetIfPrivate extends StatelessWidget {
       if (state.isCreateRoom &&
           state.joinCreateRoomEntitie.roomType == 'private') {
         return Defaults.defaultTextButton(
-          //   width: MediaQueryOfMethods.getAppWidth(context) * 0.3,
           onPressed: () async {
             await Clipboard.setData(
               ClipboardData(
@@ -30,13 +29,7 @@ class CopyRoomIdWidgetIfPrivate extends StatelessWidget {
                   textColor: AppColors.white);
             }
           },
-          child: Text(
-            'Copy Room Id',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-          ),
+          child: const Icon(Icons.copy),
         );
       } else {
         return const SizedBox.shrink();

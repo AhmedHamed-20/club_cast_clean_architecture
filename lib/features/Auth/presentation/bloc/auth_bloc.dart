@@ -69,6 +69,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _forgetPassword(
       ForgetPasswordEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(
+        forgetPasswordRequestStatus: ForgetPasswordRequestStatus.loading));
     final result =
         await forgetPasswordUsecase(ForgetPasswordParams(event.email));
     result.fold((l) {
@@ -76,11 +78,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isEmailSent: false,
           forgetPasswordRequestStatus: ForgetPasswordRequestStatus.error,
           errorMessage: l.message));
+      flutterToast(
+        msg: l.message,
+        backgroundColor: AppColors.toastError,
+        textColor: AppColors.white,
+      );
     }, (r) {
       emit(state.copyWith(
-          forgetPasswordRequestStatus: ForgetPasswordRequestStatus.success,
-          isEmailSent: true,
-          errorMessage: ''));
+        forgetPasswordRequestStatus: ForgetPasswordRequestStatus.success,
+        isEmailSent: true,
+        errorMessage: '',
+      ));
+      flutterToast(
+        msg: 'Email sent successfully',
+        backgroundColor: AppColors.toastSuccess,
+        textColor: AppColors.white,
+      );
     });
   }
 

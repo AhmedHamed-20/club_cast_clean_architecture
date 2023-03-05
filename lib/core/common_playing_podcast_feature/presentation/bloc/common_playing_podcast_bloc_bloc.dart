@@ -284,6 +284,10 @@ class CommonPlayingPodcastBlocBloc
                 PodcastDownloadRequestStatus.downloaded,
           ),
         );
+        flutterToast(
+            msg: 'Download Completed and saved in club cast folder',
+            backgroundColor: AppColors.toastSuccess,
+            textColor: AppColors.white);
         currentDownloadingPodcastId = '';
         downloadProgress.close();
       });

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path_provider/path_provider.dart' as path;
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -50,13 +51,25 @@ class StoragePermissionAndPath {
       required bool isDownload}) {
     Directory directoryPath;
     if (isDownload) {
-      directoryPath = Directory('/storage/emulated/0/Club Cast/Downloads');
+      directoryPath = Directory('/storage/emulated/0/Club Cast/Download Files');
     } else {
-      directoryPath = Directory('/storage/emulated/0/Club Cast/Recordings');
+      directoryPath =
+          Directory('/storage/emulated/0/Club Cast/Recording Files');
     }
     final removeOrSymbole = fileName.replaceAll('|', '');
     final customizedFileName = removeOrSymbole.replaceAll('/', '');
     final file = File('${directoryPath.path}/($customizedFileName).$fileType');
+    return file;
+  }
+
+  static Future<List<Directory>?> getDownloadLocalPath() {
+    return path.getExternalCacheDirectories();
+  }
+
+  static Future<File> getRecordingFilePath(String roomName) async {
+    final dirList = await getDownloadLocalPath();
+    final path = dirList![0].path;
+    final file = File('$path$roomName');
     return file;
   }
 }

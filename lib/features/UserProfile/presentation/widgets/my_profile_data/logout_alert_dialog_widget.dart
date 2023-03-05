@@ -42,12 +42,24 @@ class LogoutAlertDialogWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          TextButton(
-            onPressed: () {
-              BlocProvider.of<LayoutBloc>(context)
-                  .add(const AccessTokenRemoveEvent(key: 'accessToken'));
-            },
-            child: Text('Yes', style: Theme.of(context).textTheme.titleMedium),
+          BlocBuilder<LayoutBloc, LayoutState>(
+            builder: (context, state) => TextButton(
+              onPressed: () {
+                if (state.layoutBottomSheetStatus.index == 0) {
+                  BlocProvider.of<LayoutBloc>(context)
+                      .add(const AccessTokenRemoveEvent(key: 'accessToken'));
+                } else {
+                  flutterToast(
+                    msg:
+                        'Your are listening to a podcast or in a room now , please stop it first',
+                    backgroundColor: AppColors.toastWarning,
+                    textColor: AppColors.black,
+                  );
+                }
+              },
+              child:
+                  Text('Yes', style: Theme.of(context).textTheme.titleMedium),
+            ),
           ),
         ],
       ),

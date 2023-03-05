@@ -72,7 +72,7 @@ class IsRecordingWidget extends StatelessWidget {
                       backgroundColor: AppColors.toastWarning,
                       textColor: AppColors.black,
                     );
-                  }
+                  } else {}
                 }
               }),
         ],

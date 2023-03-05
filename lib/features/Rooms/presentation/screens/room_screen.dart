@@ -2,6 +2,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/so
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../widgets/AllRoomsWidgets/show_recoding_path_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/live_voice_room_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/room_name_leave_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/share_room_id_widget.dart';
@@ -59,6 +60,7 @@ class RoomScreen extends StatelessWidget {
               ),
             ),
             actions: const [
+              ShowRecordingPathWidget(),
               CopyRoomIdWidgetIfPrivate(),
               LeaveRoomButtonWidget(),
             ],

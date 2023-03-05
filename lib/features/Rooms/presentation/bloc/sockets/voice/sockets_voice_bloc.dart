@@ -312,7 +312,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     flutterToast(
         msg: 'room ended',
         backgroundColor: AppColors.toastWarning,
-        textColor: AppColors.white);
+        textColor: AppColors.black);
     add(const LeaveRoomEvent());
   }
 
@@ -450,6 +450,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       LeaveRoomEvent event, Emitter<SocketsVoiceState> emit) async {
     if (state.isCreateRoom == true) {
       SocketHelper.endRoomAdmin(socket: ConstVar.socket);
+      if (state.joinCreateRoomEntitie.isRecording) {
+        await agoraHelper.stopRecording();
+      }
       emit(
         state.copyWith(
           createRoomRequestStatus: CreateRoomRequestStatus.left,
@@ -483,7 +486,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     layoutBloc.add(const BottomSheetStatusEvent(
         layoutBottomSheetStatus: LayoutBottomSheetStatus.idle));
     await agoraHelper.leaveRoom(rtcEngineEventHandler);
-
     await assetsAudioPlayer.dispose();
   }
 
@@ -555,7 +557,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     ActiveRoomUserDataEntitie me = state.meEntitie.me;
     bool isAdminChanged = false;
     bool isMeChanged = false;
-
     for (int j = 0; j < event.audioInfo.length; j++) {
       if (state.adminEntitie.admin.uid == event.audioInfo[j].uid) {
         admin = state.adminEntitie.admin
@@ -585,7 +586,8 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     if (isAdminChanged ||
         isMeChanged ||
         state.adminEntitie.admin.isSpeaking ||
-        state.meEntitie.me.isSpeaking) {
+        state.meEntitie.me.isSpeaking ||
+        state.brodcastersEnitite.brodcasters.isNotEmpty) {
       emit(
         state.copyWith(
           brodcastersEnitite: BrodcastersEntitie(List.from(broadCasters)),

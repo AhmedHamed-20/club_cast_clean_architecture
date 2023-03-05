@@ -33,13 +33,6 @@ class PodcastDurationAndDownloadWidget extends StatelessWidget {
               ? StreamBuilder<double>(
                   stream: downloadProgress.stream,
                   builder: (context, snapshot) {
-                    if (snapshot.data == 1) {
-                      flutterToast(
-                          msg:
-                              'Download Completed and saved in club cast folder',
-                          backgroundColor: AppColors.toastSuccess,
-                          textColor: AppColors.white);
-                    }
                     return CircularProgressIndicator(
                       value: snapshot.data,
                     );

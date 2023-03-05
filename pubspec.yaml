@@ -54,6 +54,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   move_to_background: ^1.0.2
   palette_generator: ^0.3.3+2
+  path_provider: ^2.0.13
   permission_handler: ^10.2.0
   shared_preferences: ^2.0.15
   socket_io_client: ^2.0.1

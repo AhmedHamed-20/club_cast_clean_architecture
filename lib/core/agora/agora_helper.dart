@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -7,8 +6,6 @@ import '../constants/storage_permission_download_path.dart';
 
 class AgoraHelper {
   late RtcEngine _engine;
-  // SocketsVoiceBloc socketsVoiceBloc = servicelocator<SocketsVoiceBloc>();
-
   Future<void> initAgoraThenJoinRoom(
       {required String appID,
       required ClientRoleType clientRoleType,
@@ -45,7 +42,9 @@ class AgoraHelper {
       token: token,
       channelId: roomName,
       uid: uid,
-      options: const ChannelMediaOptions(),
+      options: const ChannelMediaOptions(
+        enableAudioRecordingOrPlayout: true,
+      ),
     );
   }
 
@@ -74,11 +73,13 @@ class AgoraHelper {
   }
 
   Future<void> recording({required String roomName}) async {
-    File savedPath = StoragePermissionAndPath.getSavedPath(
-        fileType: 'AAC', fileName: roomName, isDownload: false);
+    File savedPath =
+        await StoragePermissionAndPath.getRecordingFilePath(roomName);
     await _engine.startAudioRecording(
       AudioRecordingConfiguration(
-        filePath: savedPath.path,
+        filePath: '${savedPath.path}.AAC',
+        fileRecordingType: AudioFileRecordingType.audioFileRecordingMixed,
+        encode: true,
         quality: AudioRecordingQualityType.audioRecordingQualityMedium,
       ),
     );

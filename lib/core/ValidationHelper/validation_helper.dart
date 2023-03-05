@@ -18,12 +18,12 @@ class ValidationHelper {
   static String? validatePassword({
     required String? value,
   }) {
-    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$');
     if (value == null || value == '') {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'should contain one(upper case - lower case - digit) and minimum 8 characters)';
+        return 'should contain one(upper case - digit) and minimum 8 characters)';
       } else {
         return null;
       }
