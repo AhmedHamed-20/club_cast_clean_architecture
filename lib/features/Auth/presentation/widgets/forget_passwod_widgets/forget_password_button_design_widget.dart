@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/widgets/defaults.dart';
+import '../../screens/forget_password_screen.dart';
 
 class ForgetPasswordButtonDesignWidget extends StatelessWidget {
   const ForgetPasswordButtonDesignWidget({super.key});
@@ -13,11 +14,13 @@ class ForgetPasswordButtonDesignWidget extends StatelessWidget {
     var authBloc = BlocProvider.of<AuthBloc>(context);
     return Defaults.defaultButton(
       onPressed: () {
-        authBloc.add(
-          ForgetPasswordEvent(
-            TextEditingControllers.forgetPasswordController.text.trim(),
-          ),
-        );
+        if (forgetPasswordFormKey.currentState!.validate()) {
+          authBloc.add(
+            ForgetPasswordEvent(
+              TextEditingControllers.forgetPasswordController.text.trim(),
+            ),
+          );
+        }
       },
       context: context,
       text: 'Send',

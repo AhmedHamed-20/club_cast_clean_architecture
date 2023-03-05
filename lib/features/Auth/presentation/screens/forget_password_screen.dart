@@ -1,9 +1,12 @@
+import 'package:club_cast_clean_architecture/core/ValidationHelper/validation_helper.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/forget_passwod_widgets/forget_password_button_widget.dart';
+
+final GlobalKey<FormState> forgetPasswordFormKey = GlobalKey<FormState>();
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -38,22 +41,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppPadding.p12),
-          child: Column(
-            children: [
-              Image.asset(AssetsPath.forgetPasswordImage),
-              SizedBox(
-                height: AppHeight.h10,
-              ),
-              Defaults.defaultTextFormField(
-                  context: context,
-                  controller: TextEditingControllers.forgetPasswordController,
-                  labelStyle: Theme.of(context).textTheme.titleMedium,
-                  labelText: 'Email'),
-              SizedBox(
-                height: AppHeight.h10,
-              ),
-              const ForgetPasswordButtonWidget(),
-            ],
+          child: Form(
+            key: forgetPasswordFormKey,
+            child: Column(
+              children: [
+                Image.asset(AssetsPath.forgetPasswordImage),
+                SizedBox(
+                  height: AppHeight.h10,
+                ),
+                Defaults.defaultTextFormField(
+                    context: context,
+                    validator: (value) =>
+                        ValidationHelper.validateEmail(value: value),
+                    controller: TextEditingControllers.forgetPasswordController,
+                    labelStyle: Theme.of(context).textTheme.titleMedium,
+                    labelText: 'Email'),
+                SizedBox(
+                  height: AppHeight.h10,
+                ),
+                const ForgetPasswordButtonWidget(),
+              ],
+            ),
           ),
         ),
       ),
