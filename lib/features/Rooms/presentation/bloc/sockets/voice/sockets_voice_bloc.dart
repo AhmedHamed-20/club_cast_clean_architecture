@@ -565,7 +565,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       } else {
         admin = state.adminEntitie.admin.copyWith(isSpeaking: false);
       }
-      if (state.meEntitie.me.uid == event.audioInfo[j].uid) {
+      if (state.isCreateRoom &&
+          event.audioInfo[j].uid == 0 &&
+          state.meEntitie.me.isMutted == false) {
         me = state.meEntitie.me
             .copyWith(isSpeaking: event.audioInfo[j].volume! > 3);
         isMeChanged = event.audioInfo[j].volume! > 3;
@@ -576,6 +578,14 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         for (int i = 0; i < broadCasters.length; i++) {
           if (state.brodcastersEnitite.brodcasters[i].uid ==
               event.audioInfo[j].uid) {
+            broadCasters[i] = broadCasters[i].copyWith(
+              isSpeaking: event.audioInfo[j].volume! > 3,
+            );
+          }
+          if (state.brodcastersEnitite.brodcasters[i].uid ==
+                  state.meEntitie.me.uid &&
+              event.audioInfo[j].uid == 0 &&
+              state.brodcastersEnitite.brodcasters[i].isMutted == false) {
             broadCasters[i] = broadCasters[i].copyWith(
               isSpeaking: event.audioInfo[j].volume! > 3,
             );
@@ -600,12 +610,12 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
   FutureOr<void> _muteLocalAudio(
       MuteUnMuteLocalAudioEvent event, Emitter<SocketsVoiceState> emit) async {
-    agoraHelper.muteMyVoice(mute: event.isMuted);
+    await agoraHelper.muteMyVoice(mute: event.isMuted);
     if (state.isCreateRoom) {
       emit(
         state.copyWith(
-          meEntitie:
-              MeEntitie(state.meEntitie.me.copyWith(isMutted: event.isMuted)),
+          meEntitie: MeEntitie(state.meEntitie.me
+              .copyWith(isMutted: event.isMuted, isSpeaking: false)),
           liveVoiceRoomFloatingButtonStatus: event.isMuted
               ? LiveVoiceRoomFloatingButtonStatus.unmute
               : LiveVoiceRoomFloatingButtonStatus.mute,
@@ -617,7 +627,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
           brodcastersEnitite: state.brodcastersEnitite.copyWith(
             brodcasters: state.brodcastersEnitite.brodcasters
                 .map((e) => e.uid == state.meEntitie.me.uid
-                    ? e.copyWith(isMutted: event.isMuted)
+                    ? e.copyWith(isMutted: event.isMuted, isSpeaking: false)
                     : e)
                 .toList(),
           ),

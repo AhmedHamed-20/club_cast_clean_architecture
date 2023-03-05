@@ -32,7 +32,7 @@ class DefaultsValues extends Equatable {
           name: '',
           isMutted: false,
           photo: '',
-          uid: 0);
+          uid: -1);
   static const AdminEntitie adminEntitieDefault =
       AdminEntitie(activeRoomUserDataEntitieDefault);
 
