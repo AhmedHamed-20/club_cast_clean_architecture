@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,8 @@ import '../../../../core/common_playing_podcast_feature/presentation/bloc/common
 import '../../../../core/widgets/defaults.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 
-class PodcastCardMainWdget extends StatelessWidget {
-  const PodcastCardMainWdget({
+class MyFollowingPodcastCardMainWdget extends StatelessWidget {
+  const MyFollowingPodcastCardMainWdget({
     Key? key,
     required this.podcastsEntitie,
     required this.index,
@@ -29,22 +30,29 @@ class PodcastCardMainWdget extends StatelessWidget {
           context: context,
           state: state,
         );
-        return PodcastCardWidget(
-          podcastEntitie: podcastsEntitie.podcastInformationEntitie[index],
-          podcastCardCallBacksParams:
-              defaultPodcastCallBackParams.defaultPodcastCallBackParams(
-                  podcastBloc: myFollowingPodcastBloc,
-                  podcastLikeCountChangeEvent: UpdatePodcastLikesCountEvent(
-                      isLiked: podcastsEntitie
-                          .podcastInformationEntitie[index].isLiked,
-                      podcastId: podcastsEntitie
-                          .podcastInformationEntitie[index].podcastId)),
-          podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
-            currentPosition: state.currentPosition,
-            podcastId:
-                podcastsEntitie.podcastInformationEntitie[index].podcastId,
-            podcastDuration: podcastsEntitie
-                .podcastInformationEntitie[index].podcastInfo.podcastDuration,
+        return Padding(
+          padding: EdgeInsets.only(
+              bottom:
+                  index == podcastsEntitie.podcastInformationEntitie.length - 1
+                      ? AppPadding.p60
+                      : 0),
+          child: PodcastCardWidget(
+            podcastEntitie: podcastsEntitie.podcastInformationEntitie[index],
+            podcastCardCallBacksParams:
+                defaultPodcastCallBackParams.defaultPodcastCallBackParams(
+                    podcastBloc: myFollowingPodcastBloc,
+                    podcastLikeCountChangeEvent: UpdatePodcastLikesCountEvent(
+                        isLiked: podcastsEntitie
+                            .podcastInformationEntitie[index].isLiked,
+                        podcastId: podcastsEntitie
+                            .podcastInformationEntitie[index].podcastId)),
+            podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
+              currentPosition: state.currentPosition,
+              podcastId:
+                  podcastsEntitie.podcastInformationEntitie[index].podcastId,
+              podcastDuration: podcastsEntitie
+                  .podcastInformationEntitie[index].podcastInfo.podcastDuration,
+            ),
           ),
         );
       },

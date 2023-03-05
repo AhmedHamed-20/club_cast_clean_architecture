@@ -52,19 +52,26 @@ class _MyEventsMainWidgetState extends State<MyEventsMainWidget> {
               itemCount: state.myEvents.myEventsDataEntitie.length + 1,
               itemBuilder: (context, index) {
                 if (index < state.myEvents.myEventsDataEntitie.length) {
-                  return EventsCardWidget(
-                    isHomeScreen: false,
-                    isMyProfile: true,
-                    onPressedOnEdit: () {
-                      Navigator.of(context).pushNamed(
-                        AppRoutesNames.editEventScreen,
-                        arguments: EditEventScreenParams(
-                          state.myEvents.myEventsDataEntitie[index],
-                          myEventsBloc,
-                        ),
-                      );
-                    },
-                    eventEntitie: state.myEvents.myEventsDataEntitie[index],
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        bottom: index ==
+                                state.myEvents.myEventsDataEntitie.length - 1
+                            ? AppPadding.p60
+                            : 0),
+                    child: EventsCardWidget(
+                      isHomeScreen: false,
+                      isMyProfile: true,
+                      onPressedOnEdit: () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutesNames.editEventScreen,
+                          arguments: EditEventScreenParams(
+                            state.myEvents.myEventsDataEntitie[index],
+                            myEventsBloc,
+                          ),
+                        );
+                      },
+                      eventEntitie: state.myEvents.myEventsDataEntitie[index],
+                    ),
                   );
                 } else {
                   return state.isEndOfMyEventsData

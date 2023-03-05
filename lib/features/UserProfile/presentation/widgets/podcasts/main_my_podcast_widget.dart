@@ -64,7 +64,13 @@ class _MainMyPodcastWidgetState extends State<MainMyPodcastWidget> {
                   state: commonPlayPodcastBlocState,
                 );
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: AppPadding.p8),
+                  padding: EdgeInsets.only(
+                      bottom: index ==
+                              state.myPodcastEntite.myPodcastDataEntitie
+                                      .length -
+                                  1
+                          ? AppPadding.p60
+                          : AppPadding.p8),
                   child: PodcastCardWidget(
                     podcastEntitie:
                         state.myPodcastEntite.myPodcastDataEntitie[index],

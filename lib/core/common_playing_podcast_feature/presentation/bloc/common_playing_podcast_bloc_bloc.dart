@@ -8,7 +8,6 @@ import 'package:club_cast_clean_architecture/core/constants/default_values.dart'
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../constants/base_podcast_entitie/base_podcast_entitie.dart';
@@ -201,12 +200,15 @@ class CommonPlayingPodcastBlocBloc
     }
   }
 
-  void onPressedOnPlay({required BasePodcastEntitie basePodcastEntitie}) {
+  void onPressedOnPlay(
+      {required BasePodcastEntitie basePodcastEntitie,
+      required BuildContext context}) {
     if (currentPlayingPodcastsId == basePodcastEntitie.podcastId) {
       add(PodcastPausePlaying(basePodcastEntitie.podcastId));
     } else if (currentPausePodcastsId == basePodcastEntitie.podcastId) {
       add(PodcastPlayPaused(basePodcastEntitie.podcastId));
     } else {
+      showSnackBar(context: context, text: 'loading');
       add(
         PodcastPlayEvent(basePodcastEntitie: basePodcastEntitie),
       );

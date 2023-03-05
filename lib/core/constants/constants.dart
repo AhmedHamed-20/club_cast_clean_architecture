@@ -39,6 +39,8 @@ class AppPadding {
   static const double p30 = 30;
   static const double p40 = 40;
   static const double p50 = 50;
+  static const double p60 = 60;
+
   static const double p6 = 6;
   static const double p4 = 4;
 }
@@ -253,6 +255,20 @@ void checkOnTabOnRoomCardLogic({
     }
   }
 }
+
+void showSnackBar({required BuildContext context, required String text}) =>
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.background,
+              ),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: const Duration(seconds: 1),
+      ),
+    );
 
 class AssetsPath {
   static const String forgetPasswordImage = 'assets/images/forget_password.png';

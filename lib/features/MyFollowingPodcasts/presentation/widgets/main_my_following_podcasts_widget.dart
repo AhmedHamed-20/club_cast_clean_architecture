@@ -60,7 +60,7 @@ class _MainMyFollowingPodcastsWidgetState
                   state.myFollowingPodcasts!.podcastInformationEntitie.length) {
                 return Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: PodcastCardMainWdget(
+                  child: MyFollowingPodcastCardMainWdget(
                     index: index,
                     podcastsEntitie: state.myFollowingPodcasts!,
                   ),

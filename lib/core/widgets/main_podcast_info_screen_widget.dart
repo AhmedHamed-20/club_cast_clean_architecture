@@ -190,7 +190,8 @@ class MainPodcastInfoWidget extends StatelessWidget {
                     child: IconButton(
                       onPressed: () {
                         commonPodcastPlayBloc.onPressedOnPlay(
-                            basePodcastEntitie: podcastInformationEntitie);
+                            basePodcastEntitie: podcastInformationEntitie,
+                            context: context);
                       },
                       icon: Icon(
                         currentPlayingPodcastsId ==

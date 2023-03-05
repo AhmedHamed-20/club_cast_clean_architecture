@@ -179,7 +179,7 @@ class DefaultPodcastCallBackParams {
       },
       onPressedPlay: () {
         commonPlayingPodcastBloc.onPressedOnPlay(
-            basePodcastEntitie: basePodcastEntitie);
+            basePodcastEntitie: basePodcastEntitie, context: context);
       },
       onPressedOnLikesCount: () {
         if (basePodcastEntitie.podcastLikesCount != 0) {

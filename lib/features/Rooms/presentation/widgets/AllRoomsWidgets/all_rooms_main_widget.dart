@@ -78,9 +78,19 @@ class _AllRoomsMainWidgetState extends State<AllRoomsMainWidget> {
                             .allRoomsEntitie!.allRoomsDataEntitie[index].name,
                       );
                     },
-                    child: RoomsCardWidget(
-                        allRoomsDataEntitie:
-                            state.allRoomsEntitie!.allRoomsDataEntitie[index]),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index ==
+                                state.allRoomsEntitie!.allRoomsDataEntitie
+                                        .length -
+                                    1
+                            ? AppPadding.p60
+                            : AppPadding.p10,
+                      ),
+                      child: RoomsCardWidget(
+                          allRoomsDataEntitie: state
+                              .allRoomsEntitie!.allRoomsDataEntitie[index]),
+                    ),
                   );
                 });
               } else {

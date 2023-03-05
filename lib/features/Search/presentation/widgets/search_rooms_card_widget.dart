@@ -68,8 +68,14 @@ class RoomsSearchWidget extends StatelessWidget {
                         roomName: state.roomsSearchEntitie[index].name,
                       );
                     },
-                    child: RoomsCardWidget(
-                      allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: index == state.roomsSearchEntitie.length
+                              ? AppPadding.p60
+                              : 0),
+                      child: RoomsCardWidget(
+                        allRoomsDataEntitie: state.roomsSearchEntitie[index],
+                      ),
                     ),
                   ),
                 );

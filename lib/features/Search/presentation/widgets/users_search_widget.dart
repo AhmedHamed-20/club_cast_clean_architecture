@@ -45,9 +45,15 @@ class UsersSearchWidget extends StatelessWidget {
                       );
                     }
                   },
-                  child: UserCardWidget(
-                    userName: state.usersSearchEntitie[index].userName,
-                    userPhoto: state.usersSearchEntitie[index].userPhoto,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: index == state.usersSearchEntitie.length
+                            ? AppPadding.p60
+                            : 0),
+                    child: UserCardWidget(
+                      userName: state.usersSearchEntitie[index].userName,
+                      userPhoto: state.usersSearchEntitie[index].userPhoto,
+                    ),
                   ),
                 );
               },

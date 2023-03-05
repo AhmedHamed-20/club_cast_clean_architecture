@@ -22,19 +22,34 @@ class PodcastDurationAndDownloadWidget extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.p12),
       child: Row(
         children: [
-          Text(
-            covertDurationTime(podcastDurathion),
-            style: Theme.of(context).textTheme.titleSmall,
+          Padding(
+            padding: const EdgeInsets.only(right: AppPadding.p8),
+            child: Text(
+              covertDurationTime(podcastDurathion),
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ),
           podcastEntitie.podcastId == currentDownloadingPodcastId
               ? StreamBuilder<double>(
                   stream: downloadProgress.stream,
-                  builder: (context, snapshot) => CircularProgressIndicator(
-                        value: snapshot.data,
-                      ))
+                  builder: (context, snapshot) {
+                    if (snapshot.data == 1) {
+                      flutterToast(
+                          msg:
+                              'Download Completed and saved in club cast folder',
+                          backgroundColor: AppColors.toastSuccess,
+                          textColor: AppColors.white);
+                    }
+                    return CircularProgressIndicator(
+                      value: snapshot.data,
+                    );
+                  })
               : IconButton(
                   onPressed: podcastCardCallBacksParams.onPressedDownload,
-                  icon: const Icon(Icons.downloading_outlined)),
+                  icon: const Icon(
+                    Icons.downloading_outlined,
+                  ),
+                ),
         ],
       ),
     );

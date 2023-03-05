@@ -58,6 +58,7 @@ class PodcastBottomSheetWidget extends StatelessWidget {
                       onPressed: () {
                         commonPlayingPodcast.onPressedOnPlay(
                           basePodcastEntitie: basePodcastEntitie,
+                          context: context,
                         );
                       },
                       icon: Center(
