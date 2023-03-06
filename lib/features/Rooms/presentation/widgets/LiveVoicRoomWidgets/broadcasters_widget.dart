@@ -37,7 +37,6 @@ class BroadcastersWidget extends StatelessWidget {
                           context: context,
                           activeRoomUserDataEntitie: state.adminEntitie.admin,
                           iamAdmin: state.isCreateRoom,
-                          iMuteHim: state.adminEntitie.admin.iMuteHim,
                         );
                       },
                       child: Badge(
@@ -63,8 +62,6 @@ class BroadcastersWidget extends StatelessWidget {
                     iamAdmin: state.isCreateRoom,
                     activeRoomUserDataEntitie:
                         state.brodcastersEnitite.brodcasters[index - 1],
-                    iMuteHim: state
-                        .brodcastersEnitite.brodcasters[index - 1].iMuteHim,
                   );
                 },
                 child: Badge(

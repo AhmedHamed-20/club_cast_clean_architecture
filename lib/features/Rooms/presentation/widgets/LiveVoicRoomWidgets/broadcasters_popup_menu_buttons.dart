@@ -12,8 +12,8 @@ import '../../../domain/entities/room_user_data.dart';
 List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
     {required BuildContext context,
     required bool iamAdmin,
-    required iMuteHim,
     required ActiveRoomUserDataEntitie activeRoomUserDataEntitie}) {
+  final socketVoiceBloc = BlocProvider.of<SocketsVoiceBloc>(context);
   if (iamAdmin) {
     return [
       PopupMenuItem(
@@ -37,8 +37,13 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
         },
       ),
       PopupMenuItem(
+        onTap: () {
+          socketVoiceBloc.add(MuteSomeOneEvent(
+              uid: activeRoomUserDataEntitie.uid,
+              isMuted: !activeRoomUserDataEntitie.iMuteHim));
+        },
         child: Text(
-          iMuteHim ? 'unMute' : 'Mute',
+          activeRoomUserDataEntitie.iMuteHim ? 'unMute' : 'Mute',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
@@ -102,8 +107,13 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
   } else {
     return [
       PopupMenuItem(
+        onTap: () {
+          socketVoiceBloc.add(MuteSomeOneEvent(
+              uid: activeRoomUserDataEntitie.uid,
+              isMuted: !activeRoomUserDataEntitie.iMuteHim));
+        },
         child: Text(
-          iMuteHim ? 'unMute' : 'Mute',
+          activeRoomUserDataEntitie.iMuteHim ? 'unMute' : 'Mute',
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),

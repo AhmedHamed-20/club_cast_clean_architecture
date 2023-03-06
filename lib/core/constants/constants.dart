@@ -245,9 +245,10 @@ void checkOnTabOnRoomCardLogic({
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black,
       );
+
       socketsVoiceBloc.add(
         ConnectToSocketEvent(
-          accessToken: ConstVar.accessToken,
+          accessToken: accessToken,
           isCreateRoom: false,
           roomName: roomName,
         ),

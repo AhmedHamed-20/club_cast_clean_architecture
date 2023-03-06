@@ -12,6 +12,8 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/screens/my_following_podcast_screen.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/AllRoomsWidgets/all_rooms_main_widget.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/create_room_button_widget.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/user_profile_screen.dart';
 import 'package:equatable/equatable.dart';
@@ -240,6 +242,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
             logoutRequestStatus: LogoutRequestStatus.error)), (r) {
       ConstVar.accessToken = '';
       ConstVar.userId = '';
+      isIuserInRoom = false;
+      isIAdminInRoom = false;
       emit(state.copyWith(
           errorMessage: '',
           userDataGetRequestStatus: UserDataGetRequestStatus.loading,

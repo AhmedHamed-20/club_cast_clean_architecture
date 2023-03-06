@@ -61,6 +61,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     on<MuteUnMuteLocalAudioEvent>(_muteLocalAudio);
     on<SocketsErrorsEvent>(_socketErrorEvent);
     on<PlayRoomSoundEvent>(_playRoomSound);
+    on<MuteSomeOneEvent>(_muteSomeOne);
   }
   final LayoutBloc layoutBloc;
   final ChatBloc roomChatBloc;
@@ -82,11 +83,13 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
           msg: 'Connecting to our server...',
           backgroundColor: AppColors.toastWarning,
           textColor: AppColors.black);
+
       ConstVar.socket = io(
         EndPoints.socketBaseUrl,
         OptionBuilder()
             .setAuth({'token': event.accessToken})
             .setTransports(['websocket'])
+            .enableForceNew()
             .disableAutoConnect()
             .build(),
       );
@@ -466,7 +469,10 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         ),
       );
       ConstVar.socket.io.disconnect();
+      ConstVar.socket.io.options.clear();
+      ConstVar.socket.io.destroy(ConstVar.socket);
       ConstVar.socket.dispose();
+      ConstVar.socket.destroy();
     } else {
       emit(
         state.copyWith(
@@ -481,7 +487,11 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         ),
       );
       ConstVar.socket.io.disconnect();
+      ConstVar.socket.io.options.clear();
+      ConstVar.socket.io.destroy(ConstVar.socket);
+
       ConstVar.socket.dispose();
+      ConstVar.socket.destroy();
     }
     layoutBloc.add(const BottomSheetStatusEvent(
         layoutBottomSheetStatus: LayoutBottomSheetStatus.idle));
@@ -665,5 +675,25 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         event.soundPath,
       ),
     );
+  }
+
+  FutureOr<void> _muteSomeOne(
+      MuteSomeOneEvent event, Emitter<SocketsVoiceState> emit) async {
+    await agoraHelper.muteSomeone(uid: event.uid, mute: event.isMuted);
+    if (event.uid == state.adminEntitie.admin.uid) {
+      emit(state.copyWith(
+          adminEntitie: AdminEntitie(state.adminEntitie.admin
+              .copyWith(iMuteHim: event.isMuted, isSpeaking: false))));
+    } else {
+      BrodcastersEntitie brodcastersEntitie = state.brodcastersEnitite;
+      for (int i = 0; i < state.brodcastersEnitite.brodcasters.length; i++) {
+        if (state.brodcastersEnitite.brodcasters[i].uid == event.uid) {
+          brodcastersEntitie.brodcasters[i] = brodcastersEntitie.brodcasters[i]
+              .copyWith(iMuteHim: event.isMuted, isSpeaking: false);
+          break;
+        }
+      }
+      emit(state.copyWith(brodcastersEnitite: brodcastersEntitie.copyWith()));
+    }
   }
 }

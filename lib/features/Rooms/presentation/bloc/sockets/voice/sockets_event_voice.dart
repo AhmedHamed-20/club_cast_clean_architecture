@@ -203,3 +203,15 @@ class PlayRoomSoundEvent extends SocketsEvent {
   @override
   List<Object?> get props => [soundPath];
 }
+
+class MuteSomeOneEvent extends SocketsEvent {
+  final int uid;
+  final bool isMuted;
+  const MuteSomeOneEvent({
+    required this.uid,
+    required this.isMuted,
+  });
+
+  @override
+  List<Object?> get props => [uid, isMuted];
+}
