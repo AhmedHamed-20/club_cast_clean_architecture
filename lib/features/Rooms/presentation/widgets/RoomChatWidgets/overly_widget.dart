@@ -1,8 +1,5 @@
-import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/RoomChatWidgets/room_chat_incoming_messages_floating_action_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 Offset offset = const Offset(80, 30);
 
@@ -14,24 +11,15 @@ class OverLayWidget extends StatelessWidget {
   final OverlayEntry overLayEntery;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SocketsVoiceBloc, SocketsVoiceState>(
-      listener: (context, state) {
-        if (state.createRoomRequestStatus == CreateRoomRequestStatus.left ||
-            state.joinRoomRequestStatus == JoinRoomRequestStatus.left) {
-          overLayEntery.remove();
-          overLayEntery.dispose();
-        }
-      },
-      child: Positioned(
-        left: offset.dx,
-        top: offset.dy,
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            offset += details.delta;
-            overLayEntery.markNeedsBuild();
-          },
-          child: const RoomChatIncomingMessagesFloatingActionButtonWidget(),
-        ),
+    return Positioned(
+      left: offset.dx,
+      top: offset.dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          offset += details.delta;
+          overLayEntery.markNeedsBuild();
+        },
+        child: const RoomChatIncomingMessagesFloatingActionButtonWidget(),
       ),
     );
   }

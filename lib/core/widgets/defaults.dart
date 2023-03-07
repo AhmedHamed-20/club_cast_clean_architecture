@@ -25,7 +25,7 @@ class Defaults {
     FormFieldValidator<String>? validator,
     ValueChanged<String>? onSubmit,
     bool obscureText = false,
-    int maxLine = 1,
+    int? maxLine = 1,
     TextDirection textDirection = TextDirection.ltr,
     required BuildContext context,
   }) {
@@ -122,19 +122,8 @@ class DefaultPodcastCallBackParams {
 
   PodcastCardCallBacksParams defaultPodcastCallBackParams({
     MyPodcastBloc? myPodcastBloc,
-    required Bloc podcastBloc,
-    required dynamic podcastLikeCountChangeEvent,
   }) {
     return PodcastCardCallBacksParams(
-      onPressedOnLikeButton: () {
-        commonPlayingPodcastBloc.onPressedOnLikeLogic(
-          podcastId: basePodcastEntitie.podcastId,
-          podcastLocalStatus: state.podcastsLikesStatus,
-          serverLikeStatus: basePodcastEntitie.isLiked,
-          podcastBloc: podcastBloc,
-          podcastCountEvent: podcastLikeCountChangeEvent,
-        );
-      },
       onPressedOnRemove: myPodcastBloc == null
           ? () {}
           : () {

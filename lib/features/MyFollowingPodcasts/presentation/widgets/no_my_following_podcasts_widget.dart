@@ -4,7 +4,6 @@ import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/s
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/constants/media_query_of_methods.dart';
 import '../../../../core/routes/app_route_names.dart';
 import '../../../../core/widgets/defaults.dart';
 
@@ -31,17 +30,17 @@ class NoMyFollowingPodcastsWidgets extends StatelessWidget {
             height: AppHeight.h10,
           ),
           Defaults.defaultButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  AppRoutesNames.allPodcastsScreen,
-                  arguments: AllPodcastsScreenParams(
-                    servicelocator.get<SearchBloc>(),
-                  ),
-                );
-              },
-              context: context,
-              text: 'Explore Podcasts',
-              width: MediaQueryOfMethods.getAppWidth(context) * 0.5)
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                AppRoutesNames.allPodcastsScreen,
+                arguments: AllPodcastsScreenParams(
+                  servicelocator.get<SearchBloc>(),
+                ),
+              );
+            },
+            context: context,
+            text: 'Explore Podcasts',
+          )
         ],
       ),
     );

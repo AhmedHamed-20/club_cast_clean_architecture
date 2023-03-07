@@ -123,7 +123,6 @@ class CreateRoomParams extends Equatable {
 
 class PodcastCardCallBacksParams extends Equatable {
   final VoidCallback? onPressedOnRemove;
-  final VoidCallback onPressedOnLikeButton;
   final VoidCallback onPressedOnCard;
   final VoidCallback onPressedOnUserPhoto;
   final VoidCallback onPressedDownload;
@@ -132,7 +131,6 @@ class PodcastCardCallBacksParams extends Equatable {
 
   const PodcastCardCallBacksParams(
       {this.onPressedOnRemove,
-      required this.onPressedOnLikeButton,
       required this.onPressedOnCard,
       required this.onPressedOnUserPhoto,
       required this.onPressedDownload,
@@ -142,7 +140,6 @@ class PodcastCardCallBacksParams extends Equatable {
   @override
   List<Object?> get props => [
         onPressedOnRemove,
-        onPressedOnLikeButton,
         onPressedOnCard,
         onPressedOnUserPhoto,
         onPressedDownload,

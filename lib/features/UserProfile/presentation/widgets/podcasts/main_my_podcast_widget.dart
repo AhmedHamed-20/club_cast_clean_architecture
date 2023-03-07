@@ -1,3 +1,4 @@
+import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,19 +73,32 @@ class _MainMyPodcastWidgetState extends State<MainMyPodcastWidget> {
                           ? AppPadding.p60
                           : AppPadding.p8),
                   child: PodcastCardWidget(
+                    onPressedOnLike: () {
+                      if (commonPlayPodcastBlocState.podcastLikeStatus ==
+                          PodcastLikeStatus.loading) {
+                        return;
+                      }
+                      commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                          serverLikeStatus: state.myPodcastEntite
+                              .myPodcastDataEntitie[index].isLiked,
+                          podcastLocalStatus:
+                              commonPlayPodcastBlocState.podcastsLikesStatusMap,
+                          podcastId: state.myPodcastEntite
+                              .myPodcastDataEntitie[index].podcastId,
+                          podcastBloc: myPodcastBloc,
+                          podcastCountEvent: UpdatePodcastLikesCountEvent(
+                              podcastId: state.myPodcastEntite
+                                  .myPodcastDataEntitie[index].podcastId,
+                              isLiked: state.myPodcastEntite
+                                  .myPodcastDataEntitie[index].isLiked));
+                    },
                     podcastEntitie:
                         state.myPodcastEntite.myPodcastDataEntitie[index],
                     isMyProfile: true,
                     podcastCardCallBacksParams: defaultPodcastCallBackParams
                         .defaultPodcastCallBackParams(
-                            myPodcastBloc: myPodcastBloc,
-                            podcastBloc: myPodcastBloc,
-                            podcastLikeCountChangeEvent:
-                                UpdatePodcastLikesCountEvent(
-                                    podcastId: state.myPodcastEntite
-                                        .myPodcastDataEntitie[index].podcastId,
-                                    isLiked: state.myPodcastEntite
-                                        .myPodcastDataEntitie[index].isLiked)),
+                      myPodcastBloc: myPodcastBloc,
+                    ),
                     podcastDurathion:
                         commonPlayingPodcastBloc.getCurrentPlayingPosition(
                       currentPosition:

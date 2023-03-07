@@ -302,19 +302,37 @@ class CommonPlayingPodcastBlocBloc
 
   FutureOr<void> _addLike(LikeAddMyPodcastEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
+    if (state.podcastLikeStatus == PodcastLikeStatus.loading) {
+      return;
+    }
+    emit(state.copyWith(podcastLikeStatus: PodcastLikeStatus.loading));
     final result = await likeAddMyPodcastsUsecast(LikeAddMyPodcastsParams(
         accessToken: event.accessToken, podcastId: event.podcastId));
-    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
-      add(AddPodcastLikeIdToMapEvent(
-          isLiked: true, podcastId: event.podcastId));
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            podcastLikeStatus: PodcastLikeStatus.error)), (r) {
+      add(
+        AddPodcastLikeIdToMapEvent(
+          isLiked: true,
+          podcastId: event.podcastId,
+        ),
+      );
     });
   }
 
   FutureOr<void> _removeLike(LikeRemoveMyPodcastEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) async {
+    if (state.podcastLikeStatus == PodcastLikeStatus.loading) {
+      return;
+    }
+    emit(state.copyWith(podcastLikeStatus: PodcastLikeStatus.loading));
     final result = await likeRemoveMyPodcastsUsecast(LikeRemoveMyPodcastsParams(
         accessToken: event.accessToken, podcastId: event.podcastId));
-    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+    result.fold(
+        (l) => emit(state.copyWith(
+            errorMessage: l.message,
+            podcastLikeStatus: PodcastLikeStatus.error)), (r) {
       add(AddPodcastLikeIdToMapEvent(
           isLiked: false, podcastId: event.podcastId));
     });
@@ -322,14 +340,23 @@ class CommonPlayingPodcastBlocBloc
 
   FutureOr<void> _addPodcastLikeIdToMap(AddPodcastLikeIdToMapEvent event,
       Emitter<CommonPlayingPodcastBlocState> emit) {
-    Map<String, bool>? myLikesMap = Map.from(state.podcastsLikesStatus ?? {});
+    Map<String, bool>? myLikesMap =
+        Map.from(state.podcastsLikesStatusMap ?? {});
     if (myLikesMap == {} || myLikesMap.isEmpty) {
       myLikesMap = {};
       myLikesMap[event.podcastId] = event.isLiked;
-      emit(state.copyWith(podcastsLikesStatus: myLikesMap));
+      emit(state.copyWith(
+          podcastsLikesStatusMap: myLikesMap,
+          podcastLikeStatus: event.isLiked
+              ? PodcastLikeStatus.liked
+              : PodcastLikeStatus.unliked));
     } else {
       myLikesMap[event.podcastId] = event.isLiked;
-      emit(state.copyWith(podcastsLikesStatus: myLikesMap));
+      emit(state.copyWith(
+          podcastsLikesStatusMap: myLikesMap,
+          podcastLikeStatus: event.isLiked
+              ? PodcastLikeStatus.liked
+              : PodcastLikeStatus.unliked));
     }
   }
 

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/socket/socket_helper.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../data/models/room_message_data_model.dart';
 import '../../../../domain/entities/room_message_entitie_data.dart';
+import '../../../widgets/PrivateChatRoomWidgets/private_chat_room_messages_widget.dart';
+import '../../../widgets/RoomChatWidgets/chat_widget.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -243,7 +244,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           isMine: true,
           response: event.response,
           userId: event.response['to']['_id']));
-      TextEditingControllers.roomChatPrivateMessageController.clear();
+      privateChatRoomScrollController
+          .jumpTo(privateChatRoomScrollController.position.maxScrollExtent);
     } else {
       RoomMessageEntitie roomMessages = state.roomMessageEntitie;
 
@@ -257,7 +259,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           ),
         ),
       );
-      TextEditingControllers.roomChatMessageController.clear();
+      chatRoomScrollController
+          .jumpTo(chatRoomScrollController.position.maxScrollExtent);
     }
   }
 

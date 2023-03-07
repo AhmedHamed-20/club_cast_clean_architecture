@@ -3,6 +3,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utl/utls.dart';
 import '../../../../core/widgets/defaults.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import '../bloc/search_bloc.dart';
@@ -38,20 +39,31 @@ class PodcastSearchMainWidget extends StatelessWidget {
                         ? AppPadding.p60
                         : 0),
                 child: PodcastCardWidget(
+                  onPressedOnLike: () {
+                    if (state.podcastLikeStatus == PodcastLikeStatus.loading) {
+                      return;
+                    }
+                    commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                      serverLikeStatus: searchState.podcastSearchEntitie
+                          .podcastInformationEntitie[index].isLiked,
+                      podcastLocalStatus: state.podcastsLikesStatusMap,
+                      podcastId: searchState.podcastSearchEntitie
+                          .podcastInformationEntitie[index].podcastId,
+                      podcastBloc: searchPodcast,
+                      podcastCountEvent: UpdatePodcastLikesCountEvent(
+                        podcastId: searchState.podcastSearchEntitie
+                            .podcastInformationEntitie[index].podcastId,
+                        isLiked: searchState.podcastSearchEntitie
+                            .podcastInformationEntitie[index].isLiked,
+                        isSearch: true,
+                      ),
+                    );
+                  },
                   podcastEntitie: searchState
                       .podcastSearchEntitie.podcastInformationEntitie[index],
                   isMyProfile: false,
-                  podcastCardCallBacksParams:
-                      defaultPodcastCallBackParams.defaultPodcastCallBackParams(
-                    podcastBloc: searchPodcast,
-                    podcastLikeCountChangeEvent: UpdatePodcastLikesCountEvent(
-                      podcastId: searchState.podcastSearchEntitie
-                          .podcastInformationEntitie[index].podcastId,
-                      isLiked: searchState.podcastSearchEntitie
-                          .podcastInformationEntitie[index].isLiked,
-                      isSearch: true,
-                    ),
-                  ),
+                  podcastCardCallBacksParams: defaultPodcastCallBackParams
+                      .defaultPodcastCallBackParams(),
                   podcastDurathion:
                       commonPlayingPodcastBloc.getCurrentPlayingPosition(
                     currentPosition: state.currentPosition,

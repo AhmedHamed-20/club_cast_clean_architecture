@@ -36,11 +36,17 @@ class _PrivateChatRoomTextFieldWidgetState
       child: Row(
         children: [
           Expanded(
-            child: Defaults.defaultTextFormField(
-                context: context,
-                labelText: 'Type a message',
-                controller:
-                    TextEditingControllers.roomChatPrivateMessageController),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.2,
+              ),
+              child: Defaults.defaultTextFormField(
+                  context: context,
+                  maxLine: null,
+                  labelText: 'Type a message',
+                  controller:
+                      TextEditingControllers.roomChatPrivateMessageController),
+            ),
           ),
           ElevatedButton(
               onPressed: () {
@@ -51,6 +57,7 @@ class _PrivateChatRoomTextFieldWidgetState
                         .roomChatPrivateMessageController.text,
                   ),
                 );
+                TextEditingControllers.roomChatPrivateMessageController.clear();
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

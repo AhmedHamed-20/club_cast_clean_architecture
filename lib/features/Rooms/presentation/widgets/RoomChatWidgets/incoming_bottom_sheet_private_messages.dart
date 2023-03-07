@@ -76,6 +76,7 @@ class _IncomingPrivateMessagesBottomSheetState
                           state.inComingPrivateChatMessages[index].user!.photo,
                       message: state.inComingPrivateChatMessages[index].message,
                       onPressedOnTrailing: () {
+                        Navigator.of(context).pop();
                         Navigator.of(context).pushNamed(
                           AppRoutesNames.privateChatRoomScreen,
                           arguments: PrivateChatRoomScreenParams(

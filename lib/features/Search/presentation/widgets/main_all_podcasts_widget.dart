@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
+import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,27 @@ class _MainAllPodcastWidgetState extends State<MainAllPodcastWidget> {
                   return Padding(
                     padding: const EdgeInsets.all(AppPadding.p12),
                     child: PodcastCardWidget(
+                      onPressedOnLike: () {
+                        if (state.podcastLikeStatus ==
+                            PodcastLikeStatus.loading) {
+                          return;
+                        }
+                        commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                          serverLikeStatus: widget.podcastInformationEntitie
+                              .podcastInformationEntitie[index].isLiked,
+                          podcastLocalStatus: state.podcastsLikesStatusMap,
+                          podcastId: widget.podcastInformationEntitie
+                              .podcastInformationEntitie[index].podcastId,
+                          podcastBloc: searchBloc,
+                          podcastCountEvent: UpdatePodcastLikesCountEvent(
+                            podcastId: widget.podcastInformationEntitie
+                                .podcastInformationEntitie[index].podcastId,
+                            isLiked: widget.podcastInformationEntitie
+                                .podcastInformationEntitie[index].isLiked,
+                            isSearch: false,
+                          ),
+                        );
+                      },
                       podcastDurathion:
                           commonPlayingPodcastBloc.getCurrentPlayingPosition(
                         currentPosition: state.currentPosition,
@@ -66,17 +88,7 @@ class _MainAllPodcastWidgetState extends State<MainAllPodcastWidget> {
                       podcastEntitie: widget.podcastInformationEntitie
                           .podcastInformationEntitie[index],
                       podcastCardCallBacksParams: defaultPodcastCallBackParams
-                          .defaultPodcastCallBackParams(
-                        podcastBloc: searchBloc,
-                        podcastLikeCountChangeEvent:
-                            UpdatePodcastLikesCountEvent(
-                          podcastId: widget.podcastInformationEntitie
-                              .podcastInformationEntitie[index].podcastId,
-                          isLiked: widget.podcastInformationEntitie
-                              .podcastInformationEntitie[index].isLiked,
-                          isSearch: false,
-                        ),
-                      ),
+                          .defaultPodcastCallBackParams(),
                     ),
                   );
                 } else {

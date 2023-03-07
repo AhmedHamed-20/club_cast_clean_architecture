@@ -26,15 +26,7 @@ class RoomChatIncomingMessagesFloatingActionButtonWidget
         label: Text(
           state.inComingPrivateChatMessages.length.toString(),
         ),
-        child: ElevatedButton(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(
-              const CircleBorder(),
-            ),
-            backgroundColor: MaterialStateProperty.all(
-              Theme.of(context).colorScheme.primary,
-            ),
-          ),
+        child: IconButton(
           onPressed: () {
             if (isBottomSheetOpen) return;
             showModalBottomSheet(
@@ -45,9 +37,9 @@ class RoomChatIncomingMessagesFloatingActionButtonWidget
             );
             isBottomSheetOpen = true;
           },
-          child: Icon(
+          icon: Icon(
             Icons.message,
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),

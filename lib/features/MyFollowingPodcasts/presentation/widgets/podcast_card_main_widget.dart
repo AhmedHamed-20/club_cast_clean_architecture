@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
@@ -37,15 +38,27 @@ class MyFollowingPodcastCardMainWdget extends StatelessWidget {
                       ? AppPadding.p60
                       : 0),
           child: PodcastCardWidget(
+            onPressedOnLike: () {
+              if (state.podcastLikeStatus == PodcastLikeStatus.loading) {
+                return;
+              }
+              commonPlayPodcast.onPressedOnLikeLogic(
+                podcastId:
+                    podcastsEntitie.podcastInformationEntitie[index].podcastId,
+                podcastLocalStatus: state.podcastsLikesStatusMap,
+                serverLikeStatus:
+                    podcastsEntitie.podcastInformationEntitie[index].isLiked,
+                podcastBloc: myFollowingPodcastBloc,
+                podcastCountEvent: UpdatePodcastLikesCountEvent(
+                    isLiked: podcastsEntitie
+                        .podcastInformationEntitie[index].isLiked,
+                    podcastId: podcastsEntitie
+                        .podcastInformationEntitie[index].podcastId),
+              );
+            },
             podcastEntitie: podcastsEntitie.podcastInformationEntitie[index],
             podcastCardCallBacksParams:
-                defaultPodcastCallBackParams.defaultPodcastCallBackParams(
-                    podcastBloc: myFollowingPodcastBloc,
-                    podcastLikeCountChangeEvent: UpdatePodcastLikesCountEvent(
-                        isLiked: podcastsEntitie
-                            .podcastInformationEntitie[index].isLiked,
-                        podcastId: podcastsEntitie
-                            .podcastInformationEntitie[index].podcastId)),
+                defaultPodcastCallBackParams.defaultPodcastCallBackParams(),
             podcastDurathion: commonPlayPodcast.getCurrentPlayingPosition(
               currentPosition: state.currentPosition,
               podcastId:

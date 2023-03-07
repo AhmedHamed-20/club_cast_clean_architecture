@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../RoomChatWidgets/chat_card_widget.dart';
 
+late ScrollController privateChatRoomScrollController;
+
 class PrivateChatRoomMessagesWidget extends StatefulWidget {
   const PrivateChatRoomMessagesWidget({super.key, required this.params});
   final PrivateChatRoomScreenParams params;
+
   @override
   State<PrivateChatRoomMessagesWidget> createState() =>
       _PrivateChatRoomMessagesWidgetState();
@@ -15,6 +18,18 @@ class PrivateChatRoomMessagesWidget extends StatefulWidget {
 
 class _PrivateChatRoomMessagesWidgetState
     extends State<PrivateChatRoomMessagesWidget> {
+  @override
+  void initState() {
+    super.initState();
+    initScrollController();
+  }
+
+  @override
+  void dispose() {
+    disposeScrollController();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
@@ -31,6 +46,7 @@ class _PrivateChatRoomMessagesWidgetState
       } else {
         return Expanded(
           child: ListView.builder(
+              controller: privateChatRoomScrollController,
               itemCount: state
                   .privateChatMessages![widget.params.roomUserDataEntitie.id]!
                   .length,
@@ -43,5 +59,13 @@ class _PrivateChatRoomMessagesWidgetState
         );
       }
     });
+  }
+
+  void initScrollController() {
+    privateChatRoomScrollController = ScrollController();
+  }
+
+  void disposeScrollController() {
+    privateChatRoomScrollController.dispose();
   }
 }

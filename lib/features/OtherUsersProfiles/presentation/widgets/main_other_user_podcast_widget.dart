@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common_playing_podcast_feature/presentation/bloc/common_playing_podcast_bloc_bloc.dart';
 import '../../../../core/constants/constants.dart';
+import '../../../../core/utl/utls.dart';
 import '../../../../core/widgets/defaults.dart';
 import '../../../../core/widgets/podcast_card_widgets/podcast_card_widget.dart';
 import '../bloc/otherusersprofiles_bloc.dart';
@@ -71,21 +72,29 @@ class _MainOtherUserPodcastWidgetState
                     state: commonPlayPodcastBlocState,
                   );
                   return PodcastCardWidget(
+                    onPressedOnLike: () {
+                      if (commonPlayPodcastBlocState.podcastLikeStatus ==
+                          PodcastLikeStatus.loading) {
+                        return;
+                      }
+                      commonPlayingPodcastBloc.onPressedOnLikeLogic(
+                          serverLikeStatus: widget.otherUserPodcastEntitie
+                              .otherUserPodcastDataEntitie[index].isLiked,
+                          podcastLocalStatus:
+                              commonPlayPodcastBlocState.podcastsLikesStatusMap,
+                          podcastId: widget.otherUserPodcastEntitie
+                              .otherUserPodcastDataEntitie[index].podcastId,
+                          podcastBloc: otherUserProfileBloc,
+                          podcastCountEvent: UpdatePodcastLikesCountEvent(
+                              podcastId: widget.otherUserPodcastEntitie
+                                  .otherUserPodcastDataEntitie[index].podcastId,
+                              isLiked: widget.otherUserPodcastEntitie
+                                  .otherUserPodcastDataEntitie[index].isLiked));
+                    },
                     podcastEntitie: widget.otherUserPodcastEntitie
                         .otherUserPodcastDataEntitie[index],
                     podcastCardCallBacksParams: defaultPodcastCallBackParams
-                        .defaultPodcastCallBackParams(
-                            podcastBloc: otherUserProfileBloc,
-                            podcastLikeCountChangeEvent:
-                                UpdatePodcastLikesCountEvent(
-                                    podcastId: widget
-                                        .otherUserPodcastEntitie
-                                        .otherUserPodcastDataEntitie[index]
-                                        .podcastId,
-                                    isLiked: widget
-                                        .otherUserPodcastEntitie
-                                        .otherUserPodcastDataEntitie[index]
-                                        .isLiked)),
+                        .defaultPodcastCallBackParams(),
                     podcastDurathion:
                         commonPlayingPodcastBloc.getCurrentPlayingPosition(
                       currentPosition:

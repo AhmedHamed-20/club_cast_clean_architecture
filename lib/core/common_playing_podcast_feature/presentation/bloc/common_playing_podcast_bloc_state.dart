@@ -6,18 +6,20 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final String errorMessage;
   final bool isPlaying;
   final int currentPosition;
+  final PodcastLikeStatus podcastLikeStatus;
   final List<PaletteColor> backGroundColors;
   final List<PodcastLikesUsersInfoEntitie> podcastLikesUsersEntitie;
   final PodcastsUsersLikesRequestStatus podcastsUsersLikesRequestStatus;
   final BackGroundColorGenerateRequestStatus
       podcastInfoScreenColorsGenerateRequestStatus;
   final PodcastDownloadRequestStatus podcastDownloadRequestStatus;
-  final Map<String, bool>? podcastsLikesStatus;
+  final Map<String, bool>? podcastsLikesStatusMap;
   final BasePodcastEntitie currentPlayingPodcastEntitie;
   const CommonPlayingPodcastBlocState(
       {this.playPodcastRequestStatus = PlayPodcastRequestStatus.idle,
       this.errorMessage = '',
-      this.podcastsLikesStatus,
+      this.podcastsLikesStatusMap,
+      this.podcastLikeStatus = PodcastLikeStatus.idle,
       this.currentPlayingPodcastEntitie =
           DefaultsValues.basePodcastEntitieDefaultValues,
       this.podcastLikesUsersEntitie = const [],
@@ -31,7 +33,8 @@ class CommonPlayingPodcastBlocState extends Equatable {
       this.isPlaying = false});
 
   CommonPlayingPodcastBlocState copyWith({
-    Map<String, bool>? podcastsLikesStatus,
+    PodcastLikeStatus? podcastLikeStatus,
+    Map<String, bool>? podcastsLikesStatusMap,
     PodcastDownloadRequestStatus? podcastDownloadRequestStatus,
     List<PaletteColor>? backGroundColors,
     BackGroundColorGenerateRequestStatus?
@@ -45,9 +48,11 @@ class CommonPlayingPodcastBlocState extends Equatable {
     BasePodcastEntitie? currentPlayingPodcastEntitie,
   }) {
     return CommonPlayingPodcastBlocState(
+      podcastLikeStatus: podcastLikeStatus ?? this.podcastLikeStatus,
       currentPlayingPodcastEntitie:
           currentPlayingPodcastEntitie ?? this.currentPlayingPodcastEntitie,
-      podcastsLikesStatus: podcastsLikesStatus ?? this.podcastsLikesStatus,
+      podcastsLikesStatusMap:
+          podcastsLikesStatusMap ?? this.podcastsLikesStatusMap,
       podcastDownloadRequestStatus:
           podcastDownloadRequestStatus ?? this.podcastDownloadRequestStatus,
       podcastLikesUsersEntitie:
@@ -68,10 +73,11 @@ class CommonPlayingPodcastBlocState extends Equatable {
 
   @override
   List<Object?> get props => [
+        podcastLikeStatus,
         currentPosition,
         errorMessage,
         currentPlayingPodcastEntitie,
-        podcastsLikesStatus,
+        podcastsLikesStatusMap,
         backGroundColors,
         podcastDownloadRequestStatus,
         playPodcastRequestStatus,

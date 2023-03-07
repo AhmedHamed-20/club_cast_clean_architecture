@@ -14,11 +14,13 @@ class PodcastCardWidget extends StatelessWidget {
     required this.podcastDurathion,
     required this.podcastEntitie,
     required this.podcastCardCallBacksParams,
+    required this.onPressedOnLike,
     this.isMyProfile,
   });
   final double podcastDurathion;
   final BasePodcastEntitie podcastEntitie;
   final PodcastCardCallBacksParams podcastCardCallBacksParams;
+  final VoidCallback onPressedOnLike;
   final bool? isMyProfile;
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class PodcastCardWidget extends StatelessWidget {
                 ),
               ),
               child: PodcastCardBottomRowWidget(
+                  onPressedOnLike: onPressedOnLike,
                   podcastEntitie: podcastEntitie,
                   podcastCardCallBacksParams: podcastCardCallBacksParams),
             ),

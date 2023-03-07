@@ -470,7 +470,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       );
       ConstVar.socket.io.disconnect();
       ConstVar.socket.io.options.clear();
-      ConstVar.socket.io.destroy(ConstVar.socket);
       ConstVar.socket.dispose();
       ConstVar.socket.destroy();
     } else {
@@ -488,8 +487,6 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       );
       ConstVar.socket.io.disconnect();
       ConstVar.socket.io.options.clear();
-      ConstVar.socket.io.destroy(ConstVar.socket);
-
       ConstVar.socket.dispose();
       ConstVar.socket.destroy();
     }

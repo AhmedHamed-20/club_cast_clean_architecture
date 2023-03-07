@@ -1,4 +1,3 @@
-import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
@@ -32,15 +31,15 @@ class PodcastSearchWidget extends StatelessWidget {
                 height: AppPadding.p12,
               ),
               Defaults.defaultButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      AppRoutesNames.allPodcastsScreen,
-                      arguments: AllPodcastsScreenParams(searchBloc),
-                    );
-                  },
-                  context: context,
-                  text: 'Explore Podcasts',
-                  width: MediaQueryOfMethods.getAppWidth(context) * 0.5),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    AppRoutesNames.allPodcastsScreen,
+                    arguments: AllPodcastsScreenParams(searchBloc),
+                  );
+                },
+                context: context,
+                text: 'Explore Podcasts',
+              ),
             ],
           );
         case SearchRequestStatus.loading:

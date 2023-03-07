@@ -1,4 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,10 +33,16 @@ class _ChatRoomTextFieldState extends State<ChatRoomTextField> {
     return Row(
       children: [
         Expanded(
-          child: Defaults.defaultTextFormField(
-            context: context,
-            labelText: 'Type a message',
-            controller: TextEditingControllers.roomChatMessageController,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQueryOfMethods.getAppHeight(context) * 0.2,
+            ),
+            child: Defaults.defaultTextFormField(
+              context: context,
+              labelText: 'Type a message',
+              maxLine: null,
+              controller: TextEditingControllers.roomChatMessageController,
+            ),
           ),
         ),
         SizedBox(
@@ -50,6 +57,7 @@ class _ChatRoomTextFieldState extends State<ChatRoomTextField> {
                   isPublic: true,
                 ),
               );
+              TextEditingControllers.roomChatMessageController.clear();
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(

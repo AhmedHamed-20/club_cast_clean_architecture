@@ -12,11 +12,12 @@ class PodcastCardBottomRowWidget extends StatelessWidget {
     super.key,
     required this.podcastEntitie,
     required this.podcastCardCallBacksParams,
+    required this.onPressedOnLike,
   });
 
   final BasePodcastEntitie podcastEntitie;
   final PodcastCardCallBacksParams podcastCardCallBacksParams;
-
+  final VoidCallback onPressedOnLike;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -54,14 +55,14 @@ class PodcastCardBottomRowWidget extends StatelessWidget {
         ),
         BlocBuilder<CommonPlayingPodcastBlocBloc,
             CommonPlayingPodcastBlocState>(builder: (context, state) {
-          if ((state.podcastsLikesStatus != null &&
-                  state.podcastsLikesStatus!.isNotEmpty) &&
-              state.podcastsLikesStatus!
+          if ((state.podcastsLikesStatusMap != null &&
+                  state.podcastsLikesStatusMap!.isNotEmpty) &&
+              state.podcastsLikesStatusMap!
                   .containsKey(podcastEntitie.podcastId)) {
             return IconButton(
-              onPressed: podcastCardCallBacksParams.onPressedOnLikeButton,
+              onPressed: onPressedOnLike,
               icon: Icon(
-                state.podcastsLikesStatus![podcastEntitie.podcastId] == true
+                state.podcastsLikesStatusMap![podcastEntitie.podcastId] == true
                     ? Icons.favorite
                     : Icons.favorite_border,
                 color: Theme.of(context).colorScheme.background,
@@ -69,7 +70,7 @@ class PodcastCardBottomRowWidget extends StatelessWidget {
             );
           } else {
             return IconButton(
-              onPressed: podcastCardCallBacksParams.onPressedOnLikeButton,
+              onPressed: onPressedOnLike,
               icon: Icon(
                 podcastEntitie.isLiked ? Icons.favorite : Icons.favorite_border,
                 color: Theme.of(context).colorScheme.background,
