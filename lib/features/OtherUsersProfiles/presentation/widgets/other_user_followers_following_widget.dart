@@ -25,7 +25,7 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
                 arguments: OtherUserFollowersFollowingScreenParams(
                   isFollwers: true,
                   otherUserProfileBloc: otherUserProfileBloc,
-                  userId: state.otherUserDataEntitie!.uid.toString(),
+                  userId: state.otherUserDataEntitie!.id.toString(),
                 ),
               );
             },
@@ -49,7 +49,7 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
                 arguments: OtherUserFollowersFollowingScreenParams(
                   isFollwers: false,
                   otherUserProfileBloc: otherUserProfileBloc,
-                  userId: state.otherUserDataEntitie!.uid.toString(),
+                  userId: state.otherUserDataEntitie!.id.toString(),
                 ),
               );
             },

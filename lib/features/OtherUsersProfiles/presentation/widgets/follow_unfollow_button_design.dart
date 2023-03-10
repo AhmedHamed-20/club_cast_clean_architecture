@@ -16,14 +16,14 @@ class FollowUnfollowButtonDesign extends StatelessWidget {
             BlocProvider.of<OtherUserProfileBloc>(context).add(
               UnFollowUserEvent(
                 accessToken: ConstVar.accessToken,
-                userId: state.otherUserDataEntitie!.uid,
+                userId: state.otherUserDataEntitie!.id,
               ),
             );
           } else {
             BlocProvider.of<OtherUserProfileBloc>(context).add(
               FollowUserEvent(
                 accessToken: ConstVar.accessToken,
-                userId: state.otherUserDataEntitie!.uid,
+                userId: state.otherUserDataEntitie!.id,
               ),
             );
           }

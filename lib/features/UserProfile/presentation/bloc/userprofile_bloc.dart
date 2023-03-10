@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
@@ -267,11 +268,21 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
         type: FileType.image,
       );
       if (pickkImage == null) return;
-      emit(
-        state.copyWith(
-          pickedUserProfileImageFilePath: pickkImage.files.first.path,
-        ),
-      );
+      if (pickkImage.files.first.size < 2000000) {
+        emit(
+          state.copyWith(
+            pickedUserProfileImageFilePath: pickkImage.files.first.path,
+          ),
+        );
+      } else {
+        flutterToast(
+            msg: 'Image size should be less than 2MB',
+            backgroundColor: AppColors.toastError,
+            textColor: AppColors.white);
+        emit(state.copyWith(
+            errorMessage: 'Image size should be less than 2MB',
+            pickedUserProfileImageFilePath: ''));
+      }
     } on Exception catch (e) {
       emit(state.copyWith(
           errorMessage: e.toString(), pickedUserProfileImageFilePath: ''));

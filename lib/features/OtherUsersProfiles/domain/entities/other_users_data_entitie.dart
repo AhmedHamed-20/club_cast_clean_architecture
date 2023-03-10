@@ -7,7 +7,7 @@ class OtherUserDataEntitie extends BaseUserDataEntitie {
       required super.userPhoto,
       required super.followers,
       required super.following,
-      required super.uid,
+      required super.id,
       required this.isFollowing,
       required super.email,
       required super.createdAt,
@@ -20,7 +20,7 @@ class OtherUserDataEntitie extends BaseUserDataEntitie {
         isFollowing,
         followers,
         following,
-        uid,
+        id,
         email,
         createdAt,
         bio

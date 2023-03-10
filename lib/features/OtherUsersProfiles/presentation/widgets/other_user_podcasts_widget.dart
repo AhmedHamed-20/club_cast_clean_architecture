@@ -45,7 +45,7 @@ class OtherUserPodcastsWidget extends StatelessWidget {
                   Expanded(
                     child: MainOtherUserPodcastWidget(
                       otherUserPodcastEntitie: state.otherUserPodcastEntitie!,
-                      userId: state.otherUserDataEntitie!.uid,
+                      userId: state.otherUserDataEntitie!.id,
                     ),
                   ),
                 ],

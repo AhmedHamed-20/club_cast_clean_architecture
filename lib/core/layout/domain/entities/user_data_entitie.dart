@@ -6,7 +6,7 @@ class UserDataEntitie extends BaseUserDataEntitie {
       required super.userPhoto,
       required super.followers,
       required super.following,
-      required super.uid,
+      required super.id,
       required super.email,
       required super.createdAt,
       required super.bio});
@@ -15,7 +15,7 @@ class UserDataEntitie extends BaseUserDataEntitie {
   List<Object?> get props => [
         userName,
         userPhoto,
-        uid,
+        id,
         followers,
         following,
         email,

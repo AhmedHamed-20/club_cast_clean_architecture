@@ -142,7 +142,6 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
         'email': params.email,
         'bio': params.bio,
       });
-
       return UpdatedUserDataInfoModel.fromJson(response?.data['user']);
     } on DioError catch (e) {
       throw ServerException(

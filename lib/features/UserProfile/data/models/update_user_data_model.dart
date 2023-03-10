@@ -6,7 +6,7 @@ class UpdatedUserDataInfoModel extends UpdatedUserDataInfoEntitie {
       required super.userPhoto,
       required super.followers,
       required super.following,
-      required super.uid,
+      required super.id,
       required super.email,
       required super.createdAt,
       required super.bio});
@@ -17,7 +17,7 @@ class UpdatedUserDataInfoModel extends UpdatedUserDataInfoEntitie {
       userPhoto: json['photo'],
       followers: json['followers'],
       following: json['following'],
-      uid: json['uid'],
+      id: json['_id'],
       email: json['email'],
       createdAt: json['createdAt'],
       bio: json['bio'],

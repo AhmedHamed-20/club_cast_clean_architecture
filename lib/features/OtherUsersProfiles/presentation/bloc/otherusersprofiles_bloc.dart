@@ -78,7 +78,7 @@ class OtherUserProfileBloc
       );
       if (r.isFollowing) {
         add(OtherUserEventsGetEvent(
-            accessToken: event.accessToken, userId: r.uid));
+            accessToken: event.accessToken, userId: r.id));
       }
     });
   }

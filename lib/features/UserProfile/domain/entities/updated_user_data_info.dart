@@ -6,7 +6,7 @@ class UpdatedUserDataInfoEntitie extends BaseUserDataEntitie {
       required super.userPhoto,
       required super.followers,
       required super.following,
-      required super.uid,
+      required super.id,
       required super.email,
       required super.createdAt,
       required super.bio});
@@ -17,7 +17,7 @@ class UpdatedUserDataInfoEntitie extends BaseUserDataEntitie {
         userPhoto,
         followers,
         following,
-        uid,
+        id,
         email,
         createdAt,
         bio,

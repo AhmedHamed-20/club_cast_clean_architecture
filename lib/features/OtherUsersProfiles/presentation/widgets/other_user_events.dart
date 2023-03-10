@@ -37,7 +37,7 @@ class OtherUserEventsWidget extends StatelessWidget {
                 Expanded(
                   child: OtherUserEventsMainWidget(
                     otherUserEventsEntitie: state.otherUserEventsEntitie!,
-                    userId: state.otherUserDataEntitie!.uid,
+                    userId: state.otherUserDataEntitie!.id,
                   ),
                 ),
               ],
@@ -58,7 +58,7 @@ class OtherUserEventsWidget extends StatelessWidget {
                 BlocProvider.of<OtherUserProfileBloc>(context).add(
                     OtherUserProfileGetEvent(
                         accessToken: ConstVar.accessToken,
-                        userId: state.otherUserDataEntitie!.uid));
+                        userId: state.otherUserDataEntitie!.id));
               },
             );
           }
