@@ -1,8 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../RoomChatWidgets/chat_card_widget.dart';
 
 late ScrollController privateChatRoomScrollController;
@@ -39,7 +41,7 @@ class _PrivateChatRoomMessagesWidgetState
         return Expanded(
           child: Center(
               child: Text(
-            'No messages yet',
+            AppStrings.noMessagesYet.tr(),
             style: Theme.of(context).textTheme.titleLarge,
           )),
         );
@@ -52,6 +54,7 @@ class _PrivateChatRoomMessagesWidgetState
                   .length,
               itemBuilder: (context, index) {
                 return ChatTextCardWidget(
+                  isPrivateChat: true,
                   roomMessageDataEntitie: state.privateChatMessages![
                       widget.params.roomUserDataEntitie.id]![index],
                 );

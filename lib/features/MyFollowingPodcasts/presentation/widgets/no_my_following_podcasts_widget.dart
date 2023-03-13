@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -21,7 +23,7 @@ class NoMyFollowingPodcastsWidgets extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              'No Podcasts, Follow Some Podcasts',
+              AppStrings.noPodcastsFollowSomeUsers.tr(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
             ),
@@ -39,7 +41,7 @@ class NoMyFollowingPodcastsWidgets extends StatelessWidget {
               );
             },
             context: context,
-            text: 'Explore Podcasts',
+            text: AppStrings.explorePodcasts.tr(),
           )
         ],
       ),

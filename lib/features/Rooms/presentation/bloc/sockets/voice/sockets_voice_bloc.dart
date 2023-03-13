@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/check_mic_permission.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
@@ -17,6 +18,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/brodcast
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/join_create_room_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/me_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -80,7 +82,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
             joinRoomRequestStatus: JoinRoomRequestStatus.idle),
       );
       flutterToast(
-          msg: 'Connecting to our server...',
+          msg: AppStrings.connectingToOurServers.tr(),
           backgroundColor: AppColors.toastWarning,
           textColor: AppColors.black);
 
@@ -124,7 +126,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       if (ConstVar.layoutBottomSheetStatus !=
           LayoutBottomSheetStatus.playingPodcast) {
         flutterToast(
-          msg: 'you can\'t join or create room while playing podcast',
+          msg: AppStrings.youCanNotJoinOrCreateRoomWhileListenToPocast.tr(),
           backgroundColor: AppColors.toastWarning,
           textColor: AppColors.black,
         );
@@ -301,8 +303,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   FutureOr<void> _adminLeft(
       AdminLeftEvent event, Emitter<SocketsVoiceState> emit) {
     flutterToast(
-        msg:
-            'Admin left the room if he not back in 1 minute the room will be closed',
+        msg: AppStrings.adminLeft.tr(),
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black);
     add(const PlayRoomSoundEvent(AssetsPath.adminLeftAudio));
@@ -313,7 +314,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     Navigator.pushNamedAndRemoveUntil(roomsWidgetKey.currentState!.context,
         AppRoutesNames.layoutScreen, (route) => false);
     flutterToast(
-        msg: 'room ended',
+        msg: AppStrings.roomEnded.tr(),
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black);
     add(const LeaveRoomEvent());

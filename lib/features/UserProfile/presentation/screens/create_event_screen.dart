@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/create_event_button_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/create_event_text_fileds.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -19,7 +21,7 @@ class CreateEventScreen extends StatelessWidget {
         iconTheme: Theme.of(context).iconTheme,
         centerTitle: true,
         title: Text(
-          'Create Event',
+          AppStrings.createEvent.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -36,6 +38,9 @@ class CreateEventScreen extends StatelessWidget {
                     onPressed: () {
                       DatePicker.showDateTimePicker(
                         context,
+                        locale: context.locale == ConstVar.enLocale
+                            ? LocaleType.en
+                            : LocaleType.ar,
                         theme: AppTheme.datePickerTheme(context),
                         minTime: DateTime.now(),
                         currentTime: DateTime.now(),
@@ -48,7 +53,7 @@ class CreateEventScreen extends StatelessWidget {
                       eventDate != null
                           ? DateTimeFormat.format(DateTime.parse(eventDate!),
                               format: 'd/M/Y H:i')
-                          : 'Pick a date',
+                          : AppStrings.pickADate.tr(),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),

@@ -12,9 +12,11 @@ import 'package:club_cast_clean_architecture/core/layout/data/repositories/layou
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_active_color_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_active_theme_value.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_app_languages.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_app_color_value.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_app_language.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_theme_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
@@ -136,6 +138,8 @@ class ServiceLocator {
         ));
 
     servicelocator.registerLazySingleton<LayoutBloc>(() => LayoutBloc(
+        servicelocator(),
+        servicelocator(),
         servicelocator(),
         servicelocator(),
         servicelocator(),
@@ -308,6 +312,10 @@ class ServiceLocator {
     servicelocator
         .registerLazySingleton<GetCachedAppColorValueFromCacheUssecase>(
             () => GetCachedAppColorValueFromCacheUssecase(servicelocator()));
+    servicelocator.registerLazySingleton<CacheAppLanguageUsecase>(
+        () => CacheAppLanguageUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<GetCachedAppLanguageUsecase>(
+        () => GetCachedAppLanguageUsecase(servicelocator()));
 
     ///repository
     servicelocator.registerLazySingleton<BaseAuthRepository>(

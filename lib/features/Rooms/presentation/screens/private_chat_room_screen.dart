@@ -29,7 +29,9 @@ class PrivateChatRoomScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          PrivateChatRoomMessagesWidget(params: params),
+          Directionality(
+              textDirection: TextDirection.ltr,
+              child: PrivateChatRoomMessagesWidget(params: params)),
           PrivateChatRoomTextFieldWidget(userId: params.roomUserDataEntitie.id),
         ],
       ),

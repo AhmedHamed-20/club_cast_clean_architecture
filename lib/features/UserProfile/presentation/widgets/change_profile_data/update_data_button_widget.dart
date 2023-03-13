@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_button_design_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +19,7 @@ class UpdateDataButtonWidget extends StatelessWidget {
       if (state.updateUserDataRequestStatus ==
           UpdateUserDataRequestStatus.success) {
         flutterToast(
-            msg: 'Updated Success',
+            msg: AppStrings.updatedSuccessfully.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
 

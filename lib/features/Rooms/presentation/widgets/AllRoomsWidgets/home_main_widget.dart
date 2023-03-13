@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +53,7 @@ class HomeMainWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Your Following Events',
+                  AppStrings.yourFollowingEvents.tr(),
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: AppHeight.h10),
@@ -61,7 +63,7 @@ class HomeMainWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'All Rooms',
+                      AppStrings.allRooms.tr(),
                       style: Theme.of(context).textTheme.titleLarge,
                       textAlign: TextAlign.center,
                     ),
@@ -75,7 +77,7 @@ class HomeMainWidget extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'Join private room',
+                        AppStrings.joinPrivateRoom.tr(),
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium

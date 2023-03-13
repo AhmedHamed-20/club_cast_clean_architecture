@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/chat_room_text_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
@@ -19,7 +21,7 @@ class RoomChatWidget extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Room Chat',
+              AppStrings.roomChat.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const ChatWidget(),

@@ -9,64 +9,67 @@ class RoomsCardWidget extends StatelessWidget {
   final BaseAllRoomsDataEntitie allRoomsDataEntitie;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: AppElevation.eL4,
-      color: Theme.of(context).colorScheme.background,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.r22)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(AppPadding.p12),
-            child: Text(
-              allRoomsDataEntitie.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontSize: 28),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(AppPadding.p12),
-            child: Text(
-              allRoomsDataEntitie.category,
-              style: Theme.of(context).textTheme.titleMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          (allRoomsDataEntitie.audience.isEmpty &&
-                  allRoomsDataEntitie.brodcasters.isEmpty)
-              ? Padding(
-                  padding: const EdgeInsets.all(AppPadding.p12),
-                  child: Text(
-                    'No one in the room',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(AppPadding.p12),
-                  child: RoomsAudienceSpeakersWidget(
-                      allRoomsDataEntitie: allRoomsDataEntitie),
-                ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(AppPadding.p12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(AppRadius.r22),
-                bottomRight: Radius.circular(
-                  AppRadius.r22,
-                ),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Card(
+        elevation: AppElevation.eL4,
+        color: Theme.of(context).colorScheme.background,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.r22)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppPadding.p12),
+              child: Text(
+                allRoomsDataEntitie.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontSize: 28),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            child: AdminRoomsWidget(allRoomsDataEntitie: allRoomsDataEntitie),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(AppPadding.p12),
+              child: Text(
+                allRoomsDataEntitie.category,
+                style: Theme.of(context).textTheme.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            (allRoomsDataEntitie.audience.isEmpty &&
+                    allRoomsDataEntitie.brodcasters.isEmpty)
+                ? Padding(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    child: Text(
+                      'No one in the room',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    child: RoomsAudienceSpeakersWidget(
+                        allRoomsDataEntitie: allRoomsDataEntitie),
+                  ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(AppPadding.p12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(AppRadius.r22),
+                  bottomRight: Radius.circular(
+                    AppRadius.r22,
+                  ),
+                ),
+              ),
+              child: AdminRoomsWidget(allRoomsDataEntitie: allRoomsDataEntitie),
+            ),
+          ],
+        ),
       ),
     );
   }

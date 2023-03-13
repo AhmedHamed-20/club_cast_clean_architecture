@@ -12,6 +12,11 @@ enum BackGroundColorGenerateRequestStatus {
   error,
 }
 
+enum AppLanguages {
+  en,
+  ar,
+}
+
 enum LogoutRequestStatus {
   idle,
   loading,

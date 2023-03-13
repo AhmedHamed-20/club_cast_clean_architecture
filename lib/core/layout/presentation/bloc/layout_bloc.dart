@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_app_languages.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
@@ -16,6 +18,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/create_room_button_widget.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/user_profile_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +36,7 @@ import '../../../widgets/cached_network_image_circle_photo.dart';
 import '../../domain/usecases/cache_active_color_value.dart';
 import '../../domain/usecases/cache_active_theme_value.dart';
 import '../../domain/usecases/get_cached_app_color_value.dart';
+import '../../domain/usecases/get_cached_app_language.dart';
 import '../../domain/usecases/get_cached_theme_value.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
@@ -50,6 +54,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       this.themeDataValueCacheUssecase,
       this.getCachedAppColorValueFromCacheUssecase,
       this.cacheAppColorValueUsecase,
+      this.cacheAppLanguageUsecase,
+      this.getCachedAppLanguageUsecase,
       this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
@@ -65,6 +71,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<GetChachedThemeValueEvent>(_getThemeValue);
     on<GetCachedAppColorsValueEvent>(_getCachedAppColor);
     on<CacheAppColorsValueEvent>(_cacheAppColor);
+    on<CacheAppLanguageEvent>(_cacheAppLanguage);
+    on<GetCachedAppLanguageEvent>(_getCachedAppLanguage);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
@@ -77,6 +85,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final CacheAppColorValueUsecase cacheAppColorValueUsecase;
   final GetCachedAppColorValueFromCacheUssecase
       getCachedAppColorValueFromCacheUssecase;
+  final CacheAppLanguageUsecase cacheAppLanguageUsecase;
+  final GetCachedAppLanguageUsecase getCachedAppLanguageUsecase;
   final List<String> availbleAppColors = [
     'Materia Base Line',
     'Amber',
@@ -87,28 +97,34 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   List<Widget> bottomNaveIcons(
           {required String photoUrl, required double phototRadius}) =>
       [
-        const NavigationDestination(
-          icon: Icon(Icons.home),
-          label: 'home',
+        NavigationDestination(
+          icon: const Icon(Icons.home),
+          label: AppStrings.home.tr(),
         ),
-        const NavigationDestination(
-          icon: Icon(Icons.headphones),
-          label: 'podCast',
+        NavigationDestination(
+          icon: const Icon(Icons.headphones),
+          label: AppStrings.podcasts.tr(),
         ),
         const NavigationDestination(
           icon: Icon(Icons.add),
           label: '',
         ),
-        const NavigationDestination(
-          icon: Icon(Icons.search),
-          label: 'search',
+        NavigationDestination(
+          icon: const Icon(Icons.search),
+          label: AppStrings.search.tr(),
         ),
         NavigationDestination(
             icon: CachedNetworkImageCirclePhoto(
                 photoRadius: phototRadius, photoUrl: photoUrl),
             label: ''),
       ];
-  final appBarTitles = ['Home', 'Podcasts', '', 'Search', 'Your Profile'];
+  var appBarTitles = [
+    AppStrings.home,
+    AppStrings.podcasts,
+    '',
+    AppStrings.search,
+    AppStrings.yourProfile,
+  ];
 
   final List<Widget> bottomNaveScreens = [
     const AllRoomsScreen(),
@@ -367,6 +383,34 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
 
     result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
       add(GetCachedAppColorsValueEvent(key: event.key));
+    });
+  }
+
+  FutureOr<void> _cacheAppLanguage(
+      CacheAppLanguageEvent event, Emitter<LayoutState> emit) async {
+    final result = await cacheAppLanguageUsecase(
+        AppLaguagesCacheParams(key: event.key, value: event.language));
+
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      event.context.setLocale(state.appLanguages.index == 0
+          ? ConstVar.arLocale
+          : ConstVar.enLocale);
+      emit(
+        state.copyWith(
+          appLanguages:
+              state.appLanguages.index == 0 ? AppLanguages.ar : AppLanguages.en,
+        ),
+      );
+    });
+  }
+
+  FutureOr<void> _getCachedAppLanguage(
+      GetCachedAppLanguageEvent event, Emitter<LayoutState> emit) async {
+    final result = await getCachedAppLanguageUsecase(
+        GetCachedAppLanguageParams(event.key));
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      emit(state.copyWith(
+          appLanguages: r == 'en' ? AppLanguages.en : AppLanguages.ar));
     });
   }
 }

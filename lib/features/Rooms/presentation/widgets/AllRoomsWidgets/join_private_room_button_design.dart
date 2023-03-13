@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/rooms_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/AllRoomsWidgets/private_room_text_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +33,7 @@ class JoinPrivateRoomButtonDesign extends StatelessWidget {
         }
       },
       child: Text(
-        'Join',
+        AppStrings.join.tr(),
         style: Theme.of(context).textTheme.titleMedium,
       ),
     );

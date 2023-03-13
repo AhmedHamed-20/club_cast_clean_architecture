@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/ValidationHelper/validation_helper.dart';
@@ -33,7 +35,7 @@ class _PrivateRoomTextFieldState extends State<PrivateRoomTextField> {
       child: Defaults.defaultTextFormField(
         context: context,
         validator: (value) => ValidationHelper.privateRoomId(value: value),
-        labelText: 'Room ID',
+        labelText: AppStrings.roomId.tr(),
         controller: TextEditingControllers.joinPrivateRoomController,
       ),
     );

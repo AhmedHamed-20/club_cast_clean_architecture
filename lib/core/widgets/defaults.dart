@@ -26,13 +26,11 @@ class Defaults {
     ValueChanged<String>? onSubmit,
     bool obscureText = false,
     int? maxLine = 1,
-    TextDirection textDirection = TextDirection.ltr,
     required BuildContext context,
   }) {
     return TextFormField(
       cursorColor: Theme.of(context).primaryColor,
       maxLines: maxLine,
-      textDirection: textDirection,
       style: Theme.of(context).textTheme.titleMedium,
       controller: controller,
       keyboardType: keyboardType,

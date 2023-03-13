@@ -1,8 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/ValidationHelper/validation_helper.dart';
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
@@ -46,9 +48,9 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
               color: Theme.of(context).iconTheme.color,
             ),
             context: context,
-            labelText: 'Title',
-            validator: (value) =>
-                ValidationHelper.validateName(value: value, name: 'Title'),
+            labelText: AppStrings.title.tr(),
+            validator: (value) => ValidationHelper.validateName(
+                value: value, name: AppStrings.title.tr()),
             controller: TextEditingControllers.editEventTitleController,
           ),
           SizedBox(
@@ -65,8 +67,8 @@ class _EditEventTextFieldsWidgetState extends State<EditEventTextFieldsWidget> {
               ),
               context: context,
               validator: (value) => ValidationHelper.validateName(
-                  value: value, name: 'Description'),
-              labelText: 'Description',
+                  value: value, name: AppStrings.eventDescription.tr()),
+              labelText: AppStrings.eventDescription.tr(),
               controller: TextEditingControllers.editEventDescriptionController,
             ),
           ),

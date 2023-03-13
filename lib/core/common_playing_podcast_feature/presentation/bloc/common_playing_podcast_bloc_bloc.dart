@@ -4,8 +4,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/download_podcast.dart';
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/default_values.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -76,8 +78,9 @@ class CommonPlayingPodcastBlocBloc
         showNotification: true,
         notificationSettings: NotificationSettings(
           nextEnabled: true,
-          customNextIcon: AndroidResDrawable(name: 'ic_next_custom'),
-          customPreviousIcon: AndroidResDrawable(name: 'ic_prev_custom'),
+          customNextIcon: AndroidResDrawable(name: AppStrings.customNextIcon),
+          customPreviousIcon:
+              AndroidResDrawable(name: AppStrings.customPrevIcon),
           customNextAction: (player) {
             add(const SeekByEvent(10));
           },
@@ -120,7 +123,7 @@ class CommonPlayingPodcastBlocBloc
       );
     } else {
       flutterToast(
-          msg: 'you can not play podcast while you are in live voice room',
+          msg: AppStrings.youCanNotListenToPocastWhileListenToRoom.tr(),
           backgroundColor: AppColors.toastWarning,
           textColor: AppColors.black);
     }
@@ -208,7 +211,7 @@ class CommonPlayingPodcastBlocBloc
     } else if (currentPausePodcastsId == basePodcastEntitie.podcastId) {
       add(PodcastPlayPaused(basePodcastEntitie.podcastId));
     } else {
-      showSnackBar(context: context, text: 'loading');
+      showSnackBar(context: context, text: AppStrings.loading.tr());
       add(
         PodcastPlayEvent(basePodcastEntitie: basePodcastEntitie),
       );
@@ -285,7 +288,7 @@ class CommonPlayingPodcastBlocBloc
           ),
         );
         flutterToast(
-            msg: 'Download Completed and saved in club cast folder',
+            msg: AppStrings.downloadPocastCompleted.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         currentDownloadingPodcastId = '';
@@ -294,7 +297,7 @@ class CommonPlayingPodcastBlocBloc
     } else if (await StoragePermissionAndPath.checkStoragePermissions() ==
         false) {
       flutterToast(
-          msg: 'Please Accept All Permissions',
+          msg: AppStrings.pleaseGrantPermissionToAccessYourStorage.tr(),
           backgroundColor: AppColors.toastError,
           textColor: AppColors.white);
     }

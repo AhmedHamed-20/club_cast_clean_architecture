@@ -1,11 +1,12 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../constants/constants.dart';
 import '../bloc/layout_bloc.dart';
 
-class ChangeAppThemeValueWidget extends StatelessWidget {
-  const ChangeAppThemeValueWidget({
+class ChangeAppLanguageWidget extends StatelessWidget {
+  const ChangeAppLanguageWidget({
     super.key,
   });
 
@@ -17,27 +18,37 @@ class ChangeAppThemeValueWidget extends StatelessWidget {
         RadioListTile<int>(
           activeColor: Theme.of(context).primaryColor,
           title: Text(
-            'Light Mode',
+            AppStrings.english.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           value: 0,
-          groupValue: state.themeModeValue.index,
+          groupValue: state.appLanguages.index,
           onChanged: (value) {
             layoutBloc.add(
-                CacheThemeValueEvent(key: ConstVar.appThemeKey, isDark: false));
+              CacheAppLanguageEvent(
+                key: AppStrings.appLanguageKey,
+                context: context,
+                language: 'en',
+              ),
+            );
           },
         ),
         RadioListTile<int>(
           activeColor: Theme.of(context).primaryColor,
           title: Text(
-            'Dark Mode',
+            AppStrings.arabic.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           value: 1,
-          groupValue: state.themeModeValue.index,
+          groupValue: state.appLanguages.index,
           onChanged: (value) {
             layoutBloc.add(
-                CacheThemeValueEvent(key: ConstVar.appThemeKey, isDark: true));
+              CacheAppLanguageEvent(
+                key: AppStrings.appLanguageKey,
+                context: context,
+                language: 'ar',
+              ),
+            );
           },
         ),
       ]),

@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -53,15 +55,14 @@ class LocalNotificationHelper {
   }) async {
     if (eventTime.isBefore(DateTime.now())) {
       flutterToast(
-          msg:
-              'You can\'t schedule a notification in the past,this room should be live right now',
+          msg: AppStrings.youCanNotScheduleNotificationInPast.tr(),
           backgroundColor: AppColors.toastError,
           textColor: AppColors.white);
       return;
     } else {
       if (await CheckNotificationsPermission.checkMicPermission()) {
         flutterToast(
-            msg: 'you will be notified in the event time',
+            msg: AppStrings.youWillBeNotifiedAtEventDate.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         return await flutterLocalNotificationsPlugin.zonedSchedule(

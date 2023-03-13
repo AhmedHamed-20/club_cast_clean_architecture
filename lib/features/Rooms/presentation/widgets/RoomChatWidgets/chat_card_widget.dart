@@ -1,15 +1,21 @@
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie_data.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/RoomChatWidgets/room_chat_card_main_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../bloc/sockets/chat/chat_bloc.dart';
 
 class ChatTextCardWidget extends StatelessWidget {
-  const ChatTextCardWidget({super.key, required this.roomMessageDataEntitie});
+  const ChatTextCardWidget(
+      {super.key,
+      required this.roomMessageDataEntitie,
+      this.isPrivateChat = false});
 
   final RoomMessageDataEntitie roomMessageDataEntitie;
+  final bool isPrivateChat;
   @override
   Widget build(BuildContext context) {
     final chatBloc = BlocProvider.of<ChatBloc>(context);
@@ -37,7 +43,7 @@ class ChatTextCardWidget extends StatelessWidget {
                         },
                         value: 1,
                         child: Text(
-                          'Delete Message',
+                          AppStrings.deleteMessage.tr(),
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -48,6 +54,7 @@ class ChatTextCardWidget extends StatelessWidget {
                 )
               : Flexible(
                   child: RoomChatCardMainWidget(
+                      isPrivateChat: isPrivateChat,
                       roomMessageDataEntitie: roomMessageDataEntitie),
                 ),
         ],

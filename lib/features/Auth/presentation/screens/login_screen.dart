@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/widgets/login_widgets/login_button_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/routes/app_route_names.dart';
@@ -15,7 +17,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Login',
+          AppStrings.login.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
         centerTitle: true,
@@ -43,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    'Forget Password?',
+                    AppStrings.forgotPassword.tr(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Theme.of(context).primaryColor,
                         ),

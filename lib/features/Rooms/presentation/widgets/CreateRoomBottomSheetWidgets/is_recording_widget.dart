@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/storage_permission_download_path.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 bool isRecordingRoom = false;
@@ -21,14 +23,15 @@ class IsRecordingWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Recording',
+                        AppStrings.recording.tr(),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       SizedBox(
                         height: AppHeight.h6,
                       ),
                       Text(
-                        'The room will be recorded and saved to your storage',
+                        AppStrings.theRoomWillBeRecordedAndSavedToYourStorage
+                            .tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).colorScheme.tertiary),
                       ),
@@ -40,14 +43,14 @@ class IsRecordingWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Not Recording',
+                        AppStrings.notRecording.tr(),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       SizedBox(
                         height: AppHeight.h6,
                       ),
                       Text(
-                        'The room will not be recorded',
+                        AppStrings.theRoomWillNotBeRecorded.tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).colorScheme.tertiary),
                       ),
@@ -68,11 +71,12 @@ class IsRecordingWidget extends StatelessWidget {
                       isRecordingRoom = false;
                     });
                     flutterToast(
-                      msg: 'Please grant storage permission to record',
+                      msg: AppStrings.pleaseGrantPermissionToAccessYourStorage
+                          .tr(),
                       backgroundColor: AppColors.toastWarning,
                       textColor: AppColors.black,
                     );
-                  } else {}
+                  }
                 }
               }),
         ],

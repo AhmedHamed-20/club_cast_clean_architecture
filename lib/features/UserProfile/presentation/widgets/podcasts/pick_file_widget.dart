@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,8 +24,9 @@ class PickFileButton extends StatelessWidget {
               myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
-            text:
-                state.pickedPodcastFilePath == '' ? 'Pick File' : 'Change File',
+            text: state.pickedPodcastFilePath == ''
+                ? AppStrings.pickAFile.tr()
+                : AppStrings.changePickedFile.tr(),
           );
         case UploadPodcastRequestStatus.loading:
           return const SizedBox.shrink();
@@ -37,7 +40,7 @@ class PickFileButton extends StatelessWidget {
               myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
-            text: 'Pick File',
+            text: AppStrings.pickAFile.tr(),
           );
         case UploadPodcastRequestStatus.error:
           return Defaults.defaultButton(
@@ -45,7 +48,7 @@ class PickFileButton extends StatelessWidget {
               myPodcastBloc.add(const PickPodcastFileEvent());
             },
             context: context,
-            text: 'Pick File',
+            text: AppStrings.pickAFile.tr(),
           );
       }
     });

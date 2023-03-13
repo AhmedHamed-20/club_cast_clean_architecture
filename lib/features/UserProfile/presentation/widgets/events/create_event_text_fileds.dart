@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/ValidationHelper/validation_helper.dart';
@@ -35,10 +37,10 @@ class _CreateEventsTextFieldsState extends State<CreateEventsTextFields> {
       child: Column(
         children: [
           Defaults.defaultTextFormField(
-            labelText: 'Event Name',
+            labelText: AppStrings.eventName.tr(),
             context: context,
-            validator: (value) =>
-                ValidationHelper.validateName(value: value, name: 'Event Name'),
+            validator: (value) => ValidationHelper.validateName(
+                value: value, name: AppStrings.eventName.tr()),
             labelStyle: Theme.of(context).textTheme.titleSmall,
             controller: TextEditingControllers.createEventTitleController,
           ),
@@ -48,11 +50,11 @@ class _CreateEventsTextFieldsState extends State<CreateEventsTextFields> {
           SizedBox(
             height: MediaQueryOfMethods.getAppHeight(context) * 0.2,
             child: Defaults.defaultTextFormField(
-              labelText: 'Event Description',
+              labelText: AppStrings.eventDescription.tr(),
               maxLine: 4,
               context: context,
               validator: (value) => ValidationHelper.validateName(
-                  value: value, name: 'Description'),
+                  value: value, name: AppStrings.eventDescription.tr()),
               labelStyle: Theme.of(context).textTheme.titleSmall,
               controller:
                   TextEditingControllers.createEventDescriptionController,

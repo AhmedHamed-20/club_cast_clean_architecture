@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +21,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
         if (state.myEventRemoveRequestStatus ==
             MyDataRemoveRequestStatus.removed) {
           flutterToast(
-              msg: 'Event Removed',
+              msg: AppStrings.eventRemoved.tr(),
               backgroundColor: AppColors.toastSuccess,
               textColor: AppColors.white);
           Navigator.of(context).pop();
@@ -40,11 +42,11 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         title: Text(
-          'Delete Event',
+          AppStrings.deleteEvent.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
         content: Text(
-          'Are you sure you want to delete this event?',
+          AppStrings.areYouSureYouWantToDeleteThisEvent.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         actions: [
@@ -53,7 +55,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: Text(
-              'Cancel',
+              AppStrings.cancel.tr(),
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
@@ -63,7 +65,7 @@ class DeleteEventAlertDialogWidget extends StatelessWidget {
                   accessToken: ConstVar.accessToken, eventId: eventId));
             },
             child: Text(
-              'Delete',
+              AppStrings.delete.tr(),
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),

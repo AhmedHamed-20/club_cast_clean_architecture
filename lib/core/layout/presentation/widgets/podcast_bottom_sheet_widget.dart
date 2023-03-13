@@ -20,83 +20,86 @@ class PodcastBottomSheetWidget extends StatelessWidget {
           arguments: basePodcastEntitie,
         );
       },
-      child: Container(
-        color: AppColors.transparentColor,
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  basePodcastEntitie.podcastName,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      commonPlayingPodcast.add(const SeekByEvent(-10));
-                    },
-                    icon: Icon(
-                      Icons.replay_10,
-                      size: 35,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Container(
+          color: AppColors.transparentColor,
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.p8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    basePodcastEntitie.podcastName,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                  CircleAvatar(
-                    radius: AppRadius.r22,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: IconButton(
+                ),
+                Row(
+                  children: [
+                    IconButton(
                       onPressed: () {
-                        commonPlayingPodcast.onPressedOnPlay(
-                          basePodcastEntitie: basePodcastEntitie,
-                          context: context,
-                        );
+                        commonPlayingPodcast.add(const SeekByEvent(-10));
                       },
-                      icon: Center(
-                        child: BlocBuilder<CommonPlayingPodcastBlocBloc,
-                            CommonPlayingPodcastBlocState>(
-                          builder: (context, state) => Icon(
-                            state.isPlaying ? Icons.pause : Icons.play_arrow,
-                            color: Theme.of(context).colorScheme.background,
+                      icon: Icon(
+                        Icons.replay_10,
+                        size: 35,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    CircleAvatar(
+                      radius: AppRadius.r22,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: IconButton(
+                        onPressed: () {
+                          commonPlayingPodcast.onPressedOnPlay(
+                            basePodcastEntitie: basePodcastEntitie,
+                            context: context,
+                          );
+                        },
+                        icon: Center(
+                          child: BlocBuilder<CommonPlayingPodcastBlocBloc,
+                              CommonPlayingPodcastBlocState>(
+                            builder: (context, state) => Icon(
+                              state.isPlaying ? Icons.pause : Icons.play_arrow,
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      commonPlayingPodcast.add(PodcastStopPlaying(
-                        basePodcastEntitie.podcastId,
-                      ));
-                    },
-                    icon: Icon(
-                      Icons.stop,
-                      size: 35,
-                      color: Theme.of(context).colorScheme.primary,
+                    IconButton(
+                      onPressed: () {
+                        commonPlayingPodcast.add(PodcastStopPlaying(
+                          basePodcastEntitie.podcastId,
+                        ));
+                      },
+                      icon: Icon(
+                        Icons.stop,
+                        size: 35,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      commonPlayingPodcast.add(const SeekByEvent(10));
-                    },
-                    icon: Icon(
-                      Icons.forward_10,
-                      size: 35,
-                      color: Theme.of(context).colorScheme.primary,
+                    IconButton(
+                      onPressed: () {
+                        commonPlayingPodcast.add(const SeekByEvent(10));
+                      },
+                      icon: Icon(
+                        Icons.forward_10,
+                        size: 35,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

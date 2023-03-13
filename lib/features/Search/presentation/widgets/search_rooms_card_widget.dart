@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/room_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +25,7 @@ class RoomsSearchWidget extends StatelessWidget {
       switch (state.roomsSearchRequestStatus) {
         case SearchRequestStatus.idle:
           return Center(
-            child: Text('Search for rooms',
+            child: Text(AppStrings.searchForRooms.tr(),
                 style: Theme.of(context).textTheme.titleLarge),
           );
         case SearchRequestStatus.loading:

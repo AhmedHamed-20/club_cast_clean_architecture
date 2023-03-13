@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entite.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -189,7 +191,8 @@ class ConstVar {
   static late Socket socket;
   static LayoutBottomSheetStatus layoutBottomSheetStatus =
       LayoutBottomSheetStatus.idle;
-
+  static const Locale enLocale = Locale('en', 'US');
+  static const Locale arLocale = Locale('ar', 'EG');
   static String appThemeKey = 'themeValue';
   static String appColorKey = 'AppColorsValue';
 }
@@ -221,7 +224,7 @@ void checkOnTabOnRoomCardLogic({
       ),
     );
     flutterToast(
-      msg: 'Joining room ...',
+      msg: AppStrings.joiningRoom.tr(),
       backgroundColor: AppColors.toastWarning,
       textColor: AppColors.black,
     );
@@ -233,7 +236,7 @@ void checkOnTabOnRoomCardLogic({
   } else {
     if (isCreateRoom == true) {
       flutterToast(
-        msg: 'You are admin in another room please leave it first',
+        msg: AppStrings.youAreAdminInAnotherRoom.tr(),
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black,
       );
@@ -241,7 +244,7 @@ void checkOnTabOnRoomCardLogic({
       socketsVoiceBloc.add(const LeaveRoomEvent());
       chatBloc.add(const LeaveChatRoomEvent());
       flutterToast(
-        msg: 'Joining another room ...',
+        msg: AppStrings.joiningRoom.tr(),
         backgroundColor: AppColors.toastWarning,
         textColor: AppColors.black,
       );
@@ -285,4 +288,5 @@ class AssetsPath {
       'assets/audio/userBecomeAudience.wav';
   static const String adminLeftAudio = 'assets/audio/adminLeft.wav';
   static const String imageLogo = 'assets/images/logo.png';
+  static const String languagesPath = 'assets/translations';
 }

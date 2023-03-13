@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_user_image_button_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +22,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
       scrollable: true,
       backgroundColor: Theme.of(context).colorScheme.background,
       title: Text(
-        'Change Profile Image',
+        AppStrings.changeProfileImage.tr(),
         style: Theme.of(context).textTheme.titleLarge,
       ),
       content: BlocBuilder<UserProfileBloc, UserProfileState>(
@@ -28,7 +30,7 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
           return Column(
             children: [
               Text(
-                'Do you want to change your profile image?',
+                AppStrings.doYouWantToChangeYourProfileImage.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(
@@ -65,8 +67,8 @@ class ChangePhotoAlertDialogWidget extends StatelessWidget {
                       },
                       child: Text(
                         state.pickedUserProfileImageFilePath != ''
-                            ? 'Pick Another Image'
-                            : 'Pick From Gallery',
+                            ? AppStrings.pickAnotherImage.tr()
+                            : AppStrings.pickAnImage.tr(),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),

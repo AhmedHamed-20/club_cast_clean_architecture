@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,18 +29,20 @@ class LogoutAlertDialogWidget extends StatelessWidget {
       },
       child: AlertDialog(
         title: Text(
-          'Logout',
+          AppStrings.logout.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        content: Text('Are you sure you want to logout?',
-            style: Theme.of(context).textTheme.titleMedium),
+        content: Text(
+          AppStrings.areYouSureYouWantToLogout.tr(),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: Text(
-              'No',
+              AppStrings.no.tr(),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -46,19 +50,21 @@ class LogoutAlertDialogWidget extends StatelessWidget {
             builder: (context, state) => TextButton(
               onPressed: () {
                 if (state.layoutBottomSheetStatus.index == 0) {
-                  BlocProvider.of<LayoutBloc>(context)
-                      .add(const AccessTokenRemoveEvent(key: 'accessToken'));
+                  BlocProvider.of<LayoutBloc>(context).add(
+                      const AccessTokenRemoveEvent(
+                          key: AppStrings.accessTokenKey));
                 } else {
                   flutterToast(
-                    msg:
-                        'Your are listening to a podcast or in a room now , please stop it first',
+                    msg: AppStrings.youAreListeningToPodcastOrRoom.tr(),
                     backgroundColor: AppColors.toastWarning,
                     textColor: AppColors.black,
                   );
                 }
               },
-              child:
-                  Text('Yes', style: Theme.of(context).textTheme.titleMedium),
+              child: Text(
+                AppStrings.yes.tr(),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           ),
         ],

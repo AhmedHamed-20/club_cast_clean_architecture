@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/apply_event_changes_button_design.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +19,7 @@ class ApplyChangesButtonWidget extends StatelessWidget {
         if (state.myEventUpdateRequestStatus ==
             MyDataUpdateRequestStatus.updated) {
           flutterToast(
-              msg: 'Event Updated',
+              msg: AppStrings.eventUpdated.tr(),
               backgroundColor: AppColors.toastSuccess,
               textColor: AppColors.white);
           Navigator.of(context).pop();

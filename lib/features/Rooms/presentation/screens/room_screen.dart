@@ -1,8 +1,10 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../widgets/AllRoomsWidgets/icomiong_messages_app_bar_icon.dart';
+import '../widgets/AllRoomsWidgets/incomiong_messages_app_bar_icon.dart';
 import '../widgets/AllRoomsWidgets/show_recoding_path_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/live_voice_room_widget.dart';
 import '../widgets/LiveVoicRoomWidgets/room_name_leave_widget.dart';
@@ -28,12 +30,12 @@ class RoomScreen extends StatelessWidget {
           bottom: TabBar(
             indicatorColor: Theme.of(context).primaryColor,
             indicatorSize: TabBarIndicatorSize.label,
-            tabs: const [
+            tabs: [
               Tab(
-                text: 'Live Voice Room',
+                text: AppStrings.liveVoiceRoom.tr(),
               ),
               Tab(
-                text: 'Room Chat',
+                text: AppStrings.roomChat.tr(),
               ),
             ],
             labelStyle: Theme.of(context).textTheme.titleLarge,

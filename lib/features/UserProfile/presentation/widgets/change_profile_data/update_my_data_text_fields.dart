@@ -1,5 +1,7 @@
 import 'package:club_cast_clean_architecture/core/ValidationHelper/validation_helper.dart';
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +52,7 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
                   color: Theme.of(context).iconTheme.color,
                 ),
                 context: context,
-                labelText: 'Name',
+                labelText: AppStrings.name.tr(),
                 validator: (value) =>
                     ValidationHelper.validateName(value: value),
                 labelStyle: Theme.of(context).textTheme.titleSmall,
@@ -65,7 +67,7 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
                 ),
                 context: context,
                 labelStyle: Theme.of(context).textTheme.titleSmall,
-                labelText: 'Email',
+                labelText: AppStrings.email.tr(),
                 validator: (value) =>
                     ValidationHelper.validateEmail(value: value),
                 controller: TextEditingControllers.updateMyDataEmailController),
@@ -79,7 +81,7 @@ class _UpdateMyDataTextFieldsState extends State<UpdateMyDataTextFields> {
                 ),
                 context: context,
                 labelStyle: Theme.of(context).textTheme.titleSmall,
-                labelText: 'Bio',
+                labelText: AppStrings.bio.tr(),
                 validator: (value) =>
                     ValidationHelper.validateBio(value: value),
                 controller: TextEditingControllers.updateMyDataBioController),

@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,14 +56,14 @@ class MainOtherUserProfileWidget extends StatelessWidget {
                             tabs: [
                               Tab(
                                 child: Text(
-                                  'Podcasts',
+                                  AppStrings.podcasts.tr(),
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
                               ),
                               Tab(
                                 child: Text(
-                                  'Events',
+                                  AppStrings.events.tr(),
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
@@ -84,7 +86,8 @@ class MainOtherUserProfileWidget extends StatelessWidget {
                     ? const OtherUserEventsWidget()
                     : Center(
                         child: Text(
-                          'You need to follow this user to see their events',
+                          AppStrings.youNeedToFollowThisUserToSeeTheirEvents
+                              .tr(),
                           style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.center,
                         ),

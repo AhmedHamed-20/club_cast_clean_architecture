@@ -3,6 +3,7 @@ part of 'layout_bloc.dart';
 class LayoutState extends Equatable {
   final UserDataEntitie? userDataEntitie;
   final String errorMessage;
+  final AppLanguages appLanguages;
   final LayoutBottomSheetStatus layoutBottomSheetStatus;
   final UserDataGetRequestStatus userDataGetRequestStatus;
   final UserDataGetRequestStatus getAccessTokenRequestStatus;
@@ -22,6 +23,7 @@ class LayoutState extends Equatable {
       {this.userDataEntitie,
       this.errorMessage = '',
       this.categoryEntitie,
+      this.appLanguages = AppLanguages.en,
       this.baseThemeClass = const MaterialBaseline(),
       this.appColorsValue = AppColorsValue.materialBaseLine,
       this.themeModeValue = ThemeModeValue.lightMode,
@@ -39,6 +41,7 @@ class LayoutState extends Equatable {
 
   LayoutState copyWith({
     bool? isEndOfEvents,
+    AppLanguages? appLanguages,
     int? statusCode,
     LayoutBottomSheetStatus? layoutBottomSheetStatus,
     AccessTokenUpdateRequestStatus? accessTokenUpdateRequestStatus,
@@ -57,6 +60,7 @@ class LayoutState extends Equatable {
     AppColorsValue? appColorsValue,
   }) {
     return LayoutState(
+      appLanguages: appLanguages ?? this.appLanguages,
       layoutBottomSheetStatus:
           layoutBottomSheetStatus ?? this.layoutBottomSheetStatus,
       isEndOfEvents: isEndOfEvents ?? this.isEndOfEvents,
@@ -87,6 +91,7 @@ class LayoutState extends Equatable {
 
   @override
   List<Object?> get props => [
+        appLanguages,
         isEndOfEvents,
         statusCode,
         layoutBottomSheetStatus,

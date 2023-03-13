@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +20,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
     return [
       PopupMenuItem(
         child: Text(
-          'Make Him Listener',
+          AppStrings.makeHimListener.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -43,13 +45,15 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               isMuted: !activeRoomUserDataEntitie.iMuteHim));
         },
         child: Text(
-          activeRoomUserDataEntitie.iMuteHim ? 'unMute' : 'Mute',
+          activeRoomUserDataEntitie.iMuteHim
+              ? AppStrings.unMute.tr()
+              : AppStrings.mute.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       PopupMenuItem(
         child: Text(
-          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          '${AppStrings.chatWith.tr()} ${activeRoomUserDataEntitie.name} ${AppStrings.inPrivate.tr()}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -73,7 +77,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
       ),
       PopupMenuItem(
         child: Text(
-          'View Profile',
+          AppStrings.viewProfile.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -95,7 +99,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
     return [
       PopupMenuItem(
         child: Text(
-          'Return To Listeners',
+          AppStrings.returnToListeners.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -113,13 +117,15 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               isMuted: !activeRoomUserDataEntitie.iMuteHim));
         },
         child: Text(
-          activeRoomUserDataEntitie.iMuteHim ? 'unMute' : 'Mute',
+          activeRoomUserDataEntitie.iMuteHim
+              ? AppStrings.unMute.tr()
+              : AppStrings.mute.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       PopupMenuItem(
         child: Text(
-          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          '${AppStrings.chatWith.tr()} ${activeRoomUserDataEntitie.name} ${AppStrings.inPrivate.tr()}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -143,7 +149,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
       ),
       PopupMenuItem(
         child: Text(
-          'View Profile',
+          AppStrings.viewProfile.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {

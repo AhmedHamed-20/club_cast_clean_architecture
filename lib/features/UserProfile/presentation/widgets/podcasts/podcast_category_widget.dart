@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/layout/domain/entities/category_info_entitie.dart';
 import '../../../../../core/layout/presentation/bloc/layout_bloc.dart';
@@ -18,7 +20,7 @@ class PodcastCategoryWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Podcast Category',
+          AppStrings.podcastCategory.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         BlocBuilder<LayoutBloc, LayoutState>(

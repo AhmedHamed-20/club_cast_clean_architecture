@@ -18,56 +18,60 @@ class RoomsBottomSheetWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(AppRoutesNames.roomScreen);
       },
-      child: Container(
-        color: AppColors.transparentColor,
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  joinCreateRoomEntitie.roomName,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Container(
+          color: AppColors.transparentColor,
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.p8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    joinCreateRoomEntitie.roomName,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.secondary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
-                  builder: (context, state) {
-                switch (state.liveVoiceRoomFloatingButtonStatus) {
-                  case LiveVoiceRoomFloatingButtonStatus.askToTalk:
-                    return const SizedBox.shrink();
-                  case LiveVoiceRoomFloatingButtonStatus.mute:
-                    return IconButton(
-                      onPressed: () {
-                        socketBloc.add(const MuteUnMuteLocalAudioEvent(true));
-                      },
-                      icon: Icon(
-                        state.liveVoiceRoomFloatingButtonStatus.name == 'mute'
-                            ? Icons.mic
-                            : Icons.mic_off,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    );
-                  case LiveVoiceRoomFloatingButtonStatus.unmute:
-                    return IconButton(
-                      onPressed: () {
-                        socketBloc.add(const MuteUnMuteLocalAudioEvent(false));
-                      },
-                      icon: Icon(
-                        state.liveVoiceRoomFloatingButtonStatus.name == 'mute'
-                            ? Icons.mic
-                            : Icons.mic_off,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    );
-                }
-              }),
-            ],
+                BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
+                    builder: (context, state) {
+                  switch (state.liveVoiceRoomFloatingButtonStatus) {
+                    case LiveVoiceRoomFloatingButtonStatus.askToTalk:
+                      return const SizedBox.shrink();
+                    case LiveVoiceRoomFloatingButtonStatus.mute:
+                      return IconButton(
+                        onPressed: () {
+                          socketBloc.add(const MuteUnMuteLocalAudioEvent(true));
+                        },
+                        icon: Icon(
+                          state.liveVoiceRoomFloatingButtonStatus.name == 'mute'
+                              ? Icons.mic
+                              : Icons.mic_off,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      );
+                    case LiveVoiceRoomFloatingButtonStatus.unmute:
+                      return IconButton(
+                        onPressed: () {
+                          socketBloc
+                              .add(const MuteUnMuteLocalAudioEvent(false));
+                        },
+                        icon: Icon(
+                          state.liveVoiceRoomFloatingButtonStatus.name == 'mute'
+                              ? Icons.mic
+                              : Icons.mic_off,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      );
+                  }
+                }),
+              ],
+            ),
           ),
         ),
       ),

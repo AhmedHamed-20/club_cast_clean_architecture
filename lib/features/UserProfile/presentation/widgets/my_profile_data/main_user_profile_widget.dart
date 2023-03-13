@@ -1,8 +1,10 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/my_profile_data/photo_name_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,12 +56,14 @@ class MainUserProfileWidget extends StatelessWidget {
                     Defaults.defaultButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed(
-                            AppRoutesNames.updateBasicUserDataInoScreen,
-                            arguments: UpdateUserProfileBasicDataScreenParams(
-                                userprofileBloc));
+                          AppRoutesNames.updateBasicUserDataInoScreen,
+                          arguments: UpdateUserProfileBasicDataScreenParams(
+                            userprofileBloc,
+                          ),
+                        );
                       },
                       context: context,
-                      text: 'Edit Profile',
+                      text: AppStrings.editProfile.tr(),
                     ),
                     SizedBox(
                       height: AppHeight.h10,
@@ -73,13 +77,13 @@ class MainUserProfileWidget extends StatelessWidget {
                           tabs: [
                             Tab(
                               child: Text(
-                                'Podcasts',
+                                AppStrings.podcasts.tr(),
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
                             Tab(
                               child: Text(
-                                'Events',
+                                AppStrings.events.tr(),
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),

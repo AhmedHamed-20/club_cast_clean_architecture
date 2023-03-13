@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 bool isPublic = true;
@@ -20,14 +22,14 @@ class RoomStatusWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Public',
+                        AppStrings.public.tr(),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       SizedBox(
                         height: AppHeight.h6,
                       ),
                       Text(
-                        'Anyone can join',
+                        AppStrings.anyoneCanJoin.tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).colorScheme.tertiary),
                       ),
@@ -39,14 +41,14 @@ class RoomStatusWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Private',
+                        AppStrings.private.tr(),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       SizedBox(
                         height: AppHeight.h6,
                       ),
                       Text(
-                        'Only people with the code can join',
+                        AppStrings.onlyPeopleWithTheLinkCanJoin.tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).colorScheme.tertiary),
                       ),
