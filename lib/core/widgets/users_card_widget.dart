@@ -13,46 +13,49 @@ class UserCardWidget extends StatelessWidget {
   final String? createdAt;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CachedNetworkImage(
-        imageUrl: userPhoto,
-        imageBuilder: (context, imageProvider) => Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage('assets/images/noImage.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-      title: Text(
-        userName,
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      subtitle: createdAt != null
-          ? Text(
-              DateTimeFormat.format(
-                DateTime.parse(createdAt!).toLocal(),
-                format: 'D, M j, H:i',
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: ListTile(
+        leading: CachedNetworkImage(
+          imageUrl: userPhoto,
+          imageBuilder: (context, imageProvider) => Container(
+            width: 50.0,
+            height: 50.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
               ),
-              style: Theme.of(context).textTheme.titleSmall,
-            )
-          : const SizedBox.shrink(),
+            ),
+          ),
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Container(
+            width: 50.0,
+            height: 50.0,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/noImage.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+          userName,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        subtitle: createdAt != null
+            ? Text(
+                DateTimeFormat.format(
+                  DateTime.parse(createdAt!).toLocal(),
+                  format: 'D, M j, H:i',
+                ),
+                style: Theme.of(context).textTheme.titleSmall,
+              )
+            : const SizedBox.shrink(),
+      ),
     );
   }
 }

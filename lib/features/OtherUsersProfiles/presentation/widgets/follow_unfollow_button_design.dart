@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widgets/defaults.dart';
 import '../bloc/otherusersprofiles_bloc.dart';
@@ -29,6 +31,8 @@ class FollowUnfollowButtonDesign extends StatelessWidget {
           }
         },
         context: context,
-        text: state.isFollowed ? 'UnFollow' : 'Follow');
+        text: state.isFollowed
+            ? AppStrings.unfollow.tr()
+            : AppStrings.follow.tr());
   }
 }

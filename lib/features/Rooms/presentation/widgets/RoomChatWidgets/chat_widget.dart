@@ -34,9 +34,12 @@ class _ChatWidgetState extends State<ChatWidget> {
             controller: chatRoomScrollController,
             itemCount: state.roomMessageEntitie.roomMessages.length,
             itemBuilder: (context, index) {
-              return ChatTextCardWidget(
-                roomMessageDataEntitie:
-                    state.roomMessageEntitie.roomMessages[index],
+              return Directionality(
+                textDirection: TextDirection.ltr,
+                child: ChatTextCardWidget(
+                  roomMessageDataEntitie:
+                      state.roomMessageEntitie.roomMessages[index],
+                ),
               );
             });
       }),

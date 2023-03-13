@@ -54,6 +54,7 @@ class _PrivateChatRoomMessagesWidgetState
                   .length,
               itemBuilder: (context, index) {
                 return ChatTextCardWidget(
+                  isPrivateChat: true,
                   roomMessageDataEntitie: state.privateChatMessages![
                       widget.params.roomUserDataEntitie.id]![index],
                 );

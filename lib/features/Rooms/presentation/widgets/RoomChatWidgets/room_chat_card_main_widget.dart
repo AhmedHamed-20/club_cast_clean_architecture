@@ -9,10 +9,11 @@ class RoomChatCardMainWidget extends StatelessWidget {
   const RoomChatCardMainWidget({
     super.key,
     required this.roomMessageDataEntitie,
+    this.isPrivateChat = false,
   });
 
   final RoomMessageDataEntitie roomMessageDataEntitie;
-
+  final bool isPrivateChat;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,7 +22,7 @@ class RoomChatCardMainWidget extends StatelessWidget {
           ? MainAxisAlignment.end
           : MainAxisAlignment.start,
       children: [
-        if (!roomMessageDataEntitie.isMine!)
+        if (!roomMessageDataEntitie.isMine! && isPrivateChat == false)
           RoomChatCardUserPhotoWidget(
               roomMessageDataEntitie: roomMessageDataEntitie),
         Flexible(

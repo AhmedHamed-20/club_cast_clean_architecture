@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'change_app_colors_widget.dart';
+import 'change_app_language_widget.dart';
 import 'change_app_theme_value.dart';
 
 class ThemeChangeBottomSheetWidget extends StatelessWidget {
@@ -13,32 +14,39 @@ class ThemeChangeBottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQueryOfMethods.getAppHeight(context) * 0.7,
+      height: MediaQueryOfMethods.getAppHeight(context) * 0.8,
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text(
-                AppStrings.customizeAppTheme.tr(),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  AppStrings.appSettings.tr(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              SizedBox(
+                height: AppHeight.h12,
+              ),
+              Text(
+                AppStrings.appTheme.tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-            SizedBox(
-              height: AppHeight.h12,
-            ),
-            Text(
-              AppStrings.appTheme.tr(),
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const ChangeAppThemeValueWidget(),
-            Text(
-              AppStrings.appColors.tr(),
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const ChangeAppColorsWidget(),
-          ],
+              const ChangeAppThemeValueWidget(),
+              Text(
+                AppStrings.appColors.tr(),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const ChangeAppColorsWidget(),
+              Text(
+                AppStrings.changeAppLanguage.tr(),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const ChangeAppLanguageWidget(),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_app_languages.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_active_user_data.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_categories.dart';
@@ -35,6 +36,7 @@ import '../../../widgets/cached_network_image_circle_photo.dart';
 import '../../domain/usecases/cache_active_color_value.dart';
 import '../../domain/usecases/cache_active_theme_value.dart';
 import '../../domain/usecases/get_cached_app_color_value.dart';
+import '../../domain/usecases/get_cached_app_language.dart';
 import '../../domain/usecases/get_cached_theme_value.dart';
 import '../../domain/usecases/update_cached_access_token.dart';
 
@@ -52,6 +54,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       this.themeDataValueCacheUssecase,
       this.getCachedAppColorValueFromCacheUssecase,
       this.cacheAppColorValueUsecase,
+      this.cacheAppLanguageUsecase,
+      this.getCachedAppLanguageUsecase,
       this.cachedAccessTokenUpdateUsecase)
       : super(const LayoutState()) {
     on<ActiveUserDataGetEvent>(_getActiveUserData);
@@ -67,6 +71,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
     on<GetChachedThemeValueEvent>(_getThemeValue);
     on<GetCachedAppColorsValueEvent>(_getCachedAppColor);
     on<CacheAppColorsValueEvent>(_cacheAppColor);
+    on<CacheAppLanguageEvent>(_cacheAppLanguage);
+    on<GetCachedAppLanguageEvent>(_getCachedAppLanguage);
   }
   final ActiveUserDataGetUseCase activeUserDataGetUseCase;
   final CachedAccessTokenGetUsecase cachedAccessTokenGetUsecase;
@@ -79,6 +85,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   final CacheAppColorValueUsecase cacheAppColorValueUsecase;
   final GetCachedAppColorValueFromCacheUssecase
       getCachedAppColorValueFromCacheUssecase;
+  final CacheAppLanguageUsecase cacheAppLanguageUsecase;
+  final GetCachedAppLanguageUsecase getCachedAppLanguageUsecase;
   final List<String> availbleAppColors = [
     'Materia Base Line',
     'Amber',
@@ -110,12 +118,12 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
                 photoRadius: phototRadius, photoUrl: photoUrl),
             label: ''),
       ];
-  final appBarTitles = [
-    AppStrings.home.tr(),
-    AppStrings.podcasts.tr(),
+  var appBarTitles = [
+    AppStrings.home,
+    AppStrings.podcasts,
     '',
-    AppStrings.search.tr(),
-    AppStrings.yourProfile.tr(),
+    AppStrings.search,
+    AppStrings.yourProfile,
   ];
 
   final List<Widget> bottomNaveScreens = [
@@ -375,6 +383,34 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
 
     result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
       add(GetCachedAppColorsValueEvent(key: event.key));
+    });
+  }
+
+  FutureOr<void> _cacheAppLanguage(
+      CacheAppLanguageEvent event, Emitter<LayoutState> emit) async {
+    final result = await cacheAppLanguageUsecase(
+        AppLaguagesCacheParams(key: event.key, value: event.language));
+
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      event.context.setLocale(state.appLanguages.index == 0
+          ? ConstVar.arLocale
+          : ConstVar.enLocale);
+      emit(
+        state.copyWith(
+          appLanguages:
+              state.appLanguages.index == 0 ? AppLanguages.ar : AppLanguages.en,
+        ),
+      );
+    });
+  }
+
+  FutureOr<void> _getCachedAppLanguage(
+      GetCachedAppLanguageEvent event, Emitter<LayoutState> emit) async {
+    final result = await getCachedAppLanguageUsecase(
+        GetCachedAppLanguageParams(event.key));
+    result.fold((l) => emit(state.copyWith(errorMessage: l.message)), (r) {
+      emit(state.copyWith(
+          appLanguages: r == 'en' ? AppLanguages.en : AppLanguages.ar));
     });
   }
 }

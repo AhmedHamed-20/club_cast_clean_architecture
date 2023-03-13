@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/routes/app_route_names.dart';
@@ -14,7 +16,7 @@ class DontHaveAccountWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Don\'t have an account ?',
+          AppStrings.dontHaveAnAccount.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Defaults.defaultTextButton(
@@ -22,7 +24,7 @@ class DontHaveAccountWidget extends StatelessWidget {
             Navigator.of(context).pushNamed(AppRoutesNames.signUpScreen);
           },
           child: Text(
-            'SignUp',
+            AppStrings.signUp.tr(),
             style: Theme.of(context)
                 .textTheme
                 .titleMedium

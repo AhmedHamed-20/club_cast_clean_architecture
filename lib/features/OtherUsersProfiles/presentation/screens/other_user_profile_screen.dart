@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +34,7 @@ class OtherUserProfileScreen extends StatelessWidget {
           iconTheme: Theme.of(context).iconTheme,
           centerTitle: true,
           title: Text(
-            'User Profile Details',
+            AppStrings.userProfileDetails.tr(),
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),

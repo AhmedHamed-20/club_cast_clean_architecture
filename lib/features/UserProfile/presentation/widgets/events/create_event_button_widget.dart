@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/create_event_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/create_event_button_widget_design.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +18,7 @@ class CreateEventButtonWidget extends StatelessWidget {
         listener: (context, state) {
       if (state.eventCreateRequestStatus == EventCreateRequestStatus.success) {
         flutterToast(
-            msg: 'Event Updated',
+            msg: AppStrings.eventCreated.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         Navigator.of(context).pop();

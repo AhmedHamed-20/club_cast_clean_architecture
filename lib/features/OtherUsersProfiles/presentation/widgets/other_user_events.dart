@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,14 +23,14 @@ class OtherUserEventsWidget extends StatelessWidget {
           if (state.otherUserEventsEntitie!.events.isEmpty) {
             return Center(
                 child: Text(
-              'No Events TO Show',
+              AppStrings.noEvents.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ));
           } else {
             return Column(
               children: [
                 Text(
-                  'user events: ${state.otherUserEventsEntitie!.events.length}',
+                  '${AppStrings.events.tr()}: ${state.otherUserEventsEntitie!.events.length}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(

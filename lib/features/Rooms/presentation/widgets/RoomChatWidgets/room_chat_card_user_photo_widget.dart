@@ -50,7 +50,7 @@ class RoomChatCardUserPhotoWidget extends StatelessWidget {
           },
           value: 2,
           child: Text(
-            '${AppStrings.chatWith.tr()} ${roomMessageDataEntitie.user!.name} in ${AppStrings.private.tr()}}',
+            '${AppStrings.chatWith.tr()} ${roomMessageDataEntitie.user!.name} ${AppStrings.inPrivate.tr()}',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

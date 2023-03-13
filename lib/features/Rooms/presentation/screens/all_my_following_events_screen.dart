@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
 import 'package:club_cast_clean_architecture/core/widgets/events_card_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,7 +46,7 @@ class _AllMyFollowingEventsScreenState
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'All My Following Events',
+          AppStrings.allMyFollowingEvents.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),

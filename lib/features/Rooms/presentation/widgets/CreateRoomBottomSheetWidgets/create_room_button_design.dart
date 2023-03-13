@@ -52,7 +52,7 @@ class CreateRoomButtonDesign extends StatelessWidget {
           }
         },
         child: Text(
-          AppStrings.createEvent.tr(),
+          AppStrings.createRoom.tr(),
           style: Theme.of(context)
               .textTheme
               .titleMedium

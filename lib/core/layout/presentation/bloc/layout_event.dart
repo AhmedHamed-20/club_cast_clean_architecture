@@ -138,3 +138,26 @@ class CacheAppColorsValueEvent extends LayoutEvent {
   @override
   List<Object?> get props => [key, color];
 }
+
+class CacheAppLanguageEvent extends LayoutEvent {
+  final String key;
+  final String language;
+  final BuildContext context;
+  const CacheAppLanguageEvent(
+      {required this.key, required this.language, required this.context});
+
+  @override
+  List<Object?> get props => [key, language, context];
+}
+
+class GetCachedAppLanguageEvent extends LayoutEvent {
+  final String key;
+  const GetCachedAppLanguageEvent({
+    required this.key,
+  });
+
+  @override
+  List<Object?> get props => [
+        key,
+      ];
+}

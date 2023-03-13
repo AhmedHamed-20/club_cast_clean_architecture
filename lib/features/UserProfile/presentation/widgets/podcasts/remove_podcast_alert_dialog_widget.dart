@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +23,7 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
       if (state.myPodCastRemoveRequestStatus ==
           MyDataRemoveRequestStatus.removed) {
         flutterToast(
-            msg: 'Podcast Removed',
+            msg: AppStrings.podcastRemoved.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         Navigator.of(context).pop();
@@ -41,39 +43,33 @@ class RemovePodcastAlertDialogWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.r12)),
             title: Text(
-              'Are You Sure ?',
+              AppStrings.areYouSure.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             content: Text(
-              'Remove this $podcastName podcast',
+              '${AppStrings.removeThis.tr()} $podcastName ${AppStrings.podcast.tr()}',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'No',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      myPodcastBloc.add(PodcastRemoveEvent(
-                          accessToken: ConstVar.accessToken,
-                          podcastId: podcastId));
-                    },
-                    child: Text(
-                      'Yes',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                ],
-              )
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  AppStrings.no.tr(),
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  myPodcastBloc.add(PodcastRemoveEvent(
+                      accessToken: ConstVar.accessToken, podcastId: podcastId));
+                },
+                child: Text(
+                  AppStrings.yes.tr(),
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
             ],
           );
         case MyDataRemoveRequestStatus.loading:

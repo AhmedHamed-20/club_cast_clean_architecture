@@ -9,9 +9,13 @@ import '../../../../../core/constants/constants.dart';
 import '../../bloc/sockets/chat/chat_bloc.dart';
 
 class ChatTextCardWidget extends StatelessWidget {
-  const ChatTextCardWidget({super.key, required this.roomMessageDataEntitie});
+  const ChatTextCardWidget(
+      {super.key,
+      required this.roomMessageDataEntitie,
+      this.isPrivateChat = false});
 
   final RoomMessageDataEntitie roomMessageDataEntitie;
+  final bool isPrivateChat;
   @override
   Widget build(BuildContext context) {
     final chatBloc = BlocProvider.of<ChatBloc>(context);
@@ -50,6 +54,7 @@ class ChatTextCardWidget extends StatelessWidget {
                 )
               : Flexible(
                   child: RoomChatCardMainWidget(
+                      isPrivateChat: isPrivateChat,
                       roomMessageDataEntitie: roomMessageDataEntitie),
                 ),
         ],

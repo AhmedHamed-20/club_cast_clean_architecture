@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +30,7 @@ class OtherUserPodcastsWidget extends StatelessWidget {
                 .otherUserPodcastEntitie!.otherUserPodcastDataEntitie.isEmpty) {
               return Center(
                 child: Text(
-                  'No Podcasts Found',
+                  AppStrings.noPodcasts.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               );
@@ -36,7 +38,7 @@ class OtherUserPodcastsWidget extends StatelessWidget {
               return Column(
                 children: [
                   Text(
-                    'User Podcasts ${state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie.length}',
+                    '${AppStrings.podcasts.tr()}: ${state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie.length}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(

@@ -26,48 +26,51 @@ class PodcastCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: podcastCardCallBacksParams.onPressedOnCard,
-      child: Card(
-        elevation: AppElevation.eL4,
-        color: Theme.of(context).colorScheme.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            AppRadius.r22,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Card(
+          elevation: AppElevation.eL4,
+          color: Theme.of(context).colorScheme.background,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              AppRadius.r22,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PodcastCardNameAndPlayOrRemoveWidget(
-                podcastEntitie: podcastEntitie,
-                isMyProfile: isMyProfile,
-                podcastCardCallBacksParams: podcastCardCallBacksParams),
-            PodcastCategoryAndPlayWidget(
-                podcastEntitie: podcastEntitie,
-                isMyProfile: isMyProfile,
-                podcastCardCallBacksParams: podcastCardCallBacksParams),
-            PodcastDurationAndDownloadWidget(
-                podcastDurathion: podcastDurathion,
-                podcastEntitie: podcastEntitie,
-                podcastCardCallBacksParams: podcastCardCallBacksParams),
-            Container(
-              width: double.infinity,
-              height: 80,
-              padding: const EdgeInsets.all(AppPadding.p12),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(AppRadius.r22),
-                  bottomRight: Radius.circular(
-                    AppRadius.r22,
-                  ),
-                ),
-              ),
-              child: PodcastCardBottomRowWidget(
-                  onPressedOnLike: onPressedOnLike,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PodcastCardNameAndPlayOrRemoveWidget(
+                  podcastEntitie: podcastEntitie,
+                  isMyProfile: isMyProfile,
+                  podcastCardCallBacksParams: podcastCardCallBacksParams),
+              PodcastCategoryAndPlayWidget(
+                  podcastEntitie: podcastEntitie,
+                  isMyProfile: isMyProfile,
+                  podcastCardCallBacksParams: podcastCardCallBacksParams),
+              PodcastDurationAndDownloadWidget(
+                  podcastDurathion: podcastDurathion,
                   podcastEntitie: podcastEntitie,
                   podcastCardCallBacksParams: podcastCardCallBacksParams),
-            ),
-          ],
+              Container(
+                width: double.infinity,
+                height: 80,
+                padding: const EdgeInsets.all(AppPadding.p12),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(AppRadius.r22),
+                    bottomRight: Radius.circular(
+                      AppRadius.r22,
+                    ),
+                  ),
+                ),
+                child: PodcastCardBottomRowWidget(
+                    onPressedOnLike: onPressedOnLike,
+                    podcastEntitie: podcastEntitie,
+                    podcastCardCallBacksParams: podcastCardCallBacksParams),
+              ),
+            ],
+          ),
         ),
       ),
     );

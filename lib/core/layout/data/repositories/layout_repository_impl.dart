@@ -7,8 +7,10 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/repositories/base_layout_repository.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_active_color_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_active_theme_value.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_app_languages.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_app_color_value.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_app_language.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_theme_value.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_following_events.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
@@ -160,6 +162,37 @@ class LayoutRepositoryImpl extends BaseLayoutRepository {
     try {
       final result =
           await baseLayoutLocalDataSource.getCachedAppColorValue(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        CacheFailure(
+          message: exception.serverErrorMessageModel.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheAppLanguage(
+      AppLaguagesCacheParams params) async {
+    try {
+      final result = await baseLayoutLocalDataSource.cacheAppLanguage(params);
+      return Right(result);
+    } on ServerException catch (exception) {
+      return Left(
+        CacheFailure(
+          message: exception.serverErrorMessageModel.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> getCachedAppLanguageValue(
+      GetCachedAppLanguageParams params) async {
+    try {
+      final result =
+          await baseLayoutLocalDataSource.getCachedAppLangaugeValue(params);
       return Right(result);
     } on ServerException catch (exception) {
       return Left(

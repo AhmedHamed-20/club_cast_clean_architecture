@@ -21,7 +21,7 @@ class UserProfileAppBarIconsWidget extends StatelessWidget {
                   return const ThemeChangeBottomSheetWidget();
                 });
           },
-          icon: const Icon(Icons.brush),
+          icon: const Icon(Icons.settings),
         ),
         IconButton(
             onPressed: () {

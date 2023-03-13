@@ -11,7 +11,23 @@ class AppStrings {
   static const String noEvents = "no_events";
   static const String allRooms = "all_rooms";
   static const String users = "users";
+  static const String eventCreated = "event_created";
+  static const String removePodcast = "remove_podcast";
+  static const String podcastRemoved = "podcast_removed";
+  static const String pleasePickADate = "please_pick_a_date";
+  static const String areYouSure = "are_you_sure";
+  static const String allMyFollowingEvents = "all_my_following_events";
+  static const String youCanNotScheduleNotificationInPast =
+      "you_can_not_schedule_notification_in_past";
+  static const String youWillBeNotifiedAtEventDate =
+      "you_will_be_notified_at_event_date";
+  static const String changeAppLanguage = "change_app_language";
   static const String rooms = "rooms";
+  static const String podcast = "podcast";
+  static const String removeThis = "remove_this";
+  static const String appSettings = "app_settings";
+  static const String english = "english";
+  static const String arabic = "arabic";
   static const String adminLeft = "admin_left_room";
   static const String roomEnded = "room_ended";
   static const String editEvent = "edit_event";
@@ -40,14 +56,14 @@ class AppStrings {
   static const String leave = "leave";
   static const String leaveRoom = "leave_room";
   static const String areYouSureYouWantToLeaveTheRoom =
-      "are_you_sure_you_want_to_leave_the_room";
+      "are_you_sure_you_want_to_leave_this_room";
   static const String ifYouLeftTheRoomWillBeDeleted =
       "if_you_leaved_room_will_be_deleted";
   static const String broadcasters = "broadcasters";
   static const String audience = "audience";
   static const String youAreAdminInAnotherRoom =
       "You_are_admin_in_another_room_please_leave_it_first";
-  static const String joiningRoom = "Joining room";
+  static const String joiningRoom = "joining_room";
   static const String areYouSureYouWantToDeleteThisEvent =
       "are_you_sure_you_want_to_delete_this_event";
   static const String delete = "delete";
@@ -61,12 +77,19 @@ class AppStrings {
   static const String podcastUploaded = "podcast_uploaded";
   static const String eventRemoved = "event_removed";
   static const String title = "title";
+  static const String userProfileDetails = "user_profile_details";
   static const String noMessagesYet = "no_messages_yet";
   static const String chatWith = "chat_with";
   static const String deleteMessage = "delete_message";
   static const String viewProfile = "view_profile";
   static const String date = "date";
+  static const String follow = "follow";
+  static const String unfollow = "unfollow";
+  static const String noPodcasts = "no_podcasts";
   static const String roomChat = "room_chat";
+  static const String podcastLikes = "podcast_likes";
+  static const String youNeedToFollowThisUserToSeeTheirEvents =
+      "you_need_to_follow_this_user_to_see_their_events";
   static const String privateMesages = "private_messages";
   static const String noPrivateMessages = "no_private_messages";
   static const String reply = 'reply';
@@ -101,6 +124,8 @@ class AppStrings {
   static const String youAreListeningToPodcastOrRoom =
       "your_listening_to_podcast_or_room";
   static const String podcastName = "podcast_name";
+  static const String noPodcastsFollowSomeUsers =
+      "no_podcasts_follow_some_users";
   static const String podcastCategory = "podcast_category";
   static const String pickAFile = "pick_a_file";
   static const String explorePodcasts = "explore_podcasts";
@@ -172,4 +197,5 @@ class AppStrings {
   static const String roomIdMustBe24Characters =
       'room_id_must_be_24_characters';
   static const String accessTokenKey = 'accessToken';
+  static const String appLanguageKey = 'appLanguage';
 }
