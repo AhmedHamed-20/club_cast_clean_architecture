@@ -5,6 +5,7 @@ import 'package:club_cast_clean_architecture/core/services/service_locator.dart'
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,12 +20,19 @@ void main() async {
   ServiceLocator.init();
   await ServiceLocator.initDio();
   await ServiceLocator.initSharedPref();
+  await EasyLocalization.ensureInitialized();
   final String accessToken =
       await servicelocator<CacheHelper>().getData(key: 'accessToken') ?? '';
   ConstVar.accessToken = accessToken;
-  runApp(MyApp(
-    appRoutes: AppRoutes(),
-    accessToken: accessToken,
+  runApp(EasyLocalization(
+    supportedLocales: const [ConstVar.enLocale, ConstVar.arLocale],
+    path: AssetsPath
+        .languagesPath, // <-- change the path of the translation files
+    fallbackLocale: ConstVar.enLocale,
+    child: MyApp(
+      appRoutes: AppRoutes(),
+      accessToken: accessToken,
+    ),
   ));
 }
 
@@ -54,6 +62,9 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) => BlocBuilder<LayoutBloc, LayoutState>(
           builder: (context, state) => MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             title: 'Club Cast',
             theme: state.baseThemeClass.lightMode(),
             darkTheme: state.baseThemeClass.darkMode(),

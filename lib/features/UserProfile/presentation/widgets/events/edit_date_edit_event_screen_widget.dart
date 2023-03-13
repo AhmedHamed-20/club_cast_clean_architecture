@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -15,7 +17,7 @@ class EditDateEditEventScreenWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Date: ',
+          '${AppStrings.date.tr()}: ',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         StatefulBuilder(

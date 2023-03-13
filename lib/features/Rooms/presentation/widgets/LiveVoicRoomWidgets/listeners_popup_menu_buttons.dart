@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +21,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
       if (activeRoomUserDataEntitie.askedToSpeak)
         PopupMenuItem(
           child: Text(
-            'Make Him Broadcaster',
+            AppStrings.makeHimBroadcaster.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           onTap: () {
@@ -41,7 +43,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
         ),
       PopupMenuItem(
         child: Text(
-          'View Profile',
+          AppStrings.viewProfile.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -60,7 +62,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
       ),
       PopupMenuItem(
         child: Text(
-          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          '${AppStrings.chatWith.tr()} ${activeRoomUserDataEntitie.name} ${AppStrings.inPrivate.tr()}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -89,7 +91,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
     return [
       PopupMenuItem(
         child: Text(
-          'Chat With ${activeRoomUserDataEntitie.name} in Private',
+          '${AppStrings.chatWith.tr()} ${activeRoomUserDataEntitie.name} ${AppStrings.inPrivate.tr()}}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {
@@ -113,7 +115,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
       ),
       PopupMenuItem(
         child: Text(
-          'View Profile',
+          AppStrings.viewProfile.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onTap: () {

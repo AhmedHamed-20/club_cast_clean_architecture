@@ -1,7 +1,9 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +49,7 @@ class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
           centerTitle: true,
           iconTheme: Theme.of(context).iconTheme,
           title: Text(
-            'Upload Podcast',
+            AppStrings.uploadPodcast.tr(),
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -68,9 +70,9 @@ class _UploadPodcastScreenState extends State<UploadPodcastScreen> {
                     context: context,
                     validator: (value) => ValidationHelper.validateName(
                       value: value,
-                      name: 'Podcast Name',
+                      name: AppStrings.podcastName.tr(),
                     ),
-                    labelText: 'Podcast Name',
+                    labelText: AppStrings.podcastName.tr(),
                     labelStyle: Theme.of(context).textTheme.titleSmall,
                   ),
                   SizedBox(

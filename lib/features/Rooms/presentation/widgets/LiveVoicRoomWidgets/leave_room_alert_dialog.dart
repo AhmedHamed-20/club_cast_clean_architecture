@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,14 +25,14 @@ class LeaveRoomAlertDialog extends StatelessWidget {
       },
       child: AlertDialog(
         title: Text(
-          'Leave Room',
+          AppStrings.leaveRoom.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
         content: BlocBuilder<SocketsVoiceBloc, SocketsVoiceState>(
           builder: (context, state) => Text(
             state.isCreateRoom
-                ? 'Are you sure you want to leave the room? if you left the room will be deleted'
-                : 'Are you sure you want to leave the room?',
+                ? '${AppStrings.areYouSureYouWantToLeaveTheRoom.tr()} ${AppStrings.ifYouLeftTheRoomWillBeDeleted.tr()}'
+                : AppStrings.areYouSureYouWantToLeaveTheRoom.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -40,7 +42,7 @@ class LeaveRoomAlertDialog extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Cancel',
+                AppStrings.cancel.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               )),
           TextButton(
@@ -52,7 +54,7 @@ class LeaveRoomAlertDialog extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Leave',
+                AppStrings.leave.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               )),
         ],

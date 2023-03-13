@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'change_app_colors_widget.dart';
@@ -19,7 +21,7 @@ class ThemeChangeBottomSheetWidget extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Customize App Theme',
+                AppStrings.customizeAppTheme.tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -27,12 +29,12 @@ class ThemeChangeBottomSheetWidget extends StatelessWidget {
               height: AppHeight.h12,
             ),
             Text(
-              'App Theme',
+              AppStrings.appTheme.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const ChangeAppThemeValueWidget(),
             Text(
-              'App Colors',
+              AppStrings.appColors.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const ChangeAppColorsWidget(),

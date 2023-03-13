@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,15 +52,16 @@ class ErrorScreen extends StatelessWidget {
                 ? Defaults.defaultButton(
                     onPressed: () {
                       BlocProvider.of<LayoutBloc>(context).add(
-                          const AccessTokenRemoveEvent(key: 'accessToken'));
+                          const AccessTokenRemoveEvent(
+                              key: AppStrings.accessTokenKey));
                     },
                     context: context,
-                    text: 'Go to login screen',
+                    text: AppStrings.goToLoginScreen.tr(),
                   )
                 : Defaults.defaultButton(
                     onPressed: onRetry!,
                     context: context,
-                    text: 'Retry',
+                    text: AppStrings.retry.tr(),
                   ),
           ],
         ),

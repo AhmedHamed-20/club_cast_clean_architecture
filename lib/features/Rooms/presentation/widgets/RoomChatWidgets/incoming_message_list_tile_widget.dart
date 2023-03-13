@@ -1,7 +1,10 @@
 import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 
 class IncomingMessageListTileWidget extends StatelessWidget {
   const IncomingMessageListTileWidget(
@@ -37,7 +40,7 @@ class IncomingMessageListTileWidget extends StatelessWidget {
           ? Defaults.defaultTextButton(
               onPressed: onPressedOnTrailing!,
               child: Text(
-                'Reply',
+                AppStrings.reply.tr(),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall

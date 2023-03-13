@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +27,7 @@ class MyFollowingEventsWidget extends StatelessWidget {
                 height: MediaQueryOfMethods.getAppHeight(context) * 0.1,
                 child: Center(
                     child: Text(
-                  'No Events',
+                  AppStrings.noEvents.tr(),
                   style: Theme.of(context).textTheme.titleLarge,
                 )),
               );

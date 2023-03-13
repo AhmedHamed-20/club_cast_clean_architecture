@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/ValidationHelper/validation_helper.dart';
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../../core/constants/text_editing_controllers.dart';
 import '../../../../../core/widgets/defaults.dart';
 
@@ -37,7 +39,7 @@ class _RoomNameTextFieldWidgetState extends State<RoomNameTextFieldWidget> {
           value: value,
         ),
         controller: TextEditingControllers.createRoomNameController,
-        labelText: 'Room Name',
+        labelText: AppStrings.roomName.tr(),
       ),
     );
   }

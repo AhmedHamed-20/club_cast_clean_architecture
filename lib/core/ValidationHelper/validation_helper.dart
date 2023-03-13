@@ -1,3 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 class ValidationHelper {
   static String? validateEmail({
     required String? value,
@@ -7,9 +10,9 @@ class ValidationHelper {
     RegExp regex = RegExp(pattern.toString());
 
     if (value == null || value == '') {
-      return 'Please enter Email';
+      return AppStrings.pleaseEnterYourEmail.tr();
     } else if (!(regex.hasMatch(value))) {
-      return "Invalid Email";
+      return AppStrings.invalidEmail.tr();
     } else {
       return null;
     }
@@ -20,10 +23,11 @@ class ValidationHelper {
   }) {
     RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$');
     if (value == null || value == '') {
-      return 'Please enter password';
+      return AppStrings.pleaseEnterYourPassword.tr();
     } else {
       if (!regex.hasMatch(value)) {
-        return 'should contain one(upper case - digit) and minimum 8 characters)';
+        return AppStrings.shouldContainOneUpperCaseDigitAndMinimum8Characters
+            .tr();
       } else {
         return null;
       }
@@ -33,17 +37,17 @@ class ValidationHelper {
   static String? validatePassowrdConfirm(
       {required String? confirmPassword, required String password}) {
     if (confirmPassword == null || confirmPassword == '') {
-      return 'Please enter your password again';
+      return AppStrings.pleaseEnterYourPasswordAgain.tr();
     } else if (confirmPassword != password) {
-      return "Invalid Password";
+      return AppStrings.invalidPassword.tr();
     } else {
       return null;
     }
   }
 
-  static String? validateName({required String? value, String? name = 'name'}) {
+  static String? validateName({required String? value, String? name}) {
     if (value == null || value == '') {
-      return 'Please enter your $name';
+      return '${AppStrings.pleaseEnter.tr()} ${name ?? AppStrings.name.tr()}';
     } else {
       return null;
     }
@@ -51,7 +55,7 @@ class ValidationHelper {
 
   static String? validateBio({required String? value}) {
     if (value == null || value == '') {
-      return 'Please enter your bio';
+      return AppStrings.pleaseEnterYourBio.tr();
     } else {
       return null;
     }
@@ -60,11 +64,11 @@ class ValidationHelper {
   static String? validateRoomName({required String? value}) {
     RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
     if (value == null || value == '') {
-      return 'Please enter your room name';
+      return AppStrings.pleaseEnterYourRoomName.tr();
     } else if (value.length < 3) {
-      return 'Room name must be at least 3 characters';
+      return AppStrings.roomNameMustBeAtLeast3Characters.tr();
     } else if (!regex.hasMatch(value)) {
-      return 'Room name must be alphanumeric';
+      return AppStrings.roomNameMustBeAlphanumeric.tr();
     } else {
       return null;
     }
@@ -72,9 +76,9 @@ class ValidationHelper {
 
   static String? privateRoomId({required String? value}) {
     if (value == null || value == '') {
-      return 'Please enter your room id';
+      return AppStrings.pleaseEnterYourRoomId.tr();
     } else if (value.length != 24) {
-      return 'Room id must be 24 characters';
+      return AppStrings.roomIdMustBe24Characters.tr();
     } else {
       return null;
     }

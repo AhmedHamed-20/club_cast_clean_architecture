@@ -1,6 +1,8 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +26,7 @@ class CopyRoomIdWidgetIfPrivate extends StatelessWidget {
 
             if (await Clipboard.hasStrings()) {
               flutterToast(
-                  msg: 'Room Id Copied',
+                  msg: AppStrings.roomIdCopied.tr(),
                   backgroundColor: AppColors.toastSuccess,
                   textColor: AppColors.white);
             }

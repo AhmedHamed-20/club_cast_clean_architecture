@@ -29,8 +29,9 @@ class EditUserScreenUserImageWidget extends StatelessWidget {
         child: BlocBuilder<LayoutBloc, LayoutState>(
           builder: (context, layoutState) {
             return CachedNetworkImageCirclePhoto(
-                photoUrl: layoutState.userDataEntitie!.userPhoto,
-                photoRadius: 100);
+              photoUrl: layoutState.userDataEntitie!.userPhoto,
+              photoRadius: 80,
+            );
           },
         ),
       ),

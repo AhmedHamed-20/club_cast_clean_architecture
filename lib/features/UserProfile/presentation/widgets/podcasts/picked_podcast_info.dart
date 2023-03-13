@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyPodcastBloc/my_podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/upload_podcast_screen.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/podcasts/podcast_category_widget.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +27,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
       if (state.uploadPodcastRequestStatus ==
           UploadPodcastRequestStatus.podcastCreatedSucess) {
         flutterToast(
-            msg: 'Podcast Uploaded',
+            msg: AppStrings.podcastUploaded.tr(),
             backgroundColor: AppColors.toastSuccess,
             textColor: AppColors.white);
         myPodcastBloc.add(const ClearPodcastFileEvent());
@@ -35,14 +37,14 @@ class PickedPodcastInfoWidget extends StatelessWidget {
           UploadPodcastRequestStatus.error) {
         if (cancelToken.isCancelled) {
           flutterToast(
-              msg: 'Upload Cancelled',
+              msg: AppStrings.podcastUploadCancelled.tr(),
               backgroundColor: AppColors.toastSuccess,
               textColor: AppColors.white);
           myPodcastBloc.add(const ClearPodcastFileEvent());
           uploadProgress.close();
         } else {
           flutterToast(
-              msg: 'Podcast Upload Failed',
+              msg: AppStrings.podcastUploadFailed.tr(),
               backgroundColor: AppColors.toastError,
               textColor: AppColors.white);
           myPodcastBloc.add(const ClearPodcastFileEvent());
@@ -78,7 +80,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
                     }
                   },
                   context: context,
-                  text: 'Upload',
+                  text: AppStrings.uploadPodcast.tr(),
                 )
               ],
             );
@@ -109,7 +111,7 @@ class PickedPodcastInfoWidget extends StatelessWidget {
                     cancelToken = CancelToken();
                   },
                   context: context,
-                  text: 'Cancel'),
+                  text: AppStrings.cancel.tr()),
             ],
           );
         case UploadPodcastRequestStatus.podcastUploadedSuccess:

@@ -1,8 +1,10 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/change_profile_data/update_passwod_button_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +44,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
             builder: (context, state) => Defaults.defaultTextFormField(
               context: context,
               controller: TextEditingControllers.updateMyDataPasswordController,
-              labelText: 'Old Password',
+              labelText: AppStrings.password.tr(),
               validator: (value) => ValidationHelper.validatePassword(
                 value: value,
               ),
@@ -74,7 +76,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
               labelStyle: Theme.of(context).textTheme.titleSmall,
               controller:
                   TextEditingControllers.updateMyDataNewPasswordController,
-              labelText: 'New Password',
+              labelText: AppStrings.newPassword.tr(),
               validator: (value) => ValidationHelper.validatePassword(
                 value: value,
               ),
@@ -105,7 +107,7 @@ class _UpdatePasswordTextFieldsState extends State<UpdatePasswordTextFields> {
               labelStyle: Theme.of(context).textTheme.titleSmall,
               controller:
                   TextEditingControllers.updateMyDataPasswordConfirmController,
-              labelText: 'Confirm Password',
+              labelText: AppStrings.confirmPassword.tr(),
               validator: (value) => ValidationHelper.validatePassowrdConfirm(
                 confirmPassword: value,
                 password: TextEditingControllers

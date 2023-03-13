@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +25,7 @@ class ForgetPasswordButtonDesignWidget extends StatelessWidget {
         }
       },
       context: context,
-      text: 'Send',
+      text: AppStrings.sendPasswordResetLink.tr(),
     );
   }
 }

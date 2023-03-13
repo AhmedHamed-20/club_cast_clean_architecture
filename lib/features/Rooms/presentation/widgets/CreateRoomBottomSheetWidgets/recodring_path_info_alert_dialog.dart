@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class RecordingPathAlertDialogInfo extends StatelessWidget {
@@ -7,18 +9,18 @@ class RecordingPathAlertDialogInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Recording Path',
+        AppStrings.recordingPath.tr(),
         style: Theme.of(context).textTheme.titleLarge,
       ),
       content: Text(
-        'The room will be recorded and saved to Android > data > com.example.club_cast > room name',
+        '${AppStrings.roomWillBeSavedAt.tr()} Android > data > com.example.club_cast > room name',
         style: Theme.of(context).textTheme.titleSmall,
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
-            'Ok',
+            AppStrings.ok.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

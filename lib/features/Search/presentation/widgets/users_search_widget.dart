@@ -1,8 +1,10 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/core/widgets/error_screen.dart';
 import 'package:club_cast_clean_architecture/core/widgets/users_card_widget.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +21,7 @@ class UsersSearchWidget extends StatelessWidget {
       switch (state.usersSearchRequestStatus) {
         case SearchRequestStatus.idle:
           return Center(
-            child: Text('Search for users',
+            child: Text(AppStrings.searchForUsers.tr(),
                 style: Theme.of(context).textTheme.titleLarge),
           );
         case SearchRequestStatus.loading:

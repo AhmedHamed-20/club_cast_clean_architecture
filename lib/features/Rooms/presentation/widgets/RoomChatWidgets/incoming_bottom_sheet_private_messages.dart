@@ -1,9 +1,11 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
 import 'package:club_cast_clean_architecture/core/constants/params.dart';
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/RoomChatWidgets/room_chat_incoming_messages_floating_action_button_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +42,7 @@ class _IncomingPrivateMessagesBottomSheetState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Private Messages',
+                    AppStrings.privateMesages.tr(),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   IconButton(
@@ -60,7 +62,7 @@ class _IncomingPrivateMessagesBottomSheetState
                   height: MediaQueryOfMethods.getAppHeight(context) * 0.5,
                   child: Center(
                     child: Text(
-                      'No Private Messages',
+                      AppStrings.noPrivateMessages.tr(),
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ));

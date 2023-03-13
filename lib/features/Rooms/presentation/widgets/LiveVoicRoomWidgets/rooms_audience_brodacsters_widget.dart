@@ -1,4 +1,6 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'audience_widget.dart';
@@ -15,7 +17,7 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
           SliverToBoxAdapter(
             child: Center(
               child: Text(
-                'Broadcasters',
+                AppStrings.broadcasters.tr(),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
@@ -37,7 +39,7 @@ class RoomsAudienceBrodcastersWidget extends StatelessWidget {
           SliverToBoxAdapter(
             child: Center(
               child: Text(
-                'Audience',
+                AppStrings.audience.tr(),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium

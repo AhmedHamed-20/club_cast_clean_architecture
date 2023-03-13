@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
@@ -16,6 +17,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/CreateRoomBottomSheetWidgets/create_room_button_widget.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/screens/user_profile_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,28 +89,34 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
   List<Widget> bottomNaveIcons(
           {required String photoUrl, required double phototRadius}) =>
       [
-        const NavigationDestination(
-          icon: Icon(Icons.home),
-          label: 'home',
+        NavigationDestination(
+          icon: const Icon(Icons.home),
+          label: AppStrings.home.tr(),
         ),
-        const NavigationDestination(
-          icon: Icon(Icons.headphones),
-          label: 'podCast',
+        NavigationDestination(
+          icon: const Icon(Icons.headphones),
+          label: AppStrings.podcasts.tr(),
         ),
         const NavigationDestination(
           icon: Icon(Icons.add),
           label: '',
         ),
-        const NavigationDestination(
-          icon: Icon(Icons.search),
-          label: 'search',
+        NavigationDestination(
+          icon: const Icon(Icons.search),
+          label: AppStrings.search.tr(),
         ),
         NavigationDestination(
             icon: CachedNetworkImageCirclePhoto(
                 photoRadius: phototRadius, photoUrl: photoUrl),
             label: ''),
       ];
-  final appBarTitles = ['Home', 'Podcasts', '', 'Search', 'Your Profile'];
+  final appBarTitles = [
+    AppStrings.home.tr(),
+    AppStrings.podcasts.tr(),
+    '',
+    AppStrings.search.tr(),
+    AppStrings.yourProfile.tr(),
+  ];
 
   final List<Widget> bottomNaveScreens = [
     const AllRoomsScreen(),

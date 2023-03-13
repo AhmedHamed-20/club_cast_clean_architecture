@@ -1,9 +1,11 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../bloc/sockets/chat/chat_bloc.dart';
 
 class PrivateChatRoomTextFieldWidget extends StatefulWidget {
@@ -43,7 +45,7 @@ class _PrivateChatRoomTextFieldWidgetState
               child: Defaults.defaultTextFormField(
                   context: context,
                   maxLine: null,
-                  labelText: 'Type a message',
+                  labelText: AppStrings.typeAmessage.tr(),
                   controller:
                       TextEditingControllers.roomChatPrivateMessageController),
             ),

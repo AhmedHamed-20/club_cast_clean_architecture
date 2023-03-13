@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
@@ -31,7 +33,7 @@ class RoomChatCardUserPhotoWidget extends StatelessWidget {
           },
           value: 1,
           child: Text(
-            'View Profile',
+            AppStrings.viewProfile.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -48,7 +50,7 @@ class RoomChatCardUserPhotoWidget extends StatelessWidget {
           },
           value: 2,
           child: Text(
-            'Chat with ${roomMessageDataEntitie.user!.name} in private',
+            '${AppStrings.chatWith.tr()} ${roomMessageDataEntitie.user!.name} in ${AppStrings.private.tr()}}',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

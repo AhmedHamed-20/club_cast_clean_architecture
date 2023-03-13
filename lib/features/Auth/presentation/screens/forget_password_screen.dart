@@ -1,7 +1,9 @@
 import 'package:club_cast_clean_architecture/core/ValidationHelper/validation_helper.dart';
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/forget_passwod_widgets/forget_password_button_widget.dart';
@@ -35,7 +37,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           iconTheme: Theme.of(context).iconTheme,
           centerTitle: true,
           title: Text(
-            'Forget Password',
+            AppStrings.forgotPassword.tr(),
             style: Theme.of(context).textTheme.titleLarge,
           )),
       body: SingleChildScrollView(
@@ -55,7 +57,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         ValidationHelper.validateEmail(value: value),
                     controller: TextEditingControllers.forgetPasswordController,
                     labelStyle: Theme.of(context).textTheme.titleMedium,
-                    labelText: 'Email'),
+                    labelText: AppStrings.email.tr()),
                 SizedBox(
                   height: AppHeight.h10,
                 ),

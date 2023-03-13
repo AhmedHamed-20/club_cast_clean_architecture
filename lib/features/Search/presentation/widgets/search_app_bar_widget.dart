@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/search_screen.dart';
@@ -19,19 +21,19 @@ class SearchAppBarWidget extends StatelessWidget {
           tabs: [
             Tab(
               child: Text(
-                'Users',
+                AppStrings.users.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             Tab(
               child: Text(
-                'Rooms',
+                AppStrings.rooms.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             Tab(
               child: Text(
-                'Podcasts',
+                AppStrings.podcasts.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),

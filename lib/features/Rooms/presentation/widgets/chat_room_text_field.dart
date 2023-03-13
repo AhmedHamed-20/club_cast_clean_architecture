@@ -1,5 +1,7 @@
+import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,7 +41,7 @@ class _ChatRoomTextFieldState extends State<ChatRoomTextField> {
             ),
             child: Defaults.defaultTextFormField(
               context: context,
-              labelText: 'Type a message',
+              labelText: AppStrings.typeAmessage.tr(),
               maxLine: null,
               controller: TextEditingControllers.roomChatMessageController,
             ),
