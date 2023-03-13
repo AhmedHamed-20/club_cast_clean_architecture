@@ -20,14 +20,16 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                AppRoutesNames.otherUserFollowersFollowingScreen,
-                arguments: OtherUserFollowersFollowingScreenParams(
-                  isFollwers: true,
-                  otherUserProfileBloc: otherUserProfileBloc,
-                  userId: state.otherUserDataEntitie!.id.toString(),
-                ),
-              );
+              if (state.otherUserDataEntitie!.followers != 0) {
+                Navigator.of(context).pushNamed(
+                  AppRoutesNames.otherUserFollowersFollowingScreen,
+                  arguments: OtherUserFollowersFollowingScreenParams(
+                    isFollwers: true,
+                    otherUserProfileBloc: otherUserProfileBloc,
+                    userId: state.otherUserDataEntitie!.id.toString(),
+                  ),
+                );
+              }
             },
             child: Column(
               children: [
@@ -44,14 +46,16 @@ class OtherUserFollowersFollowingWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                AppRoutesNames.otherUserFollowersFollowingScreen,
-                arguments: OtherUserFollowersFollowingScreenParams(
-                  isFollwers: false,
-                  otherUserProfileBloc: otherUserProfileBloc,
-                  userId: state.otherUserDataEntitie!.id.toString(),
-                ),
-              );
+              if (state.otherUserDataEntitie!.following != 0) {
+                Navigator.of(context).pushNamed(
+                  AppRoutesNames.otherUserFollowersFollowingScreen,
+                  arguments: OtherUserFollowersFollowingScreenParams(
+                    isFollwers: false,
+                    otherUserProfileBloc: otherUserProfileBloc,
+                    userId: state.otherUserDataEntitie!.id.toString(),
+                  ),
+                );
+              }
             },
             child: Column(
               children: [

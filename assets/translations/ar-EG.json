@@ -58,7 +58,7 @@
     "join_private_room": "انضم إلى غرفة خاصة",
     "admin_left_room": "غادر المسؤول الغرفة ، إذا لم يعود في غضون دقيقة واحدة ، سيتم إغلاق الغرفة",
     "you_can_not_join_or_create_room_while_listening_to_podcast": "لا يمكنك الانضمام أو إنشاء غرفة أثناء استماعك إلى البودكاست",
-    "only_people_with_room_id_can_join": "يمكن للأشخاص فقط الانضمام إلى غرفة مع كلمة سر الغرفة الغرفة",
+    "only_people_with_room_id_can_join": "يمكن للأشخاص فقط الانضمام إلى غرفة مع كلمة سر الغرفة",
     "no_currently_active_rooms": "لا توجد غرف نشطة حاليًا",
     "please_grant_storage_permission": "يرجى منح تطبيق الوصول إلى التخزين",
     "please_grant_microphone_permission": "يرجى منح تطبيق الوصول إلى الميكروفون",
