@@ -27,7 +27,7 @@ final tSignUpMap = {
   }
 };
 const tAuthModel = AuthModel('accessToken');
-const tAuthEntity = AuthEntity('accessToken');
+const AuthEntity tAuthEntity = tAuthModel;
 final tLoginResponse = Response(
     data: tSignUpMap, requestOptions: RequestOptions(path: EndPoints.login));
 final tSignUpResponse = Response(

@@ -6,5 +6,5 @@ class AuthEntity extends Equatable {
   const AuthEntity(this.token);
 
   @override
-  List<Object?> get props => [token];
+  List<Object> get props => [token];
 }

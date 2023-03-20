@@ -4,13 +4,12 @@ import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/repositories/auth_repository.dart';
-import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entity.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../datasource/data_source_dumy_data.dart';
+import '../datasource/auth_data_source_dumy_data.dart';
+import 'auth_repository_dumy_data.dart';
 
 class MockRemoteAuthDataSource extends Mock
     implements AuthRemoteDataSourceImpl {}
@@ -38,7 +37,7 @@ void main() {
       final result = (await authRepositoryImpl.signUp(tSignUpParams))
           .fold((l) => null, (r) => r);
 
-      expect(result, tAuthModel);
+      expect(result, tAuthEntity);
       verify(() => mockRemoteAuthDataSource.signUp(tSignUpParams)).called(1);
     });
     test('sign up should return server failure on left', () async {
@@ -61,7 +60,7 @@ void main() {
       final result = (await authRepositoryImpl.login(tLoginParams))
           .fold((l) => null, (r) => r);
 
-      expect(result, tAuthModel);
+      expect(result, tAuthEntity);
       verify(() => mockRemoteAuthDataSource.login(tLoginParams)).called(1);
     });
 
@@ -93,6 +92,35 @@ void main() {
       expect(result, isA<ServerFailure>());
       verify(() => mockRemoteAuthDataSource
           .forgetPassword(const ForgetPasswordParams('test'))).called(1);
+    });
+
+    test('cache access token should return true on the right on success',
+        () async {
+      when(() =>
+              mockLocalAuthDataSource.cacheAccessToken(tAccessTokenCacheParams))
+          .thenAnswer((_) async => true);
+      final result =
+          (await authRepositoryImpl.cacheAccessToken(tAccessTokenCacheParams))
+              .fold((l) => l, (r) => r);
+      expect(result, true);
+      verify(() =>
+              mockLocalAuthDataSource.cacheAccessToken(tAccessTokenCacheParams))
+          .called(1);
+    });
+
+    test('cache access token should return cache failure on the left on error',
+        () async {
+      when(() =>
+          mockLocalAuthDataSource
+              .cacheAccessToken(tAccessTokenCacheParams)).thenThrow(
+          CacheException(const LocalErrorsMessageModel(errorMessage: 'error')));
+      final result =
+          (await authRepositoryImpl.cacheAccessToken(tAccessTokenCacheParams))
+              .fold((l) => l, (r) => null);
+      expect(result, isA<CacheFailure>());
+      verify(() =>
+              mockLocalAuthDataSource.cacheAccessToken(tAccessTokenCacheParams))
+          .called(1);
     });
   });
 }

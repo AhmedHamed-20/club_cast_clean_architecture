@@ -6,7 +6,7 @@ import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forge
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'data_source_dumy_data.dart';
+import 'auth_data_source_dumy_data.dart';
 
 class MockDioHelper extends Mock implements DioHelper {}
 
