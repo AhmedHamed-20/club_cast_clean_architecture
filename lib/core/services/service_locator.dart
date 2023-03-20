@@ -340,7 +340,7 @@ class ServiceLocator {
     servicelocator.registerLazySingleton<BaseAuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseAuthLocalDataSource>(
-        () => AuthLocalDataSourceImpl());
+        () => AuthLocalDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BasePodcastRemoteDataSource>(
         () => PodcastRemoteDataSourceImpl());
     servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
