@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entity.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/podcast_information_entitie.dart';
+import '../../domain/entities/podcast_information_entity.dart';
 
 part 'podcast_event.dart';
 part 'podcast_state.dart';
@@ -63,7 +63,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
             moreMyFollowingPodcastsRequestStatus:
                 MyFollowingPodcastsRequestStatus.success));
       } else if (r.results == 10) {
-        MyFollowingPodcastEntitie myFollowingPodcastsModel;
+        MyFollowingPodcastEntity myFollowingPodcastsModel;
         myFollowingPodcastsModel = state.myFollowingPodcasts!;
 
         myFollowingPodcastsModel.podcastInformationEntitie
@@ -78,7 +78,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
               MyFollowingPodcastsRequestStatus.success,
         ));
       } else {
-        MyFollowingPodcastEntitie myFollowingPodcastsModel =
+        MyFollowingPodcastEntity myFollowingPodcastsModel =
             state.myFollowingPodcasts!;
         myFollowingPodcastsModel.podcastInformationEntitie
             .addAll(r.podcastInformationEntitie);
@@ -95,7 +95,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
 
   FutureOr<void> _updatePodcastLikesCount(
       UpdatePodcastLikesCountEvent event, Emitter<PodcastState> emit) {
-    List<PodcastInformationEntitie> myFollowingPodcastsModel =
+    List<PodcastInformationEntity> myFollowingPodcastsModel =
         state.myFollowingPodcasts!.podcastInformationEntitie;
 
     for (int i = 0;
@@ -118,7 +118,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     }
     emit(
       state.copyWith(
-        myFollowingPodcasts: MyFollowingPodcastEntitie(
+        myFollowingPodcasts: MyFollowingPodcastEntity(
                 podcastInformationEntitie: myFollowingPodcastsModel,
                 results: state.myFollowingPodcasts!.results)
             .copyWith(),

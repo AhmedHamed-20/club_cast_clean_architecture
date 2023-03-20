@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_entity.dart';
 
-class ActiveRoomUserModel extends ActiveRoomUserDataEntitie {
+class ActiveRoomUserModel extends ActiveRoomUserDataEntity {
   const ActiveRoomUserModel(
       {required super.id,
       required super.name,
@@ -25,7 +25,7 @@ class ActiveRoomUserModel extends ActiveRoomUserDataEntitie {
   }
 
   @override
-  ActiveRoomUserDataEntitie copyWith(
+  ActiveRoomUserDataEntity copyWith(
       {String? id,
       String? name,
       String? photo,

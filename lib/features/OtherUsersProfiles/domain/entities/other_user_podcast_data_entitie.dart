@@ -1,10 +1,10 @@
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_entitie.dart';
 
 import '../../../../core/constants/base_podcast_entitie/base_podcast_audio_info.dart';
-import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 
-abstract class OtherUserPodcastDataEntitie extends BasePodcastEntitie {
-  const OtherUserPodcastDataEntitie(
+abstract class OtherUserPodcastDataEntity extends BasePodcastEntitie {
+  const OtherUserPodcastDataEntity(
       {required super.podcastId,
       required super.podcastName,
       required super.podcastLikesCount,
@@ -14,14 +14,14 @@ abstract class OtherUserPodcastDataEntitie extends BasePodcastEntitie {
       required super.podcastUserInfo,
       required super.podcastInfo});
 
-  OtherUserPodcastDataEntitie copyWith({
+  OtherUserPodcastDataEntity copyWith({
     String? podcastId,
     String? podcastName,
     int? podcastLikesCount,
     String? category,
     String? createdAt,
     bool? isLiked,
-    PodcastUserInfoEntitie? podcastUserInfo,
+    PodcastUserInfoEntity? podcastUserInfo,
     PodcastAudioInoEntitie? podcastInfo,
   });
   @override

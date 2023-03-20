@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/all_rooms_user_data.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/all_rooms_entitie_data.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/all_rooms_entity_data.dart';
 
-class AllRoomsDataModel extends AllRoomsDataEntitie {
+class AllRoomsDataModel extends AllRoomsDataEntity {
   const AllRoomsDataModel(
       {required super.id,
       required super.name,

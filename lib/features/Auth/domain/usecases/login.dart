@@ -1,16 +1,16 @@
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
-import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entity.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class LoginUsecase extends BaseUsecase<AuthEntitie, LoginParams> {
+class LoginUsecase extends BaseUsecase<AuthEntity, LoginParams> {
   final BaseAuthRepository baseAuthRepository;
 
   LoginUsecase(this.baseAuthRepository);
   @override
-  Future<Either<Failure, AuthEntitie>> call(LoginParams params) async {
+  Future<Either<Failure, AuthEntity>> call(LoginParams params) async {
     return await baseAuthRepository.login(params);
   }
 }

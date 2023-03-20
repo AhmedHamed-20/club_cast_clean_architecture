@@ -1,7 +1,7 @@
 part of 'podcast_bloc.dart';
 
 class PodcastState extends Equatable {
-  final MyFollowingPodcastEntitie? myFollowingPodcasts;
+  final MyFollowingPodcastEntity? myFollowingPodcasts;
   final MyFollowingPodcastsRequestStatus myFollowingPodcastsRequestStatus;
   final String errorMessage;
   final MyFollowingPodcastsRequestStatus moreMyFollowingPodcastsRequestStatus;
@@ -23,7 +23,7 @@ class PodcastState extends Equatable {
     int? statusCode,
     PodcastDownloadRequestStatus? podcastDownloadRequestStatus,
     MyFollowingPodcastsRequestStatus? moreMyFollowingPodcastsRequestStatus,
-    MyFollowingPodcastEntitie? myFollowingPodcasts,
+    MyFollowingPodcastEntity? myFollowingPodcasts,
     MyFollowingPodcastsRequestStatus? myFollowingPodcastsRequestStatus,
     String? errorMessage,
     bool? isEndOfData,

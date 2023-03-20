@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie_data.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entity_data.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets/RoomChatWidgets/room_chat_card_main_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class ChatTextCardWidget extends StatelessWidget {
       required this.roomMessageDataEntitie,
       this.isPrivateChat = false});
 
-  final RoomMessageDataEntitie roomMessageDataEntitie;
+  final RoomMessageDataEntity roomMessageDataEntitie;
   final bool isPrivateChat;
   @override
   Widget build(BuildContext context) {

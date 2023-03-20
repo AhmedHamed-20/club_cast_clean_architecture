@@ -56,24 +56,24 @@ class _AllMyFollowingEventsScreenState
               BlocBuilder<LayoutBloc, LayoutState>(builder: (context, state) {
             return ListView.builder(
                 itemCount: state.myFollowingEventsEntitie!
-                    .myFollowingEventsDataEntitie.length,
+                    .myFollowingEventsDataEntity.length,
                 controller: scrollController,
                 itemBuilder: (context, index) {
                   if (index <=
                       state.myFollowingEventsEntitie!
-                          .myFollowingEventsDataEntitie.length) {
+                          .myFollowingEventsDataEntity.length) {
                     return EventsCardWidget(
                       onPressedOnNotification: () async {
                         String eventDate = state.myFollowingEventsEntitie!
-                            .myFollowingEventsDataEntitie[index].eventDate;
+                            .myFollowingEventsDataEntity[index].eventDate;
                         Duration diffrence = DateTime.parse(eventDate)
                             .difference(DateTime.now());
                         await LocalNotificationHelper.scheduleNotification(
                           title: state.myFollowingEventsEntitie!
-                              .myFollowingEventsDataEntitie[index].eventName,
+                              .myFollowingEventsDataEntity[index].eventName,
                           body: state
                               .myFollowingEventsEntitie!
-                              .myFollowingEventsDataEntitie[index]
+                              .myFollowingEventsDataEntity[index]
                               .eventDescription,
                           index: Random().nextInt(200),
                           eventTime: DateTime.now().add(diffrence),
@@ -86,23 +86,20 @@ class _AllMyFollowingEventsScreenState
                           arguments: OtherUserProfileScreenParams(
                             state
                                 .myFollowingEventsEntitie!
-                                .myFollowingEventsDataEntitie[index]
+                                .myFollowingEventsDataEntity[index]
                                 .userInfo
                                 .uid,
                           ),
                         );
                       },
                       eventEntitie: state.myFollowingEventsEntitie!
-                          .myFollowingEventsDataEntitie[index],
+                          .myFollowingEventsDataEntity[index],
                       isMyProfile: false,
-                      eventUserName: state
-                          .myFollowingEventsEntitie!
-                          .myFollowingEventsDataEntitie[index]
-                          .userInfo
-                          .userName,
+                      eventUserName: state.myFollowingEventsEntitie!
+                          .myFollowingEventsDataEntity[index].userInfo.userName,
                       eventUserPhoto: state
                           .myFollowingEventsEntitie!
-                          .myFollowingEventsDataEntitie[index]
+                          .myFollowingEventsDataEntity[index]
                           .userInfo
                           .userPhoto,
                       onPressedOnEdit: () {},

@@ -1,7 +1,7 @@
-import '../../domain/entities/my_event_entitie.dart';
+import '../../domain/entities/my_event_entity.dart';
 import 'my_events_data_model.dart';
 
-class MyEventsModel extends MyEventsEntitie {
+class MyEventsModel extends MyEventsEntity {
   const MyEventsModel(
       {required super.results, required super.myEventsDataEntitie});
 

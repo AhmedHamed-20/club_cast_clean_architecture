@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/core/constants/base_event_entite/base_event_entitie.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_event_entity/base_event_entity.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:date_time_format/date_time_format.dart';
@@ -15,7 +15,7 @@ class EventsCardWidget extends StatelessWidget {
       required this.isHomeScreen,
       this.onPressedOnUserPhoto,
       this.eventUserPhoto});
-  final BaseEventEntitie eventEntitie;
+  final BaseEventEntity eventEntitie;
   final String? eventUserName;
   final String? eventUserPhoto;
   final VoidCallback? onPressedOnEdit;

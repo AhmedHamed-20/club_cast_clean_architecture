@@ -58,7 +58,7 @@ class CategoriesGetEvent extends LayoutEvent {
 }
 
 class UserDataUpdateEvent extends LayoutEvent {
-  final BaseUserDataEntitie userDataEntitie;
+  final BaseUserDataEntity userDataEntitie;
 
   const UserDataUpdateEvent({
     required this.userDataEntitie,

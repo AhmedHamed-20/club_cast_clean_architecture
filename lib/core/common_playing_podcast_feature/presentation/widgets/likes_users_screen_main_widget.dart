@@ -21,23 +21,23 @@ class LikesUsersScreenMainWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                if (state.podcastLikesUsersEntitie[index].podcastUserInfoEntitie
+                if (state.podcastLikesUsersEntitie[index].podcastUserInfoEntity
                         .userId !=
                     ConstVar.userId) {
                   Navigator.of(context).pushNamed(
                     AppRoutesNames.otherUserProfileScreen,
                     arguments: OtherUserProfileScreenParams(state
                         .podcastLikesUsersEntitie[index]
-                        .podcastUserInfoEntitie
+                        .podcastUserInfoEntity
                         .userId),
                   );
                 }
               },
               child: UserCardWidget(
                 userName: state.podcastLikesUsersEntitie[index]
-                    .podcastUserInfoEntitie.userName,
+                    .podcastUserInfoEntity.userName,
                 userPhoto: state.podcastLikesUsersEntitie[index]
-                    .podcastUserInfoEntitie.userImage,
+                    .podcastUserInfoEntity.userImage,
                 createdAt: state.podcastLikesUsersEntitie[index].createdAt,
               ),
             );

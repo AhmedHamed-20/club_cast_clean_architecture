@@ -3,12 +3,12 @@ part of 'userprofile_bloc.dart';
 class UserProfileState extends Equatable {
   final String errorMessage;
   final bool isPasswordHide;
-  final UpdatedUserDataInfoEntitie? updatedUserDataInfoEntitie;
+  final UpdatedUserDataInfoEntity? updatedUserDataInfoEntitie;
   final UpdateUserDataRequestStatus updateUserDataRequestStatus;
   final UpdateUserDataRequestStatus updatePasswordRequestStatus;
   final UserDataGetRequestStatus getMyFollowersRequestStatus;
-  final OtherUsersDataEntitie? followersData;
-  final OtherUsersDataEntitie? followingData;
+  final OtherUsersDataEntity? followersData;
+  final OtherUsersDataEntity? followingData;
   final UserDataGetRequestStatus getMyFollowingRequestStatus;
   final BackGroundColorGenerateRequestStatus
       backGroundColorGenerateRequestStatus;
@@ -42,7 +42,7 @@ class UserProfileState extends Equatable {
 
   UserProfileState copyWith({
     UpdateUserDataRequestStatus? updateUserPhotoRequestStatus,
-    OtherUsersDataEntitie? followersData,
+    OtherUsersDataEntity? followersData,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
     bool? isEndOfMyPodcastsData,
@@ -50,13 +50,13 @@ class UserProfileState extends Equatable {
     int? statusCode,
     bool? isPasswordHide,
     String? pickedUserProfileImageFilePath,
-    OtherUsersDataEntitie? followingData,
+    OtherUsersDataEntity? followingData,
     UserDataGetRequestStatus? getMyFollowersRequestStatus,
     UserDataGetRequestStatus? getMyFollowingRequestStatus,
     List<PaletteColor>? backGroundColors,
     BackGroundColorGenerateRequestStatus? backGroundColorGenerateRequestStatus,
     UpdateUserDataRequestStatus? updatePasswordRequestStatus,
-    UpdatedUserDataInfoEntitie? updatedUserDataInfoEntitie,
+    UpdatedUserDataInfoEntity? updatedUserDataInfoEntitie,
     UpdateUserDataRequestStatus? updateUserDataRequestStatus,
     String? errorMessage,
   }) {

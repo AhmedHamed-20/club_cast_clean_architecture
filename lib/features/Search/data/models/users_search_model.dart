@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_users_info_entite.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_users_info_entity.dart';
 
-class SearchUsersModel extends SearchUsersEntite {
+class SearchUsersModel extends SearchUsersEntity {
   const SearchUsersModel(
       {required super.userName,
       required super.userPhoto,

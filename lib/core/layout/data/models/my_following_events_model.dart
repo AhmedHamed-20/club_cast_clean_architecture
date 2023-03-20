@@ -3,12 +3,12 @@ import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_foll
 
 class MyFollowingEventsModel extends MyFollowingEventsEntitie {
   const MyFollowingEventsModel(
-      {required super.results, required super.myFollowingEventsDataEntitie});
+      {required super.results, required super.myFollowingEventsDataEntity});
 
   factory MyFollowingEventsModel.fromJson(Map<String, dynamic> json) {
     return MyFollowingEventsModel(
         results: json['results'],
-        myFollowingEventsDataEntitie: List<MyFollowingEventsDataModel>.from(
+        myFollowingEventsDataEntity: List<MyFollowingEventsDataModel>.from(
           json['data'].map(
             (x) => MyFollowingEventsDataModel.fromJson(x),
           ),

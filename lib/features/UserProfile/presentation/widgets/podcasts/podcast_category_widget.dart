@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constants/AppStrings/app_strings.dart';
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/layout/domain/entities/category_info_entitie.dart';
+import '../../../../../core/layout/domain/entities/category_info_entity.dart';
 import '../../../../../core/layout/presentation/bloc/layout_bloc.dart';
 
 String podcastCategoryValue = '';
@@ -36,7 +36,7 @@ class PodcastCategoryWidget extends StatelessWidget {
                   value: podcastCategoryValue,
                   items: state.categoryEntitie!.categories
                       .map<DropdownMenuItem<String>>(
-                          (CategoryInfoEtitie categoryInfoEtitie) {
+                          (CategoryInfoEntity categoryInfoEtitie) {
                     return DropdownMenuItem<String>(
                       value: categoryInfoEtitie.name,
                       child: Text(categoryInfoEtitie.name),

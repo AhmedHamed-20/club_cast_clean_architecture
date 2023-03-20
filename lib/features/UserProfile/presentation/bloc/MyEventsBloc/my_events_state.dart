@@ -5,7 +5,7 @@ class MyEventsState extends Equatable {
   final String errorMessages;
   final int statusCode;
   final EventCreateRequestStatus eventCreateRequestStatus;
-  final MyEventsEntitie myEvents;
+  final MyEventsEntity myEvents;
   final bool isEndOfMyEventsData;
   final UserDataGetRequestStatus myEventRequestStatus;
   final MyDataRemoveRequestStatus myEventRemoveRequestStatus;
@@ -15,7 +15,7 @@ class MyEventsState extends Equatable {
     this.errorMessages = '',
     this.statusCode = 0,
     this.eventCreateRequestStatus = EventCreateRequestStatus.idle,
-    this.myEvents = const MyEventsEntitie(myEventsDataEntitie: [], results: 0),
+    this.myEvents = const MyEventsEntity(myEventsDataEntitie: [], results: 0),
     this.isEndOfMyEventsData = false,
     this.myEventRequestStatus = UserDataGetRequestStatus.loading,
     this.myEventRemoveRequestStatus = MyDataRemoveRequestStatus.idle,
@@ -26,7 +26,7 @@ class MyEventsState extends Equatable {
     String? errorMessages,
     int? statusCode,
     EventCreateRequestStatus? eventCreateRequestStatus,
-    MyEventsEntitie? myEvents,
+    MyEventsEntity? myEvents,
     bool? isEndOfMyEventsData,
     UserDataGetRequestStatus? myEventRequestStatus,
     MyDataRemoveRequestStatus? myEventRemoveRequestStatus,

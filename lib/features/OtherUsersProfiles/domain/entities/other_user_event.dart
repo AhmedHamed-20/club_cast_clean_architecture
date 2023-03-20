@@ -3,17 +3,17 @@ import 'package:equatable/equatable.dart';
 
 import 'other_user_events_data.dart';
 
-class OtherUserEventsEntitie extends Equatable {
+class OtherUserEventsEntity extends Equatable {
   final int results;
-  final List<OtherUserEventDataEntite> events;
+  final List<OtherUserEventDataEntity> events;
 
-  const OtherUserEventsEntitie({required this.results, required this.events});
+  const OtherUserEventsEntity({required this.results, required this.events});
 
-  OtherUserEventsEntitie copyWith({
+  OtherUserEventsEntity copyWith({
     int? results,
-    List<OtherUserEventDataEntite>? events,
+    List<OtherUserEventDataEntity>? events,
   }) {
-    return OtherUserEventsEntitie(
+    return OtherUserEventsEntity(
       results: results ?? this.results,
       events: events ?? this.events,
     );

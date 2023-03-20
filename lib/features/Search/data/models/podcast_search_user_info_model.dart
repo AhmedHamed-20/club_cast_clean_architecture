@@ -1,6 +1,6 @@
-import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 
-class PodcastSearchUserInfoModel extends PodcastUserInfoEntitie {
+class PodcastSearchUserInfoModel extends PodcastUserInfoEntity {
   const PodcastSearchUserInfoModel(
     super.userName,
     super.userImage,

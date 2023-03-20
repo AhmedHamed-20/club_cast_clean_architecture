@@ -4,15 +4,15 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/reposit
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../entities/signature_entitie.dart';
+import '../../entities/signature_entity.dart';
 
 class SignatureGenerateUsecase
-    extends BaseUsecase<SignatureEntitie, SignatureGenerateParams> {
+    extends BaseUsecase<SignatureEntity, SignatureGenerateParams> {
   final BaseUserInfoRepository baseUserInfoRepository;
 
   SignatureGenerateUsecase(this.baseUserInfoRepository);
   @override
-  Future<Either<Failure, SignatureEntitie>> call(
+  Future<Either<Failure, SignatureEntity>> call(
       SignatureGenerateParams params) async {
     return await baseUserInfoRepository.generateSignature(params);
   }

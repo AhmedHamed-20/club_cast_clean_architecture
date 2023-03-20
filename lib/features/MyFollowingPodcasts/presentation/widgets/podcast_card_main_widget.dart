@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entity.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +15,7 @@ class MyFollowingPodcastCardMainWdget extends StatelessWidget {
     required this.podcastsEntitie,
     required this.index,
   }) : super(key: key);
-  final MyFollowingPodcastEntitie podcastsEntitie;
+  final MyFollowingPodcastEntity podcastsEntitie;
   final int index;
   @override
   Widget build(BuildContext context) {

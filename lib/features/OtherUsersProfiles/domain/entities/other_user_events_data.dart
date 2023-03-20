@@ -1,7 +1,7 @@
-import 'package:club_cast_clean_architecture/core/constants/base_event_entite/base_event_entitie.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_event_entity/base_event_entity.dart';
 
-class OtherUserEventDataEntite extends BaseEventEntitie {
-  const OtherUserEventDataEntite(
+class OtherUserEventDataEntity extends BaseEventEntity {
+  const OtherUserEventDataEntity(
       {required super.eventName,
       required super.eventDescription,
       required super.eventDate,

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_user_data.dart';
 
-class RoomsUserDataModel extends RoomUserDataEntitie {
+class RoomsUserDataModel extends RoomUserDataEntity {
   const RoomsUserDataModel(
       {required super.id,
       required super.name,

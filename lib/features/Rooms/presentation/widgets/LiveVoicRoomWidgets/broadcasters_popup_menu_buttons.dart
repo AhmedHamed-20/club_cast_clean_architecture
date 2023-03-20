@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_enitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import '../../../domain/entities/room_user_data.dart';
 List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
     {required BuildContext context,
     required bool iamAdmin,
-    required ActiveRoomUserDataEntitie activeRoomUserDataEntitie}) {
+    required ActiveRoomUserDataEntity activeRoomUserDataEntitie}) {
   final socketVoiceBloc = BlocProvider.of<SocketsVoiceBloc>(context);
   if (iamAdmin) {
     return [
@@ -63,7 +63,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntitie(
+                  roomUserDataEntitie: RoomUserDataEntity(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,
@@ -135,7 +135,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntitie(
+                  roomUserDataEntitie: RoomUserDataEntity(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,

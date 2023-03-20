@@ -1,6 +1,6 @@
-import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
+import '../../../../core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 
-class MyPodcastUserInfoModel extends PodcastUserInfoEntitie {
+class MyPodcastUserInfoModel extends PodcastUserInfoEntity {
   const MyPodcastUserInfoModel(super.userName, super.userImage, super.userId);
 
   factory MyPodcastUserInfoModel.fromJson(Map<String, dynamic> json) {

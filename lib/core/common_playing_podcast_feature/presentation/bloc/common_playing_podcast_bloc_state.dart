@@ -8,7 +8,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
   final int currentPosition;
   final PodcastLikeStatus podcastLikeStatus;
   final List<PaletteColor> backGroundColors;
-  final List<PodcastLikesUsersInfoEntitie> podcastLikesUsersEntitie;
+  final List<PodcastLikesUsersInfoEntity> podcastLikesUsersEntitie;
   final PodcastsUsersLikesRequestStatus podcastsUsersLikesRequestStatus;
   final BackGroundColorGenerateRequestStatus
       podcastInfoScreenColorsGenerateRequestStatus;
@@ -40,7 +40,7 @@ class CommonPlayingPodcastBlocState extends Equatable {
     BackGroundColorGenerateRequestStatus?
         podcastInfoScreenColorsGenerateRequestStatus,
     int? currentPosition,
-    List<PodcastLikesUsersInfoEntitie>? podcastLikesUsersEntitie,
+    List<PodcastLikesUsersInfoEntity>? podcastLikesUsersEntitie,
     PodcastsUsersLikesRequestStatus? podcastsUsersLikesRequestStatus,
     PlayPodcastRequestStatus? playPodcastRequestStatus,
     String? errorMessage,

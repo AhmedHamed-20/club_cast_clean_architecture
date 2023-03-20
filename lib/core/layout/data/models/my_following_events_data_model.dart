@@ -1,8 +1,8 @@
-import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_data_entity.dart';
 
 import 'event_user_info_model.dart';
 
-class MyFollowingEventsDataModel extends MyFollowingEventsDataEntitie {
+class MyFollowingEventsDataModel extends MyFollowingEventsDataEntity {
   const MyFollowingEventsDataModel(
       {required super.eventName,
       required super.eventDescription,

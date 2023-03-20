@@ -2,7 +2,6 @@ import 'package:club_cast_clean_architecture/core/services/service_locator.dart'
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  Response? response;
   Dio dio;
   DioHelper(
     this.dio,
@@ -14,7 +13,7 @@ class DioHelper {
     Map<String, dynamic>? headers,
     ProgressCallback? onReceiveProgress,
   }) async {
-    return response = await servicelocator<Dio>().get(
+    return await servicelocator<Dio>().get(
       url,
       queryParameters: query,
       onReceiveProgress: onReceiveProgress,
@@ -32,7 +31,7 @@ class DioHelper {
     ProgressCallback? onSendProgress,
     CancelToken? cancelToken,
   }) async {
-    return response = await dio.post(
+    return await dio.post(
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       url,
@@ -46,7 +45,7 @@ class DioHelper {
       {String? url,
       Map<String, dynamic>? query,
       Map<String, dynamic>? headers}) async {
-    return response = await dio.delete(
+    return await dio.delete(
       url!,
       queryParameters: query,
       options: Options(headers: headers),
@@ -59,7 +58,7 @@ class DioHelper {
     Map<String, dynamic>? headers,
     dynamic data,
   }) async {
-    return response = await dio.patch(
+    return await dio.patch(
       data: data,
       url!,
       queryParameters: query,
@@ -72,7 +71,7 @@ class DioHelper {
       required String savedPath,
       CancelToken? cancelToken,
       void Function(int, int)? onReceive}) async {
-    return response = await dio.download(
+    return await dio.download(
       url,
       savedPath,
       cancelToken: cancelToken,

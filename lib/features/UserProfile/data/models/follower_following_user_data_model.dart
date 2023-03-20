@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/follower_following_info_entite.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/follower_following_info_entity.dart';
 
-class FollowerFollowingUserDataModel extends FollowerFollowigDataEntite {
+class FollowerFollowingUserDataModel extends FollowerFollowigDataEntity {
   const FollowerFollowingUserDataModel(
       {required super.userName,
       required super.userPhoto,

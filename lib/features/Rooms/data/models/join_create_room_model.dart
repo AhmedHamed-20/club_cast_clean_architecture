@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entity.dart';
 
-class JoinCreateRooModel extends JoinCreateRoomEntitie {
+class JoinCreateRooModel extends JoinCreateRoomEntity {
   const JoinCreateRooModel(
       {required super.roomName,
       required super.roomType,

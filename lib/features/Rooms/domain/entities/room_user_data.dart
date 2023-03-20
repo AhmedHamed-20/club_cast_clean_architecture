@@ -1,7 +1,7 @@
-import '../../../../core/constants/base_room_user_data_enitie/base_room_user_data_entitie.dart';
+import '../../../../core/constants/base_room_user_data_entity/base_room_user_data_entity.dart';
 
-class RoomUserDataEntitie extends BaseRoomUserDataEntitie {
-  const RoomUserDataEntitie(
+class RoomUserDataEntity extends BaseRoomUserDataEntity {
+  const RoomUserDataEntity(
       {required super.id,
       required super.name,
       required super.photo,

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_circle_photo.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/base_all_rooms_data_entite/base_all_rooms_data_entitie.dart';
+import '../constants/base_all_rooms_data_entity/base_all_rooms_data_entity.dart';
 import '../constants/constants.dart';
 
 class AdminRoomsWidget extends StatelessWidget {
@@ -9,7 +9,7 @@ class AdminRoomsWidget extends StatelessWidget {
     Key? key,
     required this.allRoomsDataEntitie,
   }) : super(key: key);
-  final BaseAllRoomsDataEntitie allRoomsDataEntitie;
+  final BaseAllRoomsDataEntity allRoomsDataEntitie;
   @override
   Widget build(BuildContext context) {
     return Column(

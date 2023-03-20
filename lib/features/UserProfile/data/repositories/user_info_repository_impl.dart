@@ -2,10 +2,10 @@ import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/datasources/remote_user_info_data_source_impl.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entite.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_event_entity.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entity.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entity.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entity.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/repositories/base_user_info_repository.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/events/create_event.dart';
@@ -28,7 +28,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
 
   UserInfoRepositoryImpl(this.baseUserInfoRemoteDataSource);
   @override
-  Future<Either<Failure, MyPodcastEntitie>> getMyPodcasts(
+  Future<Either<Failure, MyPodcastEntity>> getMyPodcasts(
       MyPodcastGetParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyPodcasts(params);
@@ -44,7 +44,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, SignatureEntitie>> generateSignature(
+  Future<Either<Failure, SignatureEntity>> generateSignature(
       SignatureGenerateParams params) async {
     try {
       final result =
@@ -93,7 +93,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, UpdatedUserDataInfoEntitie>> updateUserData(
+  Future<Either<Failure, UpdatedUserDataInfoEntity>> updateUserData(
       UserDataUpdateParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.updateUserData(params);
@@ -134,7 +134,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, MyEventsEntitie>> getMyEvents(
+  Future<Either<Failure, MyEventsEntity>> getMyEvents(
       MyEventsParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getMyEvents(params);
@@ -147,7 +147,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, OtherUsersDataEntitie>> getFollowers(
+  Future<Either<Failure, OtherUsersDataEntity>> getFollowers(
       FollowersFollowingParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getFollowers(params);
@@ -160,7 +160,7 @@ class UserInfoRepositoryImpl extends BaseUserInfoRepository {
   }
 
   @override
-  Future<Either<Failure, OtherUsersDataEntitie>> getFollowing(
+  Future<Either<Failure, OtherUsersDataEntity>> getFollowing(
       FollowersFollowingParams params) async {
     try {
       final result = await baseUserInfoRemoteDataSource.getFollowing(params);

@@ -6,7 +6,7 @@ import '../../../../../core/constants/constants.dart';
 import '../../../../../core/constants/params.dart';
 import '../../../../../core/routes/app_route_names.dart';
 import '../../../../../core/widgets/cached_network_image_circle_photo.dart';
-import '../../../domain/entities/room_message_entitie_data.dart';
+import '../../../domain/entities/room_message_entity_data.dart';
 
 class RoomChatCardUserPhotoWidget extends StatelessWidget {
   const RoomChatCardUserPhotoWidget({
@@ -14,7 +14,7 @@ class RoomChatCardUserPhotoWidget extends StatelessWidget {
     required this.roomMessageDataEntitie,
   });
 
-  final RoomMessageDataEntitie roomMessageDataEntitie;
+  final RoomMessageDataEntity roomMessageDataEntitie;
 
   @override
   Widget build(BuildContext context) {

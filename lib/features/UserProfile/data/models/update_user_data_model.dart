@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 
-class UpdatedUserDataInfoModel extends UpdatedUserDataInfoEntitie {
+class UpdatedUserDataInfoModel extends UpdatedUserDataInfoEntity {
   const UpdatedUserDataInfoModel(
       {required super.userName,
       required super.userPhoto,

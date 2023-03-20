@@ -6,11 +6,11 @@ class SocketsVoiceState extends Equatable {
   final ConnectToSocketRequestStatus connectToSocketRequestStatus;
   final JoinRoomRequestStatus joinRoomRequestStatus;
   final CreateRoomRequestStatus createRoomRequestStatus;
-  final JoinCreateRoomEntitie joinCreateRoomEntitie;
-  final AudienceEntitie audienceEntitie;
-  final AdminEntitie adminEntitie;
-  final BrodcastersEntitie brodcastersEnitite;
-  final MeEntitie meEntitie;
+  final JoinCreateRoomEntity joinCreateRoomEntitie;
+  final AudienceEntity audienceEntitie;
+  final AdminEntity adminEntitie;
+  final BrodcastersEntity brodcastersEnitite;
+  final MeEntity meEntitie;
   final bool isCreateRoom;
   final LiveVoiceRoomFloatingButtonStatus liveVoiceRoomFloatingButtonStatus;
 
@@ -32,12 +32,12 @@ class SocketsVoiceState extends Equatable {
   SocketsVoiceState copyWith({
     LiveVoiceRoomFloatingButtonStatus? liveVoiceRoomFloatingButtonStatus,
     CreateRoomRequestStatus? createRoomRequestStatus,
-    MeEntitie? meEntitie,
+    MeEntity? meEntitie,
     bool? isCreateRoom,
-    AudienceEntitie? audienceEntitie,
-    BrodcastersEntitie? brodcastersEnitite,
-    AdminEntitie? adminEntitie,
-    JoinCreateRoomEntitie? joinCreateRoomEntitie,
+    AudienceEntity? audienceEntitie,
+    BrodcastersEntity? brodcastersEnitite,
+    AdminEntity? adminEntitie,
+    JoinCreateRoomEntity? joinCreateRoomEntitie,
     JoinRoomRequestStatus? joinRoomRequestStatus,
     String? errorMessage,
     ConnectToSocketRequestStatus? connectToSocketRequestStatus,

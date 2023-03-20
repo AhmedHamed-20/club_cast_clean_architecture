@@ -3,8 +3,8 @@ part of 'chat_bloc.dart';
 
 class ChatState extends Equatable {
   final RoomMessageEntitie roomMessageEntitie;
-  final Map<String, List<RoomMessageDataEntitie>>? privateChatMessages;
-  final List<RoomMessageDataEntitie> inComingPrivateChatMessages;
+  final Map<String, List<RoomMessageDataEntity>>? privateChatMessages;
+  final List<RoomMessageDataEntity> inComingPrivateChatMessages;
   final bool isEndOfMessages;
   final String errorMessage;
   final int statusCode;
@@ -22,13 +22,13 @@ class ChatState extends Equatable {
       this.privateChatMessages});
 
   ChatState copyWith({
-    List<RoomMessageDataEntitie>? inComingPrivateChatMessages,
+    List<RoomMessageDataEntity>? inComingPrivateChatMessages,
     String? currentTalkingToUserId,
     RoomMessageEntitie? roomMessageEntitie,
     bool? isEndOfMessages,
     String? errorMessage,
     int? statusCode,
-    Map<String, List<RoomMessageDataEntitie>>? privateChatMessages,
+    Map<String, List<RoomMessageDataEntity>>? privateChatMessages,
     RoomMessagesGetRequestStatus? roomMessagesGetRequestStatus,
   }) {
     return ChatState(

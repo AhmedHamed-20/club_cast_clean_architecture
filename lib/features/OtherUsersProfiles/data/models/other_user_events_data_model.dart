@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_events_data.dart';
 
-class OtherUserEventsDataModel extends OtherUserEventDataEntite {
+class OtherUserEventsDataModel extends OtherUserEventDataEntity {
   const OtherUserEventsDataModel(
       {required super.eventName,
       required super.eventDescription,

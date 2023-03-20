@@ -2,7 +2,7 @@
 part of 'my_podcast_bloc.dart';
 
 class MyPodcastState extends Equatable {
-  final MyPodcastEntitie myPodcastEntite;
+  final MyPodcastEntity myPodcastEntite;
   final String errorMessage;
   final int statusCode;
   final bool isEndOfMyPodcastsData;
@@ -13,7 +13,7 @@ class MyPodcastState extends Equatable {
 
   const MyPodcastState({
     this.myPodcastEntite =
-        const MyPodcastEntitie(results: 0, myPodcastDataEntitie: []),
+        const MyPodcastEntity(results: 0, myPodcastDataEntitie: []),
     this.errorMessage = '',
     this.statusCode = 0,
     this.isEndOfMyPodcastsData = false,
@@ -24,7 +24,7 @@ class MyPodcastState extends Equatable {
   });
 
   MyPodcastState copyWith({
-    MyPodcastEntitie? myPodcastEntite,
+    MyPodcastEntity? myPodcastEntite,
     String? errorMessage,
     int? statusCode,
     bool? isEndOfMyPodcastsData,

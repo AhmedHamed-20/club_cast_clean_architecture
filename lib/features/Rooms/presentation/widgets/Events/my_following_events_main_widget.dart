@@ -20,9 +20,9 @@ class MyFollowingEventsMainWidget extends StatelessWidget {
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: state.myFollowingEventsEntitie!
-                        .myFollowingEventsDataEntitie.length <=
+                        .myFollowingEventsDataEntity.length <=
                     5
-                ? state.myFollowingEventsEntitie!.myFollowingEventsDataEntitie
+                ? state.myFollowingEventsEntitie!.myFollowingEventsDataEntity
                     .length
                 : 5,
             itemBuilder: (context, index) {
@@ -36,15 +36,15 @@ class MyFollowingEventsMainWidget extends StatelessWidget {
                   child: EventsCardWidget(
                     onPressedOnNotification: () async {
                       String eventDate = state.myFollowingEventsEntitie!
-                          .myFollowingEventsDataEntitie[index].eventDate;
+                          .myFollowingEventsDataEntity[index].eventDate;
                       Duration diffrence =
                           DateTime.parse(eventDate).difference(DateTime.now());
                       await LocalNotificationHelper.scheduleNotification(
                         title: state.myFollowingEventsEntitie!
-                            .myFollowingEventsDataEntitie[index].eventName,
+                            .myFollowingEventsDataEntity[index].eventName,
                         body: state
                             .myFollowingEventsEntitie!
-                            .myFollowingEventsDataEntitie[index]
+                            .myFollowingEventsDataEntity[index]
                             .eventDescription,
                         index: Random().nextInt(200),
                         eventTime: DateTime.now().add(diffrence),
@@ -56,16 +56,16 @@ class MyFollowingEventsMainWidget extends StatelessWidget {
                           AppRoutesNames.otherUserProfileScreen,
                           arguments: OtherUserProfileScreenParams(state
                               .myFollowingEventsEntitie!
-                              .myFollowingEventsDataEntitie[index]
+                              .myFollowingEventsDataEntity[index]
                               .userInfo
                               .uid));
                     },
                     eventUserName: state.myFollowingEventsEntitie!
-                        .myFollowingEventsDataEntitie[index].userInfo.userName,
+                        .myFollowingEventsDataEntity[index].userInfo.userName,
                     eventUserPhoto: state.myFollowingEventsEntitie!
-                        .myFollowingEventsDataEntitie[index].userInfo.userPhoto,
+                        .myFollowingEventsDataEntity[index].userInfo.userPhoto,
                     eventEntitie: state.myFollowingEventsEntitie!
-                        .myFollowingEventsDataEntitie[index],
+                        .myFollowingEventsDataEntity[index],
                     isMyProfile: false,
                   ),
                 ),

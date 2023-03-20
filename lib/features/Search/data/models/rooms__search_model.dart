@@ -1,8 +1,8 @@
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_rooms_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_rooms_entity.dart';
 
 import '../../../Rooms/data/models/all_rooms_user_data.dart';
 
-class SearchRoomsModel extends SearchRoomsEntitie {
+class SearchRoomsModel extends SearchRoomsEntity {
   const SearchRoomsModel(
       {required super.id,
       required super.name,

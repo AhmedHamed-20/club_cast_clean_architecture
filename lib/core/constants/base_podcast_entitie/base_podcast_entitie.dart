@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'base_podcast_audio_info.dart';
-import 'base_podcast_userinfo_entite.dart';
+import 'base_podcast_userinfo_entity.dart';
 
 abstract class BasePodcastEntitie extends Equatable {
   final String podcastId;
@@ -10,7 +10,7 @@ abstract class BasePodcastEntitie extends Equatable {
   final String category;
   final String createdAt;
   final bool isLiked;
-  final PodcastUserInfoEntitie podcastUserInfo;
+  final PodcastUserInfoEntity podcastUserInfo;
   final PodcastAudioInoEntitie podcastInfo;
 
   const BasePodcastEntitie(
