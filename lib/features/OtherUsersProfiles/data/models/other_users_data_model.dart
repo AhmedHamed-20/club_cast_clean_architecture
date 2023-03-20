@@ -1,6 +1,6 @@
-import '../../domain/entities/other_users_data_entitie.dart';
+import '../../domain/entities/other_users_data_entity.dart';
 
-class OtherUserDataModel extends OtherUserDataEntitie {
+class OtherUserDataModel extends OtherUserDataEntity {
   const OtherUserDataModel(
       {required super.userName,
       required super.userPhoto,

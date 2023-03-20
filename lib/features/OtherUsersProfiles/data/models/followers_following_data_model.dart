@@ -1,8 +1,8 @@
-import '../../domain/entities/followers_following_data_entitie.dart';
+import '../../domain/entities/followers_following_data_entity.dart';
 import 'followers_following_basic_data_model.dart';
 
 class OtherUserFollowersFollowingDataModel
-    extends OtherUserFollowersFollowingDataEntitie {
+    extends OtherUserFollowersFollowingDataEntity {
   const OtherUserFollowersFollowingDataModel({
     required super.results,
     required super.otherUserFollowersFollowingUserDataEntitie,

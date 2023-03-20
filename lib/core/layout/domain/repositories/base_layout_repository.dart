@@ -7,7 +7,7 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_
 import 'package:dartz/dartz.dart';
 
 import '../../../usecase/usecase.dart';
-import '../entities/category_entitie.dart';
+import '../entities/category_entity.dart';
 import '../usecases/cache_active_color_value.dart';
 import '../usecases/cache_active_theme_value.dart';
 import '../usecases/get_active_user_data.dart';
@@ -26,7 +26,7 @@ abstract class BaseLayoutRepository {
   Future<Either<Failure, MyFollowingEventsEntitie>> getMyFollowingEvents(
       MyFollowingEventsParams params);
 
-  Future<Either<Failure, CategoryEntitie>> getCategories(NoParams params);
+  Future<Either<Failure, CategoryEntity>> getCategories(NoParams params);
   Future<Either<Failure, void>> updateCachedAccessToken(
       CachedAccessTokenUpdateParams params);
   Future<Either<Failure, void>> removeCachedAccessToken(

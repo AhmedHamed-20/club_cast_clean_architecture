@@ -2,7 +2,7 @@ import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../domain/entities/room_message_entitie_data.dart';
+import '../../../domain/entities/room_message_entity_data.dart';
 
 class RoomChatCardUserInformationWidget extends StatelessWidget {
   const RoomChatCardUserInformationWidget({
@@ -10,7 +10,7 @@ class RoomChatCardUserInformationWidget extends StatelessWidget {
     required this.roomMessageDataEntitie,
   });
 
-  final RoomMessageDataEntitie roomMessageDataEntitie;
+  final RoomMessageDataEntity roomMessageDataEntitie;
 
   @override
   Widget build(BuildContext context) {

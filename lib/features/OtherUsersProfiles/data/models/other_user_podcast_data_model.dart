@@ -1,11 +1,11 @@
-import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_userinfo_entite.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_audio_info.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_podcast_user_info.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_data_entitie.dart';
 
 import 'other_user_podcast_info_model.dart';
 
-class OtherUserPodcastDataModel extends OtherUserPodcastDataEntitie {
+class OtherUserPodcastDataModel extends OtherUserPodcastDataEntity {
   const OtherUserPodcastDataModel(
       {required super.podcastId,
       required super.podcastName,
@@ -30,14 +30,14 @@ class OtherUserPodcastDataModel extends OtherUserPodcastDataEntitie {
   }
 
   @override
-  OtherUserPodcastDataEntitie copyWith(
+  OtherUserPodcastDataEntity copyWith(
       {String? podcastId,
       String? podcastName,
       int? podcastLikesCount,
       String? category,
       String? createdAt,
       bool? isLiked,
-      PodcastUserInfoEntitie? podcastUserInfo,
+      PodcastUserInfoEntity? podcastUserInfo,
       PodcastAudioInoEntitie? podcastInfo}) {
     return OtherUserPodcastDataModel(
       podcastId: podcastId ?? super.podcastId,

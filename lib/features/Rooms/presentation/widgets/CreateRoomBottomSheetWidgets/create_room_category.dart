@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/layout/domain/entities/category_info_entitie.dart';
+import '../../../../../core/layout/domain/entities/category_info_entity.dart';
 
 String roomCategoryValue = '';
 
@@ -35,7 +35,7 @@ class CreateRoomCategory extends StatelessWidget {
                 value: roomCategoryValue,
                 items: state.categoryEntitie!.categories
                     .map<DropdownMenuItem<String>>(
-                        (CategoryInfoEtitie categoryInfoEtitie) {
+                        (CategoryInfoEntity categoryInfoEtitie) {
                   return DropdownMenuItem<String>(
                     value: categoryInfoEtitie.name,
                     child: Text(categoryInfoEtitie.name),

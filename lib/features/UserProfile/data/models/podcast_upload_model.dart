@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/upload_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/upload_podcast_entity.dart';
 
-class PodcastUploadModel extends PodcastUploadEntitie {
+class PodcastUploadModel extends PodcastUploadEntity {
   const PodcastUploadModel(super.name, super.publicId);
 
   factory PodcastUploadModel.fromJson(Map<String, dynamic> json) {

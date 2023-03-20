@@ -16,7 +16,7 @@ import '../../../constants/base_podcast_entitie/base_podcast_entitie.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/storage_permission_download_path.dart';
 import '../../../utl/utls.dart';
-import '../../domain/entities/podcast_likes_users_entitie.dart';
+import '../../domain/entities/podcast_likes_users_entity.dart';
 import '../../domain/usecases/add_like.dart';
 import '../../domain/usecases/remove_like.dart';
 

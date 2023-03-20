@@ -2,14 +2,14 @@ import 'package:club_cast_clean_architecture/core/widgets/cached_network_image_c
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../domain/entities/active_room_user_data_enitie.dart';
+import '../../../domain/entities/active_room_user_data_entity.dart';
 
 class UserCircleRoomWidget extends StatelessWidget {
   const UserCircleRoomWidget({
     super.key,
     required this.baseRoomUserDataEntitie,
   });
-  final ActiveRoomUserDataEntitie baseRoomUserDataEntitie;
+  final ActiveRoomUserDataEntity baseRoomUserDataEntitie;
   @override
   Widget build(BuildContext context) {
     return Column(

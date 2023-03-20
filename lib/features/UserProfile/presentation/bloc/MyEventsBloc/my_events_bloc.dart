@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/utl/utls.dart';
-import '../../../domain/entities/my_event_entitie.dart';
+import '../../../domain/entities/my_event_entity.dart';
 import '../../../domain/usecases/events/create_event.dart';
 import '../../../domain/usecases/events/get_my_events.dart';
 import '../../../domain/usecases/events/remove_event.dart';
@@ -131,7 +131,7 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
           isEndOfMyEventsData: true,
         ));
       } else if (r.results == 10) {
-        MyEventsEntitie myEventsEntitie;
+        MyEventsEntity myEventsEntitie;
         myEventsEntitie = state.myEvents;
 
         myEventsEntitie.myEventsDataEntitie.addAll(r.myEventsDataEntitie);
@@ -143,7 +143,7 @@ class MyEventsBloc extends Bloc<MyEventsEvent, MyEventsState> {
           isEndOfMyEventsData: false,
         ));
       } else {
-        MyEventsEntitie myEventsEntitie = state.myEvents;
+        MyEventsEntity myEventsEntitie = state.myEvents;
         myEventsEntitie.myEventsDataEntitie.addAll(r.myEventsDataEntitie);
         emit(state.copyWith(
           errorMessages: '',

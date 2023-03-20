@@ -4,15 +4,15 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../entities/other_users_data_entitie.dart';
+import '../entities/other_users_data_entity.dart';
 
 class OtherUserProfileDataGetUsecase
-    extends BaseUsecase<OtherUserDataEntitie, UserProfileDataGetParams> {
+    extends BaseUsecase<OtherUserDataEntity, UserProfileDataGetParams> {
   final BaseOtherUserProfilesRepository baseOtherUsersProfilesRepository;
 
   OtherUserProfileDataGetUsecase(this.baseOtherUsersProfilesRepository);
   @override
-  Future<Either<Failure, OtherUserDataEntitie>> call(
+  Future<Either<Failure, OtherUserDataEntity>> call(
       UserProfileDataGetParams params) async {
     return await baseOtherUsersProfilesRepository.getOtherUsersProfiles(params);
   }

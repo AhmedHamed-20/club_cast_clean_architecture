@@ -6,12 +6,12 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 class UserDataUpdateUseCase
-    extends BaseUsecase<UpdatedUserDataInfoEntitie, UserDataUpdateParams> {
+    extends BaseUsecase<UpdatedUserDataInfoEntity, UserDataUpdateParams> {
   final BaseUserInfoRepository baseUserInfoRepository;
 
   UserDataUpdateUseCase(this.baseUserInfoRepository);
   @override
-  Future<Either<Failure, UpdatedUserDataInfoEntitie>> call(
+  Future<Either<Failure, UpdatedUserDataInfoEntity>> call(
       UserDataUpdateParams params) async {
     return await baseUserInfoRepository.updateUserData(params);
   }

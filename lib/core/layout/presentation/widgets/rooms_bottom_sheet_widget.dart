@@ -1,5 +1,5 @@
 import 'package:club_cast_clean_architecture/core/routes/app_route_names.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entity.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +10,7 @@ import '../../../utl/utls.dart';
 class RoomsBottomSheetWidget extends StatelessWidget {
   const RoomsBottomSheetWidget(
       {super.key, required this.joinCreateRoomEntitie});
-  final JoinCreateRoomEntitie joinCreateRoomEntitie;
+  final JoinCreateRoomEntity joinCreateRoomEntitie;
   @override
   Widget build(BuildContext context) {
     final socketBloc = BlocProvider.of<SocketsVoiceBloc>(context);

@@ -15,7 +15,7 @@ int otherUserEventsPage = 2;
 class OtherUserEventsMainWidget extends StatefulWidget {
   const OtherUserEventsMainWidget(
       {super.key, required this.otherUserEventsEntitie, required this.userId});
-  final OtherUserEventsEntitie otherUserEventsEntitie;
+  final OtherUserEventsEntity otherUserEventsEntitie;
   final String userId;
   @override
   State<OtherUserEventsMainWidget> createState() =>

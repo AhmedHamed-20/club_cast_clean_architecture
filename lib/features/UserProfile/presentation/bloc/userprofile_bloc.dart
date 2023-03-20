@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/other_users_basic_info_entity.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/updated_user_data_info.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_followers.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecases/user_information/get_following.dart';
@@ -197,7 +197,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
           isEndOfFollowersData: true,
         ));
       } else if (r.result == 10) {
-        OtherUsersDataEntitie followersEntitie;
+        OtherUsersDataEntity followersEntitie;
         followersEntitie = state.followersData!;
 
         followersEntitie.followerFollowigDataEntite
@@ -210,7 +210,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
           isEndOfFollowersData: false,
         ));
       } else {
-        OtherUsersDataEntitie followersEntitie = state.followersData!;
+        OtherUsersDataEntity followersEntitie = state.followersData!;
         followersEntitie.followerFollowigDataEntite
             .addAll(r.followerFollowigDataEntite);
         emit(state.copyWith(
@@ -236,7 +236,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
           isEndOfFollowingData: true,
         ));
       } else if (r.result == 10) {
-        OtherUsersDataEntitie followingData;
+        OtherUsersDataEntity followingData;
         followingData = state.followingData!;
 
         followingData.followerFollowigDataEntite
@@ -249,7 +249,7 @@ class UserProfileBloc extends Bloc<UserprofileEvent, UserProfileState> {
           isEndOfFollowingData: false,
         ));
       } else {
-        OtherUsersDataEntitie followingData = state.followingData!;
+        OtherUsersDataEntity followingData = state.followingData!;
         followingData.followerFollowigDataEntite
             .addAll(r.followerFollowigDataEntite);
         emit(state.copyWith(

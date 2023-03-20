@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widgets/defaults.dart';
-import '../../domain/entities/podcast_search_entitie.dart';
+import '../../domain/entities/podcast_search_entity.dart';
 import '../screens/all_podcasts_screen.dart';
 
 class MainAllPodcastWidget extends StatefulWidget {
   const MainAllPodcastWidget(
       {super.key, required this.podcastInformationEntitie});
-  final PodcastSearchEntitie podcastInformationEntitie;
+  final PodcastSearchEntity podcastInformationEntitie;
   @override
   State<MainAllPodcastWidget> createState() => _MainAllPodcastWidgetState();
 }

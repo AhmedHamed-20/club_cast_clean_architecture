@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_event.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entity.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
-import '../../domain/entities/followers_following_data_entitie.dart';
+import '../../domain/entities/followers_following_data_entity.dart';
 import '../../domain/entities/other_user_podcast_data_entitie.dart';
 import '../../domain/usecases/get_user_followers.dart';
 import '../../domain/usecases/get_user_following.dart';
@@ -163,7 +163,7 @@ class OtherUserProfileBloc
           isEndOfFollowersData: true,
         ));
       } else if (r.results == 10) {
-        OtherUserFollowersFollowingDataEntitie
+        OtherUserFollowersFollowingDataEntity
             otherUserFollowersFollowingDataEntitie;
         otherUserFollowersFollowingDataEntitie =
             state.otherUserFollowersFollowingDataEntitie!;
@@ -180,7 +180,7 @@ class OtherUserProfileBloc
           isEndOfFollowersData: false,
         ));
       } else {
-        OtherUserFollowersFollowingDataEntitie
+        OtherUserFollowersFollowingDataEntity
             otherUserFollowersFollowingDataEntitie =
             state.otherUserFollowersFollowingDataEntitie!;
         otherUserFollowersFollowingDataEntitie
@@ -214,7 +214,7 @@ class OtherUserProfileBloc
           isEndOfFollowingData: true,
         ));
       } else if (r.results == 10) {
-        OtherUserFollowersFollowingDataEntitie
+        OtherUserFollowersFollowingDataEntity
             otherUserFollowersFollowingDataEntitie;
         otherUserFollowersFollowingDataEntitie =
             state.otherUserFollowersFollowingDataEntitie!;
@@ -231,7 +231,7 @@ class OtherUserProfileBloc
           isEndOfFollowingData: false,
         ));
       } else {
-        OtherUserFollowersFollowingDataEntitie
+        OtherUserFollowersFollowingDataEntity
             otherUserFollowersFollowingDataEntitie =
             state.otherUserFollowersFollowingDataEntitie!;
         otherUserFollowersFollowingDataEntitie
@@ -293,7 +293,7 @@ class OtherUserProfileBloc
           isEndOfPodcastData: true,
         ));
       } else if (r.results == 10) {
-        OtherUserPodcastEntitie otherUserPodcastEntitie;
+        OtherUserPodcastEntity otherUserPodcastEntitie;
         otherUserPodcastEntitie = state.otherUserPodcastEntitie!;
 
         otherUserPodcastEntitie.otherUserPodcastDataEntitie
@@ -306,7 +306,7 @@ class OtherUserProfileBloc
           isEndOfPodcastData: false,
         ));
       } else {
-        OtherUserPodcastEntitie otherUserPodcastEntitie =
+        OtherUserPodcastEntity otherUserPodcastEntitie =
             state.otherUserPodcastEntitie!;
         otherUserPodcastEntitie.otherUserPodcastDataEntitie
             .addAll(r.otherUserPodcastDataEntitie);
@@ -420,7 +420,7 @@ class OtherUserProfileBloc
           isEndOfEventsData: true,
         ));
       } else if (r.results == 10) {
-        OtherUserEventsEntitie otherUserEventsEntitie;
+        OtherUserEventsEntity otherUserEventsEntitie;
         otherUserEventsEntitie = state.otherUserEventsEntitie!;
 
         otherUserEventsEntitie.events.addAll(r.events);
@@ -432,7 +432,7 @@ class OtherUserProfileBloc
           isEndOfEventsData: false,
         ));
       } else {
-        OtherUserEventsEntitie otherUserEventsEntitie =
+        OtherUserEventsEntity otherUserEventsEntitie =
             state.otherUserEventsEntitie!;
         otherUserEventsEntitie.events.addAll(r.events);
         emit(state.copyWith(
@@ -446,7 +446,7 @@ class OtherUserProfileBloc
 
   FutureOr<void> _updatePodcastLikesCount(
       UpdatePodcastLikesCountEvent event, Emitter<OtherUserProfileState> emit) {
-    List<OtherUserPodcastDataEntitie> otherUserPodcastEntitie =
+    List<OtherUserPodcastDataEntity> otherUserPodcastEntitie =
         state.otherUserPodcastEntitie!.otherUserPodcastDataEntitie;
 
     for (int i = 0;
@@ -470,7 +470,7 @@ class OtherUserProfileBloc
     }
     emit(
       state.copyWith(
-        otherUserPodcastEntitie: OtherUserPodcastEntitie(
+        otherUserPodcastEntitie: OtherUserPodcastEntity(
                 otherUserPodcastDataEntitie: otherUserPodcastEntitie,
                 results: state.otherUserPodcastEntitie!.results)
             .copyWith(),

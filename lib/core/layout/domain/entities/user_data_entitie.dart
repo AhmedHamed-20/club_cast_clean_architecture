@@ -1,6 +1,6 @@
-import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
+import '../../../constants/base_user_info_entitie/base_user_info_entity.dart';
 
-class UserDataEntitie extends BaseUserDataEntitie {
+class UserDataEntitie extends BaseUserDataEntity {
   const UserDataEntitie(
       {required super.userName,
       required super.userPhoto,

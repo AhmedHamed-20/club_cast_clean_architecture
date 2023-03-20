@@ -7,8 +7,8 @@ import 'package:file_picker/file_picker.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/utl/utls.dart';
-import '../../../domain/entities/my_podcast_data_entitie.dart';
-import '../../../domain/entities/my_podcast_entite.dart';
+import '../../../domain/entities/my_podcast_data_entity.dart';
+import '../../../domain/entities/my_podcast_entity.dart';
 import '../../../domain/usecases/podcasts/get_my_podcasts.dart';
 import '../../../domain/usecases/podcasts/remove_podcast.dart';
 import '../../../domain/usecases/upload_podcast_usecase/create_podcast.dart';
@@ -229,7 +229,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
           isEndOfMyPodcastsData: true,
         ));
       } else if (r.results == 10) {
-        MyPodcastEntitie myPodcastEntitie;
+        MyPodcastEntity myPodcastEntitie;
         myPodcastEntitie = state.myPodcastEntite;
 
         myPodcastEntitie.myPodcastDataEntitie.addAll(r.myPodcastDataEntitie);
@@ -241,7 +241,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
           isEndOfMyPodcastsData: false,
         ));
       } else {
-        MyPodcastEntitie myPodcastEntitie = state.myPodcastEntite;
+        MyPodcastEntity myPodcastEntitie = state.myPodcastEntite;
         myPodcastEntitie.myPodcastDataEntitie.addAll(r.myPodcastDataEntitie);
         emit(state.copyWith(
           errorMessage: '',
@@ -254,7 +254,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
 
   FutureOr<void> _updatePodcastLikesCount(
       UpdatePodcastLikesCountEvent event, Emitter<MyPodcastState> emit) {
-    List<MyPodcastDataEntite> myPodcastEntitie =
+    List<MyPodcastDataEntity> myPodcastEntitie =
         state.myPodcastEntite.myPodcastDataEntitie;
     for (int i = 0;
         i < state.myPodcastEntite.myPodcastDataEntitie.length;
@@ -274,7 +274,7 @@ class MyPodcastBloc extends Bloc<MyPodcastEvent, MyPodcastState> {
     }
     emit(
       state.copyWith(
-        myPodcastEntite: MyPodcastEntitie(
+        myPodcastEntite: MyPodcastEntity(
                 myPodcastDataEntitie: myPodcastEntitie,
                 results: state.myPodcastEntite.results)
             .copyWith(),

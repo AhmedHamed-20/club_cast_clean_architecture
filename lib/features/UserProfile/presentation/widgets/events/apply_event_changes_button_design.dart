@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strin
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
 import 'package:club_cast_clean_architecture/core/constants/text_editing_controllers.dart';
 import 'package:club_cast_clean_architecture/core/widgets/defaults.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/edit_date_edit_event_screen_widget.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/edit_event_text_fields_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,7 +14,7 @@ import '../../bloc/MyEventsBloc/my_events_bloc.dart';
 class ApplyEventChangesButtonDesign extends StatelessWidget {
   const ApplyEventChangesButtonDesign(
       {super.key, required this.myEventEntitie});
-  final MyEventsDataEntitie myEventEntitie;
+  final MyEventsDataEntity myEventEntitie;
   @override
   Widget build(BuildContext context) {
     final myEventsBloc = BlocProvider.of<MyEventsBloc>(context);

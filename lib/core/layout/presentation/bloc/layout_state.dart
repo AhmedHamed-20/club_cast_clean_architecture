@@ -11,7 +11,7 @@ class LayoutState extends Equatable {
   final UserDataGetRequestStatus myFollowingEventsRequestStatus;
   final int currentBottomNavIndex;
   final UserDataGetRequestStatus categoriesRequestStatus;
-  final CategoryEntitie? categoryEntitie;
+  final CategoryEntity? categoryEntitie;
   final LogoutRequestStatus logoutRequestStatus;
   final AccessTokenUpdateRequestStatus accessTokenUpdateRequestStatus;
   final int statusCode;
@@ -45,7 +45,7 @@ class LayoutState extends Equatable {
     int? statusCode,
     LayoutBottomSheetStatus? layoutBottomSheetStatus,
     AccessTokenUpdateRequestStatus? accessTokenUpdateRequestStatus,
-    CategoryEntitie? categoryEntitie,
+    CategoryEntity? categoryEntitie,
     UserDataGetRequestStatus? categoriesRequestStatus,
     int? currentBottomNavIndex,
     MyFollowingEventsEntitie? myFollowingEventsEntitie,

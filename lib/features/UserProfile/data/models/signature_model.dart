@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/signature_entity.dart';
 
-class SignatureModel extends SignatureEntitie {
+class SignatureModel extends SignatureEntity {
   const SignatureModel(
       {required super.timestamp,
       required super.signature,

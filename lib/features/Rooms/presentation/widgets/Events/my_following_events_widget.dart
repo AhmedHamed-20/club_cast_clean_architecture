@@ -21,7 +21,7 @@ class MyFollowingEventsWidget extends StatelessWidget {
           case UserDataGetRequestStatus.loading:
             return const Center(child: CircularProgressIndicator());
           case UserDataGetRequestStatus.success:
-            if (state.myFollowingEventsEntitie!.myFollowingEventsDataEntitie
+            if (state.myFollowingEventsEntitie!.myFollowingEventsDataEntity
                 .isEmpty) {
               return SizedBox(
                 height: MediaQueryOfMethods.getAppHeight(context) * 0.1,

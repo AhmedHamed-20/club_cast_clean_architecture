@@ -9,17 +9,17 @@ class SearchState extends Equatable {
   final SearchRequestStatus allPodcastsRequestStatus;
 
   final SearchRequestStatus allPodcastsGetMorreRequestStatus;
-  final List<SearchRoomsEntitie> roomsSearchEntitie;
-  final List<SearchUsersEntite> usersSearchEntitie;
-  final PodcastSearchEntitie podcastSearchEntitie;
-  final PodcastSearchEntitie allPodcastsEntitie;
+  final List<SearchRoomsEntity> roomsSearchEntitie;
+  final List<SearchUsersEntity> usersSearchEntitie;
+  final PodcastSearchEntity podcastSearchEntitie;
+  final PodcastSearchEntity allPodcastsEntitie;
   final bool isEndOfAllPodcasts;
   const SearchState({
     this.errorMessages = '',
     this.statusCode = 0,
     this.allPodcastsGetMorreRequestStatus = SearchRequestStatus.idle,
     this.allPodcastsEntitie =
-        const PodcastSearchEntitie(results: 0, podcastInformationEntitie: []),
+        const PodcastSearchEntity(results: 0, podcastInformationEntitie: []),
     this.roomsSearchRequestStatus = SearchRequestStatus.idle,
     this.allPodcastsRequestStatus = SearchRequestStatus.idle,
     this.podcastSearchRequestStatus = SearchRequestStatus.idle,
@@ -28,22 +28,22 @@ class SearchState extends Equatable {
     this.usersSearchEntitie = const [],
     this.isEndOfAllPodcasts = false,
     this.podcastSearchEntitie =
-        const PodcastSearchEntitie(results: 0, podcastInformationEntitie: []),
+        const PodcastSearchEntity(results: 0, podcastInformationEntitie: []),
   });
 
   SearchState copyWith({
     SearchRequestStatus? allPodcastsGetMorreRequestStatus,
     bool? isEndOfAllPodcasts,
     SearchRequestStatus? allPodcastsRequestStatus,
-    PodcastSearchEntitie? allPodcastsEntitie,
+    PodcastSearchEntity? allPodcastsEntitie,
     String? errorMessages,
     int? statusCode,
     SearchRequestStatus? roomsSearchRequestStatus,
     SearchRequestStatus? podcastSearchRequestStatus,
     SearchRequestStatus? usersSearchRequestStatus,
-    List<SearchRoomsEntitie>? roomsSearchEntitie,
-    List<SearchUsersEntite>? usersSearchEntitie,
-    PodcastSearchEntitie? podcastSearchEntitie,
+    List<SearchRoomsEntity>? roomsSearchEntitie,
+    List<SearchUsersEntity>? usersSearchEntitie,
+    PodcastSearchEntity? podcastSearchEntitie,
   }) {
     return SearchState(
       allPodcastsGetMorreRequestStatus: allPodcastsGetMorreRequestStatus ??

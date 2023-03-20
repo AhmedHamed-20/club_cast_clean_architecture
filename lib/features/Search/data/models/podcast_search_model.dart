@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/Search/data/models/podcast_search_data_model.dart';
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entity.dart';
 
-class PodcastSearchModel extends PodcastSearchEntitie {
+class PodcastSearchModel extends PodcastSearchEntity {
   const PodcastSearchModel(
       {required super.results, required super.podcastInformationEntitie});
   factory PodcastSearchModel.fromJson(Map<String, dynamic> json) {

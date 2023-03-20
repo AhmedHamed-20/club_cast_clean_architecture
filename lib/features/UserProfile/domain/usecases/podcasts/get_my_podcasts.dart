@@ -3,16 +3,16 @@ import 'package:club_cast_clean_architecture/core/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../entities/my_podcast_entite.dart';
+import '../../entities/my_podcast_entity.dart';
 import '../../repositories/base_user_info_repository.dart';
 
 class MyPodcastsGetUseCase
-    extends BaseUsecase<MyPodcastEntitie, MyPodcastGetParams> {
+    extends BaseUsecase<MyPodcastEntity, MyPodcastGetParams> {
   final BaseUserInfoRepository baseUserInfoRepository;
 
   MyPodcastsGetUseCase(this.baseUserInfoRepository);
   @override
-  Future<Either<Failure, MyPodcastEntitie>> call(
+  Future<Either<Failure, MyPodcastEntity>> call(
       MyPodcastGetParams params) async {
     return await baseUserInfoRepository.getMyPodcasts(params);
   }

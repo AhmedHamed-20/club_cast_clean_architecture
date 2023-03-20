@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
-import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entite.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-import '../../features/Rooms/domain/entities/join_create_room_entitie.dart';
+import '../../features/Rooms/domain/entities/join_create_room_entity.dart';
 import '../../features/Rooms/presentation/bloc/sockets/chat/chat_bloc.dart';
 import '../../features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import '../routes/app_route_names.dart';
@@ -187,7 +187,7 @@ String covertDurationTime(double duration) {
 class ConstVar {
   static String accessToken = '';
   static String userId = '';
-  static late BaseUserDataEntitie baseUserDataEntitie;
+  static late BaseUserDataEntity baseUserDataEntitie;
   static late Socket socket;
   static LayoutBottomSheetStatus layoutBottomSheetStatus =
       LayoutBottomSheetStatus.idle;
@@ -205,7 +205,7 @@ late StreamController<double> downloadProgress;
 late StreamController<double> uploadProgress;
 
 void checkOnTabOnRoomCardLogic({
-  JoinCreateRoomEntitie? joinCreateRoomEntitie,
+  JoinCreateRoomEntity? joinCreateRoomEntitie,
   required String tabedCardRoomId,
   required BuildContext context,
   required bool isCreateRoom,

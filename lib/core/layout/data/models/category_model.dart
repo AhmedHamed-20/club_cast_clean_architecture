@@ -1,8 +1,8 @@
-import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entity.dart';
 
 import 'category_info_model.dart';
 
-class CategoryModel extends CategoryEntitie {
+class CategoryModel extends CategoryEntity {
   const CategoryModel({
     required super.results,
     required super.categories,

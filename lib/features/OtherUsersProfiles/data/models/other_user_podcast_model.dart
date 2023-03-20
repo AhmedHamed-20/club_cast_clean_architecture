@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_podcast_data_model.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entity.dart';
 
-class OtherUserPodcastModel extends OtherUserPodcastEntitie {
+class OtherUserPodcastModel extends OtherUserPodcastEntity {
   const OtherUserPodcastModel(
       {required super.results, required super.otherUserPodcastDataEntitie});
 

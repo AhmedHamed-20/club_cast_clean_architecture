@@ -2,7 +2,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/presentation/widgets
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../domain/entities/room_message_entitie_data.dart';
+import '../../../domain/entities/room_message_entity_data.dart';
 import 'chat_room_card_user_information_widget.dart';
 
 class RoomChatCardMainWidget extends StatelessWidget {
@@ -12,7 +12,7 @@ class RoomChatCardMainWidget extends StatelessWidget {
     this.isPrivateChat = false,
   });
 
-  final RoomMessageDataEntitie roomMessageDataEntitie;
+  final RoomMessageDataEntity roomMessageDataEntitie;
   final bool isPrivateChat;
   @override
   Widget build(BuildContext context) {

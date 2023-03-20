@@ -1,22 +1,22 @@
 part of 'otherusersprofiles_bloc.dart';
 
 class OtherUserProfileState extends Equatable {
-  final OtherUserDataEntitie? otherUserDataEntitie;
+  final OtherUserDataEntity? otherUserDataEntitie;
   final String errorMessage;
   final int statusCode;
   final UserDataGetRequestStatus userDataGetRequestStatus;
-  final OtherUserFollowersFollowingDataEntitie?
+  final OtherUserFollowersFollowingDataEntity?
       otherUserFollowersFollowingDataEntitie;
   final FollowersFollowingDataGetRequestStatus
       followersFollowingDataGetRequestStatus;
   final bool isEndOfFollowersData;
   final bool isEndOfFollowingData;
-  final OtherUserPodcastEntitie? otherUserPodcastEntitie;
+  final OtherUserPodcastEntity? otherUserPodcastEntitie;
   final UserDataGetRequestStatus otherUserPodcastGetRequestStatus;
   final bool isEndOfPodcastData;
   final FollowUnfollowUserRequestStatus followUnfollowUserRequestStatus;
   final bool isFollowed;
-  final OtherUserEventsEntitie? otherUserEventsEntitie;
+  final OtherUserEventsEntity? otherUserEventsEntitie;
   final UserDataGetRequestStatus otherUserEventsGetRequestStatus;
   final bool isEndOfEventsData;
   const OtherUserProfileState(
@@ -42,17 +42,17 @@ class OtherUserProfileState extends Equatable {
   OtherUserProfileState copyWith({
     bool? isEndOfPodcastData,
     bool? isFollowed,
-    OtherUserEventsEntitie? otherUserEventsEntitie,
+    OtherUserEventsEntity? otherUserEventsEntitie,
     UserDataGetRequestStatus? otherUserEventsGetRequestStatus,
     bool? isEndOfEventsData,
     FollowUnfollowUserRequestStatus? followUnfollowUserRequestStatus,
-    OtherUserPodcastEntitie? otherUserPodcastEntitie,
+    OtherUserPodcastEntity? otherUserPodcastEntitie,
     UserDataGetRequestStatus? otherUserPodcastGetRequestStatus,
     FollowersFollowingDataGetRequestStatus?
         followersFollowingDataGetRequestStatus,
-    OtherUserFollowersFollowingDataEntitie?
+    OtherUserFollowersFollowingDataEntity?
         otherUserFollowersFollowingDataEntitie,
-    OtherUserDataEntitie? otherUserDataEntitie,
+    OtherUserDataEntity? otherUserDataEntitie,
     bool? isEndOfFollowersData,
     bool? isEndOfFollowingData,
     String? errorMessage,

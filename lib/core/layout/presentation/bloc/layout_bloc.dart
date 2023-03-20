@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entitie.dart';
+import 'package:club_cast_clean_architecture/core/layout/domain/entities/category_entity.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/my_following_events_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/user_data_entitie.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/cache_app_languages.dart';
@@ -25,7 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/Rooms/presentation/screens/all_rooms_screen.dart';
 import '../../../../features/Search/presentation/screens/search_screen.dart';
-import '../../../constants/base_user_info_entitie/base_user_info_entite.dart';
+import '../../../constants/base_user_info_entitie/base_user_info_entity.dart';
 import '../../../theme/amber_theme.dart';
 import '../../../theme/base_theme_class.dart';
 import '../../../theme/big_stone_theme.dart';
@@ -285,8 +285,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
         MyFollowingEventsEntitie myFollowingEventsEntitie;
         myFollowingEventsEntitie = state.myFollowingEventsEntitie!;
 
-        myFollowingEventsEntitie.myFollowingEventsDataEntitie
-            .addAll(r.myFollowingEventsDataEntitie);
+        myFollowingEventsEntitie.myFollowingEventsDataEntity
+            .addAll(r.myFollowingEventsDataEntity);
 
         emit(state.copyWith(
           errorMessage: '',
@@ -297,8 +297,8 @@ class LayoutBloc extends Bloc<LayoutEvent, LayoutState> {
       } else {
         MyFollowingEventsEntitie myFollowingEventsEntitie =
             state.myFollowingEventsEntitie!;
-        myFollowingEventsEntitie.myFollowingEventsDataEntitie
-            .addAll(r.myFollowingEventsDataEntitie);
+        myFollowingEventsEntitie.myFollowingEventsDataEntity
+            .addAll(r.myFollowingEventsDataEntity);
         emit(state.copyWith(
           errorMessage: '',
           myFollowingEventsEntitie: myFollowingEventsEntitie.copyWith(),

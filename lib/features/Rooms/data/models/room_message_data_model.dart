@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/all_rooms_user_data.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entitie_data.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/room_message_entity_data.dart';
 
-class RoomMessageDataModel extends RoomMessageDataEntitie {
+class RoomMessageDataModel extends RoomMessageDataEntity {
   const RoomMessageDataModel(
       {required super.message,
       required super.isPublic,

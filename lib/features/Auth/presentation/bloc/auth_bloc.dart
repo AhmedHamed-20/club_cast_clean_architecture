@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
-import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entity.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/cache_access_token.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/login.dart';

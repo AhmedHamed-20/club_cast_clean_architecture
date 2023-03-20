@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
-import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Auth/domain/entities/auth_entity.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/repositories/auth_repository.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/cache_access_token.dart';
@@ -17,7 +17,7 @@ class AuthRepositoryImple extends BaseAuthRepository {
   AuthRepositoryImple(
       this.baseAuthRemoteDataSource, this.baseAuthLocalDataSource);
   @override
-  Future<Either<Failure, AuthEntitie>> signUp(SignUpParams params) async {
+  Future<Either<Failure, AuthEntity>> signUp(SignUpParams params) async {
     try {
       final result = await baseAuthRemoteDataSource.signUp(params);
       return Right(result);
@@ -29,7 +29,7 @@ class AuthRepositoryImple extends BaseAuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthEntitie>> login(LoginParams params) async {
+  Future<Either<Failure, AuthEntity>> login(LoginParams params) async {
     try {
       final result = await baseAuthRemoteDataSource.login(params);
       return Right(result);

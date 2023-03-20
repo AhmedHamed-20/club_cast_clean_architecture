@@ -10,7 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/models/room_message_data_model.dart';
-import '../../../../domain/entities/room_message_entitie_data.dart';
+import '../../../../domain/entities/room_message_entity_data.dart';
 import '../../../widgets/PrivateChatRoomWidgets/private_chat_room_messages_widget.dart';
 import '../../../widgets/RoomChatWidgets/chat_widget.dart';
 
@@ -55,7 +55,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             roomMessagesGetRequestStatus: RoomMessagesGetRequestStatus.error)),
         (r) {
       if (r.results <= 10) {
-        Map<String, List<RoomMessageDataEntitie>> privateChatMessages = {};
+        Map<String, List<RoomMessageDataEntity>> privateChatMessages = {};
         for (var element in r.roomMessages) {
           if (element.isPublic == false) {
             if (privateChatMessages.containsKey(element.user!.id)) {
@@ -199,7 +199,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ListenOnMessageRemovedEvent event, Emitter<ChatState> emit) {
     RoomMessageEntitie roomMessages = state.roomMessageEntitie;
     if (event.isPrivate) {
-      Map<String, List<RoomMessageDataEntitie>>
+      Map<String, List<RoomMessageDataEntity>>
           privateMessagesAfterRemoveMyMessage =
           Map.from(state.privateChatMessages!);
       privateMessagesAfterRemoveMyMessage[event.response['user']['_id']]!
@@ -267,7 +267,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   FutureOr<void> _listenOnMessageRemovedSuccessEvent(
       LisenOnMessageRemoveSuccessEvent event, Emitter<ChatState> emit) {
     if (event.isPrivate) {
-      Map<String, List<RoomMessageDataEntitie>>
+      Map<String, List<RoomMessageDataEntity>>
           privateMessagesAfterRemoveMyMessage =
           Map.from(state.privateChatMessages!);
       privateMessagesAfterRemoveMyMessage[event.response['to']['_id']]!
@@ -326,7 +326,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   FutureOr<void> _listenOnPrivateChatMessagesEvent(
       ListenOnPrivateChatMessagesEvent event, Emitter<ChatState> emit) {
-    Map<String, List<RoomMessageDataEntitie>> privateRoomMessages =
+    Map<String, List<RoomMessageDataEntity>> privateRoomMessages =
         Map.from(state.privateChatMessages ?? {});
     if (privateRoomMessages == {}) {
       privateRoomMessages = {
@@ -343,7 +343,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ];
     }
     if (event.isMine == false) {
-      List<RoomMessageDataEntitie> incommingPrivateChatMessages =
+      List<RoomMessageDataEntity> incommingPrivateChatMessages =
           List.from(state.inComingPrivateChatMessages);
       incommingPrivateChatMessages
           .add(RoomMessageDataModel.fromJson(event.response, event.isMine));

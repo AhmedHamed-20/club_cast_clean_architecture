@@ -1,5 +1,5 @@
 import 'package:club_cast_clean_architecture/core/constants/media_query_of_methods.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ final GlobalKey<FormState> editEventFormKey = GlobalKey<FormState>();
 
 class EditEventTextFieldsWidget extends StatefulWidget {
   const EditEventTextFieldsWidget({super.key, required this.myEventEntitie});
-  final MyEventsDataEntitie myEventEntitie;
+  final MyEventsDataEntity myEventEntitie;
 
   @override
   State<EditEventTextFieldsWidget> createState() =>

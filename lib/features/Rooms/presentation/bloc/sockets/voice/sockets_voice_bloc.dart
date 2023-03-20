@@ -17,7 +17,7 @@ import 'package:club_cast_clean_architecture/features/Rooms/data/models/audience
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/brodcasters_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/join_create_room_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/me_model.dart';
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/join_create_room_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +26,11 @@ import 'package:socket_io_client/socket_io_client.dart';
 import '../../../../../../core/agora/agora_helper.dart';
 import '../../../../../../core/constants/default_values.dart';
 import '../../../../../../core/network/endpoints.dart';
-import '../../../../domain/entities/active_room_user_data_enitie.dart';
-import '../../../../domain/entities/admin_entitie.dart';
-import '../../../../domain/entities/audience_entite.dart';
-import '../../../../domain/entities/brodcasters_entitie.dart';
-import '../../../../domain/entities/me_entitie.dart';
+import '../../../../domain/entities/active_room_user_data_entity.dart';
+import '../../../../domain/entities/admin_entity.dart';
+import '../../../../domain/entities/audience_entity.dart';
+import '../../../../domain/entities/brodcasters_entity.dart';
+import '../../../../domain/entities/me_entity.dart';
 import '../../../screens/room_screen.dart';
 import '../chat/chat_bloc.dart';
 
@@ -265,7 +265,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
   FutureOr<void> _userLeft(
       UserLeftEvent event, Emitter<SocketsVoiceState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie.copyWith();
+    AudienceEntity? audienceEntitie = state.audienceEntitie.copyWith();
     bool isFound = false;
     for (int i = 0; i < state.audienceEntitie.audience.length; i++) {
       if (state.audienceEntitie.audience[i].id == event.response['_id']) {
@@ -276,7 +276,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       }
     }
     if (isFound == false) {
-      BrodcastersEntitie? brodcastersEnitite =
+      BrodcastersEntity? brodcastersEnitite =
           state.brodcastersEnitite.copyWith();
       for (int i = 0; i < state.brodcastersEnitite.brodcasters.length; i++) {
         if (state.brodcastersEnitite.brodcasters[i].id ==
@@ -293,7 +293,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
   FutureOr<void> _userJoined(
       UserJoinedEvent event, Emitter<SocketsVoiceState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie.copyWith();
+    AudienceEntity? audienceEntitie = state.audienceEntitie.copyWith();
 
     audienceEntitie.audience.add(ActiveRoomUserModel.fromJson(event.response));
     emit(state.copyWith(audienceEntitie: audienceEntitie));
@@ -322,7 +322,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
 
   FutureOr<void> _userAskedToBeBroadcaster(
       UserAskedToBeBroadcasterEvent event, Emitter<SocketsVoiceState> emit) {
-    List<ActiveRoomUserDataEntitie> audience = state.audienceEntitie.audience;
+    List<ActiveRoomUserDataEntity> audience = state.audienceEntitie.audience;
     for (int i = 0; i < audience.length; i++) {
       if (state.audienceEntitie.audience[i].id == event.response['_id']) {
         audience[i] = audience[i].copyWith(
@@ -332,13 +332,13 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
       }
     }
 
-    emit(state.copyWith(audienceEntitie: AudienceEntitie(audience)));
+    emit(state.copyWith(audienceEntitie: AudienceEntity(audience)));
   }
 
   FutureOr<void> _userChangedToAudience(
       UserChangedToAudienceEvent event, Emitter<SocketsVoiceState> emit) {
-    BrodcastersEntitie? brodcastersEnitite = state.brodcastersEnitite;
-    late List<ActiveRoomUserDataEntitie> audience;
+    BrodcastersEntity? brodcastersEnitite = state.brodcastersEnitite;
+    late List<ActiveRoomUserDataEntity> audience;
 
     audience = state.audienceEntitie.audience;
 
@@ -352,21 +352,21 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     if (event.response['_id'] == state.meEntitie.me.id) {
       emit(state.copyWith(
           brodcastersEnitite: brodcastersEnitite,
-          audienceEntitie: AudienceEntitie(audience),
+          audienceEntitie: AudienceEntity(audience),
           liveVoiceRoomFloatingButtonStatus:
               LiveVoiceRoomFloatingButtonStatus.askToTalk));
     } else {
       emit(state.copyWith(
           brodcastersEnitite: brodcastersEnitite,
-          audienceEntitie: AudienceEntitie(audience)));
+          audienceEntitie: AudienceEntity(audience)));
     }
     add(const PlayRoomSoundEvent(AssetsPath.userBecomeAudienceAudio));
   }
 
   FutureOr<void> _userChangedToBroadcaster(
       UserChangedToBroadcasterEvent event, Emitter<SocketsVoiceState> emit) {
-    AudienceEntitie? audienceEntitie = state.audienceEntitie;
-    late List<ActiveRoomUserDataEntitie> brodcasters;
+    AudienceEntity? audienceEntitie = state.audienceEntitie;
+    late List<ActiveRoomUserDataEntity> brodcasters;
 
     brodcasters = state.brodcastersEnitite.brodcasters;
 
@@ -380,7 +380,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     if (event.response['_id'] == state.meEntitie.me.id) {
       emit(
         state.copyWith(
-            brodcastersEnitite: BrodcastersEntitie(brodcasters),
+            brodcastersEnitite: BrodcastersEntity(brodcasters),
             audienceEntitie: audienceEntitie,
             liveVoiceRoomFloatingButtonStatus:
                 LiveVoiceRoomFloatingButtonStatus.mute),
@@ -388,7 +388,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     } else {
       emit(
         state.copyWith(
-          brodcastersEnitite: BrodcastersEntitie(brodcasters),
+          brodcastersEnitite: BrodcastersEntity(brodcasters),
           audienceEntitie: audienceEntitie,
         ),
       );
@@ -537,11 +537,11 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
   FutureOr<void> _remoteUserMuteState(
       RemoteUserMuteStateEvent event, Emitter<SocketsVoiceState> emit) {
     if (event.uid == state.adminEntitie.admin.uid) {
-      AdminEntitie admin = AdminEntitie(state.adminEntitie.admin
+      AdminEntity admin = AdminEntity(state.adminEntitie.admin
           .copyWith(isMutted: event.isMuted, isSpeaking: false));
       emit(state.copyWith(adminEntitie: admin));
     } else {
-      List<ActiveRoomUserDataEntitie> broadCasters =
+      List<ActiveRoomUserDataEntity> broadCasters =
           state.brodcastersEnitite.brodcasters;
       for (int i = 0; i < broadCasters.length; i++) {
         if (state.brodcastersEnitite.brodcasters[i].uid == event.uid) {
@@ -552,17 +552,16 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
           break;
         }
       }
-      emit(
-          state.copyWith(brodcastersEnitite: BrodcastersEntitie(broadCasters)));
+      emit(state.copyWith(brodcastersEnitite: BrodcastersEntity(broadCasters)));
     }
   }
 
   FutureOr<void> _activeUserTalking(
       ActiveUserTalkingEvent event, Emitter<SocketsVoiceState> emit) {
-    List<ActiveRoomUserDataEntitie> broadCasters =
+    List<ActiveRoomUserDataEntity> broadCasters =
         state.brodcastersEnitite.brodcasters;
-    ActiveRoomUserDataEntitie admin = state.adminEntitie.admin;
-    ActiveRoomUserDataEntitie me = state.meEntitie.me;
+    ActiveRoomUserDataEntity admin = state.adminEntitie.admin;
+    ActiveRoomUserDataEntity me = state.meEntitie.me;
     bool isAdminChanged = false;
     bool isMeChanged = false;
     for (int j = 0; j < event.audioInfo.length; j++) {
@@ -608,9 +607,9 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
         state.brodcastersEnitite.brodcasters.isNotEmpty) {
       emit(
         state.copyWith(
-          brodcastersEnitite: BrodcastersEntitie(List.from(broadCasters)),
-          adminEntitie: AdminEntitie(admin),
-          meEntitie: MeEntitie(me),
+          brodcastersEnitite: BrodcastersEntity(List.from(broadCasters)),
+          adminEntitie: AdminEntity(admin),
+          meEntitie: MeEntity(me),
         ),
       );
     }
@@ -622,7 +621,7 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     if (state.isCreateRoom) {
       emit(
         state.copyWith(
-          meEntitie: MeEntitie(state.meEntitie.me
+          meEntitie: MeEntity(state.meEntitie.me
               .copyWith(isMutted: event.isMuted, isSpeaking: false)),
           liveVoiceRoomFloatingButtonStatus: event.isMuted
               ? LiveVoiceRoomFloatingButtonStatus.unmute
@@ -680,10 +679,10 @@ class SocketsVoiceBloc extends Bloc<SocketsEvent, SocketsVoiceState> {
     await agoraHelper.muteSomeone(uid: event.uid, mute: event.isMuted);
     if (event.uid == state.adminEntitie.admin.uid) {
       emit(state.copyWith(
-          adminEntitie: AdminEntitie(state.adminEntitie.admin
+          adminEntitie: AdminEntity(state.adminEntitie.admin
               .copyWith(iMuteHim: event.isMuted, isSpeaking: false))));
     } else {
-      BrodcastersEntitie brodcastersEntitie = state.brodcastersEnitite;
+      BrodcastersEntity brodcastersEntitie = state.brodcastersEnitite;
       for (int i = 0; i < state.brodcastersEnitite.brodcasters.length; i++) {
         if (state.brodcastersEnitite.brodcasters[i].uid == event.uid) {
           brodcastersEntitie.brodcasters[i] = brodcastersEntitie.brodcasters[i]

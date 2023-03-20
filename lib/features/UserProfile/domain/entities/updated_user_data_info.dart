@@ -1,7 +1,7 @@
-import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entite.dart';
+import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entity.dart';
 
-class UpdatedUserDataInfoEntitie extends BaseUserDataEntitie {
-  const UpdatedUserDataInfoEntitie(
+class UpdatedUserDataInfoEntity extends BaseUserDataEntity {
+  const UpdatedUserDataInfoEntity(
       {required super.userName,
       required super.userPhoto,
       required super.followers,

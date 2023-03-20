@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class EventUserInfoEntitie extends Equatable {
+class EventUserInfoEntity extends Equatable {
   final String userName;
   final String userPhoto;
   final String uid;
 
-  const EventUserInfoEntitie(
+  const EventUserInfoEntity(
       {required this.userName, required this.userPhoto, required this.uid});
 
   @override

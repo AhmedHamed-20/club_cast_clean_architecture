@@ -1,8 +1,8 @@
-import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/me_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/me_entity.dart';
 
 import 'active_room_user_model.dart';
 
-class MeModel extends MeEntitie {
+class MeModel extends MeEntity {
   const MeModel(super.me);
 
   factory MeModel.fromJson(List<dynamic> json) {

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_podcast_data_model.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entite.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_podcast_entity.dart';
 
-class MyPodcastModel extends MyPodcastEntitie {
+class MyPodcastModel extends MyPodcastEntity {
   const MyPodcastModel(
       {required super.results, required super.myPodcastDataEntitie});
 

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/presentation/bloc/otherusersprofiles_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/presentation/bloc/sockets/voice/sockets_voice_bloc.dart';
 import 'package:club_cast_clean_architecture/features/Search/presentation/bloc/search_bloc.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/userprofile_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -45,7 +45,7 @@ class UpdateUserProfileBasicDataScreenParams extends Equatable {
 }
 
 class EditEventScreenParams extends Equatable {
-  final MyEventsDataEntitie myEventEntitie;
+  final MyEventsDataEntity myEventEntitie;
   final MyEventsBloc myEventsBloc;
   const EditEventScreenParams(this.myEventEntitie, this.myEventsBloc);
 
@@ -149,7 +149,7 @@ class PodcastCardCallBacksParams extends Equatable {
 }
 
 class PrivateChatRoomScreenParams extends Equatable {
-  final RoomUserDataEntitie roomUserDataEntitie;
+  final RoomUserDataEntity roomUserDataEntitie;
 
   const PrivateChatRoomScreenParams({required this.roomUserDataEntitie});
 

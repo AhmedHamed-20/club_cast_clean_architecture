@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/AppStrings/app_strings.dart';
 import 'package:club_cast_clean_architecture/core/constants/constants.dart';
-import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entitie.dart';
+import 'package:club_cast_clean_architecture/features/UserProfile/domain/entities/my_events_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/bloc/MyEventsBloc/my_events_bloc.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/presentation/widgets/events/apply_event_changes_button_design.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,7 +11,7 @@ import '../../../../../core/utl/utls.dart';
 
 class ApplyChangesButtonWidget extends StatelessWidget {
   const ApplyChangesButtonWidget({super.key, required this.myEventEntitie});
-  final MyEventsDataEntitie myEventEntitie;
+  final MyEventsDataEntity myEventEntitie;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MyEventsBloc, MyEventsState>(

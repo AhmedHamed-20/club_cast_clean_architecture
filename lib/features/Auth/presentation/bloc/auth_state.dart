@@ -3,8 +3,8 @@ part of 'auth_bloc.dart';
 class AuthState extends Equatable {
   final bool isEmailSent;
 
-  final AuthEntitie? loginEntitie;
-  final AuthEntitie? signupEtitie;
+  final AuthEntity? loginEntitie;
+  final AuthEntity? signupEtitie;
   final ForgetPasswordRequestStatus forgetPasswordRequestStatus;
   final bool isLoginPasswordHide;
   final bool isSignupPasswordHide;
@@ -24,10 +24,10 @@ class AuthState extends Equatable {
 
   AuthState copyWith(
       {bool? isEmailSent,
-      AuthEntitie? loginEntitie,
+      AuthEntity? loginEntitie,
       bool? isLoginPasswordHide,
       bool? isSignupPasswordHide,
-      AuthEntitie? signupEtitie,
+      AuthEntity? signupEtitie,
       LoginRequestStatus? loginRequestStatus,
       SignUpRequestStatus? signUpRequestStatus,
       String? errorMessage,

@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entitie.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,7 @@ int otherUserPodcastPage = 2;
 class MainOtherUserPodcastWidget extends StatefulWidget {
   const MainOtherUserPodcastWidget(
       {super.key, required this.otherUserPodcastEntitie, required this.userId});
-  final OtherUserPodcastEntitie otherUserPodcastEntitie;
+  final OtherUserPodcastEntity otherUserPodcastEntitie;
   final String userId;
 
   @override

@@ -6,12 +6,12 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 class OtherUserEventsUsecase
-    extends BaseUsecase<OtherUserEventsEntitie, OtherUserEventsParams> {
+    extends BaseUsecase<OtherUserEventsEntity, OtherUserEventsParams> {
   final BaseOtherUserProfilesRepository baseOtherUserProfilesRepository;
 
   OtherUserEventsUsecase(this.baseOtherUserProfilesRepository);
   @override
-  Future<Either<Failure, OtherUserEventsEntitie>> call(
+  Future<Either<Failure, OtherUserEventsEntity>> call(
       OtherUserEventsParams params) async {
     return await baseOtherUserProfilesRepository.getOtherUserEvents(params);
   }

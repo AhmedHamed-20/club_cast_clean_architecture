@@ -1,6 +1,6 @@
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_users_info_entite.dart';
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_rooms_entitie.dart';
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_users_info_entity.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/search_rooms_entity.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entity.dart';
 import 'package:club_cast_clean_architecture/core/error/failure.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/repositories/base_search_repository.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/all_podcasts.dart';
@@ -16,7 +16,7 @@ class SearchRepositoryImpl extends BaseSearchRepository {
   SearchRepositoryImpl(this.baseRemoteSearchDataSoruce);
 
   @override
-  Future<Either<Failure, PodcastSearchEntitie>> podcastSearch(
+  Future<Either<Failure, PodcastSearchEntity>> podcastSearch(
       SearchParams params) async {
     try {
       final result = await baseRemoteSearchDataSoruce.podcastSearch(params);
@@ -29,7 +29,7 @@ class SearchRepositoryImpl extends BaseSearchRepository {
   }
 
   @override
-  Future<Either<Failure, List<SearchRoomsEntitie>>> roomsSearch(
+  Future<Either<Failure, List<SearchRoomsEntity>>> roomsSearch(
       SearchParams params) async {
     try {
       final result = await baseRemoteSearchDataSoruce.roomsSearch(params);
@@ -42,7 +42,7 @@ class SearchRepositoryImpl extends BaseSearchRepository {
   }
 
   @override
-  Future<Either<Failure, List<SearchUsersEntite>>> usersSearch(
+  Future<Either<Failure, List<SearchUsersEntity>>> usersSearch(
       SearchParams params) async {
     try {
       final result = await baseRemoteSearchDataSoruce.userSearch(params);
@@ -55,7 +55,7 @@ class SearchRepositoryImpl extends BaseSearchRepository {
   }
 
   @override
-  Future<Either<Failure, PodcastSearchEntitie>> getAllPodcasts(
+  Future<Either<Failure, PodcastSearchEntity>> getAllPodcasts(
       AllPodcastsParams params) async {
     try {
       final result = await baseRemoteSearchDataSoruce.getAllPodcasts(params);

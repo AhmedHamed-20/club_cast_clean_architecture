@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entitie.dart';
+import 'package:club_cast_clean_architecture/features/Search/domain/entities/podcast_search_entity.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/all_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/Search/domain/usecases/podcast_search.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
-import '../../domain/entities/podcast_search_information_entitie.dart';
-import '../../domain/entities/search_rooms_entitie.dart';
-import '../../domain/entities/search_users_info_entite.dart';
+import '../../domain/entities/podcast_search_information_entity.dart';
+import '../../domain/entities/search_rooms_entity.dart';
+import '../../domain/entities/search_users_info_entity.dart';
 import '../../domain/usecases/rooms_search.dart';
 import '../../domain/usecases/users_search.dart';
 
@@ -148,7 +148,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             isEndOfAllPodcasts: true,
             allPodcastsGetMorreRequestStatus: SearchRequestStatus.success));
       } else if (r.results == 10) {
-        PodcastSearchEntitie allPodcasts;
+        PodcastSearchEntity allPodcasts;
         allPodcasts = state.allPodcastsEntitie;
 
         allPodcasts.podcastInformationEntitie
@@ -162,7 +162,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           allPodcastsGetMorreRequestStatus: SearchRequestStatus.success,
         ));
       } else {
-        PodcastSearchEntitie allPodcasts = state.allPodcastsEntitie;
+        PodcastSearchEntity allPodcasts = state.allPodcastsEntitie;
         allPodcasts.podcastInformationEntitie
             .addAll(r.podcastInformationEntitie);
         emit(state.copyWith(
@@ -178,7 +178,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   FutureOr<void> _updatePodcastLikesCount(
       UpdatePodcastLikesCountEvent event, Emitter<SearchState> emit) {
     if (event.isSearch) {
-      List<PodcastSearchInformationDataEntitie> searchPodcasts =
+      List<PodcastSearchInformationDataEntity> searchPodcasts =
           state.podcastSearchEntitie.podcastInformationEntitie;
       for (int i = 0;
           i < state.podcastSearchEntitie.podcastInformationEntitie.length;
@@ -198,14 +198,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       emit(
         state.copyWith(
-          podcastSearchEntitie: PodcastSearchEntitie(
+          podcastSearchEntitie: PodcastSearchEntity(
                   podcastInformationEntitie: searchPodcasts,
                   results: state.podcastSearchEntitie.results)
               .copyWith(),
         ),
       );
     } else {
-      List<PodcastSearchInformationDataEntitie> allPodcastsModel =
+      List<PodcastSearchInformationDataEntity> allPodcastsModel =
           state.allPodcastsEntitie.podcastInformationEntitie;
       for (int i = 0;
           i < state.allPodcastsEntitie.podcastInformationEntitie.length;
@@ -225,7 +225,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       emit(
         state.copyWith(
-          allPodcastsEntitie: PodcastSearchEntitie(
+          allPodcastsEntitie: PodcastSearchEntity(
                   podcastInformationEntitie: allPodcastsModel,
                   results: state.allPodcastsEntitie.results)
               .copyWith(),

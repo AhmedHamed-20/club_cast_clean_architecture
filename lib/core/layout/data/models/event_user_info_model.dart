@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/layout/domain/entities/event_user_info.dart';
 
-class EventUserInfoModel extends EventUserInfoEntitie {
+class EventUserInfoModel extends EventUserInfoEntity {
   const EventUserInfoModel(
       {required super.userName, required super.userPhoto, required super.uid});
 
