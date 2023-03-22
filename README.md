@@ -23,6 +23,7 @@ it's a social media built on voice ✔👌
 - edit your profile information (photo-name-bio-password)
 - search about (users-podcasts-public rooms)
 - ability to change app theme color with 4 available themes and each theme support light and dark version
+- localization support (arabic - english)
 
 # Technologies
 - flutter
