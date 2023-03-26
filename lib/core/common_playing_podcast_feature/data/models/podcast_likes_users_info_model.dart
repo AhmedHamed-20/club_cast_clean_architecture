@@ -1,4 +1,4 @@
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_user_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_user_info_model.dart';
 
 import '../../domain/entities/podcast_likes_users_entity.dart';
 

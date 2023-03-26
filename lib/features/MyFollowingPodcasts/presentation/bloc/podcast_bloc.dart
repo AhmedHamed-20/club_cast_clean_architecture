@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:club_cast_clean_architecture/core/utl/utls.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entity.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/podcast_information_entity.dart';
@@ -13,19 +12,19 @@ part 'podcast_event.dart';
 part 'podcast_state.dart';
 
 class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
-  PodcastBloc(this.followingPodcastUsecase, this.moreMyFollowingPodcastsUsecase)
-      : super(const PodcastState()) {
+  PodcastBloc(
+    this.followingPodcastUsecase,
+  ) : super(const PodcastState()) {
     on<GetMyFollowingPodcastsEvent>(_getMyFollowingPodcast);
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
     on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
   final FollowingPodcastUsecase followingPodcastUsecase;
-  final MoreMyFollowingPodcastsUsecase moreMyFollowingPodcastsUsecase;
 
   FutureOr<void> _getMyFollowingPodcast(
       GetMyFollowingPodcastsEvent event, Emitter<PodcastState> emit) async {
     final result = await followingPodcastUsecase(
-        MyFollowingPodcastParams(event.accessToken));
+        MyFollowingPodcastParams(event.accessToken, 1));
 
     result.fold(
         (l) => emit(state.copyWith(
@@ -44,10 +43,10 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
 
   FutureOr<void> _getMoreMyFollowingPodcasts(
       MoreMyFollowingPodcastsGetEvent event, Emitter<PodcastState> emit) async {
-    final result = await moreMyFollowingPodcastsUsecase(
-      MoreMyFollowingPodcastParams(
-        accessToken: event.accessToken,
-        page: event.page,
+    final result = await followingPodcastUsecase(
+      MyFollowingPodcastParams(
+        event.accessToken,
+        event.page,
       ),
     );
     result.fold(

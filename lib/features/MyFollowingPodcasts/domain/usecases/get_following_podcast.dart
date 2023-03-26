@@ -8,7 +8,7 @@ import '../repositories/podcast_repository.dart';
 
 class FollowingPodcastUsecase
     extends BaseUsecase<MyFollowingPodcastEntity, MyFollowingPodcastParams> {
-  final BasePodcastRepository basePodcastRepository;
+  final BaseMyFollowingPodcastRepository basePodcastRepository;
 
   FollowingPodcastUsecase(this.basePodcastRepository);
   @override
@@ -20,8 +20,8 @@ class FollowingPodcastUsecase
 
 class MyFollowingPodcastParams extends Equatable {
   final String accessToken;
-
-  const MyFollowingPodcastParams(this.accessToken);
+  final int page;
+  const MyFollowingPodcastParams(this.accessToken, this.page);
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken, page];
 }

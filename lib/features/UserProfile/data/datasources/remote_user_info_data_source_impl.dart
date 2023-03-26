@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/error/error_message_model.dart';
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
-import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
+import 'package:club_cast_clean_architecture/core/network/network_service.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/my_events_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/other_users_basic_info_model.dart';
 import 'package:club_cast_clean_architecture/features/UserProfile/data/models/podcast_upload_model.dart';
@@ -21,7 +21,6 @@ import 'package:club_cast_clean_architecture/features/UserProfile/domain/usecase
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
-import '../../../../core/services/service_locator.dart';
 import '../../domain/usecases/upload_podcast_usecase/generate_signature.dart';
 import '../../domain/usecases/user_information/update_user_image.dart';
 import '../models/my_podcast_model.dart';
@@ -48,19 +47,22 @@ abstract class BaseUserInfoRemoteDataSource {
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
+  final NetworService _networService;
+
+  RemoteUserInfoDataSourceImpl(this._networService);
   @override
   Future<MyPodcastModel> getMyPodcasts(MyPodcastGetParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
-          .getData(url: EndPoints.getMyPodCasts, headers: {
+      final response =
+          await _networService.getData(url: EndPoints.getMyPodCasts, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page,
       });
-      return MyPodcastModel.fromJson(response?.data);
+      return MyPodcastModel.fromJson(response.data);
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e),
+        serverErrorMessageModel: ServerErrorMessageModel.fromException(e),
       );
     }
   }
@@ -69,20 +71,20 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<SignatureModel> generateSignature(
       SignatureGenerateParams params) async {
     try {
-      final respone = await servicelocator<DioHelper>().getData(
+      final respone = await _networService.getData(
           url: EndPoints.generateSignature,
           headers: {'Authorization': 'Bearer ${params.accessToken}'});
-      return SignatureModel.fromJson(respone?.data);
+      return SignatureModel.fromJson(respone.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<PodcastUploadModel> uploadPodcast(PodcastUploadParams params) async {
     try {
-      final respone = await servicelocator<DioHelper>().postData(
+      final respone = await _networService.postData(
         url: EndPoints.uploadPodcast(
             apiKey: params.apiKey,
             cloudName: params.cloudName,
@@ -106,18 +108,17 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
           'resource_type': 'auto',
         }),
       );
-      return PodcastUploadModel.fromJson(respone?.data);
+      return PodcastUploadModel.fromJson(respone.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> createPodcast(PodcastCreateParams params) async {
     try {
-      await servicelocator<DioHelper>()
-          .postData(url: EndPoints.createPodCast, headers: {
+      await _networService.postData(url: EndPoints.createPodCast, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
         'name': params.podcastName,
@@ -126,7 +127,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       });
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -134,7 +135,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<UpdatedUserDataInfoModel> updateUserData(
       UserDataUpdateParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .patchData(url: EndPoints.updateProfile, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
@@ -145,7 +146,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return UpdatedUserDataInfoModel.fromJson(response?.data['user']);
     } on DioError catch (e) {
       throw ServerException(
-        serverErrorMessageModel: ServerErrorMessageModel.fromDioException(
+        serverErrorMessageModel: ServerErrorMessageModel.fromException(
           e,
         ),
       );
@@ -155,7 +156,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   @override
   Future<String> updatePassword(PasswordUpdateParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .patchData(url: EndPoints.updatePassword, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
@@ -166,14 +167,14 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       return response?.data['token'];
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> createEvent(EventCreateParams params) async {
     try {
-      await servicelocator<DioHelper>().postData(
+      await _networService.postData(
         url: EndPoints.createEvent,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -186,23 +187,23 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<MyEventsModel> getMyEvents(MyEventsParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
-          .getData(url: EndPoints.getMyEvent, headers: {
+      final response =
+          await _networService.getData(url: EndPoints.getMyEvent, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page
       });
-      return MyEventsModel.fromJson(response?.data);
+      return MyEventsModel.fromJson(response.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -210,16 +211,16 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getFollowers(
       FollowersFollowingParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
-          .getData(url: EndPoints.myFollowers, headers: {
+      final response =
+          await _networService.getData(url: EndPoints.myFollowers, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page
       });
-      return OtherUsersDataModel.fromJson(response?.data);
+      return OtherUsersDataModel.fromJson(response.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -227,23 +228,23 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
   Future<OtherUsersDataModel> getFollowing(
       FollowersFollowingParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
-          .getData(url: EndPoints.myFollowing, headers: {
+      final response =
+          await _networService.getData(url: EndPoints.myFollowing, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'page': params.page
       });
-      return OtherUsersDataModel.fromJson(response?.data);
+      return OtherUsersDataModel.fromJson(response.data);
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> removePodcast(PodcastRemoveParams params) async {
     try {
-      await servicelocator<DioHelper>().deleteData(
+      await _networService.deleteData(
         url: EndPoints.removePodCastById + params.podcastId,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -251,14 +252,14 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> removeEvent(EventRemoveUsecaseParams params) async {
     try {
-      await servicelocator<DioHelper>().deleteData(
+      await _networService.deleteData(
         url: EndPoints.deleteEvent + params.eventID,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -266,14 +267,14 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> updateEvent(EventUpdateUsecaseParams params) async {
     try {
-      await servicelocator<DioHelper>()
+      await _networService
           .patchData(url: EndPoints.updateEventData + params.eventID, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, data: {
@@ -283,14 +284,14 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       });
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> updateUserPhoto(UpdateUserImageUsecaseParams params) async {
     try {
-      await servicelocator<DioHelper>().patchData(
+      await _networService.patchData(
         url: EndPoints.updateAvatar,
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
@@ -304,7 +305,7 @@ class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
       );
     } on DioError catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 }

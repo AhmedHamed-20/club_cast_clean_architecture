@@ -44,7 +44,7 @@ void main() {
       when(() => mockRemoteAuthDataSource.signUp(tSignUpParams)).thenThrow(
           ServerException(
               serverErrorMessageModel:
-                  ServerErrorMessageModel.fromDioException(tDioError)));
+                  ServerErrorMessageModel.fromException(tDioError)));
 
       final result = (await authRepositoryImpl.signUp(tSignUpParams))
           .fold((l) => l, (r) => null);
@@ -68,7 +68,7 @@ void main() {
       when(() => mockRemoteAuthDataSource.login(tLoginParams)).thenThrow(
           ServerException(
               serverErrorMessageModel:
-                  ServerErrorMessageModel.fromDioException(tDioError)));
+                  ServerErrorMessageModel.fromException(tDioError)));
 
       final result = (await authRepositoryImpl.login(tLoginParams))
           .fold((l) => l, (r) => null);
@@ -83,7 +83,7 @@ void main() {
               .forgetPassword(const ForgetPasswordParams('test')))
           .thenThrow(ServerException(
               serverErrorMessageModel:
-                  ServerErrorMessageModel.fromDioException(tDioError)));
+                  ServerErrorMessageModel.fromException(tDioError)));
 
       final result = (await authRepositoryImpl
               .forgetPassword(const ForgetPasswordParams('test')))

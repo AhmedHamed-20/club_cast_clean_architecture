@@ -13,7 +13,7 @@ class GetMyFollowingPodcastsEvent extends PodcastEvent {
 
 class MoreMyFollowingPodcastsGetEvent extends PodcastEvent {
   final String accessToken;
-  final String page;
+  final int page;
 
   const MoreMyFollowingPodcastsGetEvent(
       {required this.accessToken, required this.page});

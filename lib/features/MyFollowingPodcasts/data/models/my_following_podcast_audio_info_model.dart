@@ -6,4 +6,12 @@ class PodcastAudioInfoModel extends PodcastAudioInoEntitie {
   factory PodcastAudioInfoModel.fromJson(Map<String, dynamic> json) {
     return PodcastAudioInfoModel(json['duration'], json['url']);
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {'duration': podcastDuration, 'url': podcastUrl};
+  }
+
+  @override
+  List<Object?> get props => [podcastDuration, podcastUrl];
 }

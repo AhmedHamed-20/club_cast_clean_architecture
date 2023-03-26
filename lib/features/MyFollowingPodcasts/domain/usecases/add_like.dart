@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import '../repositories/podcast_repository.dart';
 
 class LikeAddByIdUsecase extends BaseUsecase<void, LikeAddParams> {
-  final BasePodcastRepository podcastRepository;
+  final BaseMyFollowingPodcastRepository podcastRepository;
 
   LikeAddByIdUsecase(this.podcastRepository);
   @override

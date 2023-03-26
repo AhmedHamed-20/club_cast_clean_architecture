@@ -1,13 +1,11 @@
 import 'package:club_cast_clean_architecture/core/error/error_message_model.dart';
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
-import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/followers_following_data_model.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_events_model.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
-import 'package:dio/dio.dart';
 
-import '../../../../core/services/service_locator.dart';
+import '../../../../core/network/network_service.dart';
 import '../../domain/usecases/follow_user.dart';
 import '../../domain/usecases/get_other_user_podcasts.dart';
 import '../../domain/usecases/get_user_followers.dart';
@@ -32,19 +30,22 @@ abstract class BaseRemoteOtherUsersDataSorce {
 }
 
 class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
+  final NetworService _networService;
+
+  RemoteOtherUserDataSourceImpl(this._networService);
   @override
   Future<OtherUserDataModel> getOtherUsersProfiles(
       UserProfileDataGetParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .getData(url: EndPoints.users + params.userId, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       });
 
-      return OtherUserDataModel.fromJson(response?.data['data']);
-    } on DioError catch (e) {
+      return OtherUserDataModel.fromJson(response.data['data']);
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -52,18 +53,17 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserFollowersFollowingDataModel> getUserFollowers(
       OtherUserFollowersFollowingParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .getData(url: EndPoints.userFollowers(params.uid), query: {
         'page': params.page
       }, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       });
 
-      return OtherUserFollowersFollowingDataModel.fromJson(
-          response?.data, true);
-    } on DioError catch (e) {
+      return OtherUserFollowersFollowingDataModel.fromJson(response.data, true);
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -71,7 +71,7 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserFollowersFollowingDataModel> getUserFollowing(
       OtherUserFollowersFollowingParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .getData(url: EndPoints.userFollowing(params.uid), query: {
         'page': params.page
       }, headers: {
@@ -79,10 +79,10 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
       });
 
       return OtherUserFollowersFollowingDataModel.fromJson(
-          response?.data, false);
-    } on DioError catch (e) {
+          response.data, false);
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -90,7 +90,7 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserPodcastModel> getOtherUserPodcasts(
       OtherUserPodcastParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .getData(url: EndPoints.getuserPodCast + params.userId, query: {
         'page': params.page
       }, headers: {
@@ -98,37 +98,37 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
       });
 
       return OtherUserPodcastModel.fromJson(
-        response?.data,
+        response.data,
       );
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> followUser(FollowUnfollowUserParams params) async {
     try {
-      await servicelocator<DioHelper>()
+      await _networService
           .postData(url: EndPoints.userFollowing(params.userId), headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       });
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> unFollowUser(FollowUnfollowUserParams params) async {
     try {
-      await servicelocator<DioHelper>()
+      await _networService
           .deleteData(url: EndPoints.userFollowing(params.userId), headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       });
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
@@ -136,17 +136,17 @@ class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
   Future<OtherUserEventsModel> getOtherUserEvents(
       OtherUserEventsParams params) async {
     try {
-      final response = await servicelocator<DioHelper>()
+      final response = await _networService
           .getData(url: EndPoints.getMyFollowingEvent, headers: {
         'Authorization': 'Bearer ${params.accessToken}',
       }, query: {
         'createdBy': params.userId,
         'page': params.page
       });
-      return OtherUserEventsModel.fromJson(response?.data);
-    } on DioError catch (e) {
+      return OtherUserEventsModel.fromJson(response.data);
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 }

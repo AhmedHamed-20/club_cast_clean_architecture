@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 class LikeRemoveByPodcastIdUsecase
     extends BaseUsecase<void, LikeRemoveByPodcastIdParams> {
-  final BasePodcastRepository basePodcastRepository;
+  final BaseMyFollowingPodcastRepository basePodcastRepository;
 
   LikeRemoveByPodcastIdUsecase(this.basePodcastRepository);
   @override

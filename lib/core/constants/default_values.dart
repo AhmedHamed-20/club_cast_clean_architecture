@@ -1,5 +1,4 @@
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_entitie.dart';
-import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/data/models/active_room_user_model.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/active_room_user_data_entity.dart';
 import 'package:club_cast_clean_architecture/features/Rooms/domain/entities/admin_entity.dart';
@@ -10,7 +9,8 @@ import '../../features/Rooms/domain/entities/audience_entity.dart';
 import '../../features/Rooms/domain/entities/brodcasters_entity.dart';
 import '../../features/Rooms/domain/entities/me_entity.dart';
 import '../../features/UserProfile/data/models/my_podcast_data_model.dart';
-import 'base_podcast_entitie/base_podcast_audio_info.dart';
+import '../../features/UserProfile/data/models/my_podcast_info_model.dart';
+import '../../features/UserProfile/data/models/my_podcast_user_info.dart';
 
 class DefaultsValues extends Equatable {
   static const JoinCreateRoomEntity joinCreateRoomEntitieDefault =
@@ -49,8 +49,8 @@ class DefaultsValues extends Equatable {
           category: '',
           createdAt: '',
           isLiked: false,
-          podcastUserInfo: PodcastUserInfoEntity('', '', ''),
-          podcastInfo: PodcastAudioInoEntitie(
+          podcastUserInfo: MyPodcastUserInfoModel('', '', ''),
+          podcastInfo: MyPodcastAudioInfoModel(
             0,
             '',
           ));

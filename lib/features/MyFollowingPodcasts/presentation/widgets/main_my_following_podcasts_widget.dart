@@ -90,7 +90,7 @@ class _MainMyFollowingPodcastsWidgetState
         BlocProvider.of<PodcastBloc>(context).add(
           MoreMyFollowingPodcastsGetEvent(
             accessToken: ConstVar.accessToken,
-            page: myFollowingPodcastsPage.toString(),
+            page: myFollowingPodcastsPage,
           ),
         );
         myFollowingPodcastsPage++;

@@ -167,5 +167,13 @@
     "room_name_must_be_at_least_3_characters": "يجب ألا يقل اسم الغرفة عن 3 أحرف",
     "room_name_must_be_alphanumeric": "يجب أن يكون اسم الغرفة أبجديًا وان يكون باللغة الإنجليزية",
     "please_enter_your_room_id": "الرجاء إدخال كلمة سر غرفتك",
-    "room_id_must_be_24_characters": "يجب أن تتكون كلمة سر الغرفة من 24 حرفًا"
+    "room_id_must_be_24_characters": "يجب أن تتكون كلمة سر الغرفة من 24 حرفًا",
+    "connection_timeout": "انتهت مهلة الاتصال",
+    "send_timeout": "انتهت مهلة الإرسال",
+    "receive_timeout": "انتهت مهلة الاستقبال",
+    "request_cancelled": "تم إلغاء الطلب",
+    "no_internet_connection": "لا يوجد اتصال بالانترنت",
+    "unexpected_error": "خطأ غير متوقع",
+    "internal_server_error": "خطأ في خوادمنا",
+    "not_found": "غير موجود"
 }

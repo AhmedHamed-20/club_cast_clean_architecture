@@ -23,6 +23,7 @@ import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_my_
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/remove_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/update_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/presentation/bloc/layout_bloc.dart';
+import 'package:club_cast_clean_architecture/core/network/network_service.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_local_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/repositories/auth_repository.dart';
@@ -34,7 +35,6 @@ import 'package:club_cast_clean_architecture/features/Auth/presentation/bloc/aut
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/presentation/bloc/podcast_bloc.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/datasources/remote_other_users_data_source.dart';
@@ -87,7 +87,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Auth/domain/usecases/login.dart';
 import '../../features/MyFollowingPodcasts/data/datasources/pdocast_remote_data_source.dart';
-import '../../features/MyFollowingPodcasts/data/repositories/podcast_repository.dart';
+import '../../features/MyFollowingPodcasts/data/repositories/my_following_podcast_repository.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/follow_user.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/get_user_following.dart';
 import '../../features/OtherUsersProfiles/domain/usecases/un_follow_user.dart';
@@ -116,8 +116,10 @@ class ServiceLocator {
       ),
     );
     servicelocator.registerLazySingleton<Dio>(() => dio);
-    servicelocator
-        .registerLazySingleton<DioHelper>(() => DioHelper(servicelocator()));
+
+    servicelocator.registerLazySingleton<NetworService>(() => DioHelper(
+          servicelocator(),
+        ));
   }
 
 //socket
@@ -133,7 +135,6 @@ class ServiceLocator {
     servicelocator.registerFactory<AuthBloc>(() => AuthBloc(servicelocator(),
         servicelocator(), servicelocator(), servicelocator()));
     servicelocator.registerFactory<PodcastBloc>(() => PodcastBloc(
-          servicelocator(),
           servicelocator(),
         ));
 
@@ -244,8 +245,7 @@ class ServiceLocator {
         () => CachedAccessTokenGetUsecase(servicelocator()));
     servicelocator.registerLazySingleton<MyFollowingEventsUsecase>(
         () => MyFollowingEventsUsecase(servicelocator()));
-    servicelocator.registerLazySingleton<MoreMyFollowingPodcastsUsecase>(
-        () => MoreMyFollowingPodcastsUsecase(servicelocator()));
+
     servicelocator.registerLazySingleton<PodcastDownloadUsecase>(
         () => PodcastDownloadUsecase(servicelocator()));
     servicelocator.registerLazySingleton<LikeAddMyPodcastsUsecast>(
@@ -321,8 +321,8 @@ class ServiceLocator {
     servicelocator.registerLazySingleton<BaseAuthRepository>(
         () => AuthRepositoryImple(servicelocator(), servicelocator()));
 
-    servicelocator.registerLazySingleton<BasePodcastRepository>(
-        () => PodcastRepositoryImple(servicelocator()));
+    servicelocator.registerLazySingleton<BaseMyFollowingPodcastRepository>(
+        () => MyFollowingPodcastRepositoryImple(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutRepository>(
         () => LayoutRepositoryImpl(servicelocator(), servicelocator()));
     servicelocator.registerLazySingleton<BaseUserInfoRepository>(
@@ -341,21 +341,22 @@ class ServiceLocator {
         () => AuthRemoteDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseAuthLocalDataSource>(
         () => AuthLocalDataSourceImpl(servicelocator()));
-    servicelocator.registerLazySingleton<BasePodcastRemoteDataSource>(
-        () => PodcastRemoteDataSourceImpl());
+    servicelocator
+        .registerLazySingleton<BaseMyFollowingPodcastRemoteDataSource>(
+            () => MyFollowingPodcastRemoteDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
-        () => LayoutRemoteDataSourceImpl());
+        () => LayoutRemoteDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutLocalDataSource>(
         () => LayoutLocalDataSourceImpl());
     servicelocator.registerLazySingleton<BaseUserInfoRemoteDataSource>(
-        () => RemoteUserInfoDataSourceImpl());
+        () => RemoteUserInfoDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseCommonPlayingPodcastDataSource>(
-        () => RemoteCommonPlayingPodcastDataSource());
+        () => RemoteCommonPlayingPodcastDataSource(servicelocator()));
     servicelocator.registerLazySingleton<BaseRemoteOtherUsersDataSorce>(
-        () => RemoteOtherUserDataSourceImpl());
+        () => RemoteOtherUserDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseRemoteRoomsDataSource>(
-        () => RemoteRoomsDataSourceImpl());
+        () => RemoteRoomsDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseRemoteSearchDataSoruce>(
-        () => RemoteSearchDataSource());
+        () => RemoteSearchDataSource(servicelocator()));
   }
 }

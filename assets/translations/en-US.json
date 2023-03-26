@@ -167,5 +167,13 @@
     "room_name_must_be_at_least_3_characters": "Room name must be at least 3 characters",
     "room_name_must_be_alphanumeric": "Room name must be alphanumeric",
     "please_enter_your_room_id": "Please enter your room id",
-    "room_id_must_be_24_characters": "Room id must be 24 characters"
+    "room_id_must_be_24_characters": "Room id must be 24 characters",
+    "connection_timeout": "Connection timeout",
+    "send_timeout": "Send timeout",
+    "receive_timeout": "Receive timeout",
+    "request_cancelled": "Request cancelled",
+    "no_internet_connection": "No internet connection",
+    "unexpected_error": "Unexpected error",
+    "internal_server_error": "Internal server error",
+    "not_found": "Not found"
 }
