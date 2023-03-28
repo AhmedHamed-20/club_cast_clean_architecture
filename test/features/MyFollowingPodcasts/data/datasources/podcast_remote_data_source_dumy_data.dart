@@ -2,7 +2,14 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/m
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_information_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_user_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_entity.dart';
 import 'package:dio/dio.dart';
+
+const MyFollowingPodcastEntity tMyFollowingPodcastEntity =
+    MyFollowingPodcastEntity(
+  results: 1,
+  podcastInformationEntitie: [tPodcastInformationModel],
+);
 
 const MyFollowingPodcastModel tMyFollowingPodcastModel =
     MyFollowingPodcastModel(

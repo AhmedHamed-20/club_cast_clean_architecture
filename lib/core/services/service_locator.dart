@@ -213,14 +213,15 @@ class ServiceLocator {
     servicelocator.registerLazySingleton<ForgetPasswordUsecase>(
         () => ForgetPasswordUsecase(servicelocator()));
 
-    servicelocator.registerLazySingleton<FollowingPodcastUsecase>(
-        () => FollowingPodcastUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<MyFollowingPodcastGetUsecase>(
+        () => MyFollowingPodcastGetUsecase(servicelocator()));
     servicelocator.registerLazySingleton<PodcastLikesUsersUsecase>(
         () => PodcastLikesUsersUsecase(servicelocator()));
-    servicelocator.registerLazySingleton<LikeAddByIdUsecase>(
-        () => LikeAddByIdUsecase(servicelocator()));
-    servicelocator.registerLazySingleton<LikeRemoveByPodcastIdUsecase>(
-        () => LikeRemoveByPodcastIdUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<MyFollowingPodcastLikeAddByIdUsecase>(
+        () => MyFollowingPodcastLikeAddByIdUsecase(servicelocator()));
+    servicelocator.registerLazySingleton<
+            MyFollowingPodcastLikeRemoveByPodcastIdUsecase>(
+        () => MyFollowingPodcastLikeRemoveByPodcastIdUsecase(servicelocator()));
     servicelocator.registerLazySingleton<ActiveUserDataGetUseCase>(
         () => ActiveUserDataGetUseCase(servicelocator()));
     servicelocator.registerLazySingleton<UserDataUpdateUseCase>(

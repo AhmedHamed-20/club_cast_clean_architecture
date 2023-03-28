@@ -19,7 +19,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     on<MoreMyFollowingPodcastsGetEvent>(_getMoreMyFollowingPodcasts);
     on<UpdatePodcastLikesCountEvent>(_updatePodcastLikesCount);
   }
-  final FollowingPodcastUsecase followingPodcastUsecase;
+  final MyFollowingPodcastGetUsecase followingPodcastUsecase;
 
   FutureOr<void> _getMyFollowingPodcast(
       GetMyFollowingPodcastsEvent event, Emitter<PodcastState> emit) async {
