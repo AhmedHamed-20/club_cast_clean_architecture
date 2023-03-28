@@ -6,11 +6,11 @@ import 'package:equatable/equatable.dart';
 
 import '../repositories/podcast_repository.dart';
 
-class FollowingPodcastUsecase
+class MyFollowingPodcastGetUsecase
     extends BaseUsecase<MyFollowingPodcastEntity, MyFollowingPodcastParams> {
-  final BasePodcastRepository basePodcastRepository;
+  final BaseMyFollowingPodcastRepository basePodcastRepository;
 
-  FollowingPodcastUsecase(this.basePodcastRepository);
+  MyFollowingPodcastGetUsecase(this.basePodcastRepository);
   @override
   Future<Either<Failure, MyFollowingPodcastEntity>> call(
       MyFollowingPodcastParams params) async {
@@ -20,8 +20,8 @@ class FollowingPodcastUsecase
 
 class MyFollowingPodcastParams extends Equatable {
   final String accessToken;
-
-  const MyFollowingPodcastParams(this.accessToken);
+  final int page;
+  const MyFollowingPodcastParams(this.accessToken, this.page);
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken, page];
 }

@@ -6,4 +6,16 @@ class MyPodcastUserInfoModel extends PodcastUserInfoEntity {
   factory MyPodcastUserInfoModel.fromJson(Map<String, dynamic> json) {
     return MyPodcastUserInfoModel(json['name'], json['photo'], json['_id']);
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': userName,
+      'photo': userImage,
+      '_id': userId,
+    };
+  }
+
+  @override
+  List<Object?> get props => [userName, userImage, userId];
 }

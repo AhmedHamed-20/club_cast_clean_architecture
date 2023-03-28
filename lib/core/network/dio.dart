@@ -1,13 +1,15 @@
 import 'package:club_cast_clean_architecture/core/services/service_locator.dart';
 import 'package:dio/dio.dart';
 
-class DioHelper {
-  Dio dio;
+import 'network_service.dart';
+
+class DioHelper extends NetworkService {
+  final Dio dio;
   DioHelper(
     this.dio,
   );
-
-  Future<Response<dynamic>?> getData({
+  @override
+  Future<Response<dynamic>> getData({
     required String url,
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
@@ -23,7 +25,8 @@ class DioHelper {
     );
   }
 
-  Future<Response<dynamic>?> postData({
+  @override
+  Future<Response<dynamic>> postData({
     required String url,
     dynamic data,
     Map<String, dynamic>? headers,
@@ -41,6 +44,7 @@ class DioHelper {
     );
   }
 
+  @override
   Future<dynamic> deleteData(
       {String? url,
       Map<String, dynamic>? query,
@@ -52,6 +56,7 @@ class DioHelper {
     );
   }
 
+  @override
   Future<dynamic> patchData({
     String? url,
     Map<String, dynamic>? query,
@@ -66,6 +71,7 @@ class DioHelper {
     );
   }
 
+  @override
   Future<Response<dynamic>> downloadData(
       {required String url,
       required String savedPath,

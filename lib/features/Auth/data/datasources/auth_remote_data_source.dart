@@ -1,12 +1,12 @@
 import 'package:club_cast_clean_architecture/core/error/error_message_model.dart';
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
-import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
 import 'package:club_cast_clean_architecture/features/Auth/data/models/auth_model.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/forget_password.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/login.dart';
 import 'package:club_cast_clean_architecture/features/Auth/domain/usecases/sign_up.dart';
-import 'package:dio/dio.dart';
+
+import '../../../../core/network/network_service.dart';
 
 abstract class BaseAuthRemoteDataSource {
   Future<AuthModel> signUp(SignUpParams params);
@@ -15,13 +15,14 @@ abstract class BaseAuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
-  final DioHelper _dioHelper;
+  final NetworkService _networkService;
 
-  AuthRemoteDataSourceImpl(this._dioHelper);
+  AuthRemoteDataSourceImpl(this._networkService);
   @override
   Future<AuthModel> signUp(SignUpParams params) async {
     try {
-      final respone = await _dioHelper.postData(url: EndPoints.signup, data: {
+      final respone =
+          await _networkService.postData(url: EndPoints.signup, data: {
         'name': params.name,
         'email': params.email,
         'password': params.password,
@@ -30,39 +31,40 @@ class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
         "language": "arabic",
       });
 
-      return AuthModel.fromJson(respone?.data);
-    } on DioError catch (error) {
+      return AuthModel.fromJson(respone.data);
+    } on Exception catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromDioException(error));
+              ServerErrorMessageModel.fromException(error));
     }
   }
 
   @override
   Future<AuthModel> login(LoginParams params) async {
     try {
-      final response = await _dioHelper.postData(url: EndPoints.login, data: {
+      final response =
+          await _networkService.postData(url: EndPoints.login, data: {
         'email': params.email,
         'password': params.password,
       });
-      return AuthModel.fromJson(response?.data);
-    } on DioError catch (error) {
+      return AuthModel.fromJson(response.data);
+    } on Exception catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromDioException(error));
+              ServerErrorMessageModel.fromException(error));
     }
   }
 
   @override
   Future<void> forgetPassword(ForgetPasswordParams params) async {
     try {
-      await _dioHelper.postData(url: EndPoints.forgotPassword, data: {
+      await _networkService.postData(url: EndPoints.forgotPassword, data: {
         'email': params.email,
       });
-    } on DioError catch (error) {
+    } on Exception catch (error) {
       throw ServerException(
           serverErrorMessageModel:
-              ServerErrorMessageModel.fromDioException(error));
+              ServerErrorMessageModel.fromException(error));
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_userinfo_entity.dart';
 import 'package:club_cast_clean_architecture/core/constants/base_podcast_entitie/base_podcast_audio_info.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_audio_info_model.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/podcast_user_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_audio_info_model.dart';
+import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/data/models/my_following_podcast_user_info_model.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/entities/podcast_information_entity.dart';
 
 class PodcastInformationModel extends PodcastInformationEntity {
@@ -26,6 +26,19 @@ class PodcastInformationModel extends PodcastInformationEntity {
       podcastInfo: PodcastAudioInfoModel.fromJson(json['audio']),
     );
   }
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'isLiked': isLiked,
+      'category': category,
+      'createdAt': createdAt,
+      '_id': podcastId,
+      'likes': podcastLikesCount,
+      'name': podcastName,
+      'createdBy': podcastUserInfo.toJson(),
+      'audio': podcastInfo.toJson(),
+    };
+  }
 
   @override
   PodcastInformationEntity copyWith(
@@ -48,4 +61,16 @@ class PodcastInformationModel extends PodcastInformationEntity {
       podcastInfo: podcastInfo ?? this.podcastInfo,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        podcastId,
+        podcastName,
+        podcastLikesCount,
+        category,
+        createdAt,
+        isLiked,
+        podcastUserInfo,
+        podcastInfo,
+      ];
 }

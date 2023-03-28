@@ -1,3 +1,5 @@
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/followers_following_basic_data_entity.dart';
+
 import '../../domain/entities/followers_following_data_entity.dart';
 import 'followers_following_basic_data_model.dart';
 
@@ -26,6 +28,41 @@ class OtherUserFollowersFollowingDataModel
                 e['following']))
             .toList(),
       );
+    }
+  }
+
+  @override
+  OtherUserFollowersFollowingDataEntity copyWith(
+      {int? results,
+      List<OtherUserFollowersFollowingUserDataEntity>?
+          otherUserFollowersFollowingUserDataEntitie}) {
+    return OtherUserFollowersFollowingDataModel(
+        results: results ?? this.results,
+        otherUserFollowersFollowingUserDataEntitie:
+            otherUserFollowersFollowingUserDataEntitie ??
+                this.otherUserFollowersFollowingUserDataEntitie);
+  }
+
+  @override
+  Map<String, dynamic> toJson(bool isFollower) {
+    Map<String, dynamic> usersData = {};
+    for (var user in otherUserFollowersFollowingUserDataEntitie) {
+      usersData.addAll(user.toJson());
+    }
+    if (isFollower) {
+      return {
+        'results': results,
+        'data': [
+          {'follower': usersData}
+        ]
+      };
+    } else {
+      return {
+        'results': results,
+        'data': [
+          {'following': usersData}
+        ]
+      };
     }
   }
 

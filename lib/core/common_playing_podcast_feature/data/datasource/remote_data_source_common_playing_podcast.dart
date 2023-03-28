@@ -2,11 +2,9 @@ import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature
 import 'package:club_cast_clean_architecture/core/common_playing_podcast_feature/domain/usecases/get_podcast_likes_users.dart';
 import 'package:club_cast_clean_architecture/core/error/error_message_model.dart';
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
-import 'package:club_cast_clean_architecture/core/network/dio.dart';
 import 'package:club_cast_clean_architecture/core/network/endpoints.dart';
-import 'package:dio/dio.dart';
+import 'package:club_cast_clean_architecture/core/network/network_service.dart';
 
-import '../../../services/service_locator.dart';
 import '../../domain/usecases/add_like.dart';
 import '../../domain/usecases/download_podcast.dart';
 import '../../domain/usecases/remove_like.dart';
@@ -23,28 +21,31 @@ abstract class BaseCommonPlayingPodcastDataSource {
 
 class RemoteCommonPlayingPodcastDataSource
     extends BaseCommonPlayingPodcastDataSource {
+  final NetworkService _networService;
+
+  RemoteCommonPlayingPodcastDataSource(this._networService);
   @override
   Future<List<PodcastLikesUsersInfoModel>> getPodcastLikesUsers(
       PodcastLikesUsersparams params) async {
     try {
-      final response = await servicelocator<DioHelper>().getData(
+      final response = await _networService.getData(
           url: EndPoints.getPodcastLikesUsers(params.podcastId),
           headers: {
             'Authorization': 'Bearer ${params.accessToken}',
           });
-      return (response?.data['data'] as List)
+      return (response.data['data'] as List)
           .map((e) => PodcastLikesUsersInfoModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> downloadPodcast(PodcastDownloadParams params) async {
     try {
-      await servicelocator<DioHelper>().downloadData(
+      await _networService.downloadData(
         url: params.podcastUrl,
         savedPath: params.savedPath,
         onReceive: (recieved, total) {
@@ -52,39 +53,39 @@ class RemoteCommonPlayingPodcastDataSource
           params.receivedData.add(progress);
         },
       );
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> addLike(LikeAddMyPodcastsParams params) async {
     try {
-      await servicelocator<DioHelper>().postData(
+      await _networService.postData(
         url: EndPoints.sendLike(params.podcastId),
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 
   @override
   Future<void> removeLike(LikeRemoveMyPodcastsParams params) async {
     try {
-      await servicelocator<DioHelper>().deleteData(
+      await _networService.deleteData(
         url: EndPoints.removeLikeFromPodcastById(params.podcastId),
         headers: {
           'Authorization': 'Bearer ${params.accessToken}',
         },
       );
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       throw ServerException(
-          serverErrorMessageModel: ServerErrorMessageModel.fromDioException(e));
+          serverErrorMessageModel: ServerErrorMessageModel.fromException(e));
     }
   }
 }

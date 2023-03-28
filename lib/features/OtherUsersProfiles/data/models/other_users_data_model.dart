@@ -24,6 +24,20 @@ class OtherUserDataModel extends OtherUserDataEntity {
         createdAt: json['createdAt'],
         bio: json['bio']);
   }
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': userName,
+      'photo': userPhoto,
+      'followers': followers,
+      'following': following,
+      '_id': id,
+      'isFollowed': isFollowing,
+      'email': email,
+      'createdAt': createdAt,
+      'bio': bio,
+    };
+  }
 
   @override
   List<Object?> get props => [

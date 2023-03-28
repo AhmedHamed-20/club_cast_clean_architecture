@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'other_user_podcast_data_entitie.dart';
 
-class OtherUserPodcastEntity extends Equatable {
+abstract class OtherUserPodcastEntity extends Equatable {
   final int results;
   final List<OtherUserPodcastDataEntity> otherUserPodcastDataEntitie;
   const OtherUserPodcastEntity({
@@ -14,14 +14,7 @@ class OtherUserPodcastEntity extends Equatable {
   OtherUserPodcastEntity copyWith({
     int? results,
     List<OtherUserPodcastDataEntity>? otherUserPodcastDataEntitie,
-  }) {
-    return OtherUserPodcastEntity(
-      results: results ?? this.results,
-      otherUserPodcastDataEntitie:
-          otherUserPodcastDataEntitie ?? this.otherUserPodcastDataEntitie,
-    );
-  }
+  });
 
-  @override
-  List<Object?> get props => [results, otherUserPodcastDataEntitie];
+  Map<String, dynamic> toJson();
 }

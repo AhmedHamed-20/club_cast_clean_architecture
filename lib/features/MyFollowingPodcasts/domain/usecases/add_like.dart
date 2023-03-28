@@ -4,10 +4,11 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../repositories/podcast_repository.dart';
 
-class LikeAddByIdUsecase extends BaseUsecase<void, LikeAddParams> {
-  final BasePodcastRepository podcastRepository;
+class MyFollowingPodcastLikeAddByIdUsecase
+    extends BaseUsecase<void, LikeAddParams> {
+  final BaseMyFollowingPodcastRepository podcastRepository;
 
-  LikeAddByIdUsecase(this.podcastRepository);
+  MyFollowingPodcastLikeAddByIdUsecase(this.podcastRepository);
   @override
   Future<Either<Failure, void>> call(LikeAddParams params) async {
     return await podcastRepository.addLikeToPodcast(params);

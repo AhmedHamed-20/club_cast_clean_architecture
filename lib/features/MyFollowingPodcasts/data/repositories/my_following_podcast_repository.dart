@@ -5,14 +5,14 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/repositories/podcast_repository.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/add_like.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_following_podcast.dart';
-import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/get_more_my_following_podcasts.dart';
 import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain/usecases/remove_like_by_podcast_id.dart';
 import 'package:dartz/dartz.dart';
 
-class PodcastRepositoryImple extends BasePodcastRepository {
-  final BasePodcastRemoteDataSource basePodcastRemoteDataSource;
+class MyFollowingPodcastRepositoryImple
+    extends BaseMyFollowingPodcastRepository {
+  final BaseMyFollowingPodcastRemoteDataSource basePodcastRemoteDataSource;
 
-  PodcastRepositoryImple(this.basePodcastRemoteDataSource);
+  MyFollowingPodcastRepositoryImple(this.basePodcastRemoteDataSource);
   @override
   Future<Either<Failure, MyFollowingPodcastEntity>> getMyFollowingPodcast(
       MyFollowingPodcastParams params) async {
@@ -54,20 +54,6 @@ class PodcastRepositoryImple extends BasePodcastRepository {
         message: exception.serverErrorMessageModel.message,
         statusCode: exception.serverErrorMessageModel.statusCode,
       ));
-    }
-  }
-
-  @override
-  Future<Either<Failure, MyFollowingPodcastEntity>> getMoreMyFollowingPodcast(
-      MoreMyFollowingPodcastParams params) async {
-    try {
-      final result =
-          await basePodcastRemoteDataSource.getMoreMyFollowingPodcasts(params);
-      return Right(result);
-    } on ServerException catch (exception) {
-      return Left(ServerFailure(
-          message: exception.serverErrorMessageModel.message,
-          statusCode: exception.serverErrorMessageModel.statusCode));
     }
   }
 }

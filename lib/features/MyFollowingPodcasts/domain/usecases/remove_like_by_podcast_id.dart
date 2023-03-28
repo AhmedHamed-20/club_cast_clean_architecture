@@ -4,11 +4,11 @@ import 'package:club_cast_clean_architecture/features/MyFollowingPodcasts/domain
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class LikeRemoveByPodcastIdUsecase
+class MyFollowingPodcastLikeRemoveByPodcastIdUsecase
     extends BaseUsecase<void, LikeRemoveByPodcastIdParams> {
-  final BasePodcastRepository basePodcastRepository;
+  final BaseMyFollowingPodcastRepository basePodcastRepository;
 
-  LikeRemoveByPodcastIdUsecase(this.basePodcastRepository);
+  MyFollowingPodcastLikeRemoveByPodcastIdUsecase(this.basePodcastRepository);
   @override
   Future<Either<Failure, void>> call(LikeRemoveByPodcastIdParams params) async {
     return await basePodcastRepository.removeLikeFromPodcast(params);

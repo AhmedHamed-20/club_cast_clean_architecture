@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'followers_following_basic_data_entity.dart';
 
-class OtherUserFollowersFollowingDataEntity extends Equatable {
+abstract class OtherUserFollowersFollowingDataEntity extends Equatable {
   final int results;
   final List<OtherUserFollowersFollowingUserDataEntity>
       otherUserFollowersFollowingUserDataEntitie;
@@ -16,15 +16,7 @@ class OtherUserFollowersFollowingDataEntity extends Equatable {
     int? results,
     List<OtherUserFollowersFollowingUserDataEntity>?
         otherUserFollowersFollowingUserDataEntitie,
-  }) {
-    return OtherUserFollowersFollowingDataEntity(
-        results: results ?? this.results,
-        otherUserFollowersFollowingUserDataEntitie:
-            otherUserFollowersFollowingUserDataEntitie ??
-                this.otherUserFollowersFollowingUserDataEntitie);
-  }
+  });
 
-  @override
-  List<Object?> get props =>
-      [results, otherUserFollowersFollowingUserDataEntitie];
+  Map<String, dynamic> toJson(bool isFollower);
 }

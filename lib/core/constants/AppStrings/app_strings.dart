@@ -198,4 +198,12 @@ class AppStrings {
       'room_id_must_be_24_characters';
   static const String accessTokenKey = 'accessToken';
   static const String appLanguageKey = 'appLanguage';
+  static const String connectionTimeout = 'connection_timeout';
+  static const String sendTimeout = 'send_timeout';
+  static const String receiveTimeout = 'receive_timeout';
+  static const String requestCancelled = 'request_cancelled';
+  static const String noInternet = 'no_internet_connection';
+  static const String unExpectedError = 'unexpected_error';
+  static const String internalServerError = 'internal_server_error';
+  static const String notFound = 'not_found';
 }

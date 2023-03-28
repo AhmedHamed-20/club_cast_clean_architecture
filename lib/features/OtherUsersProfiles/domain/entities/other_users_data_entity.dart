@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/base_user_info_entitie/base_user_info_entity.dart';
 
-class OtherUserDataEntity extends BaseUserDataEntity {
+abstract class OtherUserDataEntity extends BaseUserDataEntity {
   final bool isFollowing;
   const OtherUserDataEntity(
       {required super.userName,
@@ -13,16 +13,5 @@ class OtherUserDataEntity extends BaseUserDataEntity {
       required super.createdAt,
       required super.bio});
 
-  @override
-  List<Object?> get props => [
-        userName,
-        userPhoto,
-        isFollowing,
-        followers,
-        following,
-        id,
-        email,
-        createdAt,
-        bio
-      ];
+  Map<String, dynamic> toJson();
 }
