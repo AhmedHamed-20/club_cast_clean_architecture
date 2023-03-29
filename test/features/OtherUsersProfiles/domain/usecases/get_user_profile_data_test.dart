@@ -22,7 +22,7 @@ void main() {
   });
   group('test otherUserProfileDataGetUsecase', () {
     test(
-        'otherUserProfileDataGetUsecase should return OtherUserFollowersFollowingDataEntity on right when success',
+        'otherUserProfileDataGetUsecase should return OtherUserDataEntity on right when success',
         () async {
       // arrange
       const OtherUserDataEntity tOtherUserDataEntity = tOtherUsersDataModel;
