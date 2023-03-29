@@ -1,11 +1,6 @@
 import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/network/network_service.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/datasources/remote_other_users_data_source.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_followers.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_profile_data.dart';
-import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,15 +12,7 @@ class MockNetworkService extends Mock implements NetworkService {}
 void main() {
   late MockNetworkService mockNetworkService;
   late RemoteOtherUserDataSourceImpl remoteOtherUserDataSourceImpl;
-  const OtherUserFollowersFollowingParams totherUserFollowersFollowingParams =
-      OtherUserFollowersFollowingParams(
-          accessToken: 'accessToken', page: 1, uid: 'uid');
-  const OtherUserPodcastParams tOtherUserPodcastParams = OtherUserPodcastParams(
-      accessToken: 'accessToken', page: 1, userId: 'userId');
-  const FollowUnfollowUserParams tFollowUnfollowUserParams =
-      FollowUnfollowUserParams(accessToken: 'accessToken', userId: 'userId');
-  const OtherUserEventsParams tOtherUserEventsParams = OtherUserEventsParams(
-      accessToken: 'accessToken', page: 1, userId: 'userId');
+
   setUp(() {
     mockNetworkService = MockNetworkService();
     remoteOtherUserDataSourceImpl =
@@ -42,9 +29,8 @@ void main() {
                 'data': tOtherUsersDataModel.toJson(),
               }, requestOptions: RequestOptions(path: '')));
       //act
-      final result = await remoteOtherUserDataSourceImpl.getOtherUsersProfiles(
-          const UserProfileDataGetParams(
-              accessToken: 'accessToken', userId: 'userId'));
+      final result = await remoteOtherUserDataSourceImpl
+          .getOtherUsersProfiles(tOtherUserProfileDataSourceParams);
       expect(result, tOtherUsersDataModel);
       verify(() => mockNetworkService.getData(
           url: any(
@@ -60,9 +46,8 @@ void main() {
           url: any(named: 'url'),
           headers: any(named: 'headers'))).thenThrow(Exception('error'));
       //act
-      result() => remoteOtherUserDataSourceImpl.getOtherUsersProfiles(
-          const UserProfileDataGetParams(
-              userId: 'userId', accessToken: 'accessToken'));
+      result() => remoteOtherUserDataSourceImpl
+          .getOtherUsersProfiles(tOtherUserProfileDataSourceParams);
       //assert
       await expectLater(result(), throwsA(isA<ServerException>()));
       verify(() => mockNetworkService.getData(
@@ -86,7 +71,7 @@ void main() {
       );
       //act
       final result = await remoteOtherUserDataSourceImpl
-          .getUserFollowers(totherUserFollowersFollowingParams);
+          .getUserFollowers(tOtherUserFollowersFollowingParams);
       //assert
       expect(result, tOtherUserFollowersFollowingDataModel);
       verify(
@@ -105,7 +90,7 @@ void main() {
           query: any(named: 'query'))).thenThrow(Exception('error'));
       //act
       result() => remoteOtherUserDataSourceImpl
-          .getUserFollowers(totherUserFollowersFollowingParams);
+          .getUserFollowers(tOtherUserFollowersFollowingParams);
       await expectLater(result(), throwsA(isA<ServerException>()));
       verify(
         () => mockNetworkService.getData(
@@ -129,7 +114,7 @@ void main() {
       );
       //act
       final result = await remoteOtherUserDataSourceImpl
-          .getUserFollowing(totherUserFollowersFollowingParams);
+          .getUserFollowing(tOtherUserFollowersFollowingParams);
       //assert
       expect(result, tOtherUserFollowersFollowingDataModel);
       verify(
@@ -148,7 +133,7 @@ void main() {
           query: any(named: 'query'))).thenThrow(Exception('error'));
       //act
       result() => remoteOtherUserDataSourceImpl
-          .getUserFollowing(totherUserFollowersFollowingParams);
+          .getUserFollowing(tOtherUserFollowersFollowingParams);
       await expectLater(result(), throwsA(isA<ServerException>()));
       verify(
         () => mockNetworkService.getData(

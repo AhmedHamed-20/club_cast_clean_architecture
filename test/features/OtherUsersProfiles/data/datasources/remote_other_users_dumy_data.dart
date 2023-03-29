@@ -7,6 +7,11 @@ import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/mo
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_podcast_user_info.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_users_data_model.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/follow_user.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_other_user_podcasts.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_followers.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/get_user_profile_data.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/usecases/other_user_events.dart';
 
 const OtherUserDataModel tOtherUsersDataModel = OtherUserDataModel(
     userName: 'userName',
@@ -18,13 +23,16 @@ const OtherUserDataModel tOtherUsersDataModel = OtherUserDataModel(
     isFollowing: true,
     createdAt: ' createdAt',
     bio: 'bio');
+const OtherUserFollowersFollowingBasicDataModel
+    tOtherUserFollowersFollowingBasicDataModel =
+    OtherUserFollowersFollowingBasicDataModel(
+        name: 'name', profileImage: 'profile', uid: 'uid');
 const OtherUserFollowersFollowingDataModel
     tOtherUserFollowersFollowingDataModel =
     OtherUserFollowersFollowingDataModel(
         results: 1,
         otherUserFollowersFollowingUserDataEntitie: [
-      OtherUserFollowersFollowingBasicDataModel(
-          name: 'name', profileImage: 'profile', uid: 'uid')
+      tOtherUserFollowersFollowingBasicDataModel
     ]);
 const OtherUserPodcastDataModel tOtherUserPodcastDataModel =
     OtherUserPodcastDataModel(
@@ -50,3 +58,15 @@ const OtherUserEventsDataModel tOtherUserEventsDataModel =
         eventId: 'eventId');
 const OtherUserEventsModel tOtherUserEventsModel =
     OtherUserEventsModel(results: 1, events: [tOtherUserEventsDataModel]);
+
+const OtherUserFollowersFollowingParams tOtherUserFollowersFollowingParams =
+    OtherUserFollowersFollowingParams(
+        accessToken: 'accessToken', page: 1, uid: 'uid');
+const OtherUserPodcastParams tOtherUserPodcastParams = OtherUserPodcastParams(
+    accessToken: 'accessToken', page: 1, userId: 'userId');
+const FollowUnfollowUserParams tFollowUnfollowUserParams =
+    FollowUnfollowUserParams(accessToken: 'accessToken', userId: 'userId');
+const OtherUserEventsParams tOtherUserEventsParams = OtherUserEventsParams(
+    accessToken: 'accessToken', page: 1, userId: 'userId');
+const UserProfileDataGetParams tOtherUserProfileDataSourceParams =
+    UserProfileDataGetParams(accessToken: 'accessToken', userId: 'userId');
