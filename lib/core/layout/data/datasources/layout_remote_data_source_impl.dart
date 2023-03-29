@@ -20,7 +20,7 @@ abstract class BaseLayoutRemoteDataSource {
 }
 
 class LayoutRemoteDataSourceImpl extends BaseLayoutRemoteDataSource {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   LayoutRemoteDataSourceImpl(this._networService);
   @override

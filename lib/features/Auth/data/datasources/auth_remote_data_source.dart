@@ -15,7 +15,7 @@ abstract class BaseAuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl extends BaseAuthRemoteDataSource {
-  final NetworService _networkService;
+  final NetworkService _networkService;
 
   AuthRemoteDataSourceImpl(this._networkService);
   @override

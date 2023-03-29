@@ -117,7 +117,7 @@ class ServiceLocator {
     );
     servicelocator.registerLazySingleton<Dio>(() => dio);
 
-    servicelocator.registerLazySingleton<NetworService>(() => DioHelper(
+    servicelocator.registerLazySingleton<NetworkService>(() => DioHelper(
           servicelocator(),
         ));
   }

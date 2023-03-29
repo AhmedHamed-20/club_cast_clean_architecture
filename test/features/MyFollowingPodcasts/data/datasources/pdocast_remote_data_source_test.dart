@@ -10,7 +10,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'podcast_remote_data_source_dumy_data.dart';
 
-class MockNetworkService extends Mock implements NetworService {}
+class MockNetworkService extends Mock implements NetworkService {}
 
 void main() {
   late MockNetworkService mockNetworkService;

@@ -15,5 +15,14 @@ class OtherUserFollowersFollowingBasicDataModel
   }
 
   @override
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': uid,
+      'name': name,
+      'photo': profileImage,
+    };
+  }
+
+  @override
   List<Object?> get props => [uid, name, profileImage];
 }

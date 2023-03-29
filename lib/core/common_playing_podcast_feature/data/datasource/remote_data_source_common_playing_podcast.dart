@@ -21,7 +21,7 @@ abstract class BaseCommonPlayingPodcastDataSource {
 
 class RemoteCommonPlayingPodcastDataSource
     extends BaseCommonPlayingPodcastDataSource {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   RemoteCommonPlayingPodcastDataSource(this._networService);
   @override

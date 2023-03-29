@@ -16,5 +16,15 @@ class OtherUserEventsDataModel extends OtherUserEventDataEntity {
   }
 
   @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': eventName,
+      'description': eventDescription,
+      'date': eventDate,
+      '_id': eventId,
+    };
+  }
+
+  @override
   List<Object?> get props => [eventName, eventDescription, eventDate, eventId];
 }

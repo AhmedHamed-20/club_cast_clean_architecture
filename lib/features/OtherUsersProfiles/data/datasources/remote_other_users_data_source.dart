@@ -30,7 +30,7 @@ abstract class BaseRemoteOtherUsersDataSorce {
 }
 
 class RemoteOtherUserDataSourceImpl extends BaseRemoteOtherUsersDataSorce {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   RemoteOtherUserDataSourceImpl(this._networService);
   @override

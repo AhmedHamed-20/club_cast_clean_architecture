@@ -18,7 +18,7 @@ abstract class BaseRemoteRoomsDataSource {
 }
 
 class RemoteRoomsDataSourceImpl extends BaseRemoteRoomsDataSource {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   RemoteRoomsDataSourceImpl(this._networService);
   @override

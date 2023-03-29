@@ -47,7 +47,7 @@ abstract class BaseUserInfoRemoteDataSource {
 }
 
 class RemoteUserInfoDataSourceImpl extends BaseUserInfoRemoteDataSource {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   RemoteUserInfoDataSourceImpl(this._networService);
   @override

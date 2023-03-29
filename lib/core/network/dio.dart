@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'network_service.dart';
 
-class DioHelper extends NetworService {
+class DioHelper extends NetworkService {
   final Dio dio;
   DioHelper(
     this.dio,

@@ -18,7 +18,7 @@ abstract class BaseMyFollowingPodcastRemoteDataSource {
 
 class MyFollowingPodcastRemoteDataSourceImpl
     implements BaseMyFollowingPodcastRemoteDataSource {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   MyFollowingPodcastRemoteDataSourceImpl(this._networService);
   @override

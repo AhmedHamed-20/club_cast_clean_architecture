@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/data/models/other_user_podcast_model.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_event.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_user_podcast_entity.dart';
 import 'package:club_cast_clean_architecture/features/OtherUsersProfiles/domain/entities/other_users_data_entity.dart';
@@ -470,7 +471,7 @@ class OtherUserProfileBloc
     }
     emit(
       state.copyWith(
-        otherUserPodcastEntitie: OtherUserPodcastEntity(
+        otherUserPodcastEntitie: OtherUserPodcastModel(
                 otherUserPodcastDataEntitie: otherUserPodcastEntitie,
                 results: state.otherUserPodcastEntitie!.results)
             .copyWith(),

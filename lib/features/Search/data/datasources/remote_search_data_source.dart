@@ -17,7 +17,7 @@ abstract class BaseRemoteSearchDataSoruce {
 }
 
 class RemoteSearchDataSource extends BaseRemoteSearchDataSoruce {
-  final NetworService _networService;
+  final NetworkService _networService;
 
   RemoteSearchDataSource(this._networService);
   @override

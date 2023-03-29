@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-abstract class NetworService {
+abstract class NetworkService {
   Future<Response<dynamic>> getData({
     required String url,
     Map<String, dynamic>? query,

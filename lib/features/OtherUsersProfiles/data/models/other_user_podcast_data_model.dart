@@ -24,7 +24,8 @@ class OtherUserPodcastDataModel extends OtherUserPodcastDataEntity {
       podcastId: json['_id'],
       podcastLikesCount: json['likes'],
       podcastName: json['name'],
-      podcastUserInfo: OtherUserPodcastUserInfo.fromJson(json['createdBy']),
+      podcastUserInfo:
+          OtherUserPodcastUserInfoModel.fromJson(json['createdBy']),
       podcastInfo: OtherUserPodcastAudioInfoModel.fromJson(json['audio']),
     );
   }
@@ -50,4 +51,30 @@ class OtherUserPodcastDataModel extends OtherUserPodcastDataEntity {
       podcastInfo: podcastInfo ?? super.podcastInfo,
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'isLiked': isLiked,
+      'category': category,
+      'createdAt': createdAt,
+      '_id': podcastId,
+      'likes': podcastLikesCount,
+      'name': podcastName,
+      'createdBy': podcastUserInfo.toJson(),
+      'audio': podcastInfo.toJson(),
+    };
+  }
+
+  @override
+  List<Object?> get props => [
+        isLiked,
+        category,
+        createdAt,
+        podcastId,
+        podcastLikesCount,
+        podcastName,
+        podcastUserInfo,
+        podcastInfo,
+      ];
 }
