@@ -29,6 +29,7 @@ void main() {
       when(() => mockNetworkService.getData(
                 url: any(named: 'url'),
                 headers: any(named: 'headers'),
+                query: any(named: 'query'),
               ))
           .thenAnswer((_) async => Response(
               requestOptions: RequestOptions(path: ''),
@@ -42,6 +43,7 @@ void main() {
       verify(() => mockNetworkService.getData(
             url: any(named: 'url'),
             headers: any(named: 'headers'),
+            query: any(named: 'query'),
           )).called(1);
     });
     test('getMyFollowingPodcasts should throw server exception on error',
@@ -50,6 +52,7 @@ void main() {
       when(() => mockNetworkService.getData(
             url: any(named: 'url'),
             headers: any(named: 'headers'),
+            query: any(named: 'query'),
           )).thenThrow(Exception('test'));
       // act
       result() => podcastRemoteDataSourceImpl
@@ -59,6 +62,7 @@ void main() {
       verify(() => mockNetworkService.getData(
             url: any(named: 'url'),
             headers: any(named: 'headers'),
+            query: any(named: 'query'),
           )).called(1);
     });
     test('addLikeToPodcasts should throw server exception on error', () async {
