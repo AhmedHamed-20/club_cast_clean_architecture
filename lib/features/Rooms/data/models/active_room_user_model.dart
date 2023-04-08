@@ -45,6 +45,7 @@ class ActiveRoomUserModel extends ActiveRoomUserDataEntity {
         isSpeaking: isSpeaking ?? this.isSpeaking);
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       '_id': id,

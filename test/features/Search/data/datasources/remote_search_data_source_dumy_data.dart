@@ -23,17 +23,17 @@ const PodcastSearchDataModel tPodcastSearchDataModel = PodcastSearchDataModel(
     category: 'category',
     createdAt: 'createdAt',
     isLiked: true,
-    podcastUserInfo: tPodcastUserInfoModel,
-    podcastInfo: tPodcastAudioInfoModel);
+    podcastUserInfo: tPodcastSearchUserInfoModel,
+    podcastInfo: tPodcastSearchAudioInfoModel);
 
-const PodcastSearchUserInfoModel tPodcastUserInfoModel =
+const PodcastSearchUserInfoModel tPodcastSearchUserInfoModel =
     PodcastSearchUserInfoModel(
   'name',
   'image',
   'id',
 );
 
-const PodcastAudioSearchInfoModel tPodcastAudioInfoModel =
+const PodcastAudioSearchInfoModel tPodcastSearchAudioInfoModel =
     PodcastAudioSearchInfoModel(
   1,
   'image',

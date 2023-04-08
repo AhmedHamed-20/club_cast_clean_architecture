@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/routes/app_route_names.dart';
 import '../../../data/models/all_rooms_user_data.dart';
-import '../../../domain/entities/room_user_data.dart';
 import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
 
 List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
