@@ -8,13 +8,13 @@ abstract class BaseAuthLocalDataSource {
 }
 
 class AuthLocalDataSourceImpl extends BaseAuthLocalDataSource {
-  final CacheHelper _cacheHelper;
+  final CacheService _cacheService;
 
-  AuthLocalDataSourceImpl(this._cacheHelper);
+  AuthLocalDataSourceImpl(this._cacheService);
   @override
   Future<bool> cacheAccessToken(AccessTokenCacheParams params) async {
     try {
-      final result = await _cacheHelper.setData(
+      final result = await _cacheService.setData(
           key: 'accessToken', value: params.accessToken);
       return result;
     } on Exception catch (error) {

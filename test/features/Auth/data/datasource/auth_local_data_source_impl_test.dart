@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../repository/auth_repository_dumy_data.dart';
 
-class MockCacheHelper extends Mock implements CacheHelper {}
+class MockCacheHelper extends Mock implements CacheService {}
 
 void main() {
   late MockCacheHelper mockCacheHelper;

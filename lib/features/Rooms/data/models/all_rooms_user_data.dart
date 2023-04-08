@@ -17,4 +17,17 @@ class RoomsUserDataModel extends RoomUserDataEntity {
       uid: json['uid'] ?? 0,
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'photo': photo,
+      'uid': uid,
+    };
+  }
+
+  @override
+  List<Object?> get props => [id, name, photo, uid];
 }

@@ -1,7 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CacheHelper {
+abstract class CacheService {
+  Future<bool> setData({
+    required String key,
+    required dynamic value,
+  });
+  dynamic getData({
+    required String key,
+  });
+  Future<bool> removeData(String key);
+}
+
+class CacheHelper extends CacheService {
   SharedPreferences sharedPreferences;
   CacheHelper({
     required this.sharedPreferences,
@@ -10,6 +21,7 @@ class CacheHelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
+  @override
   Future<bool> setData({
     required String key,
     required dynamic value,
@@ -27,12 +39,14 @@ class CacheHelper {
     }
   }
 
+  @override
   dynamic getData({
     required String key,
   }) {
     return sharedPreferences.get(key);
   }
 
+  @override
   Future<bool> removeData(String key) async {
     return await sharedPreferences.remove(key);
   }

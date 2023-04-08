@@ -104,7 +104,7 @@ class ServiceLocator {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     servicelocator
         .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-    servicelocator.registerLazySingleton<CacheHelper>(
+    servicelocator.registerLazySingleton<CacheService>(
         () => CacheHelper(sharedPreferences: servicelocator()));
   }
 
@@ -348,7 +348,7 @@ class ServiceLocator {
     servicelocator.registerLazySingleton<BaseLayoutRemoteDataSource>(
         () => LayoutRemoteDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseLayoutLocalDataSource>(
-        () => LayoutLocalDataSourceImpl());
+        () => LayoutLocalDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseUserInfoRemoteDataSource>(
         () => RemoteUserInfoDataSourceImpl(servicelocator()));
     servicelocator.registerLazySingleton<BaseCommonPlayingPodcastDataSource>(

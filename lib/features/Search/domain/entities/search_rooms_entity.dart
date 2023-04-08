@@ -1,6 +1,6 @@
 import 'package:club_cast_clean_architecture/core/constants/base_all_rooms_data_entity/base_all_rooms_data_entity.dart';
 
-class SearchRoomsEntity extends BaseAllRoomsDataEntity {
+abstract class SearchRoomsEntity extends BaseAllRoomsDataEntity {
   const SearchRoomsEntity(
       {required super.id,
       required super.name,
@@ -11,15 +11,5 @@ class SearchRoomsEntity extends BaseAllRoomsDataEntity {
       required super.audience,
       required super.brodcasters});
 
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        category,
-        isRecording,
-        createdAt,
-        admin,
-        audience,
-        brodcasters
-      ];
+  Map<String, dynamic> toJson();
 }

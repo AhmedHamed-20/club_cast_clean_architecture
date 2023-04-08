@@ -14,4 +14,17 @@ class SearchUsersModel extends SearchUsersEntity {
         userId: json['_id'],
         isFollowed: json['isFollowed']);
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'name': userName,
+      'photo': userPhoto,
+      '_id': userId,
+      'isFollowed': isFollowed
+    };
+  }
+
+  @override
+  List<Object?> get props => [userName, userPhoto, userId, isFollowed];
 }

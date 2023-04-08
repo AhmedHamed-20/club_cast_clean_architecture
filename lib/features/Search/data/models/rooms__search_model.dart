@@ -26,4 +26,30 @@ class SearchRoomsModel extends SearchRoomsEntity {
           json['brodcasters'].map((e) => RoomsUserDataModel.fromJson(e))),
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'category': category,
+      'isRecording': isRecording,
+      'createdAt': createdAt,
+      'admin': admin.toJson(),
+      'audience': audience.map((e) => e.toJson()).toList(),
+      'brodcasters': brodcasters.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        category,
+        isRecording,
+        createdAt,
+        admin,
+        audience,
+        brodcasters
+      ];
 }
