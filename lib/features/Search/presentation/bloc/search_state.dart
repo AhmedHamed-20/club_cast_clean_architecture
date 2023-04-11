@@ -19,7 +19,7 @@ class SearchState extends Equatable {
     this.statusCode = 0,
     this.allPodcastsGetMorreRequestStatus = SearchRequestStatus.idle,
     this.allPodcastsEntitie =
-        const PodcastSearchEntity(results: 0, podcastInformationEntitie: []),
+        const PodcastSearchModel(results: 0, podcastInformationEntitie: []),
     this.roomsSearchRequestStatus = SearchRequestStatus.idle,
     this.allPodcastsRequestStatus = SearchRequestStatus.idle,
     this.podcastSearchRequestStatus = SearchRequestStatus.idle,
@@ -28,7 +28,7 @@ class SearchState extends Equatable {
     this.usersSearchEntitie = const [],
     this.isEndOfAllPodcasts = false,
     this.podcastSearchEntitie =
-        const PodcastSearchEntity(results: 0, podcastInformationEntitie: []),
+        const PodcastSearchModel(results: 0, podcastInformationEntitie: []),
   });
 
   SearchState copyWith({

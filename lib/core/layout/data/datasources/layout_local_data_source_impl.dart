@@ -4,7 +4,6 @@ import 'package:club_cast_clean_architecture/core/error/exception.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_access_token.dart';
 import 'package:club_cast_clean_architecture/core/layout/domain/usecases/get_cached_app_language.dart';
 
-import '../../../services/service_locator.dart';
 import '../../domain/usecases/cache_active_color_value.dart';
 import '../../domain/usecases/cache_active_theme_value.dart';
 import '../../domain/usecases/cache_app_languages.dart';
@@ -28,12 +27,14 @@ abstract class BaseLayoutLocalDataSource {
 }
 
 class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
+  final CacheService _cacheService;
+
+  LayoutLocalDataSourceImpl(this._cacheService);
   @override
   Future<String> accessTokenGetFromCache(
       CachedAccessTokenGetParams params) async {
     try {
-      final result =
-          await servicelocator<CacheHelper>().getData(key: params.key);
+      final result = await _cacheService.getData(key: params.key);
       return result;
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
@@ -44,8 +45,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   Future<void> updateCachedAccessToken(
       CachedAccessTokenUpdateParams params) async {
     try {
-      await servicelocator<CacheHelper>()
-          .setData(key: params.key, value: params.value);
+      await _cacheService.setData(key: params.key, value: params.value);
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }
@@ -54,7 +54,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   @override
   Future<void> removeCachedAccessToken(AccessTokenRemoveParams params) async {
     try {
-      await servicelocator<CacheHelper>().removeData(params.key);
+      await _cacheService.removeData(params.key);
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }
@@ -63,8 +63,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   @override
   Future<void> cacheThemeValue(ThemeDataValueCacheParams params) async {
     try {
-      await servicelocator<CacheHelper>()
-          .setData(key: params.key, value: params.isDark);
+      await _cacheService.setData(key: params.key, value: params.isDark);
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }
@@ -74,7 +73,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   Future<bool> getCachedThemeValue(
       GetThemeDataValueFromCacheParams params) async {
     try {
-      final result = await servicelocator<CacheHelper>().getData(
+      final result = await _cacheService.getData(
         key: params.key,
       );
       return result ?? false;
@@ -86,8 +85,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   @override
   Future<void> cacheAppColor(CacheAppColorsParams params) async {
     try {
-      await servicelocator<CacheHelper>()
-          .setData(key: params.key, value: params.color);
+      await _cacheService.setData(key: params.key, value: params.color);
     } on Exception catch (error) {
       throw CacheException(LocalErrorsMessageModel.fromException(error));
     }
@@ -97,7 +95,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   Future<String> getCachedAppColorValue(
       GetCachedAppColorValueParams params) async {
     try {
-      final result = await servicelocator<CacheHelper>().getData(
+      final result = await _cacheService.getData(
         key: params.key,
       );
       return result ?? '';
@@ -109,7 +107,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   @override
   Future<void> cacheAppLanguage(AppLaguagesCacheParams params) async {
     try {
-      await servicelocator<CacheHelper>().setData(
+      await _cacheService.setData(
         key: params.key,
         value: params.value,
       );
@@ -122,7 +120,7 @@ class LayoutLocalDataSourceImpl extends BaseLayoutLocalDataSource {
   Future<String> getCachedAppLangaugeValue(
       GetCachedAppLanguageParams params) async {
     try {
-      final result = await servicelocator<CacheHelper>().getData(
+      final result = await _cacheService.getData(
         key: params.key,
       );
       return result ?? 'en';

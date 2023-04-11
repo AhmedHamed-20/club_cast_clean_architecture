@@ -22,7 +22,7 @@ void main() async {
   await ServiceLocator.initDio();
   await ServiceLocator.initSharedPref();
   await EasyLocalization.ensureInitialized();
-  final String accessToken = await servicelocator<CacheHelper>()
+  final String accessToken = await servicelocator<CacheService>()
           .getData(key: AppStrings.accessTokenKey) ??
       '';
   ConstVar.accessToken = accessToken;
@@ -51,9 +51,9 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   void didChangeDependencies() {
-    final appLanguage =
-        servicelocator<CacheHelper>().getData(key: AppStrings.appLanguageKey) ??
-            'en';
+    final appLanguage = servicelocator<CacheService>()
+            .getData(key: AppStrings.appLanguageKey) ??
+        'en';
     if (appLanguage == 'en') {
       context.setLocale(ConstVar.enLocale);
     } else {

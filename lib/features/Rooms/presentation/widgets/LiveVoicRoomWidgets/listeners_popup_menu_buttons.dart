@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/routes/app_route_names.dart';
-import '../../../domain/entities/room_user_data.dart';
+import '../../../data/models/all_rooms_user_data.dart';
 import '../../bloc/sockets/voice/sockets_voice_bloc.dart';
 
 List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
@@ -72,7 +72,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntity(
+                  roomUserDataEntitie: RoomsUserDataModel(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,
@@ -101,7 +101,7 @@ List<PopupMenuItem<dynamic>> popupMenuListenersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntity(
+                  roomUserDataEntitie: RoomsUserDataModel(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,

@@ -49,4 +49,30 @@ class PodcastSearchDataModel extends PodcastSearchInformationDataEntity {
       podcastInfo: podcastInfo ?? super.podcastInfo,
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'isLiked': isLiked,
+      'category': category,
+      'createdAt': createdAt,
+      '_id': podcastId,
+      'likes': podcastLikesCount,
+      'name': podcastName,
+      'createdBy': podcastUserInfo.toJson(),
+      'audio': podcastInfo.toJson(),
+    };
+  }
+
+  @override
+  List<Object?> get props => [
+        podcastId,
+        podcastName,
+        podcastLikesCount,
+        category,
+        createdAt,
+        isLiked,
+        podcastUserInfo,
+        podcastInfo,
+      ];
 }

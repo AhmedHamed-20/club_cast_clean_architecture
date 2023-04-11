@@ -7,6 +7,7 @@ import 'package:club_cast_clean_architecture/features/Search/domain/usecases/pod
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utl/utls.dart';
+import '../../data/models/podcast_search_model.dart';
 import '../../domain/entities/podcast_search_information_entity.dart';
 import '../../domain/entities/search_rooms_entity.dart';
 import '../../domain/entities/search_users_info_entity.dart';
@@ -198,7 +199,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       emit(
         state.copyWith(
-          podcastSearchEntitie: PodcastSearchEntity(
+          podcastSearchEntitie: PodcastSearchModel(
                   podcastInformationEntitie: searchPodcasts,
                   results: state.podcastSearchEntitie.results)
               .copyWith(),
@@ -225,7 +226,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
       emit(
         state.copyWith(
-          allPodcastsEntitie: PodcastSearchEntity(
+          allPodcastsEntitie: PodcastSearchModel(
                   podcastInformationEntitie: allPodcastsModel,
                   results: state.allPodcastsEntitie.results)
               .copyWith(),

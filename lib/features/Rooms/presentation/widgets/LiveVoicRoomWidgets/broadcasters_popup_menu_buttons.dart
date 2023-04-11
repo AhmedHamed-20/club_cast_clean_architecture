@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/params.dart';
 import '../../../../../core/routes/app_route_names.dart';
 import '../../../data/models/active_room_user_model.dart';
-import '../../../domain/entities/room_user_data.dart';
+import '../../../data/models/all_rooms_user_data.dart';
 
 List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
     {required BuildContext context,
@@ -63,7 +63,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntity(
+                  roomUserDataEntitie: RoomsUserDataModel(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,
@@ -135,7 +135,7 @@ List<PopupMenuItem<dynamic>> popupMenuBroadCastersButtons(
               Navigator.of(context).pushNamed(
                 AppRoutesNames.privateChatRoomScreen,
                 arguments: PrivateChatRoomScreenParams(
-                  roomUserDataEntitie: RoomUserDataEntity(
+                  roomUserDataEntitie: RoomsUserDataModel(
                     id: activeRoomUserDataEntitie.id,
                     name: activeRoomUserDataEntitie.name,
                     photo: activeRoomUserDataEntitie.photo,

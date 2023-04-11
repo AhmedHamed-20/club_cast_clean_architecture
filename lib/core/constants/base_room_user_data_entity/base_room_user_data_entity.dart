@@ -11,4 +11,6 @@ abstract class BaseRoomUserDataEntity extends Equatable {
       required this.name,
       required this.photo,
       required this.uid});
+
+  Map<String, dynamic> toJson();
 }

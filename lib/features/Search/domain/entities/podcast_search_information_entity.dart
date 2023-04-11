@@ -24,15 +24,5 @@ abstract class PodcastSearchInformationDataEntity extends BasePodcastEntitie {
     PodcastUserInfoEntity? podcastUserInfo,
     PodcastAudioInoEntitie? podcastInfo,
   });
-  @override
-  List<Object?> get props => [
-        podcastId,
-        isLiked,
-        podcastName,
-        podcastLikesCount,
-        category,
-        createdAt,
-        podcastUserInfo,
-        podcastInfo,
-      ];
+  Map<String, dynamic> toJson();
 }
